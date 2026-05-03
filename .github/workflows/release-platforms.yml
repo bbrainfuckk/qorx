@@ -73,6 +73,7 @@ jobs:
           $bin = Join-Path "target/release" $env:BINARY_NAME
           & $bin --version
           & $bin doctor --json
+          & $bin index .
           & $bin strict-answer "language runtime proof"
 
       - name: Package archive
