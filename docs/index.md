@@ -41,6 +41,7 @@ Current public version: `1.0.4a`.
 - cross-platform release assets from maintainer tags.
 - package-channel files for PyPI, npm, Arch/AUR, Homebrew, Scoop, WinGet, Snap,
   Docker, Nix, and Deb/RPM packaging.
+- hot-swappable adapter manifest for external language/runtime tools.
 - `.qorx` and `.qorxb` language/runtime checks.
 - local evidence commands.
 - claim-check docs.

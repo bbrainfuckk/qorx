@@ -197,7 +197,10 @@ enum CommandKind {
         budget_tokens: u64,
         queries: Vec<String>,
     },
-    Adapters,
+    Adapters {
+        #[command(subcommand)]
+        action: Option<AdapterAction>,
+    },
     Science,
     Aim,
     Security {
@@ -377,6 +380,26 @@ enum KvAction {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+}
+
+#[derive(Debug, Clone, Subcommand)]
+enum AdapterAction {
+    Status,
+    Reload,
+    Init,
+    Add {
+        name: String,
+        #[arg(long, default_value = "language_server")]
+        kind: String,
+        #[arg(long = "cmd")]
+        command: Option<String>,
+        #[arg(long)]
+        url: Option<String>,
+    },
+    Remove {
+        name: String,
+    },
+    Manifest,
 }
 
 #[derive(Debug, Clone, Subcommand)]
@@ -984,16 +1007,44 @@ pub async fn main() -> Result<()> {
             }
             println!("{}", serde_json::to_string_pretty(&report)?);
         }
-        CommandKind::Adapters => {
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&adapters::adapter_report())?
-            );
+        CommandKind::Adapters { action } => {
+            let paths = AppPaths::resolve()?;
+            let report = match action.unwrap_or(AdapterAction::Status) {
+                AdapterAction::Status | AdapterAction::Reload => {
+                    adapters::adapter_report_with_manifest(&paths.adapter_manifest_file)
+                }
+                AdapterAction::Init => {
+                    adapters::write_manifest_template(&paths.adapter_manifest_file)?
+                }
+                AdapterAction::Add {
+                    name,
+                    kind,
+                    command,
+                    url,
+                } => adapters::add_manifest_adapter(
+                    &paths.adapter_manifest_file,
+                    &name,
+                    &kind,
+                    command,
+                    url,
+                )?,
+                AdapterAction::Remove { name } => {
+                    adapters::remove_manifest_adapter(&paths.adapter_manifest_file, &name)?
+                }
+                AdapterAction::Manifest => {
+                    println!("{}", paths.adapter_manifest_file.display());
+                    return Ok(());
+                }
+            };
+            println!("{}", serde_json::to_string_pretty(&report)?);
         }
         CommandKind::Science => {
+            let paths = AppPaths::resolve()?;
             println!(
                 "{}",
-                serde_json::to_string_pretty(&adapters::science_report())?
+                serde_json::to_string_pretty(&adapters::science_report_with_manifest(
+                    &paths.adapter_manifest_file
+                ))?
             );
         }
         CommandKind::Aim => {

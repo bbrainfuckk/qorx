@@ -69,11 +69,36 @@ emit answer
 .\target\release\qorx.exe stats
 .\target\release\qorx.exe stats reset
 .\target\release\qorx.exe adapters
+.\target\release\qorx.exe adapters init
+.\target\release\qorx.exe adapters add typescript --kind language_server --cmd typescript-language-server
+.\target\release\qorx.exe adapters reload
+.\target\release\qorx.exe adapters remove typescript
 .\target\release\qorx.exe science
 .\target\release\qorx.exe security attest
 .\target\release\qorx.exe security verify
 .\target\release\qorx.exe bench
 ```
+
+## Production Language Adapters
+
+Qorx keeps `.qorx` as the native language, but production teams can point Qorx
+at the tools they already use. The adapter manifest is re-read by `adapters`,
+`adapters reload`, and `science`, so a team can swap external language/runtime
+tools without rebuilding the Qorx binary.
+
+```powershell
+.\target\release\qorx.exe adapters init
+.\target\release\qorx.exe adapters manifest
+.\target\release\qorx.exe adapters add typescript --kind language_server --cmd typescript-language-server
+.\target\release\qorx.exe adapters add python --kind language_server --cmd pyright-langserver
+.\target\release\qorx.exe adapters add rust --kind language_server --cmd rust-analyzer
+.\target\release\qorx.exe adapters add team-router --kind provider_route --url http://127.0.0.1:8080
+.\target\release\qorx.exe adapters reload
+```
+
+This is a small production seam, not a dynamic-library plugin system. Qorx keeps
+its compact language, index, bytecode, and proof logic in-core. External tools
+stay outside the binary and can be changed by updating the manifest.
 
 ## Qorx Edge Commands
 

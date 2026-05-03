@@ -1,16 +1,22 @@
 use std::{
     env,
     ffi::OsString,
+    fs,
     path::{Path, PathBuf},
 };
 
+use anyhow::{anyhow, Result};
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 use crate::cost_stack;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AdapterReport {
     pub philosophy: String,
+    pub hot_swap: String,
+    pub manifest_path: Option<String>,
+    pub manifest_hash: Option<String>,
     pub adapters: Vec<AdapterStatus>,
 }
 
@@ -39,9 +45,54 @@ pub struct AdapterStatus {
     pub reason: String,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AdapterManifest {
+    pub schema: String,
+    pub adapters: Vec<ManifestAdapter>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ManifestAdapter {
+    pub name: String,
+    pub kind: String,
+    pub command: Option<String>,
+    pub url: Option<String>,
+    #[serde(default = "default_enabled")]
+    pub enabled: bool,
+}
+
 pub fn adapter_report() -> AdapterReport {
+    adapter_report_from_manifest(None)
+}
+
+pub fn adapter_report_with_manifest(manifest_path: &Path) -> AdapterReport {
+    let mut report = adapter_report_from_manifest(Some(manifest_path));
+    match load_manifest(manifest_path) {
+        Ok(Some((manifest, hash))) => {
+            report.manifest_hash = Some(hash);
+            report
+                .adapters
+                .extend(manifest.adapters.iter().map(manifest_adapter_status));
+        }
+        Ok(None) => {}
+        Err(error) => report.adapters.push(AdapterStatus {
+            name: "adapter manifest".to_string(),
+            kind: "manifest".to_string(),
+            configured: true,
+            ready: false,
+            command_or_url: Some(manifest_path.display().to_string()),
+            reason: error.to_string(),
+        }),
+    }
+    report
+}
+
+fn adapter_report_from_manifest(manifest_path: Option<&Path>) -> AdapterReport {
     AdapterReport {
         philosophy: "manifest-first, payload-later: keep fingerprints, symbols, sparse vectors, cache keys, and benchmark proof in RAM; load exact payload quarks only on demand".to_string(),
+        hot_swap: "Qorx keeps the native .qorx language in-core, while external language/runtime adapters are read from a local manifest on each status/reload. Update the manifest to swap TypeScript, Python, Rust, Go, parser, compressor, or provider tools without rebuilding Qorx.".to_string(),
+        manifest_path: manifest_path.map(|path| path.display().to_string()),
+        manifest_hash: None,
         adapters: vec![
             command_adapter(
                 "tree-sitter parser packs",
@@ -91,7 +142,88 @@ pub fn adapter_report() -> AdapterReport {
     }
 }
 
+pub fn add_manifest_adapter(
+    manifest_path: &Path,
+    name: &str,
+    kind: &str,
+    command: Option<String>,
+    url: Option<String>,
+) -> Result<AdapterReport> {
+    if command.as_deref().unwrap_or("").trim().is_empty()
+        && url.as_deref().unwrap_or("").trim().is_empty()
+    {
+        return Err(anyhow!("adapter needs --cmd or --url"));
+    }
+    let mut manifest = read_manifest_or_default(manifest_path)?;
+    manifest.adapters.retain(|adapter| adapter.name != name);
+    manifest.adapters.push(ManifestAdapter {
+        name: name.trim().to_string(),
+        kind: kind.trim().to_string(),
+        command: command.and_then(non_empty),
+        url: url.and_then(non_empty),
+        enabled: true,
+    });
+    write_manifest(manifest_path, &manifest)?;
+    Ok(adapter_report_with_manifest(manifest_path))
+}
+
+pub fn remove_manifest_adapter(manifest_path: &Path, name: &str) -> Result<AdapterReport> {
+    let mut manifest = read_manifest_or_default(manifest_path)?;
+    let before = manifest.adapters.len();
+    manifest.adapters.retain(|adapter| adapter.name != name);
+    if manifest.adapters.len() == before {
+        return Err(anyhow!("adapter '{name}' was not found in manifest"));
+    }
+    write_manifest(manifest_path, &manifest)?;
+    Ok(adapter_report_with_manifest(manifest_path))
+}
+
+pub fn manifest_template() -> AdapterManifest {
+    AdapterManifest {
+        schema: "qorx.adapters.v1".to_string(),
+        adapters: vec![
+            ManifestAdapter {
+                name: "typescript".to_string(),
+                kind: "language_server".to_string(),
+                command: Some("typescript-language-server".to_string()),
+                url: None,
+                enabled: true,
+            },
+            ManifestAdapter {
+                name: "python".to_string(),
+                kind: "language_server".to_string(),
+                command: Some("pyright-langserver".to_string()),
+                url: None,
+                enabled: true,
+            },
+            ManifestAdapter {
+                name: "rust".to_string(),
+                kind: "language_server".to_string(),
+                command: Some("rust-analyzer".to_string()),
+                url: None,
+                enabled: true,
+            },
+        ],
+    }
+}
+
+pub fn write_manifest_template(manifest_path: &Path) -> Result<AdapterReport> {
+    if manifest_path.exists() {
+        return Ok(adapter_report_with_manifest(manifest_path));
+    }
+    write_manifest(manifest_path, &manifest_template())?;
+    Ok(adapter_report_with_manifest(manifest_path))
+}
+
 pub fn science_report() -> ScienceReport {
+    science_report_from_adapters(adapter_report().adapters)
+}
+
+pub fn science_report_with_manifest(manifest_path: &Path) -> ScienceReport {
+    science_report_from_adapters(adapter_report_with_manifest(manifest_path).adapters)
+}
+
+fn science_report_from_adapters(external_runtime_adapters: Vec<AdapterStatus>) -> ScienceReport {
     ScienceReport {
         claim_boundary: "Qorx implements local qshf/B2C accounting and evidence selection. External ML/KV runtimes are adapter targets and must be installed separately before Qorx can call them.".to_string(),
         built_in_logic: vec![
@@ -144,8 +276,120 @@ pub fn science_report() -> ScienceReport {
             .iter()
             .map(|science| feature(science.name, science.proof))
             .collect(),
-        external_runtime_adapters: adapter_report().adapters,
+        external_runtime_adapters,
     }
+}
+
+fn load_manifest(path: &Path) -> Result<Option<(AdapterManifest, String)>> {
+    if !path.exists() {
+        return Ok(None);
+    }
+    let text = fs::read_to_string(path)?;
+    let manifest: AdapterManifest = serde_json::from_str(&text)?;
+    let hash = short_hash(&text);
+    Ok(Some((manifest, hash)))
+}
+
+fn read_manifest_or_default(path: &Path) -> Result<AdapterManifest> {
+    Ok(load_manifest(path)?
+        .map(|(manifest, _)| manifest)
+        .unwrap_or_else(|| AdapterManifest {
+            schema: "qorx.adapters.v1".to_string(),
+            adapters: Vec::new(),
+        }))
+}
+
+fn write_manifest(path: &Path, manifest: &AdapterManifest) -> Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    let text = serde_json::to_string_pretty(manifest)?;
+    fs::write(path, format!("{text}\n"))?;
+    Ok(())
+}
+
+fn manifest_adapter_status(adapter: &ManifestAdapter) -> AdapterStatus {
+    if !adapter.enabled {
+        return AdapterStatus {
+            name: adapter.name.clone(),
+            kind: adapter.kind.clone(),
+            configured: true,
+            ready: false,
+            command_or_url: adapter.command.clone().or_else(|| adapter.url.clone()),
+            reason: "disabled in adapter manifest".to_string(),
+        };
+    }
+    if let Some(url) = adapter
+        .url
+        .as_ref()
+        .and_then(|value| non_empty(value.clone()))
+    {
+        return AdapterStatus {
+            name: adapter.name.clone(),
+            kind: adapter.kind.clone(),
+            configured: true,
+            ready: true,
+            command_or_url: Some(url),
+            reason: "hot-swapped through adapter manifest url".to_string(),
+        };
+    }
+    if let Some(command) = adapter
+        .command
+        .as_ref()
+        .and_then(|value| non_empty(value.clone()))
+    {
+        let resolved = resolve_manifest_command(&command);
+        return AdapterStatus {
+            name: adapter.name.clone(),
+            kind: adapter.kind.clone(),
+            configured: true,
+            ready: resolved.is_some(),
+            command_or_url: resolved
+                .map(|path| path.display().to_string())
+                .or_else(|| Some(command.clone())),
+            reason: if command_path_exists(&command) || resolve_on_path(&command).is_some() {
+                "hot-swapped through adapter manifest command".to_string()
+            } else {
+                "manifest command is configured but not found on disk or PATH".to_string()
+            },
+        };
+    }
+    AdapterStatus {
+        name: adapter.name.clone(),
+        kind: adapter.kind.clone(),
+        configured: false,
+        ready: false,
+        command_or_url: None,
+        reason: "manifest adapter needs command or url".to_string(),
+    }
+}
+
+fn resolve_manifest_command(command: &str) -> Option<PathBuf> {
+    let path = PathBuf::from(command);
+    if command_path_exists(command) {
+        return Some(path);
+    }
+    resolve_on_path(command)
+}
+
+fn command_path_exists(command: &str) -> bool {
+    let path = Path::new(command);
+    (path.is_absolute() || command.contains('/') || command.contains('\\')) && is_file(path)
+}
+
+fn non_empty(value: String) -> Option<String> {
+    let trimmed = value.trim();
+    (!trimmed.is_empty()).then(|| trimmed.to_string())
+}
+
+fn default_enabled() -> bool {
+    true
+}
+
+fn short_hash(text: &str) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(text.as_bytes());
+    format!("{:x}", hasher.finalize())[..16].to_string()
 }
 
 fn feature(name: &str, proof: &str) -> ScienceFeature {
@@ -450,5 +694,64 @@ mod tests {
         assert!(kv_boundary
             .proof
             .contains("not runtime KV tensor compression"));
+    }
+
+    #[test]
+    fn manifest_adapters_hot_swap_without_rebuild() {
+        let root = unique_temp_dir("qorx-adapter-manifest");
+        let manifest = root.join("adapters.json");
+        let tool = root.join(if cfg!(windows) {
+            "ts-language.cmd"
+        } else {
+            "ts-language"
+        });
+        fs::create_dir_all(&root).expect("create root");
+        fs::write(&tool, "stub").expect("write tool");
+
+        super::add_manifest_adapter(
+            &manifest,
+            "typescript",
+            "language_server",
+            Some(tool.display().to_string()),
+            None,
+        )
+        .expect("add adapter");
+        let first = super::adapter_report_with_manifest(&manifest);
+        let ts = first
+            .adapters
+            .iter()
+            .find(|adapter| adapter.name == "typescript")
+            .expect("typescript adapter");
+        assert!(ts.configured);
+        assert!(ts.ready);
+        assert!(first.manifest_hash.is_some());
+
+        fs::write(
+            &manifest,
+            r#"{
+  "schema": "qorx.adapters.v1",
+  "adapters": [
+    {
+      "name": "python",
+      "kind": "language_server",
+      "command": "missing-pyright-command",
+      "enabled": true
+    }
+  ]
+}
+"#,
+        )
+        .expect("swap manifest");
+        let swapped = super::adapter_report_with_manifest(&manifest);
+        assert!(swapped
+            .adapters
+            .iter()
+            .any(|adapter| adapter.name == "python"));
+        assert!(!swapped
+            .adapters
+            .iter()
+            .any(|adapter| adapter.name == "typescript"));
+
+        let _ = fs::remove_dir_all(root);
     }
 }

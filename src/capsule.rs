@@ -761,6 +761,7 @@ mod tests {
             context_protobuf_file: data_dir.join("qorx-context.pb"),
             response_cache_file: data_dir.join("response_cache.pb"),
             integration_report_file: data_dir.join("integrations.pb"),
+            adapter_manifest_file: data_dir.join("adapters.json"),
             provenance_file: data_dir.join("qorx-provenance.pb"),
             security_keys_file: data_dir.join("qorx-security-keys.pb"),
             shim_dir: data_dir.join("shims"),

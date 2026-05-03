@@ -15,6 +15,12 @@ CLI. It lets a workflow carry a checked `.qorx` program, `.qorxb` bytecode,
 Qorx handle, or evidence pack instead of repeatedly pasting the same local files
 into prompts.
 
+The native `.qorx` language is the core path, but production teams do not have
+to abandon their existing stack. Qorx can read a local adapter manifest for
+external language servers, parser tools, compressors, provider shims, or runtime
+services. Swapping a TypeScript, Python, Rust, Go, or custom runtime adapter is a
+manifest update, not a Qorx rebuild.
+
 Community Edition is the public source line, not a stripped demo. It gives the
 community the parser, bytecode path, local index, strict evidence commands,
 pack/squeeze routes, local accounting, reproducible tests, and benchmark
@@ -125,8 +131,8 @@ service can enforce the allowance server-side.
 - [Science and math](docs/SCIENCE_AND_MATH.md)
 - [Package channels](packaging/README.md)
 - [Language](docs/handbook/language.md)
-- [Runtime notes](docs/handbook/runtime.md)
 - [Command reference](docs/COMMANDS.md)
+- [Runtime notes](docs/handbook/runtime.md)
 - [Runtime options](docs/SERVER.md)
 - [SAFE-R claim check](docs/SAFE-R.md)
 - [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
