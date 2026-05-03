@@ -4,7 +4,7 @@
   "homepage": "https://github.com/bbrainfuckk/qorx",
   "license": "AGPL-3.0-only",
   "url": "https://github.com/bbrainfuckk/qorx/releases/download/v1.0.4/qorx-v1.0.4-windows-x64.zip",
-  "hash": "TO_BE_FILLED_AFTER_RELEASE",
+  "hash": "fa8a9f00dcdf7b2f63fb22b6673936ba7b2cfc13e2d7fb12c7f3b085d46682eb",
   "bin": "qorx.exe",
   "checkver": {
     "github": "https://github.com/bbrainfuckk/qorx"

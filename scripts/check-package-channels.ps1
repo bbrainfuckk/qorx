@@ -100,6 +100,7 @@ $install = Read-RepoText "docs\INSTALL.md"
 $community = Read-RepoText "docs\COMMUNITY.md"
 $readme = Read-RepoText "README.md"
 $workflow = Read-RepoText ".github\workflows\package-channels.yml"
+$releaseWorkflow = Read-RepoText ".github\workflows\release-platforms.yml"
 
 foreach ($doc in @(
     @{ name = "packaging README"; text = $packagingReadme },
@@ -123,6 +124,7 @@ Require-Text "package workflow" $workflow 'check-package-channels\.ps1' "must ru
 Require-Text "package workflow" $workflow 'node\s+-e' "must validate npm metadata"
 Require-Text "package workflow" $workflow 'tomllib' "must validate PyPI metadata"
 Require-Text "package workflow" $workflow 'docker build' "must validate Dockerfile"
+Require-Text "release workflow" $releaseWorkflow 'macos-15-intel' "must use current Intel macOS runner label"
 
 try {
     $npm = Get-Content -LiteralPath (Repo-Path "packaging\npm\package.json") -Raw | ConvertFrom-Json
@@ -143,6 +145,9 @@ try {
     }
     if (-not $scoop.bin) {
         Add-Failure "Scoop manifest must expose bin"
+    }
+    if ($scoop.hash -match 'TO_BE_FILLED_AFTER_RELEASE') {
+        Add-Failure "Scoop manifest must include the release asset SHA256"
     }
 } catch {
     Add-Failure "packaging/scoop/qorx.json is not valid JSON"
@@ -172,6 +177,9 @@ Require-Text "Nix flake" $flake ('version = "' + [regex]::Escape($cargoVersion) 
 
 $nfpm = Read-RepoText "packaging\nfpm\qorx.yaml"
 Require-Text "nfpm config" $nfpm ('version:\s*' + [regex]::Escape($cargoVersion)) "must match Cargo version"
+
+$wingetInstaller = Read-RepoText "packaging\winget\Qorx.Qorx.installer.yaml"
+Reject-Text "WinGet installer manifest" $wingetInstaller 'TO_BE_FILLED_AFTER_RELEASE' "must include the release asset SHA256"
 
 if ($failures.Count -gt 0) {
     [pscustomobject]@{
