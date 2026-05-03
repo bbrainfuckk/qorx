@@ -12,7 +12,7 @@ DOI: 10.5281/zenodo.19953308
 
 License: CC BY-ND 4.0
 
-Software version: Qorx 1.0.4
+Software version: Qorx 1.0.4a
 
 ## Abstract
 
@@ -172,7 +172,7 @@ implementations, outside review, and a separate standards process.
 
 ## 9. Availability
 
-The reference implementation is Qorx 1.0.4. The source code is available at
+The reference implementation is Qorx 1.0.4a. The source code is available at
 https://github.com/bbrainfuckk/qorx under AGPL-3.0-only.
 
 The preprint record is available through Zenodo DOI

@@ -1,5 +1,5 @@
 PackageIdentifier: Qorx.Qorx
-PackageVersion: 1.0.4
+PackageVersion: 1.0.4a
 InstallerType: zip
 NestedInstallerType: portable
 NestedInstallerFiles:
@@ -7,7 +7,7 @@ NestedInstallerFiles:
     PortableCommandAlias: qorx
 Installers:
   - Architecture: x64
-    InstallerUrl: https://github.com/bbrainfuckk/qorx/releases/download/v1.0.4/qorx-v1.0.4-windows-x64.zip
-    InstallerSha256: 75F77D7F41DCC90B3B7EA05167A93294ADA1EA6F40776715599A599EDC514672
+    InstallerUrl: https://github.com/bbrainfuckk/qorx/releases/download/v1.0.4a/qorx-v1.0.4a-windows-x64.zip
+    InstallerSha256: 68E302560FFA1DFBFB738703DF97104BB2FB7DC05D2CDD8A2D5A0F7E2A3858FF
 ManifestType: installer
 ManifestVersion: 1.9.0

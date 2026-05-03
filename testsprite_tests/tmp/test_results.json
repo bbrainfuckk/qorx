@@ -1,8 +1,8 @@
 [
   {
     "testId": "TC001",
-    "title": "TC001 Community homepage shows Qorx 1.0.4",
-    "description": "Verify the public Qorx Community Edition home page loads, names the edition guide, and shows version 1.0.4.",
+    "title": "TC001 Community homepage shows Qorx 1.0.4a",
+    "description": "Verify the public Qorx Community Edition home page loads, names the edition guide, and shows version 1.0.4a.",
     "priority": "High",
     "testStatus": "PASSED",
     "testError": "",

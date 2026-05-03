@@ -12,7 +12,7 @@ if (process.env.QORX_SKIP_INSTALL === "1" || process.env.QORX_SKIP_INSTALL === "
 }
 
 const repo = process.env.QORX_INSTALL_REPO || "https://github.com/bbrainfuckk/qorx";
-const ref = process.env.QORX_INSTALL_REF || `v${pkg.version}`;
+const ref = process.env.QORX_INSTALL_REF || pkg.qorxTag || `v${pkg.version}`;
 const root = path.resolve(__dirname, "..", "vendor");
 
 fs.mkdirSync(root, { recursive: true });

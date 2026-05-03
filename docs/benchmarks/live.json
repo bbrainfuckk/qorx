@@ -1,24 +1,24 @@
 {
   "schema": "qorx.evaluation.v1",
-  "generated_at": "2026-05-03T10:05:28+00:00",
-  "suite": "qorx-live",
+  "generated_at": "2026-05-03T12:34:00+00:00",
+  "suite": "live",
   "target_path": ".",
-  "git_commit": "0a596f2",
-  "qorx_version": "qorx 1.0.4",
+  "git_commit": "b838c23",
+  "qorx_version": "qorx 1.0.4-a.0",
   "budget_tokens": 600,
   "squeeze_budget_tokens": 450,
   "queries": [
-    "Qorx Community Edition AGPL source line",
+    "context fault proof pages resolver boundary",
     "qorx carriers .qorx .qorxb qorx handle",
-    "strict answer unsupported claims"
+    "strict answer refusal unsupported claims"
   ],
-  "supported_question": "Qorx Community Edition AGPL source line",
-  "unsupported_question": "d8ffdb34e9eb4e4085fbb7ab6067785f",
-  "agent_objective": "prove Qorx Community Edition AGPL source line",
+  "supported_question": "context fault proof pages resolver boundary",
+  "unsupported_question": "galactic banana escrow treaty",
+  "agent_objective": "prove context fault proof pages resolver boundary",
   "output_json": "docs/benchmarks/live.json",
   "output_md": "docs/benchmarks/live.md",
   "summary": {
-    "indexed_tokens": 189042,
+    "indexed_tokens": 202986,
     "strict_tasks": 2,
     "strict_task_passes": 2,
     "strict_task_pass_rate": 1.0,
@@ -30,52 +30,52 @@
   },
   "session": {
     "json": {
-      "quark_count": 349,
-      "indexed_tokens": 189042,
+      "quark_count": 380,
+      "indexed_tokens": 202986,
       "visible_tokens": 69,
-      "omitted_tokens": 188973,
-      "context_reduction_x": 2739.7391304347825
+      "omitted_tokens": 202917,
+      "context_reduction_x": 2941.8260869565215
     }
   },
   "pack": {
     "json": {
-      "used_tokens": 566,
-      "omitted_tokens": 188476,
-      "context_reduction_x": 333.9964664310954,
+      "used_tokens": 484,
+      "omitted_tokens": 202502,
+      "context_reduction_x": 419.39256198347107,
       "quarks_used": 3
     }
   },
   "squeeze": {
     "json": {
-      "used_tokens": 292,
-      "omitted_tokens": 188750,
-      "context_reduction_x": 647.4041095890411,
-      "quarks_used": 4
+      "used_tokens": 419,
+      "omitted_tokens": 202567,
+      "context_reduction_x": 484.45346062052505,
+      "quarks_used": 3
     }
   },
   "bench": {
     "json": {
-      "average_reduction_x": 380.3280892831784,
+      "average_reduction_x": 400.59937140587385,
       "rows": [
         {
-          "query": "Qorx Community Edition AGPL source line",
-          "used_tokens": 566,
-          "omitted_tokens": 188476,
-          "context_reduction_x": 333.9964664310954,
+          "query": "context fault proof pages resolver boundary",
+          "used_tokens": 484,
+          "omitted_tokens": 202502,
+          "context_reduction_x": 419.39256198347107,
           "quarks_used": 3
         },
         {
           "query": "qorx carriers .qorx .qorxb qorx handle",
-          "used_tokens": 423,
-          "omitted_tokens": 188619,
-          "context_reduction_x": 446.9078014184397,
-          "quarks_used": 2
+          "used_tokens": 511,
+          "omitted_tokens": 202475,
+          "context_reduction_x": 397.2328767123288,
+          "quarks_used": 3
         },
         {
-          "query": "strict answer unsupported claims",
-          "used_tokens": 525,
-          "omitted_tokens": 188517,
-          "context_reduction_x": 360.08,
+          "query": "strict answer refusal unsupported claims",
+          "used_tokens": 527,
+          "omitted_tokens": 202459,
+          "context_reduction_x": 385.17267552182165,
           "quarks_used": 4
         }
       ]
@@ -89,15 +89,15 @@
   },
   "strict_answer_tasks": [
     {
-      "question": "Qorx Community Edition AGPL source line",
+      "question": "context fault proof pages resolver boundary",
       "expected_coverage": "supported",
       "actual_coverage": "supported",
       "passed": true,
       "evidence_count": 3,
-      "used_tokens": 232
+      "used_tokens": 380
     },
     {
-      "question": "d8ffdb34e9eb4e4085fbb7ab6067785f",
+      "question": "galactic banana escrow treaty",
       "expected_coverage": "not_found",
       "actual_coverage": "not_found",
       "passed": true,
@@ -105,5 +105,5 @@
       "used_tokens": 8
     }
   ],
-  "reproduce_command": "python scripts/run-benchmark.py --target . --suite qorx-live --budget-tokens 600 --squeeze-budget-tokens 450 --query \"Qorx Community Edition AGPL source line\" --query \"qorx carriers .qorx .qorxb qorx handle\" --query \"strict answer unsupported claims\" --supported-question \"Qorx Community Edition AGPL source line\" --unsupported-question d8ffdb34e9eb4e4085fbb7ab6067785f --agent-objective \"prove Qorx Community Edition AGPL source line\" --output-json docs/benchmarks/live.json --output-md docs/benchmarks/live.md"
+  "reproduce_command": "python scripts/run-benchmark.py --target . --suite live --budget-tokens 600 --squeeze-budget-tokens 450 --query \"context fault proof pages resolver boundary\" --query \"qorx carriers .qorx .qorxb qorx handle\" --query \"strict answer refusal unsupported claims\" --supported-question \"context fault proof pages resolver boundary\" --unsupported-question \"galactic banana escrow treaty\" --agent-objective \"prove context fault proof pages resolver boundary\" --output-json docs/benchmarks/live.json --output-md docs/benchmarks/live.md"
 }

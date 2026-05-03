@@ -5,7 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-VERSION = "1.0.4"
+VERSION = "1.0.4a0"
+QORX_TAG = "v1.0.4a"
 REPO = "https://github.com/bbrainfuckk/qorx"
 
 
@@ -27,7 +28,7 @@ def _binary_path() -> Path:
 def _install(binary: Path) -> None:
     root = _install_root()
     root.mkdir(parents=True, exist_ok=True)
-    ref = os.environ.get("QORX_INSTALL_REF", f"v{VERSION}")
+    ref = os.environ.get("QORX_INSTALL_REF", QORX_TAG)
     repo = os.environ.get("QORX_INSTALL_REPO", REPO)
     command = [
         "cargo",

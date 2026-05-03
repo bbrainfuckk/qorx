@@ -1,27 +1,27 @@
 # Qorx Benchmark Report
 
-Generated: `2026-05-03T10:05:28+00:00`
+Generated: `2026-05-03T12:34:00+00:00`
 
-Suite: `qorx-live`
+Suite: `live`
 
 Target: `.`
 
-Qorx version: `qorx 1.0.4`
+Qorx version: `qorx 1.0.4-a.0`
 
-Git commit: `0a596f2`
+Git commit: `b838c23`
 
 ## Summary
 
 | Metric | Value |
 | --- | ---: |
-| Indexed local tokens | 189042 |
+| Indexed local tokens | 202986 |
 | Session visible tokens | 69 |
-| Session reduction | 2739.74x |
-| Pack used tokens | 566 |
-| Pack reduction | 334.00x |
-| Squeeze used tokens | 292 |
-| Squeeze reduction | 647.40x |
-| Bench average reduction | 380.33x |
+| Session reduction | 2941.83x |
+| Pack used tokens | 484 |
+| Pack reduction | 419.39x |
+| Squeeze used tokens | 419 |
+| Squeeze reduction | 484.45x |
+| Bench average reduction | 400.60x |
 | Strict task pass rate | 100.0% |
 | Expected refusal pass rate | 100.0% |
 | Agent provider calls | 0 |
@@ -30,16 +30,16 @@ Git commit: `0a596f2`
 
 | Question | Expected | Actual | Pass | Evidence | Used tokens |
 | --- | --- | --- | ---: | ---: | ---: |
-| Qorx Community Edition AGPL source line | supported | supported | yes | 3 | 232 |
-| d8ffdb34e9eb4e4085fbb7ab6067785f | not_found | not_found | yes | 0 | 8 |
+| context fault proof pages resolver boundary | supported | supported | yes | 3 | 380 |
+| galactic banana escrow treaty | not_found | not_found | yes | 0 | 8 |
 
 ## Bench Rows
 
 | Query | Used tokens | Omitted tokens | Reduction | Quarks |
 | --- | ---: | ---: | ---: | ---: |
-| Qorx Community Edition AGPL source line | 566 | 188476 | 334.00x | 3 |
-| qorx carriers .qorx .qorxb qorx handle | 423 | 188619 | 446.91x | 2 |
-| strict answer unsupported claims | 525 | 188517 | 360.08x | 4 |
+| context fault proof pages resolver boundary | 484 | 202502 | 419.39x | 3 |
+| qorx carriers .qorx .qorxb qorx handle | 511 | 202475 | 397.23x | 3 |
+| strict answer refusal unsupported claims | 527 | 202459 | 385.17x | 4 |
 
 ## Claim Notes
 
@@ -51,5 +51,5 @@ downstream model answer quality.
 To reproduce:
 
 ```powershell
-python scripts/run-benchmark.py --target . --suite qorx-live --budget-tokens 600 --squeeze-budget-tokens 450 --query "Qorx Community Edition AGPL source line" --query "qorx carriers .qorx .qorxb qorx handle" --query "strict answer unsupported claims" --supported-question "Qorx Community Edition AGPL source line" --unsupported-question d8ffdb34e9eb4e4085fbb7ab6067785f --agent-objective "prove Qorx Community Edition AGPL source line" --output-json docs/benchmarks/live.json --output-md docs/benchmarks/live.md
+python scripts/run-benchmark.py --target . --suite live --budget-tokens 600 --squeeze-budget-tokens 450 --query "context fault proof pages resolver boundary" --query "qorx carriers .qorx .qorxb qorx handle" --query "strict answer refusal unsupported claims" --supported-question "context fault proof pages resolver boundary" --unsupported-question "galactic banana escrow treaty" --agent-objective "prove context fault proof pages resolver boundary" --output-json docs/benchmarks/live.json --output-md docs/benchmarks/live.md
 ```

@@ -1,6 +1,7 @@
 {
   "name": "qorx",
-  "version": "1.0.4",
+  "version": "1.0.4-a.0",
+  "qorxTag": "v1.0.4a",
   "description": "Qorx Community Edition CLI installer wrapper.",
   "license": "AGPL-3.0-only",
   "homepage": "https://github.com/bbrainfuckk/qorx",

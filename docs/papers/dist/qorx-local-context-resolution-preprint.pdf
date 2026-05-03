@@ -19,7 +19,7 @@ endobj
 << /Title (Qorx Local Context Resolution: A Handle-Resolved Runtime Model for Local AI Context) /Author (Marvin Sarreal Villanueva) /Subject (Qorx Local Context Resolution preprint) /Keywords (Qorx, local context resolution, AI context, Rust) /Creator (scripts/build-preprint-pdf.py) /Producer (Qorx dependency-free PDF builder) >>
 endobj
 7 0 obj
-<< /Length 3107 >>
+<< /Length 3108 >>
 stream
 BT /F2 17.0 Tf 1 0 0 1 54.0 738.0 Tm (Qorx Local Context Resolution: a handle-resolved runtime model) Tj ET
 BT /F2 17.0 Tf 1 0 0 1 54.0 715.0 Tm (for local AI context) Tj ET
@@ -29,7 +29,7 @@ BT /F1 10.5 Tf 1 0 0 1 54.0 636.0 Tm (Version 0.2 preprint manuscript) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 613.0 Tm (May 1, 2026) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 590.0 Tm (DOI: 10.5281/zenodo.19953308) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 567.0 Tm (License: CC BY-ND 4.0) Tj ET
-BT /F1 10.5 Tf 1 0 0 1 54.0 544.0 Tm (Software version: Qorx 1.0.4) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.0 544.0 Tm (Software version: Qorx 1.0.4a) Tj ET
 BT /F2 14.0 Tf 1 0 0 1 54.0 513.0 Tm (Abstract) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 483.0 Tm (Large language model workflows often resend local context: source files, logs,) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 468.0 Tm (notes, retrieved chunks, and previous tool output. Qorx defines a smaller) Tj ET
@@ -146,7 +146,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 11 0 R >>
 endobj
 13 0 obj
-<< /Length 2923 >>
+<< /Length 2924 >>
 stream
 BT /F1 10.5 Tf 1 0 0 1 54.0 738.0 Tm (uses a simpler runtime boundary: handle, resolve, pack, cite, or refuse.) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 715.0 Tm ("Lost in the Middle" showed that long context can still be hard for models to) Tj ET
@@ -161,7 +161,7 @@ BT /F1 10.5 Tf 1 0 0 1 54.0 556.0 Tm (tooling runtime model.) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 533.0 Tm (Q-LCR is not a standard by itself. A standard would need independent) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 518.0 Tm (implementations, outside review, and a separate standards process.) Tj ET
 BT /F2 14.0 Tf 1 0 0 1 54.0 487.0 Tm (9. Availability) Tj ET
-BT /F1 10.5 Tf 1 0 0 1 54.0 457.0 Tm (The reference implementation is Qorx 1.0.4. The source code is available at) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.0 457.0 Tm (The reference implementation is Qorx 1.0.4a. The source code is available at) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 442.0 Tm (https://github.com/bbrainfuckk/qorx under AGPL-3.0-only.) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 419.0 Tm (The preprint record is available through Zenodo DOI) Tj ET
 BT /F1 10.5 Tf 1 0 0 1 54.0 404.0 Tm (10.5281/zenodo.19953308.) Tj ET
@@ -192,15 +192,15 @@ xref
 0000000287 00000 n 
 0000000355 00000 n 
 0000000702 00000 n 
-0000003861 00000 n 
-0000004007 00000 n 
-0000007416 00000 n 
-0000007563 00000 n 
-0000010638 00000 n 
-0000010786 00000 n 
-0000013762 00000 n 
+0000003862 00000 n 
+0000004008 00000 n 
+0000007417 00000 n 
+0000007564 00000 n 
+0000010639 00000 n 
+0000010787 00000 n 
+0000013764 00000 n 
 trailer
 << /Size 15 /Root 1 0 R /Info 6 0 R >>
 startxref
-13910
+13912
 %%EOF

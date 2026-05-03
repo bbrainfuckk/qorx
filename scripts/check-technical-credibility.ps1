@@ -106,10 +106,10 @@ Require-Text "TestSprite workflow" $testspriteWorkflow 'qorx daemon status' "mus
 Require-Text "TestSprite workflow" $testspriteWorkflow 'TestSprite/run-action@v1' "must call TestSprite"
 
 Reject-Text "TestSprite results" $testspriteResults 'Qorx 1\.0\.3|version 1\.0\.3' "must not carry stale current-release text"
-Require-Text "TestSprite results" $testspriteResults 'TC001 Community homepage shows Qorx 1\.0\.4' "must include the current CE homepage test"
+Require-Text "TestSprite results" $testspriteResults 'TC001 Community homepage shows Qorx 1\.0\.4a' "must include the current CE homepage test"
 Require-Text "TestSprite results" $testspriteResults 'TC003 Technical credibility page bounds language and bytecode claims' "must include the credibility page suite entry"
 
-$tc001 = Join-Path $RepoRoot "testsprite_tests\TC001_Community_homepage_shows_Qorx_1.0.4.py"
+$tc001 = Join-Path $RepoRoot "testsprite_tests\TC001_Community_homepage_shows_Qorx_1.0.4a.py"
 if (-not (Test-Path -LiteralPath $tc001 -PathType Leaf)) {
     Add-Failure "missing current-version CE TestSprite TC001 file"
 }

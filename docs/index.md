@@ -31,7 +31,7 @@ Current public version: `1.0.4a`.
 - [SAFE-R claim check](SAFE-R.md)
 - [Technical credibility](TECHNICAL_CREDIBILITY.md)
 - [Independent review brief](INDEPENDENT_REVIEW.md)
-- [Qorx 1.0.4 for Rust reviewers](QORX_1_0_4_RUST.md)
+- [Qorx 1.0.4a for Rust reviewers](QORX_1_0_4_RUST.md)
 - [Benchmarks](benchmarks/README.md)
 - [Qorx papers](papers/README.md)
 

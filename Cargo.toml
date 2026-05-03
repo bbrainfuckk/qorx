@@ -10,10 +10,16 @@ repository = "https://github.com/bbrainfuckk/qorx"
 documentation = "https://github.com/bbrainfuckk/qorx/tree/main/docs/handbook"
 readme = "README.md"
 license = "AGPL-3.0-only"
-publish = false
 keywords = ["qorx", "context", "compiler", "runtime", "ai"]
 categories = ["command-line-utilities", "development-tools"]
-exclude = ["packaging/aur/**"]
+exclude = [
+    ".github/**",
+    "cloudflare/**",
+    "docs/papers/dist/**",
+    "packaging/**",
+    "target/**",
+    "testsprite_tests/tmp/**",
+]
 
 [[bin]]
 name = "qorx"

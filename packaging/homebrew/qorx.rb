@@ -2,8 +2,8 @@ class Qorx < Formula
   desc "Community Edition CLI for local context-resolution research"
   homepage "https://github.com/bbrainfuckk/qorx"
   url "https://github.com/bbrainfuckk/qorx.git",
-      tag:      "v1.0.4"
-  version "1.0.4"
+      tag:      "v1.0.4a"
+  version "1.0.4a"
   license "AGPL-3.0-only"
 
   depends_on "rust" => :build
@@ -13,6 +13,6 @@ class Qorx < Formula
   end
 
   test do
-    assert_match "qorx 1.0.4", shell_output("#{bin}/qorx --version")
+    assert_match "qorx 1.0.4-a.0", shell_output("#{bin}/qorx --version")
   end
 end

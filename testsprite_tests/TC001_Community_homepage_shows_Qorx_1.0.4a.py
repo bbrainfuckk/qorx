@@ -31,7 +31,7 @@ async def run_test():
 
         assert "Qorx Community Edition" in body
         assert "Qorx Edge" in body
-        assert "1.0.4" in body
+        assert "1.0.4a" in body
         assert "Community guide" in body
         assert "Live metrics" in body
         assert "Qorx Edge Starter" in body

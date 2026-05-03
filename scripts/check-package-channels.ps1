@@ -71,6 +71,15 @@ if (-not $cargoVersionMatch.Success) {
     $cargoVersion = $cargoVersionMatch.Groups[1].Value
 }
 
+if ($cargoVersion -match '^(?<base>\d+\.\d+\.\d+)-a\.0$') {
+    $displayVersion = "$($Matches.base)a"
+    $pythonVersion = "$($Matches.base)a0"
+} else {
+    $displayVersion = $cargoVersion
+    $pythonVersion = $cargoVersion
+}
+$releaseTag = "v$displayVersion"
+
 $requiredFiles = @(
     "packaging\README.md",
     "packaging\npm\package.json",
@@ -131,6 +140,9 @@ try {
     if ($npm.version -ne $cargoVersion) {
         Add-Failure "npm package version '$($npm.version)' does not match Cargo version '$cargoVersion'"
     }
+    if ($npm.qorxTag -ne $releaseTag) {
+        Add-Failure "npm package qorxTag '$($npm.qorxTag)' does not match release tag '$releaseTag'"
+    }
     if (-not $npm.bin.qorx) {
         Add-Failure "npm package must expose qorx bin"
     }
@@ -140,8 +152,11 @@ try {
 
 try {
     $scoop = Get-Content -LiteralPath (Repo-Path "packaging\scoop\qorx.json") -Raw | ConvertFrom-Json
-    if ($scoop.version -ne $cargoVersion) {
-        Add-Failure "Scoop manifest version '$($scoop.version)' does not match Cargo version '$cargoVersion'"
+    if ($scoop.version -ne $displayVersion) {
+        Add-Failure "Scoop manifest version '$($scoop.version)' does not match display version '$displayVersion'"
+    }
+    if ($scoop.url -notmatch [regex]::Escape("/$releaseTag/qorx-$releaseTag-windows-x64.zip")) {
+        Add-Failure "Scoop manifest must point at $releaseTag Windows release asset"
     }
     if (-not $scoop.bin) {
         Add-Failure "Scoop manifest must expose bin"
@@ -154,31 +169,37 @@ try {
 }
 
 $pyproject = Read-RepoText "packaging\pypi\pyproject.toml"
-Require-Text "PyPI pyproject" $pyproject ('version\s*=\s*"' + [regex]::Escape($cargoVersion) + '"') "must match Cargo version"
+Require-Text "PyPI pyproject" $pyproject ('version\s*=\s*"' + [regex]::Escape($pythonVersion) + '"') "must use PEP 440 version $pythonVersion"
 Require-Text "PyPI pyproject" $pyproject 'qorx\s*=\s*"qorx_cli\.launcher:main"' "must expose qorx console script"
 
 $pkgbuild = Read-RepoText "packaging\arch\PKGBUILD"
-Require-Text "Arch PKGBUILD" $pkgbuild ('pkgver=' + [regex]::Escape($cargoVersion)) "must match Cargo version"
+Require-Text "Arch PKGBUILD" $pkgbuild ('pkgver=' + [regex]::Escape($displayVersion)) "must match display version"
+Require-Text "Arch PKGBUILD" $pkgbuild ('_tag=' + [regex]::Escape($releaseTag)) "must source the release tag"
 Require-Text "Arch PKGBUILD" $pkgbuild 'cargo build --release --locked' "must source-build locked Rust"
 
 $homebrew = Read-RepoText "packaging\homebrew\qorx.rb"
-Require-Text "Homebrew formula" $homebrew ('version "' + [regex]::Escape($cargoVersion) + '"') "must match Cargo version"
+Require-Text "Homebrew formula" $homebrew ('tag:\s*"' + [regex]::Escape($releaseTag) + '"') "must source the release tag"
+Require-Text "Homebrew formula" $homebrew ('version "' + [regex]::Escape($displayVersion) + '"') "must match display version"
+Require-Text "Homebrew formula" $homebrew ('qorx ' + [regex]::Escape($cargoVersion)) "must assert the binary version"
 Require-Text "Homebrew formula" $homebrew 'cargo", "install"' "must source-build through cargo"
 
 $snap = Read-RepoText "packaging\snap\snapcraft.yaml"
-Require-Text "Snap manifest" $snap ('version:\s*"' + [regex]::Escape($cargoVersion) + '"') "must match Cargo version"
+Require-Text "Snap manifest" $snap ('version:\s*"' + [regex]::Escape($displayVersion) + '"') "must match display version"
+Require-Text "Snap manifest" $snap ('source-tag:\s*' + [regex]::Escape($releaseTag)) "must source the release tag"
 Require-Text "Snap manifest" $snap 'plugin:\s*rust' "must use rust plugin"
 
 $dockerfile = Read-RepoText "Dockerfile"
 Require-Text "Dockerfile" $dockerfile 'cargo build --release --locked' "must build locked release binary"
 
 $flake = Read-RepoText "flake.nix"
-Require-Text "Nix flake" $flake ('version = "' + [regex]::Escape($cargoVersion) + '"') "must match Cargo version"
+Require-Text "Nix flake" $flake ('version = "' + [regex]::Escape($displayVersion) + '"') "must match display version"
 
 $nfpm = Read-RepoText "packaging\nfpm\qorx.yaml"
-Require-Text "nfpm config" $nfpm ('version:\s*' + [regex]::Escape($cargoVersion)) "must match Cargo version"
+Require-Text "nfpm config" $nfpm ('version:\s*' + [regex]::Escape($displayVersion)) "must match display version"
 
 $wingetInstaller = Read-RepoText "packaging\winget\Qorx.Qorx.installer.yaml"
+Require-Text "WinGet installer manifest" $wingetInstaller ('PackageVersion:\s*' + [regex]::Escape($displayVersion)) "must match display version"
+Require-Text "WinGet installer manifest" $wingetInstaller ([regex]::Escape("/$releaseTag/qorx-$releaseTag-windows-x64.zip")) "must point at the release tag asset"
 Reject-Text "WinGet installer manifest" $wingetInstaller 'TO_BE_FILLED_AFTER_RELEASE' "must include the release asset SHA256"
 
 if ($failures.Count -gt 0) {
@@ -194,5 +215,8 @@ if ($failures.Count -gt 0) {
     ok = $true
     check = "package-channels"
     version = $cargoVersion
+    displayVersion = $displayVersion
+    pythonVersion = $pythonVersion
+    releaseTag = $releaseTag
     channels = @("PyPI", "npm", "Arch/AUR", "Homebrew", "Scoop", "WinGet", "Snap", "Docker", "Nix", "Deb/RPM via nfpm")
 } | ConvertTo-Json -Depth 4

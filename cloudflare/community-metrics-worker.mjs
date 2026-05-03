@@ -37,40 +37,40 @@ const SOURCES = {
 };
 
 const PACKAGED_BENCHMARK = {
-  generated_at: "2026-05-03T10:05:28+00:00",
-  git_commit: "0a596f2",
-  qorx_version: "qorx 1.0.4",
+  generated_at: "2026-05-03T12:34:00+00:00",
+  git_commit: "b838c23",
+  qorx_version: "qorx 1.0.4-a.0",
   summary: {
-    indexed_tokens: 189042,
+    indexed_tokens: 202986,
     strict_task_pass_rate: 1,
     expected_refusal_pass_rate: 1,
     agent_provider_calls: 0,
   },
   session: {
     json: {
-      quark_count: 349,
+      quark_count: 380,
       visible_tokens: 69,
-      omitted_tokens: 188973,
-      context_reduction_x: 2739.7391304347825,
+      omitted_tokens: 202917,
+      context_reduction_x: 2941.8260869565215,
     },
   },
   pack: {
     json: {
-      used_tokens: 566,
-      omitted_tokens: 188476,
-      context_reduction_x: 333.9964664310954,
+      used_tokens: 484,
+      omitted_tokens: 202502,
+      context_reduction_x: 419.39256198347107,
     },
   },
   squeeze: {
     json: {
-      used_tokens: 292,
-      omitted_tokens: 188750,
-      context_reduction_x: 647.4041095890411,
+      used_tokens: 419,
+      omitted_tokens: 202567,
+      context_reduction_x: 484.45346062052505,
     },
   },
   bench: {
     json: {
-      average_reduction_x: 380.3280892831784,
+      average_reduction_x: 400.59937140587385,
     },
   },
   _source: "packaged-worker-fallback",

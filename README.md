@@ -137,7 +137,7 @@ service can enforce the allowance server-side.
 - [SAFE-R claim check](docs/SAFE-R.md)
 - [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
 - [Independent review brief](docs/INDEPENDENT_REVIEW.md)
-- [Qorx 1.0.4 for Rust reviewers](docs/QORX_1_0_4_RUST.md)
+- [Qorx 1.0.4a for Rust reviewers](docs/QORX_1_0_4_RUST.md)
 - [Benchmarks](docs/benchmarks/README.md)
 - [Papers and preprint](docs/papers/README.md)
 

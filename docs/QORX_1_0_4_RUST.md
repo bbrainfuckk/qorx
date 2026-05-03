@@ -1,6 +1,6 @@
-# Qorx 1.0.4 Community Edition
+# Qorx 1.0.4a Community Edition
 
-Qorx 1.0.4 Community Edition is a Rust source line for local context
+Qorx 1.0.4a Community Edition is a Rust source line for local context
 resolution. It defines a small domain-specific language, checked `.qorxb`
 protobuf bytecode, named resolver steps, branches, runtime assertions, a
 Forth-inspired `qstk` stack tape, and `qorx://` handles that resolve against
@@ -48,7 +48,15 @@ The useful Rust pieces are ordinary ones:
 - tests around parser/runtime contracts instead of only end-to-end examples
 - source builds through Cargo
 
-## What changed in 1.0.4
+## What changed in 1.0.4a
+
+Version 1.0.4a keeps the small-binary release gate and adds production-facing adapter hot swap:
+
+- a local adapter manifest for TypeScript, Python, Rust, Go, parser,
+  compressor, provider, or team runtime tools;
+- manifest reload without rebuilding the Qorx binary;
+- adapter status in `qorx adapters` and the science report;
+- package-channel metadata for public distribution.
 
 Version 1.0.4 added clarity and operator-facing readiness work:
 
