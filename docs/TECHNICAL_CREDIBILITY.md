@@ -13,6 +13,11 @@ The implementation is Rust. The current compiler path parses `.qorx`, runs
 semantic checks, lowers to AST and QIR, emits canonical opcodes, emits `qstk`,
 and stores the result in a protobuf envelope.
 
+Qorx Edge Starter is the full Edge/Cloud trial path: 5,000 included Edge/Cloud
+requests across Windows, macOS, and Linux before subscription. Local Community
+Edition commands stay unmetered. The public math is in
+[Science and math](SCIENCE_AND_MATH.md).
+
 ## What Qorx is not
 
 - Qorx is not a general-purpose language like Rust, Python, C, or Forth.

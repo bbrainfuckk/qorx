@@ -37,8 +37,30 @@ async def run_test():
         assert "Qorx Edge" in community_body
         assert "live public metrics" in community_body
         assert "cross-platform GitHub release assets" in community_body
+        assert "Qorx Edge Starter" in community_body
+        assert "5,000 included Edge/Cloud requests" in community_body
         assert "daemon" in community_body
         assert "integrate" in community_body
+
+        await page.goto(BASE_URL, wait_until="networkidle", timeout=20000)
+        starter_link = page.locator("a[href$='EDGE_STARTER.html']").first
+        assert await starter_link.count() == 1
+        await starter_link.click(timeout=10000)
+        await page.wait_for_load_state("networkidle", timeout=20000)
+        starter_body = await page.locator("body").inner_text(timeout=10000)
+        assert "Qorx Edge Starter" in starter_body
+        assert "5,000 included Edge/Cloud requests" in starter_body
+        assert "server-side" in starter_body
+
+        await page.goto(BASE_URL, wait_until="networkidle", timeout=20000)
+        science_link = page.locator("a[href$='SCIENCE_AND_MATH.html']").first
+        assert await science_link.count() == 1
+        await science_link.click(timeout=10000)
+        await page.wait_for_load_state("networkidle", timeout=20000)
+        science_body = await page.locator("body").inner_text(timeout=10000)
+        assert "Baseline-to-Compact" in science_body
+        assert "included_requests = 5000" in science_body
+        assert "Reference papers and sources" in science_body
 
         await page.goto(BASE_URL, wait_until="networkidle", timeout=20000)
         testsprite_link = page.locator("a[href$='TESTSPRITE.html']").first

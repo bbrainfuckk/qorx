@@ -7,7 +7,9 @@ check. It verifies that the repo points users to the Community Edition guide and
 does not expose a literal TestSprite secret.
 
 For the hosted Qorx Cloud or Qorx Edge onboarding site, keep a separate
-TestSprite suite against a public staging URL.
+TestSprite suite against a public staging URL. That suite should cover Qorx Edge
+Starter account activation, the 5,000 included Edge/Cloud request counter, and
+the subscribe-to-continue state.
 
 ## Secret
 
@@ -36,8 +38,9 @@ It is manually run with:
 - `base_url`: public staging URL for a product surface.
 - `blocking`: `true` to fail the workflow when TestSprite reports a failing suite.
 
-Community Edition does not use TestSprite to prove local daemon or tray behavior.
-Those surfaces are Qorx Edge product flows.
+Community Edition uses TestSprite for public docs and workflow QA. Local daemon,
+tray, account activation, and request-counter checks belong to the Qorx Edge
+product flow suite.
 
 ## Local command
 

@@ -44,6 +44,7 @@ you want the quickest community CLI path.
 
 Qorx Edge and future package channels add:
 
+- Qorx Edge Starter with 5,000 included Edge/Cloud requests.
 - npm and PyPI wrappers.
 - WinGet, Scoop, Homebrew, Snap, AUR, Debian, RPM, Nix, or Docker distribution.
 - signed Windows installers.
@@ -52,6 +53,10 @@ Qorx Edge and future package channels add:
 Those channels need registry credentials, signing, or product support. Signed
 installers, tray, daemon management, auto-update, provider routing, and ORCL are
 Qorx Edge surfaces.
+
+Qorx Edge Starter is the cross-platform product trial path for those surfaces.
+The request count is enforced by the Qorx account service, while source-built
+local CE commands stay unmetered.
 
 ## What to run
 

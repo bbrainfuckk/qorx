@@ -107,6 +107,8 @@ test("community metrics worker returns live proof numbers", async () => {
     assert.equal(body.benchmark.strict.passRate, 1);
     assert.equal(body.benchmark.agent.providerCalls, 0);
     assert.match(body.editions.join(" "), /Qorx Edge/);
+    assert.match(body.editions.join(" "), /Qorx Edge Starter/);
+    assert.match(body.editions.join(" "), /5,000 included Edge\/Cloud requests/);
     assert.doesNotMatch(JSON.stringify(body), /Qorx Local Pro|boundary/i);
     assert.equal(body.workflows.build.conclusion, "success");
     assert.equal(body.workflows.testsprite.conclusion, "success");

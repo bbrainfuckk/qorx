@@ -21,6 +21,7 @@ evidence-first workflows. It is the public source line, not a dead sample.
 
 ## Qorx Edge And Cloud Add
 
+- Qorx Edge Starter with 5,000 included Edge/Cloud requests.
 - signed official installers.
 - npm, PyPI, WinGet, Scoop, Homebrew, Snap, or Docker distribution.
 - Windows tray UX.
@@ -37,6 +38,24 @@ evidence-first workflows. It is the public source line, not a dead sample.
 Those surfaces live in Qorx Edge or Qorx Cloud. The community still gets the
 source, the language, the local evidence routes, and release assets for direct
 CLI use.
+
+## Qorx Edge Starter
+
+Starter is the generous try-it-for-real plan. It gives new accounts the full
+Edge/Cloud feature set on Windows, macOS, and Linux with 5,000 included
+Edge/Cloud requests.
+
+Metered requests are service calls that Qorx has to run or pay for: provider
+routing, ORCL lookup, MCP/CLI activation, cloud capsule sync, and account-backed
+daemon/API actions. Local source-built commands such as `index`, `pack`,
+`squeeze`, `strict-answer`, `qorx-check`, and `qorx-compile` stay local and
+unmetered.
+
+When the 5,000 included Edge/Cloud requests are used, Edge/Cloud asks the user
+to subscribe before continuing with those services. This counter lives on the
+Qorx account service, not inside the AGPL source binary. That keeps the source
+honest: people can study and fork the local code, but official hosted capacity
+still needs a valid account entitlement.
 
 ## Current CE Behavior
 
@@ -69,6 +88,7 @@ must not imply that it is the official Qorx distribution.
 Qorx Edge is the supported local product:
 
 - signed installer.
+- 5,000 included Edge/Cloud requests through Qorx Edge Starter.
 - local tray and updater.
 - account activation.
 - managed local vault UX.

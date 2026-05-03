@@ -6,7 +6,7 @@ This file is the readable map.
 
 The papers support the architecture class around Qorx: retrieval-backed context
 omission, prompt compression, repository memory, cache-aware request design,
-agent memory, and runtime cache/KV boundaries. They do not prove that Qorx wins
+agent memory, and runtime cache/KV scope. They do not prove that Qorx wins
 on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 
 ## Prompt Compression
@@ -45,7 +45,7 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 | --- | --- | --- |
 | H-MEM | `research/papers/hmem_2507.22925.pdf` | Hierarchical memory supports multi-layer retrieval. Qorx implements deterministic lattice layers. |
 | HiMem | `research/papers/himem_2601.06377.pdf` | Long-horizon memory organization. Qorx uses local mementos and raw-quark provenance. |
-| TierMem | `research/papers/tiermem_2602.17913.pdf` | Provenance-aware tiered memory is close to Qorx's lattice/attestation boundary. |
+| TierMem | `research/papers/tiermem_2602.17913.pdf` | Provenance-aware tiered memory is close to Qorx's lattice and attestation model. |
 | GAM | `research/papers/gam_2604.12285.pdf` | Graph-based agentic memory supports the idea of relations across memory nodes. Qorx keeps graph work lightweight in core. |
 
 ## Cache And Reuse
@@ -60,11 +60,11 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 | Cache-Craft | `research/papers/cache_craft_2502.15734.pdf` | Chunk cache management for RAG. |
 | Approximate Caching for RAG | `research/papers/approximate_caching_rag_2503.05530.pdf` | Approximate reuse is useful but must be measured and guarded. |
 | Domain-Specific Semantic Cache | `research/papers/domain_specific_semantic_cache_2504.02268.pdf` | Domain-specific embeddings can improve cache reuse, but Qorx core avoids mandatory embedding runtimes. |
-| vCache | `research/papers/vcache_2502.03771.pdf` | Verified semantic prompt caching supports the idea of cache correctness gates. |
+| vCache | `research/papers/vcache_2502.03771.pdf` | Verified semantic prompt caching supports the idea of cache correctness checks. |
 | ContextPilot | `research/papers/contextpilot_2511.03475.pdf` | Long-context reuse. Qorx handles reuse through local handles and evidence resolution. |
 | QVCache | `research/papers/qvcache_2602.02057.pdf` | Query-aware vector cache ideas inform future cache adapters. |
 
-## Runtime And KV Boundaries
+## Runtime And KV Scope
 
 | Reference | Local file or source | How it relates to Qorx |
 | --- | --- | --- |

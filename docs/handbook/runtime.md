@@ -29,8 +29,10 @@ qorx daemon status
 qorx daemon stop
 ```
 
-The official daemon, tray, provider routing, startup integration, and managed
-local vault UX are part of Qorx Edge.
+Qorx Edge Starter gives new accounts 5,000 included Edge/Cloud requests across
+Windows, macOS, and Linux before subscription. The official daemon, tray,
+provider routing, startup integration, and managed local vault UX are part of
+Qorx Edge.
 
 ## Handles
 

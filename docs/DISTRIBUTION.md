@@ -33,6 +33,8 @@ who want a quick binary after the source build and tests pass in CI.
 
 ## Release Channels Still Opening
 
+- Qorx Edge Starter across Windows, macOS, and Linux with 5,000 included
+  Edge/Cloud requests.
 - npm package.
 - PyPI package.
 - WinGet manifest.
@@ -47,6 +49,10 @@ who want a quick binary after the source build and tests pass in CI.
 Those channels need registry credentials, signing, or support policy. They stay
 out of the public CE repo until the maintainer intentionally opens that channel.
 Signed installers and auto-update are Qorx Edge surfaces.
+
+The request cap belongs to the Qorx account service. A local AGPL build can be
+forked and changed, so a local-only counter would not protect the official
+hosted service. Entitlements and usage receipts must be checked server-side.
 
 ## Maintainer note
 

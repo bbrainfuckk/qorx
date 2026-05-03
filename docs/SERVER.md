@@ -2,7 +2,7 @@
 
 The public Community Edition is the source-built CLI line for Qorx.
 
-In this repo, the daemon/proxy implementation is not shipped in current `main`.
+In this repo, the daemon/proxy implementation is part of the Edge product path.
 The CE command line explains that the public daemon commands live in Qorx Edge:
 
 ```text
@@ -14,6 +14,9 @@ qorx daemon stop
 ```
 
 Those commands are part of Qorx Edge.
+
+Qorx Edge Starter gives new accounts the same Edge/Cloud runtime path across
+Windows, macOS, and Linux with 5,000 included Edge/Cloud requests.
 
 ## Why
 
@@ -37,6 +40,7 @@ cargo build --release
 
 Use Qorx Edge for:
 
+- Qorx Edge Starter account activation.
 - local daemon management.
 - Windows tray.
 - provider proxy routing.
@@ -53,3 +57,6 @@ Do not expose self-built Qorx gateway experiments to untrusted networks. Any
 shared deployment needs authentication, TLS, rate limits, logs, backups, and a
 clear data-retention policy. The hosted Qorx API is the product path for that
 surface.
+
+The Starter request counter lives on the Qorx account service. Local health
+checks and source-built CE commands are not counted.

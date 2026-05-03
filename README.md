@@ -28,6 +28,24 @@ is the hosted API and account surface. Community Edition stays focused on the
 open source language, runtime, CLI proof surface, and reproducible local
 benchmarks.
 
+## Qorx Edge Starter
+
+Qorx Edge Starter is the full product trial path for people who want the real
+Windows, macOS, and Linux experience without starting with a payment wall.
+
+Starter starts with 5,000 included Edge/Cloud requests. A request means a managed
+service action: provider routing, ORCL lookup, MCP/CLI activation, cloud capsule
+sync, or an account-backed daemon/API call. Local Community Edition commands
+such as `index`, `pack`, `squeeze`, `strict-answer`, `qorx-check`, and
+`qorx-compile` stay local and unmetered.
+
+After the 5,000 included Edge/Cloud requests are used, the account asks the user
+to subscribe before continuing with Edge/Cloud services. The cap is enforced
+server-side by the Qorx account service. That is the only honest place to put
+it: a local AGPL binary can always be changed and rebuilt, but a fork cannot
+mint valid Qorx service entitlements or use the official hosted service for
+free forever.
+
 ## Status
 
 Current public version: `1.0.4`.
@@ -78,14 +96,18 @@ workflow. Tags build source-verified CLI assets for:
 - Linux x64 tarball.
 - macOS tarball.
 
-The assets are unsigned community CLI builds. Qorx Edge adds signed installers,
-tray, auto-update, daemon, provider routing, MCP activation, and ORCL.
+The assets are unsigned community CLI builds. Qorx Edge Starter gives users the
+full Edge/Cloud feature set across Windows, macOS, and Linux with 5,000 included
+Edge/Cloud requests before subscription. Qorx Edge adds signed installers, tray,
+auto-update, daemon, provider routing, MCP activation, and ORCL.
 
 ## Read first
 
 - [Community guide](docs/COMMUNITY.md)
 - [Install from source](docs/INSTALL.md)
+- [Qorx Edge Starter](docs/EDGE_STARTER.md)
 - [Live metrics](docs/LIVE_METRICS.md)
+- [Science and math](docs/SCIENCE_AND_MATH.md)
 - [Language](docs/handbook/language.md)
 - [Runtime notes](docs/handbook/runtime.md)
 - [Command reference](docs/COMMANDS.md)
@@ -199,7 +221,8 @@ cargo build --release
 Community Edition focuses on source-built CLI workflows. Commands that require
 the always-on product layer, such as `bootstrap`, `daemon`, `tray`, `startup`,
 `drive`, `hot`, `integrate`, `run`, and `patch`, explain that those surfaces are
-available in Qorx Edge.
+available in Qorx Edge. New Edge accounts start with 5,000 included Edge/Cloud
+requests through Qorx Edge Starter.
 
 ## Repository map
 

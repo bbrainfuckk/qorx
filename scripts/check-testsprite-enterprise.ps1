@@ -47,6 +47,8 @@ Require-Text "workflow" $workflow 'github-token:\s*\$\{\{\s*github\.token\s*\}\}
 Require-Text "workflow" $workflow 'blocking:\s*\$\{\{\s*inputs\.blocking\s*\}\}' "must make blocking mode explicit"
 Require-Text "workflow" $workflow 'continue-on-error:\s*\$\{\{\s*inputs\.blocking\s*==\s*''false''\s*\}\}' "must let non-blocking cloud runs report without failing the workflow"
 Require-Text "workflow" $workflow 'Community guide check' "must include the CE guide check job"
+Require-Text "workflow" $workflow 'Qorx Edge Starter' "must check Starter docs"
+Require-Text "workflow" $workflow '5,000 included Edge/Cloud requests' "must check Starter allowance"
 Require-Text "workflow" $workflow 'qorx daemon status' "must verify daemon routing in CE"
 Require-Text "workflow" $workflow 'python scripts/run-testsprite-smoke\.py' "must run repo-managed TestSprite smoke files before cloud action"
 Require-Text "workflow" $workflow 'python -m pip install playwright' "must install Playwright for repo-managed browser smoke files"
@@ -64,6 +66,8 @@ Require-Text "docs" $docs 'Community Edition' "must identify the public CE guide
 $community = Read-RepoText "docs\COMMUNITY.md"
 Require-Text "community" $community 'Qorx Community Edition' "must define CE"
 Require-Text "community" $community 'Qorx Edge' "must name the supported local product"
+Require-Text "community" $community 'Qorx Edge Starter' "must explain the starter path"
+Require-Text "community" $community '5,000 included Edge/Cloud requests' "must state the included request count"
 Require-Text "community" $community '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Edge surface"
 Require-Text "community" $community '(?m)^\s*integrate\s*$' "must list integrations as a Qorx Edge surface"
 
@@ -74,6 +78,8 @@ Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must document daemon as 
 $readme = Read-RepoText "README.md"
 Require-Text "README" $readme 'Qorx Community Edition' "must present public repo as CE"
 Require-Text "README" $readme 'Qorx Edge' "must explain the supported local product"
+Require-Text "README" $readme 'Qorx Edge Starter' "must explain the 5k starter"
+Require-Text "README" $readme '5,000 included Edge/Cloud requests' "must state the included request count"
 Require-Text "README" $readme 'available in Qorx Edge' "must document command routing"
 
 $forbiddenPaths = @(

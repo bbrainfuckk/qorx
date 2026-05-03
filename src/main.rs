@@ -609,7 +609,7 @@ impl DoctorReport {
 
 fn pro_only(feature: &str) -> Result<()> {
     anyhow::bail!(
-        "{feature} is available in Qorx Edge. Community Edition gives you the source CLI for language, indexing, and evidence commands; Qorx Edge adds background runtime, tray, provider routing, startup, drive, and integration activation."
+        "{feature} is available in Qorx Edge. Qorx Edge Starter gives new accounts 5,000 included Edge/Cloud requests across Windows, macOS, and Linux. Community Edition keeps local source CLI commands unmetered for language, indexing, and evidence work."
     )
 }
 

@@ -95,6 +95,10 @@ Those commands belong to Qorx Edge because they provide the official local
 runtime experience: background gateway, tray, account activation, provider
 routing, startup integration, and managed local vault behavior.
 
+Qorx Edge Starter lets new accounts use the same Edge/Cloud command surface on
+Windows, macOS, and Linux with 5,000 included Edge/Cloud requests. Local CE
+commands remain unmetered.
+
 ## Edition Note
 
 Community Edition is a source-build CLI. Do not describe a self-built CE binary

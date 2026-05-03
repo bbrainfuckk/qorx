@@ -66,8 +66,13 @@ Require-Text "README" $readme 'small domain-specific language' "must use bounded
 Require-Text "README" $readme 'Technical credibility' "must link the technical credibility page"
 Require-Text "README" $readme 'Qorx Community Edition' "must identify public CE"
 Require-Text "README" $readme 'Qorx Edge' "must explain the supported local product"
+Require-Text "README" $readme 'Qorx Edge Starter' "must explain the 5k full-feature starter"
+Require-Text "README" $readme '5,000 included Edge/Cloud requests' "must state the included request count"
+Require-Text "README" $readme 'server-side' "must explain why the request cap is enforced by the service"
 Require-Text "docs index" $index 'small domain-specific language' "must use bounded DSL wording"
 Require-Text "docs index" $index 'TECHNICAL_CREDIBILITY\.md' "must link the technical credibility page"
+Require-Text "docs index" $index 'EDGE_STARTER\.md' "must link the Edge Starter page"
+Require-Text "docs index" $index 'SCIENCE_AND_MATH\.md' "must link the science and math page"
 Require-Text "QORX doc" $qorxDoc 'small domain-specific language' "must bound the language claim"
 Require-Text "Rust brief" $rustBrief 'small domain-specific language' "must bound the language claim"
 
@@ -81,6 +86,7 @@ Require-Text "claims" $claims 'Do not claim Qorx is Forth-compatible' "must proh
 
 Require-Text "community" $community 'Qorx Community Edition' "must define CE"
 Require-Text "community" $community 'Qorx Edge' "must name Qorx Edge"
+Require-Text "community" $community '5,000 included Edge/Cloud requests' "must state the Starter allowance"
 Require-Text "commands" $commands 'Qorx Edge Commands' "must document Qorx Edge command routing"
 Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Edge command"
 
@@ -91,6 +97,8 @@ Reject-Text "Rust brief" $rustBrief '(?i)real programming language|full[- ]blown
 
 Require-Text "TestSprite docs" $testspriteDoc 'public staging URL|reachable.*URL' "must state cloud QA needs a reachable target"
 Require-Text "TestSprite workflow" $testspriteWorkflow 'Community guide check' "must include the CE guide job"
+Require-Text "TestSprite workflow" $testspriteWorkflow 'Qorx Edge Starter' "must check Starter docs"
+Require-Text "TestSprite workflow" $testspriteWorkflow '5,000 included Edge/Cloud requests' "must check the Starter allowance"
 Require-Text "TestSprite workflow" $testspriteWorkflow 'qorx daemon status' "must verify daemon routing in CE"
 Require-Text "TestSprite workflow" $testspriteWorkflow 'TestSprite/run-action@v1' "must call TestSprite"
 

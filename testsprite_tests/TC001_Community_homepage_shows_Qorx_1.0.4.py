@@ -34,6 +34,8 @@ async def run_test():
         assert "1.0.4" in body
         assert "Community guide" in body
         assert "Live metrics" in body
+        assert "Qorx Edge Starter" in body
+        assert "5,000 included Edge/Cloud requests" in body
         assert "Public surface" in body
         assert "Product Lines" in body
     finally:

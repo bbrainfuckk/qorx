@@ -38,8 +38,10 @@ and has a resolver available.
 - Source build: https://github.com/bbrainfuckk/qorx
 - Independent review brief: https://bbrainfuckk.github.io/qorx/INDEPENDENT_REVIEW.html
 
-Qorx Edge adds official installers, package-manager wrappers, tray UX, provider
-routing, and account activation.
+Qorx Edge Starter gives new accounts 5,000 included Edge/Cloud requests across
+Windows, macOS, and Linux before subscription. Qorx Edge adds official
+installers, package-manager wrappers, tray UX, provider routing, and account
+activation.
 
 ## Technical review questions
 
@@ -49,9 +51,9 @@ These are fair questions to test against the implementation:
 - Is the `.qorxb` bytecode layer useful outside the CLI?
 - Does resolving local handles reduce repeated prompt payloads in real workflows?
 - What data should be allowed into local evidence packs?
-- What are the operational boundaries for resolver trust, receipts, and cache?
+- What are the operational contracts for resolver trust, receipts, and cache?
 
-## Boundaries
+## Scope
 
 Qorx can resolve Qorx-known local handles, bytecode, indexed evidence, cache
 entries, and receipts. It cannot reconstruct arbitrary unknown files from a tiny

@@ -82,10 +82,10 @@ Useful review questions:
 - Is `.qorxb` useful outside the CLI?
 - Does local context resolution reduce repeated prompt payloads in real
   workflows?
-- Are cache, receipt, and provenance boundaries clear enough?
+- Are cache, receipt, and provenance contracts clear enough?
 - What should change before people treat Qorx as production tooling?
 
-## Boundaries
+## Scope
 
 Qorx is not a hosted AI service, a general-purpose language, a Forth
 implementation, or a general compression system. It cannot reconstruct arbitrary
@@ -95,5 +95,7 @@ source file, bytecode file, evidence pack, or handle that a resolver can use.
 That is the narrow claim. It should be tested as a Rust runtime and CLI, not as
 a magic context shortcut.
 
-Qorx Edge is separate. It adds signed installers, tray UX, daemon management,
-provider routing, account activation, and managed local-vault behavior.
+Qorx Edge is the supported local product. Qorx Edge Starter gives new accounts
+5,000 included Edge/Cloud requests across Windows, macOS, and Linux before
+subscription. Edge adds signed installers, tray UX, daemon management, provider
+routing, account activation, and managed local-vault behavior.

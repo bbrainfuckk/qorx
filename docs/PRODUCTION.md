@@ -7,9 +7,9 @@ This page defines the public Community Edition release scope.
 Qorx Community Edition is suitable for source review, local experiments,
 language/runtime testing, and research reproduction.
 
-It is not the official production local product. It is not a hosted SaaS. It is
-not a managed team runtime. It does not include signed installers, automatic
-updates, tray UX, provider routing, account activation, or fleet controls.
+The supported production path is Qorx Edge for local installs and Qorx Cloud for
+hosted account features. Qorx Edge Starter gives new accounts 5,000 included
+Edge/Cloud requests across Windows, macOS, and Linux before subscription.
 
 ## Ready in CE
 
@@ -27,6 +27,7 @@ updates, tray UX, provider routing, account activation, or fleet controls.
 
 | Surface | Product line |
 | --- | --- |
+| 5,000 included Edge/Cloud requests | Qorx Edge Starter |
 | Official binaries | Qorx Edge or maintainer-controlled community channels |
 | Windows tray | Qorx Edge |
 | Auto-update | Qorx Edge |
@@ -53,9 +54,8 @@ qorx index .
 qorx security attest
 ```
 
-Do not use the CE repo to advertise official production distribution channels.
-Use Qorx Edge for the supported local runtime and Qorx Cloud for hosted account
-features.
+Use the CE repo for public source, tests, and local proof. Use Qorx Edge for the
+supported local runtime and Qorx Cloud for hosted account features.
 
 ## Allowed claim
 
@@ -63,8 +63,7 @@ Use this wording:
 
 ```text
 Qorx Community Edition is the AGPL source line for the Qorx language, bytecode,
-local indexing, and evidence-command model. The official local product is Qorx
-Edge.
+local indexing, and evidence-command model. Qorx Edge is the supported local
+product, and Qorx Edge Starter includes 5,000 Edge/Cloud requests before
+subscription.
 ```
-
-Do not present Community Edition as the complete official local product.

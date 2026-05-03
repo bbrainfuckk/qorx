@@ -63,7 +63,7 @@ Compile and run:
 - Is `.qorxb` bytecode useful outside the CLI?
 - Does `qstk` add useful stack-machine dispatch, or is QIR enough?
 - Does local context resolution reduce repeated prompt payloads in real use?
-- Are the resolver, cache, receipt, and provenance boundaries clear?
+- Are the resolver, cache, receipt, and provenance contracts clear?
 - What should be changed before the project is treated as production tooling?
 
 ## Scope
@@ -73,9 +73,10 @@ implementation, or a general compression system. It cannot reconstruct arbitrary
 unknown files from a tiny message. It cannot make a remote model know hidden
 local data without a resolver path.
 
-Community Edition is not the official supported local product. Qorx Edge adds
-signed installers, tray UX, daemon management, provider routing, account
-activation, and managed local-vault behavior.
+Qorx Edge is the supported local product. Qorx Edge Starter gives new accounts
+5,000 included Edge/Cloud requests across Windows, macOS, and Linux before
+subscription. Edge adds signed installers, tray UX, daemon management, provider
+routing, account activation, and managed local-vault behavior.
 
 Token counts in Qorx docs are deterministic local estimates unless another
 tokenizer is explicitly named.

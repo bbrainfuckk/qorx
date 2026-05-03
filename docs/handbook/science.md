@@ -3,6 +3,8 @@
 This page names the math and engineering used in Qorx. It is not a claim that
 Qorx is peer reviewed. It is a map from terms to code paths and commands.
 
+For the public reader-facing version, see [Science and math](../SCIENCE_AND_MATH.md).
+
 ## Measurement Rule
 
 Qorx uses local estimates unless a command says otherwise.
@@ -169,6 +171,19 @@ Qorx reports omitted local context and estimated USD saved from local token
 counts. Qorx Edge and Qorx Cloud add managed routed input, exact replay hits,
 provider cache reads, and provider cache writes. Provider bills remain the
 authority for invoice claims.
+
+## Qorx Edge Starter Request Math
+
+Qorx Edge Starter uses service-side allowance accounting:
+
+```text
+included_requests = 5000
+used_requests = count(successful_metered_edge_cloud_requests)
+remaining_requests = max(0, included_requests - used_requests)
+```
+
+Local CE commands stay unmetered. The service owns the usage ledger because a
+local AGPL binary can be changed and rebuilt.
 
 ## Community Proof Check
 
