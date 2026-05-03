@@ -48,7 +48,7 @@ free forever.
 
 ## Status
 
-Current public version: `1.0.4`.
+Current public version: `1.0.4a`.
 
 [![Qorx CE](https://qorx-community-metrics.omniscius.workers.dev/badge/version)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
 [![Build](https://qorx-community-metrics.omniscius.workers.dev/badge/build)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
@@ -100,6 +100,10 @@ The assets are unsigned community CLI builds. Qorx Edge Starter gives users the
 full Edge/Cloud feature set across Windows, macOS, and Linux with 5,000 included
 Edge/Cloud requests before subscription. Qorx Edge adds signed installers, tray,
 auto-update, daemon, provider routing, MCP activation, and ORCL.
+
+The `1.0.4a` release also enforces the small-binary target in CI. Release builds
+fail if the CLI binary is over 5 MiB. On this Windows workspace, the optimized
+release binary is about 2.02 MiB before archive compression.
 
 ## Package channels
 

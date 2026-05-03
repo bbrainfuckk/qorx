@@ -1,6 +1,6 @@
 [package]
 name = "qorx"
-version = "1.0.4"
+version = "1.0.4-a.0"
 edition = "2021"
 autobins = false
 authors = ["Marvin Sarreal Villanueva <marvin@orin.work>"]

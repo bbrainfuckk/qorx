@@ -41,7 +41,11 @@ jobs:
         run: cargo clippy -- -D warnings
 
       - name: Build release
-        run: cargo build --release
+        run: cargo build --release --locked
+
+      - name: Enforce release size
+        shell: pwsh
+        run: .\scripts\check-release-size.ps1 -Binary .\target\release\qorx.exe
 
       - name: Smoke test binary
         shell: pwsh

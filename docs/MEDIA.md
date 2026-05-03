@@ -22,7 +22,7 @@ and has a resolver available.
 | Project | Qorx Community Edition |
 | Creator | Marvin Sarreal Villanueva |
 | Location | Metro Manila |
-| Current public version | 1.0.4 |
+| Current public version | 1.0.4a |
 | Initial public release line | May 1, 2026 |
 | Implementation language | Rust |
 | Source extension | `.qorx` |

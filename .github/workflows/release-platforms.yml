@@ -67,6 +67,12 @@ jobs:
         shell: pwsh
         run: cargo build --release --locked
 
+      - name: Enforce release size
+        shell: pwsh
+        run: |
+          $bin = Join-Path "target/release" $env:BINARY_NAME
+          ./scripts/check-release-size.ps1 -Binary $bin
+
       - name: Smoke binary
         shell: pwsh
         run: |

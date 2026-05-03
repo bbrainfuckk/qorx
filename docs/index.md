@@ -13,7 +13,7 @@ Qorx Edge Starter gives users the full Edge/Cloud product experience on Windows,
 macOS, and Linux with 5,000 included Edge/Cloud requests before subscription.
 The public source stays open and local commands stay unmetered.
 
-Current public version: `1.0.4`.
+Current public version: `1.0.4a`.
 
 ## Start here
 
