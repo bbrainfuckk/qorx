@@ -78,6 +78,7 @@ if ($cargoVersion -match '^(?<base>\d+\.\d+\.\d+)-a\.0$') {
     $displayVersion = $cargoVersion
     $pythonVersion = $cargoVersion
 }
+$archVersion = $cargoVersion -replace "-", "_"
 $releaseTag = "v$displayVersion"
 
 $requiredFiles = @(
@@ -97,7 +98,8 @@ $requiredFiles = @(
     "packaging\nfpm\qorx.yaml",
     "Dockerfile",
     "flake.nix",
-    ".github\workflows\package-channels.yml"
+    ".github\workflows\package-channels.yml",
+    ".github\workflows\publish-registries.yml"
 )
 foreach ($file in $requiredFiles) {
     Require-File $file
@@ -109,6 +111,7 @@ $install = Read-RepoText "docs\INSTALL.md"
 $community = Read-RepoText "docs\COMMUNITY.md"
 $readme = Read-RepoText "README.md"
 $workflow = Read-RepoText ".github\workflows\package-channels.yml"
+$publishWorkflow = Read-RepoText ".github\workflows\publish-registries.yml"
 $releaseWorkflow = Read-RepoText ".github\workflows\release-platforms.yml"
 
 foreach ($doc in @(
@@ -133,6 +136,13 @@ Require-Text "package workflow" $workflow 'check-package-channels\.ps1' "must ru
 Require-Text "package workflow" $workflow 'node\s+-e' "must validate npm metadata"
 Require-Text "package workflow" $workflow 'tomllib' "must validate PyPI metadata"
 Require-Text "package workflow" $workflow 'docker build' "must validate Dockerfile"
+Require-Text "package workflow" $workflow 'publish-registries\.yml' "must run when registry automation changes"
+Require-Text "publish workflow" $publishWorkflow 'CARGO_REGISTRY_TOKEN' "must support crates.io publishing"
+Require-Text "publish workflow" $publishWorkflow 'NPM_TOKEN' "must support npm publishing"
+Require-Text "publish workflow" $publishWorkflow 'PYPI_API_TOKEN' "must support PyPI publishing"
+Require-Text "publish workflow" $publishWorkflow 'AUR_SSH_PRIVATE_KEY' "must support AUR publishing"
+Require-Text "publish workflow" $publishWorkflow 'ssh://aur@aur\.archlinux\.org/qorx\.git' "must target the Qorx AUR package"
+Require-Text "publish workflow" $publishWorkflow 'crates\.io/api/v1/crates/qorx/\$\{CARGO_VERSION\}/download' "must source AUR from the published crate"
 Require-Text "release workflow" $releaseWorkflow 'macos-15-intel' "must use current Intel macOS runner label"
 
 try {
@@ -173,8 +183,10 @@ Require-Text "PyPI pyproject" $pyproject ('version\s*=\s*"' + [regex]::Escape($p
 Require-Text "PyPI pyproject" $pyproject 'qorx\s*=\s*"qorx_cli\.launcher:main"' "must expose qorx console script"
 
 $pkgbuild = Read-RepoText "packaging\arch\PKGBUILD"
-Require-Text "Arch PKGBUILD" $pkgbuild ('pkgver=' + [regex]::Escape($displayVersion)) "must match display version"
-Require-Text "Arch PKGBUILD" $pkgbuild ('_tag=' + [regex]::Escape($releaseTag)) "must source the release tag"
+Require-Text "Arch PKGBUILD" $pkgbuild ('pkgver=' + [regex]::Escape($archVersion)) "must match Arch-safe Cargo version"
+Require-Text "Arch PKGBUILD" $pkgbuild ('_cratever=' + [regex]::Escape($cargoVersion)) "must keep the crates.io source version"
+Require-Text "Arch PKGBUILD" $pkgbuild 'crates\.io/api/v1/crates' "must source the crates.io package"
+Reject-Text "Arch PKGBUILD" $pkgbuild 'sha256sums=\("SKIP"\)' "must pin the crates.io source hash"
 Require-Text "Arch PKGBUILD" $pkgbuild 'cargo build --release --locked' "must source-build locked Rust"
 
 $homebrew = Read-RepoText "packaging\homebrew\qorx.rb"
@@ -217,6 +229,7 @@ if ($failures.Count -gt 0) {
     version = $cargoVersion
     displayVersion = $displayVersion
     pythonVersion = $pythonVersion
+    archVersion = $archVersion
     releaseTag = $releaseTag
     channels = @("PyPI", "npm", "Arch/AUR", "Homebrew", "Scoop", "WinGet", "Snap", "Docker", "Nix", "Deb/RPM via nfpm")
 } | ConvertTo-Json -Depth 4

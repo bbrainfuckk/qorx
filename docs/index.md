@@ -22,6 +22,7 @@ Current public version: `1.0.4a`.
 - [Qorx Edge Starter](EDGE_STARTER.md)
 - [Live metrics](LIVE_METRICS.md)
 - [Science and math](SCIENCE_AND_MATH.md)
+- [Registry automation](REGISTRY_AUTOMATION.md)
 - [Language and runtime](QORX.md)
 - [Handbook](handbook/README.md)
 - [Science notes](handbook/science.md)

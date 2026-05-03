@@ -85,9 +85,9 @@ Current checked-in live proof:
 
 | Case | Indexed local tokens | Model-visible tokens | Local reduction |
 | --- | ---: | ---: | ---: |
-| Session carrier | 189,042 | 69 | 2,739.74x |
-| Evidence pack | 189,042 | 566 | 334.00x |
-| Squeeze extract | 189,042 | 292 | 647.40x |
+| Session carrier | 202,986 | 69 | 2,941.83x |
+| Evidence pack | 202,986 | 484 | 419.39x |
+| Squeeze extract | 202,986 | 419 | 484.45x |
 
 These are Qorx local `ceil(chars / 4)` estimates. They are not provider invoice
 savings, and they do not prove answer quality. They show the measurement Qorx is
@@ -130,6 +130,7 @@ service can enforce the allowance server-side.
 - [Live metrics](docs/LIVE_METRICS.md)
 - [Science and math](docs/SCIENCE_AND_MATH.md)
 - [Package channels](packaging/README.md)
+- [Registry automation](docs/REGISTRY_AUTOMATION.md)
 - [Language](docs/handbook/language.md)
 - [Command reference](docs/COMMANDS.md)
 - [Runtime notes](docs/handbook/runtime.md)
