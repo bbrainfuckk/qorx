@@ -89,6 +89,9 @@ jobs:
           $stage = Join-Path "target" $env:ASSET_NAME
           New-Item -ItemType Directory -Force $stage | Out-Null
           Copy-Item (Join-Path "target/release" $env:BINARY_NAME) $stage
+          if ($env:ARCHIVE_KIND -eq "zip") {
+            Copy-Item -LiteralPath "packaging/windows/Start Qorx CLI.cmd" $stage
+          }
           Copy-Item README.md $stage
           Copy-Item LICENSE $stage
           Copy-Item TRADEMARKS.md $stage
@@ -131,6 +134,8 @@ jobs:
           Qorx Community Edition CLI assets.
 
           These archives are unsigned AGPL Community Edition CLI builds from the public source tree.
+
+          Windows users can double-click `Start Qorx CLI.cmd` inside the zip to open a terminal that stays visible. `qorx.exe` is the CLI itself; double-clicking a console exe may flash and close after it finishes printing output.
 
           Qorx Edge Starter gives new accounts the full Edge/Cloud feature set across Windows, macOS, and Linux with 5,000 included Edge/Cloud requests before subscription. Use Qorx Edge for signed installers, tray, daemon, provider routing, MCP activation, ORCL, and support.
           EOF

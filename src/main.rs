@@ -578,7 +578,7 @@ struct DoctorReport {
     package_surfaces: Vec<String>,
     production_checks: Vec<String>,
     shared_service_gaps: Vec<String>,
-    boundary: String,
+    note: String,
 }
 
 impl DoctorReport {
@@ -611,22 +611,21 @@ impl DoctorReport {
                 "No published external load-test SLO".to_string(),
                 "No managed upgrade or migration controller".to_string(),
             ],
-            boundary: "This public repository is the AGPL Community Edition. Qorx Edge adds official signed binaries, tray, auto-start, provider proxy routing, one-click integrations, updater, and managed local-vault UX. Qorx Cloud adds hosted account features.".to_string(),
+            note: "This is the public Qorx CLI: language, local indexing, pack/squeeze, strict evidence, and source-built proof commands. Qorx Edge adds the signed app experience, tray, auto-start, provider routing, one-click integrations, updater, and managed local-vault UX. Qorx Cloud adds hosted account features.".to_string(),
         })
     }
 
     fn print_human(&self) {
         println!("Qorx {}", self.version);
-        println!("tier: {}", self.tier);
-        println!("gateway_healthy: {}", self.gateway_healthy);
-        println!("bind: {}", self.bind);
+        println!("cli: ready");
+        println!("edition: {}", self.tier);
         println!("data_dir: {}", self.data_dir);
         println!("index_present: {}", self.index_present);
         println!("stats_present: {}", self.stats_present);
         println!("response_cache_present: {}", self.response_cache_present);
         println!("provenance_present: {}", self.provenance_present);
-        println!("shared_service_ready: {}", self.shared_service_ready);
-        println!("boundary: {}", self.boundary);
+        println!("edge_services: use Qorx Edge for tray, daemon, provider routing, integrations, updater, and managed local-vault UX");
+        println!("note: {}", self.note);
     }
 }
 

@@ -27,6 +27,22 @@ pack/squeeze routes, local accounting, reproducible tests, and benchmark
 fixtures. Build it, inspect it, fork it under AGPL, and use it for local
 evidence-first workflows.
 
+## What You Are Running
+
+The command is `qorx`. That is the CLI people install from Cargo, PyPI, npm,
+Arch/AUR, Homebrew, Scoop, WinGet, Docker, or the GitHub release assets.
+
+On Windows, `qorx.exe` is a console program. If you double-click it, Windows may
+open a black window for a second and close it after Qorx finishes printing. That
+does not mean Qorx crashed. Open PowerShell and run `qorx --version`, or use the
+`Start Qorx CLI.cmd` file included in the Windows zip.
+
+Qorx Edge is not a different language. It is the connected product layer for the
+same Qorx experience: signed installer, tray, auto-update, daemon management,
+provider routing, MCP/CLI activation, ORCL, account features, and support. The
+open-source CLI stays local and unmetered; Edge/Cloud service calls use the
+Starter request allowance.
+
 Qorx Edge is the supported local product line for signed installers, tray UX,
 auto-update, daemon management, provider routing, MCP/CLI activation, ORCL,
 cloud capsule sync, team policy, support, and managed local-vault UX. Qorx Cloud

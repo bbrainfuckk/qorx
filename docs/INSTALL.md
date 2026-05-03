@@ -23,6 +23,11 @@ cargo build --release
 .\target\release\qorx.exe --version
 ```
 
+If you double-click `qorx.exe`, Windows may close the console as soon as the
+command finishes. Use PowerShell for normal CLI work. The Windows release zip
+also includes `Start Qorx CLI.cmd`, which opens Qorx in a terminal that stays
+visible.
+
 ## Cargo git install
 
 Install from the current public source branch:
@@ -39,6 +44,11 @@ are unsigned CLI assets, not Qorx Edge installers.
 
 Use source builds when you need the most auditable path. Use release assets when
 you want the quickest community CLI path.
+
+In the Windows zip:
+
+- `qorx.exe` is the actual CLI.
+- `Start Qorx CLI.cmd` is the beginner-friendly double-click launcher.
 
 ## Package channels
 

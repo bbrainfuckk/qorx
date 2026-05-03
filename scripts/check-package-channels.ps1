@@ -86,6 +86,7 @@ $requiredFiles = @(
     "packaging\npm\package.json",
     "packaging\npm\bin\qorx.js",
     "packaging\npm\scripts\install.js",
+    "packaging\windows\Start Qorx CLI.cmd",
     "packaging\pypi\pyproject.toml",
     "packaging\pypi\qorx_cli\launcher.py",
     "packaging\arch\PKGBUILD",
@@ -144,6 +145,7 @@ Require-Text "publish workflow" $publishWorkflow 'AUR_SSH_PRIVATE_KEY' "must sup
 Require-Text "publish workflow" $publishWorkflow 'ssh://aur@aur\.archlinux\.org/qorx\.git' "must target the Qorx AUR package"
 Require-Text "publish workflow" $publishWorkflow 'crates\.io/api/v1/crates/qorx/\$\{CARGO_VERSION\}/download' "must source AUR from the published crate"
 Require-Text "release workflow" $releaseWorkflow 'macos-15-intel' "must use current Intel macOS runner label"
+Require-Text "release workflow" $releaseWorkflow 'Start Qorx CLI\.cmd' "must package the Windows double-click launcher"
 
 try {
     $npm = Get-Content -LiteralPath (Repo-Path "packaging\npm\package.json") -Raw | ConvertFrom-Json
