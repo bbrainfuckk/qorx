@@ -1,4 +1,7 @@
-use std::{env, fs, path::Path, process::Command};
+use std::{env, fs, path::Path};
+
+#[cfg(windows)]
+use std::process::Command;
 
 use anyhow::{anyhow, Result};
 use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
