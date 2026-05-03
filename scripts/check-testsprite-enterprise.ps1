@@ -49,6 +49,8 @@ Require-Text "workflow" $workflow 'continue-on-error:\s*\$\{\{\s*inputs\.blockin
 Require-Text "workflow" $workflow 'Community boundary check' "must include the CE boundary check job"
 Require-Text "workflow" $workflow 'qorx daemon status' "must verify daemon is refused in CE"
 Require-Text "workflow" $workflow 'python scripts/run-testsprite-smoke\.py' "must run repo-managed TestSprite smoke files before cloud action"
+Require-Text "workflow" $workflow 'python -m pip install playwright' "must install Playwright for repo-managed browser smoke files"
+Require-Text "workflow" $workflow 'python -m playwright install --with-deps chromium' "must install Chromium for repo-managed browser smoke files"
 Require-Text "workflow" $workflow 'mkdir -p testsprite_tests/tmp' "must create the TestSprite output directory before the action runs"
 Require-Text "workflow" $workflow 'TESTSPRITE_BASE_URL:\s*\$\{\{\s*inputs\.base_url\s*\}\}' "must expose the public base URL to repo-managed TestSprite tests"
 
