@@ -12,6 +12,9 @@
 /packages/python/build/
 /packages/python/*.egg-info/
 /packages/python/src/*.egg-info/
+/packaging/pypi/dist/
+/packaging/pypi/build/
+/packaging/pypi/*.egg-info/
 __pycache__/
 *.pyc
 *.tgz
