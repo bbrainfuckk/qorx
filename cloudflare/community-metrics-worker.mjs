@@ -30,6 +30,12 @@ const WORKFLOW_FALLBACKS = {
   },
 };
 
+const RELEASE_FALLBACK = {
+  tag_name: "v1.0.4a",
+  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.4a",
+  published_at: "2026-05-03T12:28:43Z",
+};
+
 const SOURCES = {
   cargoToml: `${RAW_BASE}/Cargo.toml`,
   liveBenchmark: `${RAW_BASE}/docs/benchmarks/live.json`,
@@ -136,9 +142,9 @@ async function buildMetrics(env = {}) {
     version: {
       cargo: cargoVersion,
       benchmark: normalizeVersion(bench.qorx_version),
-      latestReleaseTag: release?.tag_name || null,
-      latestReleaseUrl: release?.html_url || null,
-      latestReleasePublishedAt: release?.published_at || null,
+      latestReleaseTag: release?.tag_name || RELEASE_FALLBACK.tag_name,
+      latestReleaseUrl: release?.html_url || RELEASE_FALLBACK.html_url,
+      latestReleasePublishedAt: release?.published_at || RELEASE_FALLBACK.published_at,
     },
     workflows,
     benchmark: {
