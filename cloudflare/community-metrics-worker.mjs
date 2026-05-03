@@ -17,6 +17,46 @@ const SOURCES = {
   fallbackBenchmark: `${RAW_BASE}/docs/benchmarks/2026-05-02-qorx-self.json`,
 };
 
+const PACKAGED_BENCHMARK = {
+  generated_at: "2026-05-03T10:05:28+00:00",
+  git_commit: "0a596f2",
+  qorx_version: "qorx 1.0.4",
+  summary: {
+    indexed_tokens: 189042,
+    strict_task_pass_rate: 1,
+    expected_refusal_pass_rate: 1,
+    agent_provider_calls: 0,
+  },
+  session: {
+    json: {
+      quark_count: 349,
+      visible_tokens: 69,
+      omitted_tokens: 188973,
+      context_reduction_x: 2739.7391304347825,
+    },
+  },
+  pack: {
+    json: {
+      used_tokens: 566,
+      omitted_tokens: 188476,
+      context_reduction_x: 333.9964664310954,
+    },
+  },
+  squeeze: {
+    json: {
+      used_tokens: 292,
+      omitted_tokens: 188750,
+      context_reduction_x: 647.4041095890411,
+    },
+  },
+  bench: {
+    json: {
+      average_reduction_x: 380.3280892831784,
+    },
+  },
+  _source: "packaged-worker-fallback",
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -38,7 +78,7 @@ export default {
 
 async function buildMetrics(env = {}) {
   const [repo, release, cargoToml, benchmark, workflows] = await Promise.all([
-    fetchJson(`${GITHUB_API}/repos/${REPO_SLUG}`, env),
+    fetchJson(`${GITHUB_API}/repos/${REPO_SLUG}`, env).catch(() => ({})),
     fetchJson(`${GITHUB_API}/repos/${REPO_SLUG}/releases/latest`, env).catch(() => null),
     fetchText(SOURCES.cargoToml, env).catch(() => ""),
     fetchBenchmark(env),
@@ -128,10 +168,12 @@ async function fetchBenchmark(env) {
     .then((body) => ({ ...body, _source: SOURCES.liveBenchmark }))
     .catch(() => null);
   if (live) return live;
-  return fetchJson(SOURCES.fallbackBenchmark, env).then((body) => ({
-    ...body,
-    _source: SOURCES.fallbackBenchmark,
-  }));
+  return fetchJson(SOURCES.fallbackBenchmark, env)
+    .then((body) => ({
+      ...body,
+      _source: SOURCES.fallbackBenchmark,
+    }))
+    .catch(() => PACKAGED_BENCHMARK);
 }
 
 async function fetchWorkflowRuns(env) {

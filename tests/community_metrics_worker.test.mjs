@@ -131,3 +131,19 @@ test("community metrics worker returns shields badges", async () => {
     globalThis.fetch = originalFetch;
   }
 });
+
+test("community metrics worker keeps badges alive when upstream fetches fail", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response("temporarily unavailable", { status: 503 });
+
+  try {
+    const response = await worker.fetch(new Request("https://metrics.example.test/badge/reduction"));
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.schemaVersion, 1);
+    assert.equal(body.message, "2739.74x");
+    assert.equal(body.color, "brightgreen");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
