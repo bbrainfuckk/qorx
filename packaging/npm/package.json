@@ -1,0 +1,35 @@
+{
+  "name": "qorx",
+  "version": "1.0.4",
+  "description": "Qorx Community Edition CLI installer wrapper.",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/bbrainfuckk/qorx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbrainfuckk/qorx.git"
+  },
+  "bin": {
+    "qorx": "bin/qorx.js"
+  },
+  "files": [
+    "bin",
+    "scripts",
+    "README.md"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/install.js",
+    "test": "node bin/qorx.js --version"
+  },
+  "keywords": [
+    "qorx",
+    "ai",
+    "context",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

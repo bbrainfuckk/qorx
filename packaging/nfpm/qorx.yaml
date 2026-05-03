@@ -1,0 +1,17 @@
+name: qorx
+arch: amd64
+platform: linux
+version: 1.0.4
+section: devel
+priority: optional
+maintainer: Marvin Sarreal Villanueva <marvin@orin.work>
+description: Qorx Community Edition CLI for local context-resolution research.
+homepage: https://github.com/bbrainfuckk/qorx
+license: AGPL-3.0-only
+contents:
+  - src: ./target/release/qorx
+    dst: /usr/bin/qorx
+  - src: ./README.md
+    dst: /usr/share/doc/qorx/README.md
+  - src: ./LICENSE
+    dst: /usr/share/licenses/qorx/LICENSE

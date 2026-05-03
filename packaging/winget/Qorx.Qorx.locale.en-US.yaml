@@ -1,0 +1,19 @@
+PackageIdentifier: Qorx.Qorx
+PackageVersion: 1.0.4
+PackageLocale: en-US
+Publisher: Qorx
+PublisherUrl: https://github.com/bbrainfuckk/qorx
+PackageName: Qorx Community Edition
+License: AGPL-3.0-only
+LicenseUrl: https://github.com/bbrainfuckk/qorx/blob/main/LICENSE
+ShortDescription: Community Edition CLI for local context-resolution research.
+Description: Qorx Community Edition is the AGPL source CLI for the Qorx language, bytecode, local indexing, and evidence-command model.
+PackageUrl: https://github.com/bbrainfuckk/qorx
+Tags:
+  - qorx
+  - ai
+  - context
+  - cli
+ReleaseNotes: Community Edition local commands are unmetered. Qorx Edge Starter service features use 5,000 included Edge/Cloud requests.
+ManifestType: defaultLocale
+ManifestVersion: 1.9.0

@@ -1,0 +1,16 @@
+{
+  "version": "1.0.4",
+  "description": "Qorx Community Edition CLI for local context-resolution research.",
+  "homepage": "https://github.com/bbrainfuckk/qorx",
+  "license": "AGPL-3.0-only",
+  "url": "https://github.com/bbrainfuckk/qorx/releases/download/v1.0.4/qorx-v1.0.4-windows-x64.zip",
+  "hash": "TO_BE_FILLED_AFTER_RELEASE",
+  "bin": "qorx.exe",
+  "checkver": {
+    "github": "https://github.com/bbrainfuckk/qorx"
+  },
+  "autoupdate": {
+    "url": "https://github.com/bbrainfuckk/qorx/releases/download/v$version/qorx-v$version-windows-x64.zip"
+  },
+  "notes": "Community Edition local commands are unmetered. Qorx Edge Starter service features use 5,000 included Edge/Cloud requests."
+}

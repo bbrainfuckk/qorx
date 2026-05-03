@@ -17,13 +17,14 @@ evidence-first workflows. It is the public source line, not a dead sample.
 - SAFE-R claim checks.
 - source build instructions.
 - cross-platform GitHub release assets from maintainer tags.
+- package-channel files for PyPI, npm, Arch/AUR, Homebrew, Scoop, WinGet, Snap,
+  Docker, Nix, and Deb/RPM packaging through nfpm.
 - live public metrics through the Qorx Community Metrics worker.
 
 ## Qorx Edge And Cloud Add
 
 - Qorx Edge Starter with 5,000 included Edge/Cloud requests.
 - signed official installers.
-- npm, PyPI, WinGet, Scoop, Homebrew, Snap, or Docker distribution.
 - Windows tray UX.
 - auto-update.
 - daemon autostart.
@@ -38,6 +39,9 @@ evidence-first workflows. It is the public source line, not a dead sample.
 Those surfaces live in Qorx Edge or Qorx Cloud. The community still gets the
 source, the language, the local evidence routes, and release assets for direct
 CLI use.
+
+Package-channel files in this repo install or build Community Edition. They do
+not add Edge account services, and they do not cap local CLI usage.
 
 ## Qorx Edge Starter
 

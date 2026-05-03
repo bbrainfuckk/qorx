@@ -40,23 +40,26 @@ are unsigned CLI assets, not Qorx Edge installers.
 Use source builds when you need the most auditable path. Use release assets when
 you want the quickest community CLI path.
 
-## Release Channels
+## Package channels
 
-Qorx Edge and future package channels add:
+Community Edition package-channel files are available for:
 
-- Qorx Edge Starter with 5,000 included Edge/Cloud requests.
-- npm and PyPI wrappers.
-- WinGet, Scoop, Homebrew, Snap, AUR, Debian, RPM, Nix, or Docker distribution.
-- signed Windows installers.
-- tray or auto-update packaging.
+- PyPI and npm wrappers that install the CLI through Cargo.
+- Arch/AUR through `packaging/arch/PKGBUILD`.
+- Homebrew through `packaging/homebrew/qorx.rb`.
+- Scoop and WinGet through `packaging/scoop/` and `packaging/winget/`.
+- Snap through `packaging/snap/snapcraft.yaml`.
+- Docker through the root `Dockerfile`.
+- Nix through the root `flake.nix`.
+- Deb/RPM packaging through `packaging/nfpm/qorx.yaml`.
 
-Those channels need registry credentials, signing, or product support. Signed
-installers, tray, daemon management, auto-update, provider routing, and ORCL are
-Qorx Edge surfaces.
+Publishing those channels still needs the maintainer's registry accounts or
+package-submission PRs. The files are in the repo so the package work is
+auditable and repeatable.
 
-Qorx Edge Starter is the cross-platform product trial path for those surfaces.
-The request count is enforced by the Qorx account service, while source-built
-local CE commands stay unmetered.
+Qorx Edge Starter is the cross-platform product trial path for service-backed
+features. It includes 5,000 included Edge/Cloud requests. Community Edition
+package installs do not cap local CLI usage.
 
 ## What to run
 

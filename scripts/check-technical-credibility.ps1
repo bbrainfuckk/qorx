@@ -61,6 +61,7 @@ $testspriteResults = Read-RepoText "testsprite_tests\tmp\test_results.json"
 $testspriteWorkflow = Read-RepoText ".github\workflows\testsprite-enterprise.yml"
 $community = Read-RepoText "docs\COMMUNITY.md"
 $commands = Read-RepoText "docs\COMMANDS.md"
+$packageChannels = Read-RepoText "packaging\README.md"
 
 Require-Text "README" $readme 'small domain-specific language' "must use bounded DSL wording"
 Require-Text "README" $readme 'Technical credibility' "must link the technical credibility page"
@@ -89,6 +90,8 @@ Require-Text "community" $community 'Qorx Edge' "must name Qorx Edge"
 Require-Text "community" $community '5,000 included Edge/Cloud requests' "must state the Starter allowance"
 Require-Text "commands" $commands 'Qorx Edge Commands' "must document Qorx Edge command routing"
 Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Edge command"
+Require-Text "package channels" $packageChannels 'PyPI' "must document package channels"
+Require-Text "package channels" $packageChannels '5,000 included Edge/Cloud requests' "must keep Starter allowance visible in package docs"
 
 Reject-Text "README" $readme '(?i)real programming language|full[- ]blown|head[- ]to[- ]head|billions of tokens|mankind' "contains hype wording"
 Reject-Text "docs index" $index '(?i)real programming language|full[- ]blown|head[- ]to[- ]head|billions of tokens|mankind' "contains hype wording"
@@ -115,20 +118,11 @@ if (-not (Test-Path -LiteralPath $tc003 -PathType Leaf)) {
     Add-Failure "missing TestSprite TC003 credibility test file"
 }
 
-$forbiddenPaths = @(
-    ".github\workflows\release-assets.yml",
-    ".github\workflows\publish-registries.yml",
-    "packages",
-    "packaging",
-    "snap",
-    "Dockerfile",
-    "docker-compose.yml",
-    "flake.nix"
-)
-foreach ($relative in $forbiddenPaths) {
-    if (Test-Path -LiteralPath (Join-Path $RepoRoot $relative)) {
-        Add-Failure "public distribution surface still exists: $relative"
-    }
+$packageCheck = Join-Path $RepoRoot "scripts\check-package-channels.ps1"
+if (-not (Test-Path -LiteralPath $packageCheck -PathType Leaf)) {
+    Add-Failure "missing package-channel verification script"
+} else {
+    & $packageCheck -RepoRoot $RepoRoot | Out-Null
 }
 
 if ($failures.Count -gt 0) {

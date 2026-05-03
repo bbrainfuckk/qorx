@@ -87,5 +87,8 @@ Starter should apply to the same product line on every supported platform:
 - package channels such as Homebrew, WinGet, Scoop, npm, PyPI, Snap, Docker, or
   distro packages as those channels open.
 
-The community source release remains AGPL. The service cap protects the hosted
-capacity and official Edge/Cloud account features, not the public science.
+Community Edition package-channel files now live in the repo for PyPI, npm,
+Arch/AUR, Homebrew, Scoop, WinGet, Snap, Docker, Nix, and Deb/RPM packaging.
+Those package files do not enforce the 5,000 request allowance. The community
+source release remains AGPL. The service cap protects the hosted capacity and
+official Edge/Cloud account features, not the public science.

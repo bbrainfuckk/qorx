@@ -31,28 +31,36 @@ Release tags build and upload community CLI archives for:
 These are unsigned AGPL Community Edition CLI assets. They are meant for users
 who want a quick binary after the source build and tests pass in CI.
 
-## Release Channels Still Opening
+## Package channel files
 
-- Qorx Edge Starter across Windows, macOS, and Linux with 5,000 included
-  Edge/Cloud requests.
-- npm package.
-- PyPI package.
-- WinGet manifest.
-- Scoop bucket.
-- Homebrew tap.
-- Snap package.
-- AUR, Debian, RPM, or Nix recipes.
-- Docker image.
-- signed installers.
-- auto-update channel.
+The public repo now includes package-channel files for:
 
-Those channels need registry credentials, signing, or support policy. They stay
-out of the public CE repo until the maintainer intentionally opens that channel.
-Signed installers and auto-update are Qorx Edge surfaces.
+- PyPI.
+- npm.
+- Arch/AUR.
+- Homebrew.
+- Scoop.
+- WinGet.
+- Snap.
+- Docker.
+- Nix.
+- Deb/RPM packaging through nfpm.
 
-The request cap belongs to the Qorx account service. A local AGPL build can be
-forked and changed, so a local-only counter would not protect the official
-hosted service. Entitlements and usage receipts must be checked server-side.
+These files live under `packaging/`, plus the root `Dockerfile` and `flake.nix`.
+The `Package Channel Manifests` workflow validates the package metadata and
+Docker build shape.
+
+Registry publishing still needs maintainer credentials or external submissions:
+PyPI token, npm token, AUR push access, Homebrew tap access, Scoop bucket PR,
+WinGet PR, Snapcraft login, Docker registry login, and any Debian/RPM/Nix
+publishing path.
+
+Qorx Edge Starter includes 5,000 included Edge/Cloud requests across Windows,
+macOS, and Linux before subscription. Community Edition package files do not cap
+local CLI usage. The request cap belongs to the Qorx account service because a
+local AGPL build can be forked and changed.
+
+Signed installers and auto-update remain Qorx Edge surfaces.
 
 ## Maintainer note
 

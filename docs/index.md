@@ -39,6 +39,8 @@ Current public version: `1.0.4`.
 
 - source build with Cargo.
 - cross-platform release assets from maintainer tags.
+- package-channel files for PyPI, npm, Arch/AUR, Homebrew, Scoop, WinGet, Snap,
+  Docker, Nix, and Deb/RPM packaging.
 - `.qorx` and `.qorxb` language/runtime checks.
 - local evidence commands.
 - claim-check docs.

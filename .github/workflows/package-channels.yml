@@ -1,0 +1,51 @@
+name: Package Channel Manifests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "packaging/**"
+      - "Dockerfile"
+      - "flake.nix"
+      - "scripts/check-package-channels.ps1"
+      - ".github/workflows/package-channels.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "packaging/**"
+      - "Dockerfile"
+      - "flake.nix"
+      - "scripts/check-package-channels.ps1"
+      - ".github/workflows/package-channels.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate package channel manifests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Check package-channel files
+        shell: pwsh
+        run: ./scripts/check-package-channels.ps1
+
+      - name: Validate npm metadata
+        run: node -e "const p=require('./packaging/npm/package.json'); if (!p.bin.qorx) throw new Error('missing qorx bin'); console.log(p.name, p.version)"
+
+      - name: Validate PyPI metadata
+        run: |
+          python - <<'PY'
+          import pathlib
+          import tomllib
+          data = tomllib.loads(pathlib.Path("packaging/pypi/pyproject.toml").read_text())
+          assert data["project"]["scripts"]["qorx"] == "qorx_cli.launcher:main"
+          print(data["project"]["name"], data["project"]["version"])
+          PY
+
+      - name: Validate Dockerfile
+        run: docker build -t qorx-package-check .

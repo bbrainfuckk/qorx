@@ -39,6 +39,8 @@ async def run_test():
         assert "cross-platform GitHub release assets" in community_body
         assert "Qorx Edge Starter" in community_body
         assert "5,000 included Edge/Cloud requests" in community_body
+        assert "PyPI" in community_body
+        assert "Arch/AUR" in community_body
         assert "daemon" in community_body
         assert "integrate" in community_body
 

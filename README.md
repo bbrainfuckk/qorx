@@ -101,6 +101,17 @@ full Edge/Cloud feature set across Windows, macOS, and Linux with 5,000 included
 Edge/Cloud requests before subscription. Qorx Edge adds signed installers, tray,
 auto-update, daemon, provider routing, MCP activation, and ORCL.
 
+## Package channels
+
+The repo now carries package-channel files for PyPI, npm, Arch/AUR, Homebrew,
+Scoop, WinGet, Snap, Docker, Nix, and Deb/RPM packaging through nfpm. See
+[packaging/README.md](packaging/README.md).
+
+These package files install or build Qorx Community Edition. Community Edition
+local commands are not capped at 5,000 requests. The 5,000 included Edge/Cloud
+requests apply only to Qorx Edge Starter service features, where the Qorx account
+service can enforce the allowance server-side.
+
 ## Read first
 
 - [Community guide](docs/COMMUNITY.md)
@@ -108,6 +119,7 @@ auto-update, daemon, provider routing, MCP activation, and ORCL.
 - [Qorx Edge Starter](docs/EDGE_STARTER.md)
 - [Live metrics](docs/LIVE_METRICS.md)
 - [Science and math](docs/SCIENCE_AND_MATH.md)
+- [Package channels](packaging/README.md)
 - [Language](docs/handbook/language.md)
 - [Runtime notes](docs/handbook/runtime.md)
 - [Command reference](docs/COMMANDS.md)

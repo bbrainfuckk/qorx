@@ -80,23 +80,14 @@ Require-Text "README" $readme 'Qorx Community Edition' "must present public repo
 Require-Text "README" $readme 'Qorx Edge' "must explain the supported local product"
 Require-Text "README" $readme 'Qorx Edge Starter' "must explain the 5k starter"
 Require-Text "README" $readme '5,000 included Edge/Cloud requests' "must state the included request count"
+Require-Text "README" $readme 'PyPI' "must mention package channels"
 Require-Text "README" $readme 'available in Qorx Edge' "must document command routing"
 
-$forbiddenPaths = @(
-    "dist",
-    "packages",
-    "packaging",
-    "snap",
-    "Dockerfile",
-    "docker-compose.yml",
-    "flake.nix",
-    ".github\workflows\release-assets.yml",
-    ".github\workflows\publish-registries.yml"
-)
-foreach ($relative in $forbiddenPaths) {
-    if (Test-Path -LiteralPath (Join-Path $RepoRoot $relative)) {
-        Add-Failure "public distribution surface still exists: $relative"
-    }
+$packageCheck = Join-Path $RepoRoot "scripts\check-package-channels.ps1"
+if (-not (Test-Path -LiteralPath $packageCheck -PathType Leaf)) {
+    Add-Failure "missing package-channel verification script"
+} else {
+    & $packageCheck -RepoRoot $RepoRoot | Out-Null
 }
 
 $suiteJsonPath = Join-Path $RepoRoot "testsprite_tests\tmp\test_results.json"
