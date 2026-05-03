@@ -21,6 +21,7 @@ Current public version: `1.0.4`.
 - [Science notes](handbook/science.md)
 - [Command reference](COMMANDS.md)
 - [Server boundary](SERVER.md)
+- [TestSprite QA](TESTSPRITE.md)
 - [SAFE-R anti-hype gate](SAFE-R.md)
 - [Technical credibility](TECHNICAL_CREDIBILITY.md)
 - [Independent review brief](INDEPENDENT_REVIEW.md)
@@ -41,3 +42,6 @@ Current public version: `1.0.4`.
 Qorx Local Pro is separate. Official binaries, auto-update, tray, daemon
 management, provider routing, one-click CLI integrations, cloud capsule sync,
 and team policy are not shipped from this public repository.
+
+The public CE binary refuses Pro-only daemon and integration commands with a
+clear Community Edition boundary message.

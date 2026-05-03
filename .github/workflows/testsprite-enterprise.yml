@@ -78,7 +78,39 @@ jobs:
         shell: bash
         run: |
           mkdir -p testsprite_tests/tmp
+          test -f testsprite_tests/tmp/test_results.json || printf '[]\n' > testsprite_tests/tmp/test_results.json
           echo "TestSprite target: ${{ inputs.base_url }}"
+
+      - name: Validate TestSprite inventory
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import re
+          import sys
+
+          tests_dir = pathlib.Path("testsprite_tests")
+          results = json.loads((tests_dir / "tmp" / "test_results.json").read_text())
+          expected = {
+              re.sub(r"[^a-zA-Z0-9._]", "", item["title"].replace(" ", "_").replace("-", "_"))
+              for item in results
+          }
+          actual = {path.stem for path in tests_dir.glob("*.py")}
+          missing = sorted(expected - actual)
+          extra = sorted(actual - expected)
+          if missing or extra:
+              print(f"Missing Python files for result titles: {missing}")
+              print(f"Python files without matching result titles: {extra}")
+              sys.exit(1)
+          print(f"Validated {len(actual)} TestSprite test files.")
+          PY
+
+      - name: Run TestSprite smoke files
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+          TESTSPRITE_BASE_URL: ${{ inputs.base_url }}
+        run: python scripts/run-testsprite-smoke.py
 
       - name: TestSprite Action
         id: testsprite
