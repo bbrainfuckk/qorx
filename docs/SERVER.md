@@ -1,10 +1,9 @@
-# Server boundary
+# Runtime Options
 
-The public Community Edition does not ship the official background runtime as a
-supported product surface.
+The public Community Edition is the source-built CLI line for Qorx.
 
 In this repo, the daemon/proxy implementation is not shipped in current `main`.
-The CE command line still reserves and refuses the public daemon commands:
+The CE command line explains that the public daemon commands live in Qorx Edge:
 
 ```text
 qorx daemon
@@ -14,14 +13,14 @@ qorx daemon status
 qorx daemon stop
 ```
 
-Those commands are part of Qorx Local Pro.
+Those commands are part of Qorx Edge.
 
 ## Why
 
 The daemon is the product layer that makes Qorx feel alive on a machine. It
 controls the local HTTP gateway, provider routing, workstation startup, tray UX,
-and tool integration path. Shipping that as a public convenience surface would
-make Community Edition look like the paid local product.
+and tool integration path. Qorx Edge packages that experience as the supported
+local product.
 
 ## Community path
 
@@ -34,9 +33,9 @@ cargo build --release
 ./target/release/qorx strict-answer "what proves Qorx is a language runtime?"
 ```
 
-## Product path
+## Qorx Edge Path
 
-Use Qorx Local Pro for:
+Use Qorx Edge for:
 
 - local daemon management.
 - Windows tray.
@@ -48,7 +47,7 @@ Use Qorx Local Pro for:
 - cloud capsule sync.
 - team policy.
 
-## Network boundary
+## Network Guidance
 
 Do not expose self-built Qorx gateway experiments to untrusted networks. Any
 shared deployment needs authentication, TLS, rate limits, logs, backups, and a

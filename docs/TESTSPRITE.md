@@ -2,11 +2,11 @@
 
 TestSprite is not required to build or use Qorx Community Edition.
 
-For this public repo, the TestSprite check is a documentation and workflow
-hygiene gate. It verifies that the repo points users to the Community Edition
-boundary and does not expose a literal TestSprite secret.
+For this public repo, the TestSprite check is a documentation and workflow QA
+check. It verifies that the repo points users to the Community Edition guide and
+does not expose a literal TestSprite secret.
 
-For the hosted Qorx API or Qorx Local Pro onboarding site, keep a separate
+For the hosted Qorx Cloud or Qorx Edge onboarding site, keep a separate
 TestSprite suite against a public staging URL.
 
 ## Secret
@@ -37,16 +37,16 @@ It is manually run with:
 - `blocking`: `true` to fail the workflow when TestSprite reports a failing suite.
 
 Community Edition does not use TestSprite to prove local daemon or tray behavior.
-Those surfaces are Pro-only.
+Those surfaces are Qorx Edge product flows.
 
 ## Local command
 
-Before relying on the cloud gate, verify the repo wiring locally:
+Before relying on the cloud check, verify the repo wiring locally:
 
 ```powershell
 .\scripts\check-testsprite-enterprise.ps1
 ```
 
 This check verifies the secret policy, public URL requirement, blocking mode,
-Community Edition boundary docs, and the absence of literal TestSprite-style
+Community Edition guide, and the absence of literal TestSprite-style
 secrets.

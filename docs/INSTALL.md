@@ -1,6 +1,7 @@
 # Installing Qorx Community Edition
 
-Community Edition is source-first. Build it with Rust and Cargo.
+Community Edition is source-first. Build it with Rust and Cargo, or use the
+maintainer-controlled GitHub release assets when a tag is published.
 
 ## Source build
 
@@ -31,21 +32,26 @@ cargo install --git https://github.com/bbrainfuckk/qorx --branch main --locked q
 qorx --version
 ```
 
-## Distribution boundary
+## GitHub release assets
 
-This repository no longer ships public convenience binaries or package-manager
-wrappers from `main`.
+Release tags build community CLI archives for Windows, Linux, and macOS. They
+are unsigned CLI assets, not Qorx Edge installers.
 
-Not included in Community Edition:
+Use source builds when you need the most auditable path. Use release assets when
+you want the quickest community CLI path.
 
-- GitHub release zips and tarballs.
+## Release Channels
+
+Qorx Edge and future package channels add:
+
 - npm and PyPI wrappers.
 - WinGet, Scoop, Homebrew, Snap, AUR, Debian, RPM, Nix, or Docker distribution.
 - signed Windows installers.
 - tray or auto-update packaging.
 
-Those are official product surfaces and belong to Qorx Local Pro or another
-maintainer-controlled release channel.
+Those channels need registry credentials, signing, or product support. Signed
+installers, tray, daemon management, auto-update, provider routing, and ORCL are
+Qorx Edge surfaces.
 
 ## What to run
 

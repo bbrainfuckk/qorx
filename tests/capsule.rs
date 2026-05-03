@@ -214,8 +214,8 @@ fn bootstrap_is_refused_in_community_edition() {
         String::from_utf8_lossy(&output.stderr)
     );
     let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("not included in Qorx Community Edition"));
-    assert!(stderr.contains("Qorx Local Pro"));
+    assert!(stderr.contains("available in Qorx Edge"));
+    assert!(stderr.contains("Community Edition gives you the source CLI"));
 
     let _ = fs::remove_dir_all(&root);
 }

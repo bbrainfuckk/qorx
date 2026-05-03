@@ -1,0 +1,109 @@
+{
+  "schema": "qorx.evaluation.v1",
+  "generated_at": "2026-05-03T10:05:28+00:00",
+  "suite": "qorx-live",
+  "target_path": ".",
+  "git_commit": "0a596f2",
+  "qorx_version": "qorx 1.0.4",
+  "budget_tokens": 600,
+  "squeeze_budget_tokens": 450,
+  "queries": [
+    "Qorx Community Edition AGPL source line",
+    "qorx carriers .qorx .qorxb qorx handle",
+    "strict answer unsupported claims"
+  ],
+  "supported_question": "Qorx Community Edition AGPL source line",
+  "unsupported_question": "d8ffdb34e9eb4e4085fbb7ab6067785f",
+  "agent_objective": "prove Qorx Community Edition AGPL source line",
+  "output_json": "docs/benchmarks/live.json",
+  "output_md": "docs/benchmarks/live.md",
+  "summary": {
+    "indexed_tokens": 189042,
+    "strict_tasks": 2,
+    "strict_task_passes": 2,
+    "strict_task_pass_rate": 1.0,
+    "expected_refusals": 1,
+    "expected_refusal_passes": 1,
+    "expected_refusal_pass_rate": 1.0,
+    "agent_provider_calls": 0,
+    "note": "Local benchmark. Token counts are Qorx deterministic estimates, not provider billing records."
+  },
+  "session": {
+    "json": {
+      "quark_count": 349,
+      "indexed_tokens": 189042,
+      "visible_tokens": 69,
+      "omitted_tokens": 188973,
+      "context_reduction_x": 2739.7391304347825
+    }
+  },
+  "pack": {
+    "json": {
+      "used_tokens": 566,
+      "omitted_tokens": 188476,
+      "context_reduction_x": 333.9964664310954,
+      "quarks_used": 3
+    }
+  },
+  "squeeze": {
+    "json": {
+      "used_tokens": 292,
+      "omitted_tokens": 188750,
+      "context_reduction_x": 647.4041095890411,
+      "quarks_used": 4
+    }
+  },
+  "bench": {
+    "json": {
+      "average_reduction_x": 380.3280892831784,
+      "rows": [
+        {
+          "query": "Qorx Community Edition AGPL source line",
+          "used_tokens": 566,
+          "omitted_tokens": 188476,
+          "context_reduction_x": 333.9964664310954,
+          "quarks_used": 3
+        },
+        {
+          "query": "qorx carriers .qorx .qorxb qorx handle",
+          "used_tokens": 423,
+          "omitted_tokens": 188619,
+          "context_reduction_x": 446.9078014184397,
+          "quarks_used": 2
+        },
+        {
+          "query": "strict answer unsupported claims",
+          "used_tokens": 525,
+          "omitted_tokens": 188517,
+          "context_reduction_x": 360.08,
+          "quarks_used": 4
+        }
+      ]
+    }
+  },
+  "agent": {
+    "json": {
+      "provider_calls": 0,
+      "local_only": true
+    }
+  },
+  "strict_answer_tasks": [
+    {
+      "question": "Qorx Community Edition AGPL source line",
+      "expected_coverage": "supported",
+      "actual_coverage": "supported",
+      "passed": true,
+      "evidence_count": 3,
+      "used_tokens": 232
+    },
+    {
+      "question": "d8ffdb34e9eb4e4085fbb7ab6067785f",
+      "expected_coverage": "not_found",
+      "actual_coverage": "not_found",
+      "passed": true,
+      "evidence_count": 0,
+      "used_tokens": 8
+    }
+  ],
+  "reproduce_command": "python scripts/run-benchmark.py --target . --suite qorx-live --budget-tokens 600 --squeeze-budget-tokens 450 --query \"Qorx Community Edition AGPL source line\" --query \"qorx carriers .qorx .qorxb qorx handle\" --query \"strict answer unsupported claims\" --supported-question \"Qorx Community Edition AGPL source line\" --unsupported-question d8ffdb34e9eb4e4085fbb7ab6067785f --agent-objective \"prove Qorx Community Edition AGPL source line\" --output-json docs/benchmarks/live.json --output-md docs/benchmarks/live.md"
+}

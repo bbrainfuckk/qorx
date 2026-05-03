@@ -24,20 +24,20 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  community-boundary:
-    name: Community boundary check
+  community-guide:
+    name: Community guide check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Verify CE docs and command gate
+      - name: Verify CE docs and command wording
         shell: bash
         run: |
           set -euo pipefail
           grep -q "Qorx Community Edition" README.md
-          grep -q "Qorx Local Pro" docs/COMMUNITY.md
-          grep -q "The CE binary refuses" docs/COMMANDS.md
+          grep -q "Qorx Edge" docs/COMMUNITY.md
+          grep -q "The CE binary explains" docs/COMMANDS.md
           grep -q "daemon" docs/SERVER.md
           grep -q "TESTSPRITE_API_KEY" docs/TESTSPRITE.md
 
@@ -57,7 +57,7 @@ jobs:
 
   testsprite-cloud:
     name: TestSprite cloud suite
-    needs: community-boundary
+    needs: community-guide
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

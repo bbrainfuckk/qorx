@@ -38,8 +38,8 @@ and has a resolver available.
 - Source build: https://github.com/bbrainfuckk/qorx
 - Independent review brief: https://bbrainfuckk.github.io/qorx/INDEPENDENT_REVIEW.html
 
-Official installers, package-manager wrappers, tray UX, provider routing, and
-account activation belong to Qorx Local Pro, not Community Edition.
+Qorx Edge adds official installers, package-manager wrappers, tray UX, provider
+routing, and account activation.
 
 ## Technical review questions
 

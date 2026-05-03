@@ -1,6 +1,6 @@
-# Qorx Real-World Test Gate
+# Qorx Real-World Test Check
 
-Use this gate before a public release.
+Use this check before a public release.
 
 ```powershell
 cargo fmt --check
@@ -10,7 +10,7 @@ cargo build --release
 .\target\release\qorx.exe --version
 .\target\release\qorx.exe index .
 .\target\release\qorx.exe session
-.\target\release\qorx.exe strict-answer "which files explain the resolver boundary?"
+.\target\release\qorx.exe strict-answer "which files explain the resolver proof flow?"
 .\target\release\qorx.exe context snapshot
 .\target\release\qorx.exe context verify
 .\target\release\qorx.exe security attest

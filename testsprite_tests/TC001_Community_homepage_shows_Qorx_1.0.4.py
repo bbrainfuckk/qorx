@@ -30,10 +30,11 @@ async def run_test():
         body = await page.locator("body").inner_text(timeout=10000)
 
         assert "Qorx Community Edition" in body
-        assert "Qorx Local Pro" in body
+        assert "Qorx Edge" in body
         assert "1.0.4" in body
-        assert "Community boundary" in body
-        assert "public CE binary refuses" in body
+        assert "Community guide" in body
+        assert "Global community release" in body
+        assert "Live proof" in body
     finally:
         if context:
             await context.close()

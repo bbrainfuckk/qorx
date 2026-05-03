@@ -1,10 +1,10 @@
-# SAFE-R Gate
+# SAFE-R Claim Check
 
 SAFE-R means Substantiated, Auditable, Falsifiable, Evidence-bound,
 Restricted-claims.
 
 Use it before publishing docs, package notes, demos, or release copy. It is the
-anti-hype gate for Qorx.
+claim check for Qorx.
 
 ## Physics Vocabulary
 
@@ -19,7 +19,7 @@ words are product vocabulary over local runtime objects.
 | photon | Model-visible carrier: prompt block, A2A message, or `qorx://` handle. |
 | wavefunction | `.qorx` source before parsing. |
 | collapse | Parsed opcodes or `.qorxb` bytecode. |
-| event horizon | Boundary between local evidence and provider-visible tokens. |
+| event horizon | Surface between local evidence and provider-visible tokens. |
 | Quetta / `Q` | One-character resolver alias for the active local index manifest. |
 | subatomic | Small working set under the requested token budget. |
 
@@ -53,5 +53,5 @@ For a fast pass after running Cargo checks yourself:
 ```
 
 The script checks formatting, tests, clippy, package dry runs, local science
-boundaries, adapter readiness, the billion-dollar claim guard, provenance
+claim notes, adapter readiness, the billion-dollar claim guard, provenance
 attestation, obvious secret patterns, and unsafe public wording.

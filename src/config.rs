@@ -153,10 +153,10 @@ pub fn portable_report(paths: &AppPaths) -> Result<PortableReport> {
         env_home: env::var("QORX_HOME").ok(),
         env_portable: truthy_env("QORX_PORTABLE"),
         q_drive_hint: format!(
-            "Community Edition stores local data at \"{}\". Managed drive-letter UX belongs to Qorx Local Pro.",
+            "Community Edition stores local data at \"{}\". Qorx Edge adds managed drive-letter UX.",
             paths.data_dir.display()
         ),
-        boundary: "The Community Edition executable contains the Qorx language, index, cache, AIM reader, and provenance logic. Tray, daemon, provider routing, managed drive UX, and RAM-disk setup belong to Qorx Local Pro.".to_string(),
+        boundary: "The Community Edition executable contains the Qorx language, index, cache, AIM reader, and provenance logic. Qorx Edge adds tray, daemon, provider routing, managed drive UX, and RAM-disk setup.".to_string(),
     })
 }
 

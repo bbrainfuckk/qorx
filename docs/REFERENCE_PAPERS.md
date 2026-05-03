@@ -73,26 +73,26 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 
 ## Official Provider And Tooling References
 
-| Source | URL | Qorx boundary |
+| Source | URL | Qorx note |
 | --- | --- | --- |
 | OpenAI prompt caching | https://platform.openai.com/docs/guides/prompt-caching | Provider-side cache behavior is separate from Qorx local context omission. |
 | Anthropic prompt caching | https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching | Qorx can help structure stable prefixes, but provider cache hits must be measured upstream. |
-| Gemini context caching | https://ai.google.dev/gemini-api/docs/caching/ | Same provider-cache boundary. |
+| Gemini context caching | https://ai.google.dev/gemini-api/docs/caching/ | Same provider-cache measurement note. |
 | Claude Code memory | https://docs.anthropic.com/en/docs/claude-code/memory | Memory files are useful, but Qorx adds a live local resolver/index path. |
 | Gemini CLI `GEMINI.md` | https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md | Context files are not the same as budgeted local evidence retrieval. |
 | Cursor codebase indexing | https://docs.cursor.com/context/codebase-indexing | Cursor's server-backed indexing is a different deployment model. Qorx keeps the core local. |
-| Cursor secure codebase indexing | https://cursor.com/blog/secure-codebase-indexing | Useful comparison for privacy and indexing boundaries. |
+| Cursor secure codebase indexing | https://cursor.com/blog/secure-codebase-indexing | Useful comparison for privacy and indexing models. |
 
 ## Provenance, Signatures, And Storage
 
-| Source | URL | Qorx boundary |
+| Source | URL | Qorx note |
 | --- | --- | --- |
 | Protocol Buffers | https://protobuf.dev/ | Qorx uses protobuf-envelope persisted state and a typed context snapshot. |
 | NIST FIPS 204 | https://csrc.nist.gov/pubs/fips/204/final | Qorx hybrid attestation uses post-quantum signature practice as a reference point. |
 | C2PA Specification | https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html | Qorx provenance is local metadata, not a full embedded media manifest. |
-| Microsoft kernel-mode signing requirements | https://learn.microsoft.com/en-us/windows-hardware/drivers/install/kernel-mode-code-signing-requirements--windows-vista-and-later- | Real RAM-drive drivers have OS/runtime boundaries. Qorx reports RAM mode separately from portable disk-backed mode. |
+| Microsoft kernel-mode signing requirements | https://learn.microsoft.com/en-us/windows-hardware/drivers/install/kernel-mode-code-signing-requirements--windows-vista-and-later- | Real RAM-drive drivers have OS/runtime requirements. Qorx reports RAM mode separately from portable disk-backed mode. |
 
-## PaperQA Result Boundary
+## PaperQA Result Scope
 
 PaperQA has been used here as a research audit path, not as an oracle. The local
 corpus supports the architecture class. It does not by itself prove Qorx-specific

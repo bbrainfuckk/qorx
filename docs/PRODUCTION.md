@@ -1,6 +1,6 @@
 # Community status
 
-This page defines the public Community Edition boundary.
+This page defines the public Community Edition release scope.
 
 ## Verdict
 
@@ -23,22 +23,22 @@ updates, tray UX, provider routing, account activation, or fleet controls.
 | Provenance checks | Ready | `qorx security attest`, `qorx security verify` |
 | Operator check | Ready | `qorx doctor --json` |
 
-## Not included in CE
+## Qorx Edge And Cloud Add
 
-| Surface | Boundary |
+| Surface | Product line |
 | --- | --- |
-| Official binaries | Local Pro or maintainer-controlled channels only |
-| Windows tray | Local Pro |
-| Auto-update | Local Pro |
-| Daemon startup | Local Pro |
-| Provider proxy routing | Local Pro |
-| One-click CLI integrations | Local Pro |
+| Official binaries | Qorx Edge or maintainer-controlled community channels |
+| Windows tray | Qorx Edge |
+| Auto-update | Qorx Edge |
+| Daemon startup | Qorx Edge |
+| Provider proxy routing | Qorx Edge |
+| One-click CLI integrations | Qorx Edge |
 | Hosted account features | Qorx API |
-| Cloud capsule sync | Qorx API or Local Pro |
+| Cloud capsule sync | Qorx Cloud or Qorx Edge |
 | Team policy and fleet controls | Team/Enterprise product |
 | Public SaaS runtime | Separate hosted product with auth, tenancy, logs, backups, and SLOs |
 
-## CE gate
+## CE Proof Check
 
 Run this before publishing Community Edition claims:
 
@@ -54,7 +54,7 @@ qorx security attest
 ```
 
 Do not use the CE repo to advertise official production distribution channels.
-Use Qorx Local Pro for the paid local runtime and Qorx API for hosted account
+Use Qorx Edge for the supported local runtime and Qorx Cloud for hosted account
 features.
 
 ## Allowed claim
@@ -64,7 +64,7 @@ Use this wording:
 ```text
 Qorx Community Edition is the AGPL source line for the Qorx language, bytecode,
 local indexing, and evidence-command model. The official local product is Qorx
-Local Pro.
+Edge.
 ```
 
 Do not present Community Edition as the complete official local product.

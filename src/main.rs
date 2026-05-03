@@ -588,7 +588,7 @@ impl DoctorReport {
                 "No published external load-test SLO".to_string(),
                 "No managed upgrade or migration controller".to_string(),
             ],
-            boundary: "This public repository is the AGPL Community Edition. Official binaries, tray, auto-start, provider proxy routing, one-click integrations, updater, hosted account features, and managed local-vault UX are reserved for Qorx Local Pro.".to_string(),
+            boundary: "This public repository is the AGPL Community Edition. Qorx Edge adds official signed binaries, tray, auto-start, provider proxy routing, one-click integrations, updater, and managed local-vault UX. Qorx Cloud adds hosted account features.".to_string(),
         })
     }
 
@@ -609,7 +609,7 @@ impl DoctorReport {
 
 fn pro_only(feature: &str) -> Result<()> {
     anyhow::bail!(
-        "{feature} is not included in Qorx Community Edition. Build the source CLI for language, indexing, and evidence commands. Official background runtime, tray, provider routing, startup, drive, and integration activation are Qorx Local Pro surfaces."
+        "{feature} is available in Qorx Edge. Community Edition gives you the source CLI for language, indexing, and evidence commands; Qorx Edge adds background runtime, tray, provider routing, startup, drive, and integration activation."
     )
 }
 

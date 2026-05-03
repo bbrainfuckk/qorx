@@ -34,7 +34,9 @@ async def run_test():
         await page.wait_for_load_state("networkidle", timeout=20000)
         community_body = await page.locator("body").inner_text(timeout=10000)
         assert "Qorx Community Edition" in community_body
-        assert "Qorx Local Pro" in community_body
+        assert "Qorx Edge" in community_body
+        assert "live public metrics" in community_body
+        assert "cross-platform GitHub release assets" in community_body
         assert "daemon" in community_body
         assert "integrate" in community_body
 

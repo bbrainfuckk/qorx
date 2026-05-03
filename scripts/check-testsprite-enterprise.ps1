@@ -46,8 +46,8 @@ Require-Text "workflow" $workflow 'base_url:\s*\$\{\{\s*inputs\.base_url\s*\}\}'
 Require-Text "workflow" $workflow 'github-token:\s*\$\{\{\s*github\.token\s*\}\}' "must pass the GitHub token expected by the TestSprite action"
 Require-Text "workflow" $workflow 'blocking:\s*\$\{\{\s*inputs\.blocking\s*\}\}' "must make blocking mode explicit"
 Require-Text "workflow" $workflow 'continue-on-error:\s*\$\{\{\s*inputs\.blocking\s*==\s*''false''\s*\}\}' "must let non-blocking cloud runs report without failing the workflow"
-Require-Text "workflow" $workflow 'Community boundary check' "must include the CE boundary check job"
-Require-Text "workflow" $workflow 'qorx daemon status' "must verify daemon is refused in CE"
+Require-Text "workflow" $workflow 'Community guide check' "must include the CE guide check job"
+Require-Text "workflow" $workflow 'qorx daemon status' "must verify daemon routing in CE"
 Require-Text "workflow" $workflow 'python scripts/run-testsprite-smoke\.py' "must run repo-managed TestSprite smoke files before cloud action"
 Require-Text "workflow" $workflow 'python -m pip install playwright' "must install Playwright for repo-managed browser smoke files"
 Require-Text "workflow" $workflow 'python -m playwright install --with-deps chromium' "must install Chromium for repo-managed browser smoke files"
@@ -59,22 +59,22 @@ Require-Text "docs" $docs 'TESTSPRITE_API_KEY' "must document the GitHub secret 
 Require-Text "docs" $docs '(?i)revoke|rotate' "must tell operators to revoke or rotate leaked keys"
 Require-Text "docs" $docs '(?i)public staging URL|public.*URL' "must explain that TestSprite needs a reachable target"
 Require-Text "docs" $docs 'TestSprite Enterprise QA' "must name the workflow"
-Require-Text "docs" $docs 'Community Edition' "must identify the public CE boundary"
+Require-Text "docs" $docs 'Community Edition' "must identify the public CE guide"
 
 $community = Read-RepoText "docs\COMMUNITY.md"
 Require-Text "community" $community 'Qorx Community Edition' "must define CE"
-Require-Text "community" $community 'Qorx Local Pro' "must name the commercial local product"
-Require-Text "community" $community '(?m)^\s*daemon\s*$' "must list daemon as refused in CE"
-Require-Text "community" $community '(?m)^\s*integrate\s*$' "must list integrations as refused in CE"
+Require-Text "community" $community 'Qorx Edge' "must name the supported local product"
+Require-Text "community" $community '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Edge surface"
+Require-Text "community" $community '(?m)^\s*integrate\s*$' "must list integrations as a Qorx Edge surface"
 
 $commands = Read-RepoText "docs\COMMANDS.md"
-Require-Text "commands" $commands 'Pro-only commands' "must document Pro-only commands"
-Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must document daemon as Pro-only"
+Require-Text "commands" $commands 'Qorx Edge Commands' "must document Qorx Edge commands"
+Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must document daemon as a Qorx Edge command"
 
 $readme = Read-RepoText "README.md"
 Require-Text "README" $readme 'Qorx Community Edition' "must present public repo as CE"
-Require-Text "README" $readme 'Qorx Local Pro' "must separate the paid local product"
-Require-Text "README" $readme 'public CE binary refuses' "must document command refusal"
+Require-Text "README" $readme 'Qorx Edge' "must explain the supported local product"
+Require-Text "README" $readme 'available in Qorx Edge' "must document command routing"
 
 $forbiddenPaths = @(
     "dist",
@@ -161,7 +161,7 @@ Get-ChildItem -LiteralPath $RepoRoot -Recurse -File | Where-Object {
 if ($failures.Count -gt 0) {
     [pscustomobject]@{
         ok = $false
-        gate = "testsprite-enterprise"
+        check = "testsprite-enterprise"
         failures = $failures
     } | ConvertTo-Json -Depth 4
     exit 1
@@ -169,8 +169,8 @@ if ($failures.Count -gt 0) {
 
 [pscustomobject]@{
     ok = $true
-    gate = "testsprite-enterprise"
+    check = "testsprite-enterprise"
     workflow = ".github/workflows/testsprite-enterprise.yml"
     docs = "docs/TESTSPRITE.md"
-    boundary = "docs/COMMUNITY.md"
+    community_guide = "docs/COMMUNITY.md"
 } | ConvertTo-Json -Depth 4

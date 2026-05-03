@@ -92,7 +92,7 @@ parser.
 Command:
 
 ```powershell
-qorx squeeze "production gate routed provider evidence" --budget-tokens 700
+qorx squeeze "production proof routed provider evidence" --budget-tokens 700
 ```
 
 Code path:
@@ -119,8 +119,8 @@ src/cache_plan.rs
 ```
 
 The plan separates a stable prefix from a dynamic tail. Community Edition
-reports the plan locally. Routed provider cache headers belong to Qorx Local Pro
-or Qorx API.
+reports the plan locally. Qorx Edge and Qorx Cloud add routed provider cache
+headers.
 
 ## Exact Replay Cache
 
@@ -166,11 +166,11 @@ src/money.rs
 ```
 
 Qorx reports omitted local context and estimated USD saved from local token
-counts. Managed routed input, exact replay hits, provider cache reads, and
-provider cache writes belong to Qorx Local Pro or Qorx API. Provider bills
-remain the authority for invoice claims.
+counts. Qorx Edge and Qorx Cloud add managed routed input, exact replay hits,
+provider cache reads, and provider cache writes. Provider bills remain the
+authority for invoice claims.
 
-## Community gate
+## Community Proof Check
 
 Run the local proof checks before publishing Community Edition claims:
 

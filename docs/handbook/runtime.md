@@ -18,10 +18,10 @@ range, hash, estimated mass, sparse terms, and structural signals.
 provenance, lattice state, snapshots, and share records. It stays local unless
 the operator exports a file.
 
-## Daemon boundary
+## Daemon Runtime
 
-The daemon is not part of the Community Edition product surface. The public CE
-binary refuses daemon commands:
+The daemon is a Qorx Edge product surface. The public CE binary explains where
+daemon commands live:
 
 ```sh
 qorx daemon start
@@ -30,7 +30,7 @@ qorx daemon stop
 ```
 
 The official daemon, tray, provider routing, startup integration, and managed
-local vault UX belong to Qorx Local Pro.
+local vault UX are part of Qorx Edge.
 
 ## Handles
 
@@ -59,5 +59,5 @@ provider.
 
 ## Failure Rule
 
-If Qorx cannot resolve evidence, it should refuse or return the boundary. It
+If Qorx cannot resolve evidence, it should return a clear no-proof result. It
 should not invent missing context.

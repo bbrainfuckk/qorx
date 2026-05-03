@@ -25,7 +25,7 @@ invoice.
 cargo build --release
 .\target\release\qorx.exe index .
 .\target\release\qorx.exe session
-.\target\release\qorx.exe bench --budget-tokens 900 "resolver boundary proof"
+.\target\release\qorx.exe bench --budget-tokens 900 "resolver proof"
 ```
 
 Publish the command, date, checkout, and output if you publish numbers.

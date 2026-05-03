@@ -65,7 +65,7 @@ $commands = Read-RepoText "docs\COMMANDS.md"
 Require-Text "README" $readme 'small domain-specific language' "must use bounded DSL wording"
 Require-Text "README" $readme 'Technical credibility' "must link the technical credibility page"
 Require-Text "README" $readme 'Qorx Community Edition' "must identify public CE"
-Require-Text "README" $readme 'Qorx Local Pro' "must separate the paid local product"
+Require-Text "README" $readme 'Qorx Edge' "must explain the supported local product"
 Require-Text "docs index" $index 'small domain-specific language' "must use bounded DSL wording"
 Require-Text "docs index" $index 'TECHNICAL_CREDIBILITY\.md' "must link the technical credibility page"
 Require-Text "QORX doc" $qorxDoc 'small domain-specific language' "must bound the language claim"
@@ -80,9 +80,9 @@ Require-Text "claims" $claims 'Do not claim Qorx is a general-purpose language' 
 Require-Text "claims" $claims 'Do not claim Qorx is Forth-compatible' "must prohibit Forth compatibility claims"
 
 Require-Text "community" $community 'Qorx Community Edition' "must define CE"
-Require-Text "community" $community 'Qorx Local Pro' "must name Local Pro"
-Require-Text "commands" $commands 'Pro-only commands' "must document Pro-only command refusal"
-Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must list daemon as Pro-only"
+Require-Text "community" $community 'Qorx Edge' "must name Qorx Edge"
+Require-Text "commands" $commands 'Qorx Edge Commands' "must document Qorx Edge command routing"
+Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Edge command"
 
 Reject-Text "README" $readme '(?i)real programming language|full[- ]blown|head[- ]to[- ]head|billions of tokens|mankind' "contains hype wording"
 Reject-Text "docs index" $index '(?i)real programming language|full[- ]blown|head[- ]to[- ]head|billions of tokens|mankind' "contains hype wording"
@@ -90,8 +90,8 @@ Reject-Text "QORX doc" $qorxDoc '(?i)real programming language|full[- ]blown|hea
 Reject-Text "Rust brief" $rustBrief '(?i)real programming language|full[- ]blown|head[- ]to[- ]head|billions of tokens|mankind' "contains hype wording"
 
 Require-Text "TestSprite docs" $testspriteDoc 'public staging URL|reachable.*URL' "must state cloud QA needs a reachable target"
-Require-Text "TestSprite workflow" $testspriteWorkflow 'Community boundary check' "must include the CE boundary job"
-Require-Text "TestSprite workflow" $testspriteWorkflow 'qorx daemon status' "must verify daemon is refused in CE"
+Require-Text "TestSprite workflow" $testspriteWorkflow 'Community guide check' "must include the CE guide job"
+Require-Text "TestSprite workflow" $testspriteWorkflow 'qorx daemon status' "must verify daemon routing in CE"
 Require-Text "TestSprite workflow" $testspriteWorkflow 'TestSprite/run-action@v1' "must call TestSprite"
 
 Reject-Text "TestSprite results" $testspriteResults 'Qorx 1\.0\.3|version 1\.0\.3' "must not carry stale current-release text"
@@ -126,7 +126,7 @@ foreach ($relative in $forbiddenPaths) {
 if ($failures.Count -gt 0) {
     [pscustomobject]@{
         ok = $false
-        gate = "technical-credibility"
+        check = "technical-credibility"
         failures = $failures
     } | ConvertTo-Json -Depth 4
     exit 1
@@ -134,7 +134,7 @@ if ($failures.Count -gt 0) {
 
 [pscustomobject]@{
     ok = $true
-    gate = "technical-credibility"
+    check = "technical-credibility"
     docs = @(
         "README.md",
         "docs/TECHNICAL_CREDIBILITY.md",

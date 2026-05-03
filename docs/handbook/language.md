@@ -60,7 +60,7 @@ program or compiled `.qorxb` file instead of a pasted RAG chunk.
 QORX 1
 use std.evidence
 use std.branch as br
-let question = "production gate routed provider evidence"
+let question = "production proof routed provider evidence"
 let fallback = "qv0d: local evidence does not support this answer"
 pack evidence from question budget 600
 cache evidence key question ttl 3600

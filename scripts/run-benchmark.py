@@ -19,14 +19,14 @@ from typing import Any
 
 
 DEFAULT_QUERIES = [
-    "local context resolution resolver boundary proof page",
+    "local context resolution resolver proof page",
     "qorx carriers .qorx .qorxb qorx handle",
     "strict answer refusal unsupported claims",
 ]
 
-SUPPORTED_QUESTION = "local context resolution resolver boundary proof page"
+SUPPORTED_QUESTION = "local context resolution resolver proof page"
 UNSUPPORTED_QUESTION = "galactic banana escrow treaty"
-AGENT_OBJECTIVE = "prove local context resolution resolver boundary"
+AGENT_OBJECTIVE = "prove local context resolution resolver proof page"
 
 
 def run_command(
@@ -200,7 +200,7 @@ def write_markdown(report: dict[str, Any], output: Path) -> None:
     lines.extend(
         [
             "",
-            "## Boundary",
+            "## Claim Notes",
             "",
             "This benchmark uses Qorx local accounting only. Token counts are deterministic",
             "`ceil(chars / 4)` estimates unless the runtime reports another estimator. The",
@@ -219,6 +219,84 @@ def write_markdown(report: dict[str, Any], output: Path) -> None:
     output.write_text("\n".join(lines), encoding="utf-8")
 
 
+def compact_json_report(report: dict[str, Any]) -> dict[str, Any]:
+    session = report["session"]["json"]
+    pack = report["pack"]["json"]
+    squeeze = report["squeeze"]["json"]
+    bench = report["bench"]["json"]
+    agent = report["agent"]["json"]
+    strict_rows = []
+    for row in report["strict_answer_tasks"]:
+        value = row["json"]
+        strict_rows.append(
+            {
+                "question": row["question"],
+                "expected_coverage": row["expected_coverage"],
+                "actual_coverage": value["coverage"],
+                "passed": row["passed"],
+                "evidence_count": len(value["evidence"]),
+                "used_tokens": value["used_tokens"],
+            }
+        )
+
+    return {
+        "schema": report["schema"],
+        "generated_at": report["generated_at"],
+        "suite": report["suite"],
+        "target_path": report["target_path"],
+        "git_commit": report["git_commit"],
+        "qorx_version": report["qorx_version"],
+        "budget_tokens": report["budget_tokens"],
+        "squeeze_budget_tokens": report["squeeze_budget_tokens"],
+        "queries": report["queries"],
+        "supported_question": report["supported_question"],
+        "unsupported_question": report["unsupported_question"],
+        "agent_objective": report["agent_objective"],
+        "output_json": report["output_json"],
+        "output_md": report["output_md"],
+        "summary": report["summary"],
+        "session": {
+            "json": {
+                "quark_count": session["quark_count"],
+                "indexed_tokens": session["indexed_tokens"],
+                "visible_tokens": session["visible_tokens"],
+                "omitted_tokens": session["omitted_tokens"],
+                "context_reduction_x": session["context_reduction_x"],
+            }
+        },
+        "pack": {
+            "json": {
+                "used_tokens": pack["used_tokens"],
+                "omitted_tokens": pack["omitted_tokens"],
+                "context_reduction_x": pack["context_reduction_x"],
+                "quarks_used": pack["quarks_used"],
+            }
+        },
+        "squeeze": {
+            "json": {
+                "used_tokens": squeeze["used_tokens"],
+                "omitted_tokens": squeeze["omitted_tokens"],
+                "context_reduction_x": squeeze["context_reduction_x"],
+                "quarks_used": squeeze["quarks_used"],
+            }
+        },
+        "bench": {
+            "json": {
+                "average_reduction_x": bench["average_reduction_x"],
+                "rows": bench["rows"],
+            }
+        },
+        "agent": {
+            "json": {
+                "provider_calls": agent["provider_calls"],
+                "local_only": agent["local_only"],
+            }
+        },
+        "strict_answer_tasks": strict_rows,
+        "reproduce_command": report["reproduce_command"],
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--target", default="examples/benchmark-lab")
@@ -227,6 +305,7 @@ def main() -> int:
     parser.add_argument("--squeeze-budget-tokens", type=int, default=450)
     parser.add_argument("--output-json", default="docs/benchmarks/2026-05-01-benchmark-lab.json")
     parser.add_argument("--output-md", default="docs/benchmarks/2026-05-01-benchmark-lab.md")
+    parser.add_argument("--compact-public-json", action="store_true")
     parser.add_argument("--exe", default="")
     parser.add_argument("--no-build", action="store_true")
     parser.add_argument(
@@ -353,7 +432,7 @@ def main() -> int:
             "expected_refusal_passes": refusal_passes,
             "expected_refusal_pass_rate": refusal_passes / max(1, len(expected_refusals)),
             "agent_provider_calls": agent_record["json"]["provider_calls"],
-            "boundary": "Local benchmark. Token counts are Qorx deterministic estimates, not provider billing records.",
+            "note": "Local benchmark. Token counts are Qorx deterministic estimates, not provider billing records.",
         },
         "commands": {
             "version": version_record,
@@ -373,7 +452,8 @@ def main() -> int:
     json_path = repo_root / args.output_json
     md_path = repo_root / args.output_md
     json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    json_report = compact_json_report(report) if args.compact_public_json else report
+    json_path.write_text(json.dumps(json_report, indent=2) + "\n", encoding="utf-8")
     write_markdown(report, md_path)
     print(f"Wrote {relative(json_path, repo_root)}")
     print(f"Wrote {relative(md_path, repo_root)}")

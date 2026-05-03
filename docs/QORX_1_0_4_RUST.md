@@ -36,16 +36,16 @@ qorx goal.qorxb
 
 ## Why Rust
 
-Qorx uses Rust because the runtime boundary matters. The parser, bytecode
-envelope, cache, and receipt paths all handle local state that should fail
-closed rather than guess.
+Qorx uses Rust because the runtime contract matters. The parser, bytecode
+envelope, cache, and receipt paths all handle local state that should return
+clear errors rather than guess.
 
 The useful Rust pieces are ordinary ones:
 
 - explicit error paths through `anyhow` and typed domain errors
 - deterministic hashing for evidence chunks and receipts
 - structured CLI commands with stable output modes
-- tests around parser/runtime boundaries instead of only end-to-end examples
+- tests around parser/runtime contracts instead of only end-to-end examples
 - source builds through Cargo
 
 ## What changed in 1.0.4
@@ -54,7 +54,7 @@ Version 1.0.4 added clarity and operator-facing readiness work:
 
 - problem-first README wording
 - a practical first `.qorx` example
-- `use std...` imports for the first standard-library boundary
+- `use std...` imports for the first standard-library surface
 - `qorx-check`, AST output, and QIR output for language files
 - source-level cache policies for stable local resolver outputs
 - `assert supported(...)` for fail-closed evidence checks
@@ -73,7 +73,7 @@ cargo build --release
 
 ## What needs review
 
-The question is whether the boundary is worth keeping.
+The question is whether the local resolver contract is worth keeping.
 
 Useful review questions:
 
@@ -95,6 +95,5 @@ source file, bytecode file, evidence pack, or handle that a resolver can use.
 That is the narrow claim. It should be tested as a Rust runtime and CLI, not as
 a magic context shortcut.
 
-Qorx Local Pro is separate. It owns signed installers, tray UX, daemon
-management, provider routing, account activation, and managed local-vault
-behavior.
+Qorx Edge is separate. It adds signed installers, tray UX, daemon management,
+provider routing, account activation, and managed local-vault behavior.

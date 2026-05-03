@@ -1,13 +1,11 @@
-# Distribution boundary
+# Release Channels
 
-Qorx Community Edition is source-first.
-
-This public repository no longer publishes or documents convenience
-distribution channels from `main`.
+Qorx Community Edition is source-first and now has maintainer-controlled
+cross-platform CLI release assets.
 
 ## CE distribution
 
-Supported public path:
+Source install:
 
 ```sh
 cargo install --git https://github.com/bbrainfuckk/qorx --branch main --locked qorx
@@ -22,9 +20,19 @@ cargo test
 cargo build --release
 ```
 
-## Not published from CE
+## GitHub release assets
 
-- GitHub release binaries.
+Release tags build and upload community CLI archives for:
+
+- Windows x64.
+- Linux x64.
+- macOS.
+
+These are unsigned AGPL Community Edition CLI assets. They are meant for users
+who want a quick binary after the source build and tests pass in CI.
+
+## Release Channels Still Opening
+
 - npm package.
 - PyPI package.
 - WinGet manifest.
@@ -36,11 +44,12 @@ cargo build --release
 - signed installers.
 - auto-update channel.
 
-Those channels are reserved for Qorx Local Pro or maintainer-controlled product
-distribution.
+Those channels need registry credentials, signing, or support policy. They stay
+out of the public CE repo until the maintainer intentionally opens that channel.
+Signed installers and auto-update are Qorx Edge surfaces.
 
 ## Maintainer note
 
-Historical tags and archives may still exist. Do not treat them as the current
-official product surface. New public work should point to Community Edition and
-the commercial Qorx Local Pro boundary.
+Historical tags and archives may still exist. New public work should point to
+Community Edition for AGPL source/CLI assets and to Qorx Edge for the supported
+always-on local product.

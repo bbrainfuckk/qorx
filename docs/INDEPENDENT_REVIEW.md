@@ -66,14 +66,14 @@ Compile and run:
 - Are the resolver, cache, receipt, and provenance boundaries clear?
 - What should be changed before the project is treated as production tooling?
 
-## Boundaries
+## Scope
 
 Qorx is not a hosted AI service, a general-purpose language, a Forth
 implementation, or a general compression system. It cannot reconstruct arbitrary
 unknown files from a tiny message. It cannot make a remote model know hidden
 local data without a resolver path.
 
-Community Edition is not the official paid local product. Qorx Local Pro owns
+Community Edition is not the official supported local product. Qorx Edge adds
 signed installers, tray UX, daemon management, provider routing, account
 activation, and managed local-vault behavior.
 

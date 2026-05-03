@@ -133,7 +133,7 @@ pub fn science_report() -> ScienceReport {
             ),
             feature(
                 "exact replay cache",
-                "CE stores exact replay cache data structures for review; managed routed-provider cache behavior belongs to Qorx Local Pro or Qorx API",
+                "CE stores exact replay cache data structures for review; Qorx Edge and Qorx Cloud add managed routed-provider cache behavior",
             ),
             feature(
                 "local USD estimator",

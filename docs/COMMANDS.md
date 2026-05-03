@@ -8,7 +8,7 @@ cargo build --release
 
 Use `.\target\release\qorx.exe help` for the live command tree.
 
-## Proof gate
+## Proof Check
 
 Run this before publishing Community Edition claims:
 
@@ -75,9 +75,9 @@ emit answer
 .\target\release\qorx.exe bench
 ```
 
-## Pro-only commands
+## Qorx Edge Commands
 
-The CE binary refuses these commands:
+The CE binary explains that these commands live in Qorx Edge:
 
 ```text
 bootstrap
@@ -91,11 +91,11 @@ run
 patch
 ```
 
-Those commands belong to Qorx Local Pro because they provide the official local
+Those commands belong to Qorx Edge because they provide the official local
 runtime experience: background gateway, tray, account activation, provider
 routing, startup integration, and managed local vault behavior.
 
-## Boundary
+## Edition Note
 
 Community Edition is a source-build CLI. Do not describe a self-built CE binary
 as the official Qorx local product.

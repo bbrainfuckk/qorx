@@ -49,7 +49,7 @@ Use this order when presenting Qorx to a senior technical reviewer:
 
 ## Questions reviewers should ask
 
-- Is the language boundary narrow enough?
+- Is the language scope narrow enough?
 - Are bytecode integrity checks strict enough?
 - Does `qstk` add real dispatch value or only another representation?
 - Does the resolver return the right evidence under adversarial queries?

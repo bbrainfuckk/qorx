@@ -68,7 +68,7 @@ qorx qorx goal.qorxb
 | carrier | phot | Small model-visible source, bytecode, handle, or pack. |
 | quark | qrk | Bounded, hashed evidence chunk. |
 | local state | qosm | Local Qorx protobuf state. |
-| resolver boundary | hzon | Local-vs-visible boundary. |
+| resolver surface | hzon | Relationship between local state and visible carrier. |
 | qshf factor | qshf | Local context to visible carrier ratio. |
 | B2C | b2c | Baseline-to-Compact accounting. |
 | B2C allocator | qalc | Deterministic local selector for budgeted quark portfolios. |
@@ -78,7 +78,7 @@ qorx qorx goal.qorxb
 | `qorx://l/...` | qlat | Lattice handle. |
 | `qorx://f/...` | qfed | File-share handle. |
 
-## Boundary
+## Resolver Contract
 
 Qorx handles are not magic strings. They work when the receiving workflow can
 route them to a Qorx resolver. Without that resolver, they are just identifiers.

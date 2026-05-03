@@ -15,48 +15,82 @@ CLI. It lets a workflow carry a checked `.qorx` program, `.qorxb` bytecode,
 Qorx handle, or evidence pack instead of repeatedly pasting the same local files
 into prompts.
 
-Community Edition is useful for source review, local builds, research, tests,
-and interoperability work. It is not the full official local product.
+Community Edition is the public source line, not a stripped demo. It gives the
+community the parser, bytecode path, local index, strict evidence commands,
+pack/squeeze routes, local accounting, reproducible tests, and benchmark
+fixtures. Build it, inspect it, fork it under AGPL, and use it for local
+evidence-first workflows.
 
-Qorx Local Pro is separate. Signed installers, tray UX, auto-update, background
-runtime management, provider routing, one-click CLI integrations, hosted account
-features, cloud capsule sync, team policy, and managed local-vault UX are not
-part of this public repository.
+Qorx Edge is the supported local product line for signed installers, tray UX,
+auto-update, daemon management, provider routing, MCP/CLI activation, ORCL,
+cloud capsule sync, team policy, support, and managed local-vault UX. Qorx Cloud
+is the hosted API and account surface. Community Edition stays focused on the
+open source language, runtime, CLI proof surface, and reproducible local
+benchmarks.
 
 ## Status
 
 Current public version: `1.0.4`.
+
+[![Qorx CE](https://qorx-community-metrics.omniscius.workers.dev/badge/version)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
+[![Build](https://qorx-community-metrics.omniscius.workers.dev/badge/build)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
+[![TestSprite](https://qorx-community-metrics.omniscius.workers.dev/badge/testsprite)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
+[![Local reduction](https://qorx-community-metrics.omniscius.workers.dev/badge/reduction)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
 
 Qorx is free software under `AGPL-3.0-only`. The Qorx name, logo, product marks,
 and official distribution identity are separate from the code license. Forks are
 allowed under the license, but they may not imply that they are official Qorx.
 See [TRADEMARKS.md](TRADEMARKS.md).
 
-## Measured example
+## Live proof
 
-On the Qorx repository itself, the local benchmark in
-[`docs/benchmarks/2026-05-02-qorx-self.md`](docs/benchmarks/2026-05-02-qorx-self.md)
-reports:
+The README badges are served by a Cloudflare Worker:
+
+```text
+https://qorx-community-metrics.omniscius.workers.dev/metrics.json
+```
+
+The worker refreshes from public GitHub APIs and committed Qorx benchmark proof
+files with a daily edge cache. It reports the current repo version, latest
+release, CI/TestSprite state, and latest local benchmark numbers. The scheduled
+`Daily Community Proof` workflow refreshes `docs/benchmarks/live.json` and
+`docs/benchmarks/live.md` from a real source build and local benchmark run.
+
+Current checked-in live proof:
+[`docs/benchmarks/live.md`](docs/benchmarks/live.md)
 
 | Case | Indexed local tokens | Model-visible tokens | Local reduction |
 | --- | ---: | ---: | ---: |
-| Session carrier | 219,838 | 73 | 3,011.48x |
-| Evidence pack | 219,838 | 484 | 454.21x |
-| Squeeze extract | 219,838 | 419 | 524.67x |
+| Session carrier | 189,042 | 69 | 2,739.74x |
+| Evidence pack | 189,042 | 566 | 334.00x |
+| Squeeze extract | 189,042 | 292 | 647.40x |
 
 These are Qorx local `ceil(chars / 4)` estimates. They are not provider invoice
-savings, and they do not prove answer quality. They show the boundary Qorx is
-built to measure: large local state, small visible carrier, resolver available.
+savings, and they do not prove answer quality. They show the measurement Qorx is
+built around: large local state, small visible carrier, resolver available.
+
+## Global community release
+
+Community Edition now has a maintainer-controlled cross-platform release
+workflow. Tags build source-verified CLI assets for:
+
+- Windows x64 zip.
+- Linux x64 tarball.
+- macOS tarball.
+
+The assets are unsigned community CLI builds. Qorx Edge adds signed installers,
+tray, auto-update, daemon, provider routing, MCP activation, and ORCL.
 
 ## Read first
 
-- [Community boundary](docs/COMMUNITY.md)
+- [Community guide](docs/COMMUNITY.md)
 - [Install from source](docs/INSTALL.md)
+- [Live metrics](docs/LIVE_METRICS.md)
 - [Language](docs/handbook/language.md)
 - [Runtime notes](docs/handbook/runtime.md)
 - [Command reference](docs/COMMANDS.md)
-- [Server boundary](docs/SERVER.md)
-- [SAFE-R anti-hype gate](docs/SAFE-R.md)
+- [Runtime options](docs/SERVER.md)
+- [SAFE-R claim check](docs/SAFE-R.md)
 - [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
 - [Independent review brief](docs/INDEPENDENT_REVIEW.md)
 - [Qorx 1.0.4 for Rust reviewers](docs/QORX_1_0_4_RUST.md)
@@ -116,12 +150,12 @@ cargo run -- qorx .\goal.qorxb
 | `qorx://u/...` | qevt | Event handle for a local receipt. |
 | quark | qrk | Bounded, hashed, token-estimated evidence chunk. |
 | local state | qosm | Local Qorx state: index, cache, receipts, provenance, lattice, traces. |
-| resolver boundary | hzon | Line between local state and model-visible carrier. |
+| resolver surface | hzon | Relationship between local state and the model-visible carrier. |
 | qshf factor | qshf | Baseline-to-Compact ratio between local context mass and visible carrier mass. |
 | B2C | b2c | Baseline-to-Compact accounting. Local estimate, not a provider invoice. |
 | B2C allocator | qalc | Local budgeted quark selector used by `b2c-plan` and `pack`. |
 
-These are Qorx vocabulary labels, not physics claims. The full boundary is in
+These are Qorx vocabulary labels, not physics claims. The claim discipline is in
 [SAFE-R](docs/SAFE-R.md).
 
 ## Build
@@ -162,8 +196,10 @@ cargo build --release
 .\target\release\qorx.exe security attest
 ```
 
-The public CE binary refuses Pro-only commands such as `bootstrap`, `daemon`,
-`tray`, `startup`, `drive`, `hot`, `integrate`, `run`, and `patch`.
+Community Edition focuses on source-built CLI workflows. Commands that require
+the always-on product layer, such as `bootstrap`, `daemon`, `tray`, `startup`,
+`drive`, `hot`, `integrate`, `run`, and `patch`, explain that those surfaces are
+available in Qorx Edge.
 
 ## Repository map
 
@@ -173,19 +209,19 @@ The public CE binary refuses Pro-only commands such as `bootstrap`, `daemon`,
 | `tests/` | Runtime, language, capsule, context, lattice, and strict evidence tests. |
 | `docs/handbook/` | Manual-style operating documentation. |
 | `docs/COMMANDS.md` | Community command catalog. |
-| `docs/COMMUNITY.md` | Public/private product boundary. |
-| `docs/SERVER.md` | Server and daemon boundary for CE. |
+| `docs/COMMUNITY.md` | Edition guide for Community Edition, Qorx Edge, and Qorx Cloud. |
+| `docs/SERVER.md` | Runtime options for source-built Community Edition users. |
 | `examples/` | Small fixtures for impact and evidence routes. |
 | `scripts/` | Proof, benchmark, and maintainer checks. |
 
-## Boundaries
+## What Qorx Does
 
 Qorx can resolve Qorx-known local handles, bytecode, indexed evidence, and
 receipts. It cannot reconstruct arbitrary unknown files from a tiny message. It
 cannot make a remote model know hidden local data without a resolver path. It
 does not certify task quality by token savings alone.
 
-The official commercial experience is Qorx Local Pro. Do not describe forks,
+Qorx Edge is the supported local product experience. Do not describe forks,
 community builds, or self-built binaries as official Qorx products.
 
 ## License
