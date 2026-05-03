@@ -33,8 +33,9 @@ async def run_test():
         assert "Qorx Edge" in body
         assert "1.0.4" in body
         assert "Community guide" in body
-        assert "Global community release" in body
-        assert "Live proof" in body
+        assert "Live metrics" in body
+        assert "Public surface" in body
+        assert "Product Lines" in body
     finally:
         if context:
             await context.close()
