@@ -29,7 +29,7 @@ evidence-first workflows. It is the public source line, not a dead sample.
 - auto-update.
 - daemon autostart.
 - provider proxy routing.
-- one-click Codex, Antigravity, Claude, Gemini, or other CLI activation.
+- one-click MCP and hook activation for supported agent clients.
 - ORCL endpoint and MCP tools.
 - hosted Qorx API account features.
 - cloud capsule sync.
@@ -97,6 +97,11 @@ Qorx Ayie is the supported local product:
 - account activation.
 - managed local vault UX.
 - provider and CLI integration.
+- MCP plus managed hooks for Codex, Gemini CLI, and Claude Code where the
+  installed client exposes that surface.
+- MCP-only activation for clients such as Antigravity, OpenCode, Copilot CLI,
+  VS Code Copilot Chat, Aider, and Cursor until they expose a supported hook
+  surface.
 - ORCL ranked contracts, bounded links, and MCP tool surface.
 - cloud capsule sync when enabled by the user.
 - team controls and support.

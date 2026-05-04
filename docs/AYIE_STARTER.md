@@ -84,6 +84,8 @@ Starter should apply to the same product line on every supported platform:
 - Windows signed installer.
 - macOS Intel and Apple Silicon builds.
 - Linux x64 build.
+- tray or dashboard control for `Turn on MCP + hooks` where the platform UI
+  supports it.
 - package channels such as Homebrew, WinGet, Scoop, npm, PyPI, Snap, Docker, or
   distro packages as those channels open.
 
