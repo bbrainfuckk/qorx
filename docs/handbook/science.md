@@ -121,7 +121,7 @@ src/cache_plan.rs
 ```
 
 The plan separates a stable prefix from a dynamic tail. Community Edition
-reports the plan locally. Qorx Edge and Qorx Cloud add routed provider cache
+reports the plan locally. Qorx Ayie and Qorx Cloud add routed provider cache
 headers.
 
 ## Exact Replay Cache
@@ -168,13 +168,13 @@ src/money.rs
 ```
 
 Qorx reports omitted local context and estimated USD saved from local token
-counts. Qorx Edge and Qorx Cloud add managed routed input, exact replay hits,
+counts. Qorx Ayie and Qorx Cloud add managed routed input, exact replay hits,
 provider cache reads, and provider cache writes. Provider bills remain the
 authority for invoice claims.
 
-## Qorx Edge Starter Request Math
+## Qorx Ayie Starter Request Math
 
-Qorx Edge Starter uses service-side allowance accounting:
+Qorx Ayie Starter uses service-side allowance accounting:
 
 ```text
 included_requests = 5000

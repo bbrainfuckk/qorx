@@ -36,11 +36,11 @@ jobs:
         run: |
           set -euo pipefail
           grep -q "Qorx Community Edition" README.md
-          grep -q "Qorx Edge Starter" README.md
-          grep -q "5,000 included Edge/Cloud requests" README.md
-          grep -q "Qorx Edge" docs/COMMUNITY.md
-          grep -q "Qorx Edge Starter" docs/COMMUNITY.md
-          grep -q "5,000 included Edge/Cloud requests" docs/COMMUNITY.md
+          grep -q "Qorx Ayie Starter" README.md
+          grep -q "5,000 included Ayie/Cloud requests" README.md
+          grep -q "Qorx Ayie" docs/COMMUNITY.md
+          grep -q "Qorx Ayie Starter" docs/COMMUNITY.md
+          grep -q "5,000 included Ayie/Cloud requests" docs/COMMUNITY.md
           grep -q "The CE binary explains" docs/COMMANDS.md
           grep -q "SCIENCE_AND_MATH.md" docs/index.md
           grep -q "daemon" docs/SERVER.md

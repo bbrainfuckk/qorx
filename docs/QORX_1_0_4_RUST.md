@@ -103,7 +103,7 @@ source file, bytecode file, evidence pack, or handle that a resolver can use.
 That is the narrow claim. It should be tested as a Rust runtime and CLI, not as
 a magic context shortcut.
 
-Qorx Edge is the supported local product. Qorx Edge Starter gives new accounts
-5,000 included Edge/Cloud requests across Windows, macOS, and Linux before
+Qorx Ayie is the supported local product. Qorx Ayie Starter gives new accounts
+5,000 included Ayie/Cloud requests across Windows, macOS, and Linux before
 subscription. Edge adds signed installers, tray UX, daemon management, provider
 routing, account activation, and managed local-vault behavior.

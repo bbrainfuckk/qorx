@@ -38,8 +38,8 @@ and has a resolver available.
 - Source build: https://github.com/bbrainfuckk/qorx
 - Independent review brief: https://bbrainfuckk.github.io/qorx/INDEPENDENT_REVIEW.html
 
-Qorx Edge Starter gives new accounts 5,000 included Edge/Cloud requests across
-Windows, macOS, and Linux before subscription. Qorx Edge adds official
+Qorx Ayie Starter gives new accounts 5,000 included Ayie/Cloud requests across
+Windows, macOS, and Linux before subscription. Qorx Ayie adds official
 installers, package-manager wrappers, tray UX, provider routing, and account
 activation.
 

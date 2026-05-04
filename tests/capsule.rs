@@ -214,8 +214,8 @@ fn bootstrap_is_refused_in_community_edition() {
         String::from_utf8_lossy(&output.stderr)
     );
     let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("available in Qorx Edge"));
-    assert!(stderr.contains("5,000 included Edge/Cloud requests"));
+    assert!(stderr.contains("available in Qorx Ayie"));
+    assert!(stderr.contains("5,000 included Ayie/Cloud requests"));
     assert!(stderr.contains("Community Edition keeps local source CLI commands unmetered"));
 
     let _ = fs::remove_dir_all(&root);

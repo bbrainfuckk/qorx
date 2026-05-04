@@ -14,6 +14,6 @@ Tags:
   - ai
   - context
   - cli
-ReleaseNotes: Community Edition local commands are unmetered. Qorx Edge Starter service features use 5,000 included Edge/Cloud requests.
+ReleaseNotes: Community Edition local commands are unmetered. Qorx Ayie Starter service features use 5,000 included Ayie/Cloud requests.
 ManifestType: defaultLocale
 ManifestVersion: 1.9.0

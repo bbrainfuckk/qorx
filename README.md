@@ -37,32 +37,32 @@ open a black window for a second and close it after Qorx finishes printing. That
 does not mean Qorx crashed. Open PowerShell and run `qorx --version`, or use the
 `Start Qorx CLI.cmd` file included in the Windows zip.
 
-Qorx Edge is not a different language. It is the connected product layer for the
+Qorx Ayie is not a different language. It is the connected product layer for the
 same Qorx experience: signed installer, tray, auto-update, daemon management,
 provider routing, MCP/CLI activation, ORCL, account features, and support. The
-open-source CLI stays local and unmetered; Edge/Cloud service calls use the
+open-source CLI stays local and unmetered; Ayie/Cloud service calls use the
 Starter request allowance.
 
-Qorx Edge is the supported local product line for signed installers, tray UX,
+Qorx Ayie is the supported local product line for signed installers, tray UX,
 auto-update, daemon management, provider routing, MCP/CLI activation, ORCL,
 cloud capsule sync, team policy, support, and managed local-vault UX. Qorx Cloud
 is the hosted API and account surface. Community Edition stays focused on the
 open source language, runtime, CLI proof surface, and reproducible local
 benchmarks.
 
-## Qorx Edge Starter
+## Qorx Ayie Starter
 
-Qorx Edge Starter is the full product trial path for people who want the real
+Qorx Ayie Starter is the full product trial path for people who want the real
 Windows, macOS, and Linux experience without starting with a payment wall.
 
-Starter starts with 5,000 included Edge/Cloud requests. A request means a managed
+Starter starts with 5,000 included Ayie/Cloud requests. A request means a managed
 service action: provider routing, ORCL lookup, MCP/CLI activation, cloud capsule
 sync, or an account-backed daemon/API call. Local Community Edition commands
 such as `index`, `pack`, `squeeze`, `strict-answer`, `qorx-check`, and
 `qorx-compile` stay local and unmetered.
 
-After the 5,000 included Edge/Cloud requests are used, the account asks the user
-to subscribe before continuing with Edge/Cloud services. The cap is enforced
+After the 5,000 included Ayie/Cloud requests are used, the account asks the user
+to subscribe before continuing with Ayie/Cloud services. The cap is enforced
 server-side by the Qorx account service. That is the only honest place to put
 it: a local AGPL binary can always be changed and rebuilt, but a fork cannot
 mint valid Qorx service entitlements or use the official hosted service for
@@ -99,6 +99,14 @@ release, CI/TestSprite state, and latest local benchmark numbers. The scheduled
 Current checked-in live proof:
 [`docs/benchmarks/live.md`](docs/benchmarks/live.md)
 
+Metric boundary:
+
+- Qorx Ayie v1.0 / Starter reports local runtime metrics from the Ayie `/stats` ledger.
+- Qorx API v1.0 reports hosted tenant usage from `/api/v1/usage`.
+- Qorx CLI Community Edition reports local proof metrics from source-built CLI commands and benchmark files.
+
+See [Qorx metrics](docs/METRICS.md).
+
 | Case | Indexed local tokens | Model-visible tokens | Local reduction |
 | --- | ---: | ---: | ---: |
 | Session carrier | 202,986 | 69 | 2,941.83x |
@@ -118,9 +126,9 @@ workflow. Tags build source-verified CLI assets for:
 - Linux x64 tarball.
 - macOS tarball.
 
-The assets are unsigned community CLI builds. Qorx Edge Starter gives users the
-full Edge/Cloud feature set across Windows, macOS, and Linux with 5,000 included
-Edge/Cloud requests before subscription. Qorx Edge adds signed installers, tray,
+The assets are unsigned community CLI builds. Qorx Ayie Starter gives users the
+full Ayie/Cloud feature set across Windows, macOS, and Linux with 5,000 included
+Ayie/Cloud requests before subscription. Qorx Ayie adds signed installers, tray,
 auto-update, daemon, provider routing, MCP activation, and ORCL.
 
 The `1.0.4a` release also enforces the small-binary target in CI. Release builds
@@ -134,16 +142,17 @@ Scoop, WinGet, Snap, Docker, Nix, and Deb/RPM packaging through nfpm. See
 [packaging/README.md](packaging/README.md).
 
 These package files install or build Qorx Community Edition. Community Edition
-local commands are not capped at 5,000 requests. The 5,000 included Edge/Cloud
-requests apply only to Qorx Edge Starter service features, where the Qorx account
+local commands are not capped at 5,000 requests. The 5,000 included Ayie/Cloud
+requests apply only to Qorx Ayie Starter service features, where the Qorx account
 service can enforce the allowance server-side.
 
 ## Read first
 
 - [Community guide](docs/COMMUNITY.md)
 - [Install from source](docs/INSTALL.md)
-- [Qorx Edge Starter](docs/EDGE_STARTER.md)
+- [Qorx Ayie Starter](docs/AYIE_STARTER.md)
 - [Live metrics](docs/LIVE_METRICS.md)
+- [Qorx metrics](docs/METRICS.md)
 - [Science and math](docs/SCIENCE_AND_MATH.md)
 - [Package channels](packaging/README.md)
 - [Registry automation](docs/REGISTRY_AUTOMATION.md)
@@ -260,8 +269,8 @@ cargo build --release
 Community Edition focuses on source-built CLI workflows. Commands that require
 the always-on product layer, such as `bootstrap`, `daemon`, `tray`, `startup`,
 `drive`, `hot`, `integrate`, `run`, and `patch`, explain that those surfaces are
-available in Qorx Edge. New Edge accounts start with 5,000 included Edge/Cloud
-requests through Qorx Edge Starter.
+available in Qorx Ayie. New Ayie accounts start with 5,000 included Ayie/Cloud
+requests through Qorx Ayie Starter.
 
 ## Repository map
 
@@ -271,7 +280,7 @@ requests through Qorx Edge Starter.
 | `tests/` | Runtime, language, capsule, context, lattice, and strict evidence tests. |
 | `docs/handbook/` | Manual-style operating documentation. |
 | `docs/COMMANDS.md` | Community command catalog. |
-| `docs/COMMUNITY.md` | Edition guide for Community Edition, Qorx Edge, and Qorx Cloud. |
+| `docs/COMMUNITY.md` | Edition guide for Community Edition, Qorx Ayie, and Qorx Cloud. |
 | `docs/SERVER.md` | Runtime options for source-built Community Edition users. |
 | `examples/` | Small fixtures for impact and evidence routes. |
 | `scripts/` | Proof, benchmark, and maintainer checks. |
@@ -283,7 +292,7 @@ receipts. It cannot reconstruct arbitrary unknown files from a tiny message. It
 cannot make a remote model know hidden local data without a resolver path. It
 does not certify task quality by token savings alone.
 
-Qorx Edge is the supported local product experience. Do not describe forks,
+Qorx Ayie is the supported local product experience. Do not describe forks,
 community builds, or self-built binaries as official Qorx products.
 
 ## License

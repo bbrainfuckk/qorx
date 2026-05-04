@@ -6,7 +6,7 @@ locally when the workflow needs it.
 
 This page gives the math in public. There is no secret science here. Some parts
 are shipped in Community Edition today. Some parts, such as account entitlements
-and managed provider routing, belong to Qorx Edge or Qorx Cloud.
+and managed provider routing, belong to Qorx Ayie or Qorx Cloud.
 
 ## Token estimate
 
@@ -97,7 +97,7 @@ are planning and proof numbers.
 
 ## Request allowance math
 
-Qorx Edge Starter uses a service-side request allowance:
+Qorx Ayie Starter uses a service-side request allowance:
 
 ```text
 included_requests = 5000
@@ -106,7 +106,7 @@ remaining_requests = max(0, included_requests - used_requests)
 usage_ratio = used_requests / included_requests
 ```
 
-Only successful metered Edge/Cloud service actions should count. Local CE
+Only successful metered Ayie/Cloud service actions should count. Local CE
 commands stay unmetered.
 
 The service should record an idempotent request id so retries do not burn extra

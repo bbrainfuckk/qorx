@@ -20,7 +20,7 @@ the operator exports a file.
 
 ## Daemon Runtime
 
-The daemon is a Qorx Edge product surface. The public CE binary explains where
+The daemon is a Qorx Ayie product surface. The public CE binary explains where
 daemon commands live:
 
 ```sh
@@ -29,10 +29,10 @@ qorx daemon status
 qorx daemon stop
 ```
 
-Qorx Edge Starter gives new accounts 5,000 included Edge/Cloud requests across
+Qorx Ayie Starter gives new accounts 5,000 included Ayie/Cloud requests across
 Windows, macOS, and Linux before subscription. The official daemon, tray,
 provider routing, startup integration, and managed local vault UX are part of
-Qorx Edge.
+Qorx Ayie.
 
 ## Handles
 

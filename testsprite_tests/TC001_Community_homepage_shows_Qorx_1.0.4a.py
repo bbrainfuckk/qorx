@@ -30,12 +30,12 @@ async def run_test():
         body = await page.locator("body").inner_text(timeout=10000)
 
         assert "Qorx Community Edition" in body
-        assert "Qorx Edge" in body
+        assert "Qorx Ayie" in body
         assert "1.0.4a" in body
         assert "Community guide" in body
         assert "Live metrics" in body
-        assert "Qorx Edge Starter" in body
-        assert "5,000 included Edge/Cloud requests" in body
+        assert "Qorx Ayie Starter" in body
+        assert "5,000 included Ayie/Cloud requests" in body
         assert "PyPI" in body
         assert "Arch/AUR" in body
         assert "Public surface" in body

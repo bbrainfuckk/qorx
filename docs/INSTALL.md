@@ -40,7 +40,7 @@ qorx --version
 ## GitHub release assets
 
 Release tags build community CLI archives for Windows, Linux, and macOS. They
-are unsigned CLI assets, not Qorx Edge installers.
+are unsigned CLI assets, not Qorx Ayie installers.
 
 Use source builds when you need the most auditable path. Use release assets when
 you want the quickest community CLI path.
@@ -67,8 +67,8 @@ Publishing those channels still needs the maintainer's registry accounts or
 package-submission PRs. The files are in the repo so the package work is
 auditable and repeatable.
 
-Qorx Edge Starter is the cross-platform product trial path for service-backed
-features. It includes 5,000 included Edge/Cloud requests. Community Edition
+Qorx Ayie Starter is the cross-platform product trial path for service-backed
+features. It includes 5,000 included Ayie/Cloud requests. Community Edition
 package installs do not cap local CLI usage.
 
 ## What to run

@@ -6,9 +6,9 @@ For this public repo, the TestSprite check is a documentation and workflow QA
 check. It verifies that the repo points users to the Community Edition guide and
 does not expose a literal TestSprite secret.
 
-For the hosted Qorx Cloud or Qorx Edge onboarding site, keep a separate
-TestSprite suite against a public staging URL. That suite should cover Qorx Edge
-Starter account activation, the 5,000 included Edge/Cloud request counter, and
+For the hosted Qorx Cloud or Qorx Ayie onboarding site, keep a separate
+TestSprite suite against a public staging URL. That suite should cover Qorx Ayie
+Starter account activation, the 5,000 included Ayie/Cloud request counter, and
 the subscribe-to-continue state.
 
 ## Secret
@@ -39,7 +39,7 @@ It is manually run with:
 - `blocking`: `true` to fail the workflow when TestSprite reports a failing suite.
 
 Community Edition uses TestSprite for public docs and workflow QA. Local daemon,
-tray, account activation, and request-counter checks belong to the Qorx Edge
+tray, account activation, and request-counter checks belong to the Qorx Ayie
 product flow suite.
 
 ## Local command

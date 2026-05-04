@@ -137,7 +137,7 @@ jobs:
 
           Windows users can double-click `Start Qorx CLI.cmd` inside the zip to open a terminal that stays visible. `qorx.exe` is the CLI itself; double-clicking a console exe may flash and close after it finishes printing output.
 
-          Qorx Edge Starter gives new accounts the full Edge/Cloud feature set across Windows, macOS, and Linux with 5,000 included Edge/Cloud requests before subscription. Use Qorx Edge for signed installers, tray, daemon, provider routing, MCP activation, ORCL, and support.
+          Qorx Ayie Starter gives new accounts the full Ayie/Cloud feature set across Windows, macOS, and Linux with 5,000 included Ayie/Cloud requests before subscription. Use Qorx Ayie for signed installers, tray, daemon, provider routing, MCP activation, ORCL, and support.
           EOF
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             gh release edit "$RELEASE_TAG" --notes-file "$notes"

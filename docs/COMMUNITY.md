@@ -21,9 +21,9 @@ evidence-first workflows. It is the public source line, not a dead sample.
   Docker, Nix, and Deb/RPM packaging through nfpm.
 - live public metrics through the Qorx Community Metrics worker.
 
-## Qorx Edge And Cloud Add
+## Qorx Ayie And Cloud Add
 
-- Qorx Edge Starter with 5,000 included Edge/Cloud requests.
+- Qorx Ayie Starter with 5,000 included Ayie/Cloud requests.
 - signed official installers.
 - Windows tray UX.
 - auto-update.
@@ -36,18 +36,18 @@ evidence-first workflows. It is the public source line, not a dead sample.
 - team policy and fleet controls.
 - commercial support.
 
-Those surfaces live in Qorx Edge or Qorx Cloud. The community still gets the
+Those surfaces live in Qorx Ayie or Qorx Cloud. The community still gets the
 source, the language, the local evidence routes, and release assets for direct
 CLI use.
 
 Package-channel files in this repo install or build Community Edition. They do
-not add Edge account services, and they do not cap local CLI usage.
+not add Ayie account services, and they do not cap local CLI usage.
 
-## Qorx Edge Starter
+## Qorx Ayie Starter
 
 Starter is the generous try-it-for-real plan. It gives new accounts the full
-Edge/Cloud feature set on Windows, macOS, and Linux with 5,000 included
-Edge/Cloud requests.
+Ayie/Cloud feature set on Windows, macOS, and Linux with 5,000 included
+Ayie/Cloud requests.
 
 Metered requests are service calls that Qorx has to run or pay for: provider
 routing, ORCL lookup, MCP/CLI activation, cloud capsule sync, and account-backed
@@ -55,7 +55,7 @@ daemon/API actions. Local source-built commands such as `index`, `pack`,
 `squeeze`, `strict-answer`, `qorx-check`, and `qorx-compile` stay local and
 unmetered.
 
-When the 5,000 included Edge/Cloud requests are used, Edge/Cloud asks the user
+When the 5,000 included Ayie/Cloud requests are used, Ayie/Cloud asks the user
 to subscribe before continuing with those services. This counter lives on the
 Qorx account service, not inside the AGPL source binary. That keeps the source
 honest: people can study and fork the local code, but official hosted capacity
@@ -89,10 +89,10 @@ must not imply that it is the official Qorx distribution.
 
 ## Product Lines
 
-Qorx Edge is the supported local product:
+Qorx Ayie is the supported local product:
 
 - signed installer.
-- 5,000 included Edge/Cloud requests through Qorx Edge Starter.
+- 5,000 included Ayie/Cloud requests through Qorx Ayie Starter.
 - local tray and updater.
 - account activation.
 - managed local vault UX.
@@ -101,5 +101,5 @@ Qorx Edge is the supported local product:
 - cloud capsule sync when enabled by the user.
 - team controls and support.
 
-Community Edition is for source review and experimentation. Qorx Edge is the
+Community Edition is for source review and experimentation. Qorx Ayie is the
 local product customers should install.

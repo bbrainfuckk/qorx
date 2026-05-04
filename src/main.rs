@@ -611,7 +611,7 @@ impl DoctorReport {
                 "No published external load-test SLO".to_string(),
                 "No managed upgrade or migration controller".to_string(),
             ],
-            note: "This is the public Qorx CLI: language, local indexing, pack/squeeze, strict evidence, and source-built proof commands. Qorx Edge adds the signed app experience, tray, auto-start, provider routing, one-click integrations, updater, and managed local-vault UX. Qorx Cloud adds hosted account features.".to_string(),
+            note: "This is the public Qorx CLI: language, local indexing, pack/squeeze, strict evidence, and source-built proof commands. Qorx Ayie adds the signed app experience, tray, auto-start, provider routing, one-click integrations, updater, and managed local-vault UX. Qorx Cloud adds hosted account features.".to_string(),
         })
     }
 
@@ -624,14 +624,14 @@ impl DoctorReport {
         println!("stats_present: {}", self.stats_present);
         println!("response_cache_present: {}", self.response_cache_present);
         println!("provenance_present: {}", self.provenance_present);
-        println!("edge_services: use Qorx Edge for tray, daemon, provider routing, integrations, updater, and managed local-vault UX");
+        println!("ayie_services: use Qorx Ayie for tray, daemon, provider routing, integrations, updater, and managed local-vault UX");
         println!("note: {}", self.note);
     }
 }
 
 fn pro_only(feature: &str) -> Result<()> {
     anyhow::bail!(
-        "{feature} is available in Qorx Edge. Qorx Edge Starter gives new accounts 5,000 included Edge/Cloud requests across Windows, macOS, and Linux. Community Edition keeps local source CLI commands unmetered for language, indexing, and evidence work."
+        "{feature} is available in Qorx Ayie. Qorx Ayie Starter gives new accounts 5,000 included Ayie/Cloud requests across Windows, macOS, and Linux. Community Edition keeps local source CLI commands unmetered for language, indexing, and evidence work."
     )
 }
 

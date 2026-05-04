@@ -100,9 +100,9 @@ This is a small production seam, not a dynamic-library plugin system. Qorx keeps
 its compact language, index, bytecode, and proof logic in-core. External tools
 stay outside the binary and can be changed by updating the manifest.
 
-## Qorx Edge Commands
+## Qorx Ayie Commands
 
-The CE binary explains that these commands live in Qorx Edge:
+The CE binary explains that these commands live in Qorx Ayie:
 
 ```text
 bootstrap
@@ -116,12 +116,12 @@ run
 patch
 ```
 
-Those commands belong to Qorx Edge because they provide the official local
+Those commands belong to Qorx Ayie because they provide the official local
 runtime experience: background gateway, tray, account activation, provider
 routing, startup integration, and managed local vault behavior.
 
-Qorx Edge Starter lets new accounts use the same Edge/Cloud command surface on
-Windows, macOS, and Linux with 5,000 included Edge/Cloud requests. Local CE
+Qorx Ayie Starter lets new accounts use the same Ayie/Cloud command surface on
+Windows, macOS, and Linux with 5,000 included Ayie/Cloud requests. Local CE
 commands remain unmetered.
 
 ## Edition Note

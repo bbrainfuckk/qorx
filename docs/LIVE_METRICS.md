@@ -46,3 +46,9 @@ only when generated outputs changed.
 
 The benchmark numbers are local Qorx estimates. They are not provider invoice
 savings and they do not prove model answer quality.
+
+For the product metric split, see [Qorx metrics](METRICS.md):
+
+- Qorx Ayie v1.0 / Starter: local `/stats` ledger.
+- Qorx API v1.0: hosted `/api/v1/usage` tenant ledger.
+- Qorx CLI Community Edition: local source-built proof and benchmark metrics.

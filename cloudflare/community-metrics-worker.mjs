@@ -179,8 +179,8 @@ async function buildMetrics(env = {}) {
     },
     editions: [
       "Community Edition is AGPL source and cross-platform CLI release assets.",
-      "Qorx Edge Starter gives new accounts 5,000 included Edge/Cloud requests across Windows, macOS, and Linux before subscription.",
-      "Qorx Edge adds signed tray, daemon, provider routing, MCP activation, ORCL endpoint, local support, and managed workstation UX.",
+      "Qorx Ayie Starter gives new accounts 5,000 included Ayie/Cloud requests across Windows, macOS, and Linux before subscription.",
+      "Qorx Ayie adds signed tray, daemon, provider routing, MCP activation, ORCL endpoint, local support, and managed workstation UX.",
       "Qorx Cloud covers hosted account and API features.",
     ],
     notes: [

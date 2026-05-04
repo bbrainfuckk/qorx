@@ -12,5 +12,5 @@
   "autoupdate": {
     "url": "https://github.com/bbrainfuckk/qorx/releases/download/v$version/qorx-v$version-windows-x64.zip"
   },
-  "notes": "Community Edition local commands are unmetered. Qorx Edge Starter service features use 5,000 included Edge/Cloud requests."
+  "notes": "Community Edition local commands are unmetered. Qorx Ayie Starter service features use 5,000 included Ayie/Cloud requests."
 }

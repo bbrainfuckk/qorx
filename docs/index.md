@@ -9,8 +9,8 @@ CLI. Community Edition covers the language, bytecode, local indexing, evidence
 commands, reproducible benchmarks, live public metrics, and community CLI
 release assets.
 
-Qorx Edge Starter gives users the full Edge/Cloud product experience on Windows,
-macOS, and Linux with 5,000 included Edge/Cloud requests before subscription.
+Qorx Ayie Starter gives users the full Ayie/Cloud product experience on Windows,
+macOS, and Linux with 5,000 included Ayie/Cloud requests before subscription.
 The public source stays open and local commands stay unmetered.
 
 Current public version: `1.0.4a`.
@@ -19,8 +19,9 @@ Current public version: `1.0.4a`.
 
 - [Community guide](COMMUNITY.md)
 - [Install from source](INSTALL.md)
-- [Qorx Edge Starter](EDGE_STARTER.md)
+- [Qorx Ayie Starter](AYIE_STARTER.md)
 - [Live metrics](LIVE_METRICS.md)
+- [Qorx metrics](METRICS.md)
 - [Science and math](SCIENCE_AND_MATH.md)
 - [Registry automation](REGISTRY_AUTOMATION.md)
 - [Language and runtime](QORX.md)
@@ -51,11 +52,11 @@ Current public version: `1.0.4a`.
 
 ## Product Lines
 
-Qorx Edge is the supported local product. Qorx Edge Starter gives new accounts
-5,000 included Edge/Cloud requests across Windows, macOS, and Linux. Signed
+Qorx Ayie is the supported local product. Qorx Ayie Starter gives new accounts
+5,000 included Ayie/Cloud requests across Windows, macOS, and Linux. Signed
 installers, auto-update, tray, daemon management, provider routing, one-click
 CLI integrations, ORCL, cloud capsule sync, and team policy ship through the
-Edge/Cloud product path.
+Ayie/Cloud product path.
 
 Commands that need the always-on product layer return a clear Community Edition
 edition message.

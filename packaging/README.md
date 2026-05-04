@@ -3,8 +3,8 @@
 This folder keeps the package-channel files for Qorx Community Edition.
 
 These packages install or build the public source CLI. They do not turn
-Community Edition into Qorx Edge, and they do not make the open-source CLI stop
-after 5,000 requests. The 5,000 included Edge/Cloud requests belong to Qorx Edge
+Community Edition into Qorx Ayie, and they do not make the open-source CLI stop
+after 5,000 requests. The 5,000 included Ayie/Cloud requests belong to Qorx Ayie
 Starter and are enforced by the Qorx account service.
 
 ## Channel status
@@ -27,7 +27,7 @@ Starter and are enforced by the Qorx account service.
 Community Edition is AGPL source code. A local source build cannot honestly be
 capped at 5,000 requests because a fork can remove a local counter and rebuild.
 
-Qorx Edge Starter is different. Edge/Cloud requests go through a Qorx account
+Qorx Ayie Starter is different. Ayie/Cloud requests go through a Qorx account
 entitlement:
 
 ```text
@@ -35,7 +35,7 @@ included_requests = 5000
 remaining_requests = max(0, included_requests - used_edge_cloud_requests)
 ```
 
-After the 5,000 included Edge/Cloud requests are used, Edge/Cloud asks the user
+After the 5,000 included Ayie/Cloud requests are used, Ayie/Cloud asks the user
 to subscribe before continuing with service-backed features. Local CE commands
 such as `index`, `pack`, `squeeze`, `strict-answer`, and `qorx-check` stay
 unmetered.

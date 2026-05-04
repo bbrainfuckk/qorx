@@ -265,7 +265,7 @@ fn science_report_from_adapters(external_runtime_adapters: Vec<AdapterStatus>) -
             ),
             feature(
                 "exact replay cache",
-                "CE stores exact replay cache data structures for review; Qorx Edge and Qorx Cloud add managed routed-provider cache behavior",
+                "CE stores exact replay cache data structures for review; Qorx Ayie and Qorx Cloud add managed routed-provider cache behavior",
             ),
             feature(
                 "local USD estimator",

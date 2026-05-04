@@ -129,7 +129,7 @@ foreach ($doc in @(
     Require-Text $doc.name $doc.text 'WinGet|Scoop' "must mention Windows package managers"
     Require-Text $doc.name $doc.text 'Docker' "must mention Docker"
     Require-Text $doc.name $doc.text 'Nix' "must mention Nix"
-    Require-Text $doc.name $doc.text '5,000 included Edge/Cloud requests' "must keep Edge Starter allowance visible"
+    Require-Text $doc.name $doc.text '5,000 included Ayie/Cloud requests' "must keep Ayie Starter allowance visible"
     Reject-Text $doc.name $doc.text '(?i)Community Edition.*(stop|stops|expire|expires).*5,000' "must not claim CE stops at 5,000"
 }
 
