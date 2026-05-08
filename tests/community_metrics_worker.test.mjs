@@ -15,8 +15,8 @@ const repoPayload = {
 };
 
 const releasePayload = {
-  tag_name: "v1.0.4a",
-  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.4a",
+  tag_name: "v0.1-ylem",
+  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v0.1-ylem",
   published_at: "2026-05-03T00:00:00Z",
 };
 
@@ -35,7 +35,7 @@ const workflowPayload = {
 const benchmarkPayload = {
   generated_at: "2026-05-03T12:34:00+00:00",
   git_commit: "b838c23",
-  qorx_version: "qorx 1.0.4-a.0",
+  qorx_version: "qorx 0.1.0-ylem",
   summary: {
     indexed_tokens: 202986,
     strict_task_pass_rate: 1,
@@ -77,7 +77,7 @@ function mockFetch() {
     if (href.endsWith("/repos/bbrainfuckk/qorx")) return jsonResponse(repoPayload);
     if (href.endsWith("/repos/bbrainfuckk/qorx/releases/latest")) return jsonResponse(releasePayload);
     if (href.includes("/actions/workflows/")) return jsonResponse(workflowPayload);
-    if (href.includes("/Cargo.toml")) return new Response('version = "1.0.4-a.0"\n');
+    if (href.includes("/Cargo.toml")) return new Response('version = "0.1.0-ylem"\n');
     if (href.includes("/docs/benchmarks/live.json")) return jsonResponse(benchmarkPayload);
     throw new Error(`unexpected fetch ${href}`);
   };
@@ -101,14 +101,14 @@ test("community metrics worker returns live proof numbers", async () => {
 
     const body = await response.json();
     assert.equal(body.schema, "qorx.community.metrics.v1");
-    assert.equal(body.version.cargo, "1.0.4-a.0");
+    assert.equal(body.version.cargo, "0.1.0-ylem");
     assert.equal(body.repository.stars, 42);
     assert.equal(body.benchmark.session.reductionX, 2941.83);
     assert.equal(body.benchmark.strict.passRate, 1);
     assert.equal(body.benchmark.agent.providerCalls, 0);
-    assert.match(body.editions.join(" "), /Qorx Ayie/);
-    assert.match(body.editions.join(" "), /Qorx Ayie Starter/);
-    assert.match(body.editions.join(" "), /5,000 included Ayie\/Cloud requests/);
+    assert.match(body.editions.join(" "), /Qorx Void/);
+    assert.match(body.editions.join(" "), /Qorx Void Starter/);
+    assert.match(body.editions.join(" "), /5,000 included Void\/Cloud requests/);
     assert.doesNotMatch(JSON.stringify(body), /Qorx Local Pro|boundary/i);
     assert.equal(body.workflows.build.conclusion, "success");
     assert.equal(body.workflows.testsprite.conclusion, "success");

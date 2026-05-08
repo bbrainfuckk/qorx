@@ -4,7 +4,7 @@
   "suite": "live",
   "target_path": ".",
   "git_commit": "b838c23",
-  "qorx_version": "qorx 1.0.4-a.0",
+  "qorx_version": "qorx 0.1.0-ylem",
   "budget_tokens": 600,
   "squeeze_budget_tokens": 450,
   "queries": [

@@ -1,8 +1,8 @@
 # Maintainer: Marvin Sarreal Villanueva <marvin@orin.work>
 pkgname=qorx
-pkgver=1.0.4_a.0
+pkgver=0.1.0_ylem
 pkgrel=1
-_cratever=1.0.4-a.0
+_cratever=0.1.0-ylem
 pkgdesc="Qorx Community Edition source CLI for local context-resolution research"
 arch=("x86_64" "aarch64")
 url="https://github.com/bbrainfuckk/qorx"

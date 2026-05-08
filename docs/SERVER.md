@@ -2,8 +2,8 @@
 
 The public Community Edition is the source-built CLI line for Qorx.
 
-In this repo, the daemon/proxy implementation is part of the Ayie product path.
-The CE command line explains that the public daemon commands live in Qorx Ayie:
+In this repo, the daemon/proxy implementation is part of the Void product path.
+The CE command line explains that the public daemon commands live in Qorx Void:
 
 ```text
 qorx daemon
@@ -13,16 +13,16 @@ qorx daemon status
 qorx daemon stop
 ```
 
-Those commands are part of Qorx Ayie.
+Those commands are part of Qorx Void.
 
-Qorx Ayie Starter gives new accounts the same Ayie/Cloud runtime path across
-Windows, macOS, and Linux with 5,000 included Ayie/Cloud requests.
+Qorx Void Starter gives new accounts the same Void/Cloud runtime path across
+Windows, macOS, and Linux with 5,000 included Void/Cloud requests.
 
 ## Why
 
 The daemon is the product layer that makes Qorx feel alive on a machine. It
 controls the local HTTP gateway, provider routing, workstation startup, tray UX,
-and tool integration path. Qorx Ayie packages that experience as the supported
+and tool integration path. Qorx Void packages that experience as the supported
 local product.
 
 ## Community path
@@ -36,11 +36,11 @@ cargo build --release
 ./target/release/qorx strict-answer "what proves Qorx is a language runtime?"
 ```
 
-## Qorx Ayie Path
+## Qorx Void Path
 
-Use Qorx Ayie for:
+Use Qorx Void for:
 
-- Qorx Ayie Starter account activation.
+- Qorx Void Starter account activation.
 - local daemon management.
 - Windows tray.
 - provider proxy routing.

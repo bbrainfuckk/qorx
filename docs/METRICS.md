@@ -3,9 +3,9 @@
 Qorx has three public-facing metric surfaces. They use the same B2C accounting
 language, but they do not share one counter store.
 
-## Qorx Ayie v1.0 / Qorx Ayie Starter
+## Qorx Void v1.0 / Qorx Void Starter
 
-Ayie is the supported local product runtime: daemon, tray, provider routing,
+Void is the supported local product runtime: daemon, tray, provider routing,
 MCP/CLI activation, ORCL, account-backed service features, and the local
 resolver experience.
 
@@ -15,7 +15,7 @@ Primary metric source:
 GET http://127.0.0.1:47187/stats
 ```
 
-Main Ayie counters:
+Main Void counters:
 
 - `requests`
 - `raw_prompt_tokens`
@@ -35,8 +35,8 @@ Main Ayie counters:
 - `provider_cache_usd_saved`
 - `total_estimated_usd_saved`
 
-Boundary: Ayie metrics are local runtime evidence. Starter includes 5,000
-Ayie/Cloud service requests, but local Community Edition commands stay
+Boundary: Void metrics are local runtime evidence. Starter includes 5,000
+Void/Cloud service requests, but local Community Edition commands stay
 unmetered.
 
 ## Qorx API v1.0
@@ -60,7 +60,7 @@ Main API counters:
 - `auditMonths`
 
 Boundary: API metrics are hosted tenant usage and plan enforcement metrics.
-They do not replace the local Ayie `/stats` ledger.
+They do not replace the local Void `/stats` ledger.
 
 ## Qorx CLI Community Edition
 
@@ -85,13 +85,13 @@ docs/benchmarks/live.md
 ```
 
 Boundary: CLI CE metrics are local, reproducible proof numbers. They are not
-provider invoice savings and they are not capped by Qorx Ayie Starter.
+provider invoice savings and they are not capped by Qorx Void Starter.
 
 ## Product labels
 
 Use these labels when documenting or building UI:
 
-- Ayie Monitor: `Local saved`
+- Void Monitor: `Local saved`
 - API Dashboard: `Cloud usage`
 - Optimizer Preview: `Estimated per-call savings`
 - Community Edition: `Local proof metrics`

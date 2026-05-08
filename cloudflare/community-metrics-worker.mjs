@@ -31,8 +31,8 @@ const WORKFLOW_FALLBACKS = {
 };
 
 const RELEASE_FALLBACK = {
-  tag_name: "v1.0.4a",
-  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.4a",
+  tag_name: "v1.0.4c",
+  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.4c",
   published_at: "2026-05-03T12:28:43Z",
 };
 
@@ -179,8 +179,8 @@ async function buildMetrics(env = {}) {
     },
     editions: [
       "Community Edition is AGPL source and cross-platform CLI release assets.",
-      "Qorx Ayie Starter gives new accounts 5,000 included Ayie/Cloud requests across Windows, macOS, and Linux before subscription.",
-      "Qorx Ayie adds signed tray, daemon, provider routing, MCP activation, ORCL endpoint, local support, and managed workstation UX.",
+      "Qorx Void Starter gives new accounts 5,000 included Void/Cloud requests across Windows, macOS, and Linux before subscription.",
+      "Qorx Void adds signed tray, daemon, provider routing, MCP activation, ORCL endpoint, local support, and managed workstation UX.",
       "Qorx Cloud covers hosted account and API features.",
     ],
     notes: [

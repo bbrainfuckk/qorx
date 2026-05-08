@@ -22,7 +22,7 @@ and has a resolver available.
 | Project | Qorx Community Edition |
 | Creator | Marvin Sarreal Villanueva |
 | Location | Metro Manila |
-| Current public version | 1.0.4a |
+| Current public version | 0.1-ylem |
 | Initial public release line | May 1, 2026 |
 | Implementation language | Rust |
 | Source extension | `.qorx` |
@@ -38,8 +38,8 @@ and has a resolver available.
 - Source build: https://github.com/bbrainfuckk/qorx
 - Independent review brief: https://bbrainfuckk.github.io/qorx/INDEPENDENT_REVIEW.html
 
-Qorx Ayie Starter gives new accounts 5,000 included Ayie/Cloud requests across
-Windows, macOS, and Linux before subscription. Qorx Ayie adds official
+Qorx Void Starter gives new accounts 5,000 included Void/Cloud requests across
+Windows, macOS, and Linux before subscription. Qorx Void adds official
 installers, package-manager wrappers, tray UX, provider routing, and account
 activation.
 

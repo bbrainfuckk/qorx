@@ -7,9 +7,9 @@ This page defines the public Community Edition release scope.
 Qorx Community Edition is suitable for source review, local experiments,
 language/runtime testing, and research reproduction.
 
-The supported production path is Qorx Ayie for local installs and Qorx Cloud for
-hosted account features. Qorx Ayie Starter gives new accounts 5,000 included
-Ayie/Cloud requests across Windows, macOS, and Linux before subscription.
+The supported production path is Qorx Void for local installs and Qorx Cloud for
+hosted account features. Qorx Void Starter gives new accounts 5,000 included
+Void/Cloud requests across Windows, macOS, and Linux before subscription.
 
 ## Ready in CE
 
@@ -23,19 +23,19 @@ Ayie/Cloud requests across Windows, macOS, and Linux before subscription.
 | Provenance checks | Ready | `qorx security attest`, `qorx security verify` |
 | Operator check | Ready | `qorx doctor --json` |
 
-## Qorx Ayie And Cloud Add
+## Qorx Void And Cloud Add
 
 | Surface | Product line |
 | --- | --- |
-| 5,000 included Ayie/Cloud requests | Qorx Ayie Starter |
-| Official binaries | Qorx Ayie or maintainer-controlled community channels |
-| Windows tray | Qorx Ayie |
-| Auto-update | Qorx Ayie |
-| Daemon startup | Qorx Ayie |
-| Provider proxy routing | Qorx Ayie |
-| One-click CLI integrations | Qorx Ayie |
+| 5,000 included Void/Cloud requests | Qorx Void Starter |
+| Official binaries | Qorx Void or maintainer-controlled community channels |
+| Windows tray | Qorx Void |
+| Auto-update | Qorx Void |
+| Daemon startup | Qorx Void |
+| Provider proxy routing | Qorx Void |
+| One-click CLI integrations | Qorx Void |
 | Hosted account features | Qorx API |
-| Cloud capsule sync | Qorx Cloud or Qorx Ayie |
+| Cloud capsule sync | Qorx Cloud or Qorx Void |
 | Team policy and fleet controls | Team/Enterprise product |
 | Public SaaS runtime | Separate hosted product with auth, tenancy, logs, backups, and SLOs |
 
@@ -54,7 +54,7 @@ qorx index .
 qorx security attest
 ```
 
-Use the CE repo for public source, tests, and local proof. Use Qorx Ayie for the
+Use the CE repo for public source, tests, and local proof. Use Qorx Void for the
 supported local runtime and Qorx Cloud for hosted account features.
 
 ## Allowed claim
@@ -63,7 +63,7 @@ Use this wording:
 
 ```text
 Qorx Community Edition is the AGPL source line for the Qorx language, bytecode,
-local indexing, and evidence-command model. Qorx Ayie is the supported local
-product, and Qorx Ayie Starter includes 5,000 Ayie/Cloud requests before
+local indexing, and evidence-command model. Qorx Void is the supported local
+product, and Qorx Void Starter includes 5,000 Void/Cloud requests before
 subscription.
 ```

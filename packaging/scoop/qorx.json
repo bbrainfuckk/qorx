@@ -1,9 +1,9 @@
 {
-  "version": "1.0.4a",
+  "version": "0.1.0-ylem",
   "description": "Qorx Community Edition CLI for local context-resolution research.",
   "homepage": "https://github.com/bbrainfuckk/qorx",
   "license": "AGPL-3.0-only",
-  "url": "https://github.com/bbrainfuckk/qorx/releases/download/v1.0.4a/qorx-v1.0.4a-windows-x64.zip",
+  "url": "https://github.com/bbrainfuckk/qorx/releases/download/v0.1-ylem/qorx-v0.1-ylem-windows-x64.zip",
   "hash": "68e302560ffa1dfbfb738703df97104bb2fb7dc05d2cdd8a2d5a0f7e2a3858ff",
   "bin": "qorx.exe",
   "checkver": {
@@ -12,5 +12,5 @@
   "autoupdate": {
     "url": "https://github.com/bbrainfuckk/qorx/releases/download/v$version/qorx-v$version-windows-x64.zip"
   },
-  "notes": "Community Edition local commands are unmetered. Qorx Ayie Starter service features use 5,000 included Ayie/Cloud requests."
+  "notes": "Community Edition local commands are unmetered. Qorx Void Starter service features use 5,000 included Void/Cloud requests."
 }

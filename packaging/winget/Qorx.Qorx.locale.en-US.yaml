@@ -1,5 +1,5 @@
 PackageIdentifier: Qorx.Qorx
-PackageVersion: 1.0.4a
+PackageVersion: 0.1.0-ylem
 PackageLocale: en-US
 Publisher: Qorx
 PublisherUrl: https://github.com/bbrainfuckk/qorx
@@ -14,6 +14,6 @@ Tags:
   - ai
   - context
   - cli
-ReleaseNotes: Community Edition local commands are unmetered. Qorx Ayie Starter service features use 5,000 included Ayie/Cloud requests.
+ReleaseNotes: Community Edition local commands are unmetered. Qorx Void Starter service features use 5,000 included Void/Cloud requests.
 ManifestType: defaultLocale
 ManifestVersion: 1.9.0

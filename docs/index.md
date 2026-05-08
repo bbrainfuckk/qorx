@@ -9,17 +9,17 @@ CLI. Community Edition covers the language, bytecode, local indexing, evidence
 commands, reproducible benchmarks, live public metrics, and community CLI
 release assets.
 
-Qorx Ayie Starter gives users the full Ayie/Cloud product experience on Windows,
-macOS, and Linux with 5,000 included Ayie/Cloud requests before subscription.
+Qorx Void Starter gives users the full Void/Cloud product experience on Windows,
+macOS, and Linux with 5,000 included Void/Cloud requests before subscription.
 The public source stays open and local commands stay unmetered.
 
-Current public version: `1.0.4a`.
+Current public version: `0.1-ylem`.
 
 ## Start here
 
 - [Community guide](COMMUNITY.md)
 - [Install from source](INSTALL.md)
-- [Qorx Ayie Starter](AYIE_STARTER.md)
+- [Qorx Void Starter](AYIE_STARTER.md)
 - [Live metrics](LIVE_METRICS.md)
 - [Qorx metrics](METRICS.md)
 - [Science and math](SCIENCE_AND_MATH.md)
@@ -33,7 +33,7 @@ Current public version: `1.0.4a`.
 - [SAFE-R claim check](SAFE-R.md)
 - [Technical credibility](TECHNICAL_CREDIBILITY.md)
 - [Independent review brief](INDEPENDENT_REVIEW.md)
-- [Qorx 1.0.4a for Rust reviewers](QORX_1_0_4_RUST.md)
+- [Qorx 0.1-ylem for Rust reviewers](QORX_1_0_4_RUST.md)
 - [Benchmarks](benchmarks/README.md)
 - [Qorx papers](papers/README.md)
 
@@ -52,11 +52,11 @@ Current public version: `1.0.4a`.
 
 ## Product Lines
 
-Qorx Ayie is the supported local product. Qorx Ayie Starter gives new accounts
-5,000 included Ayie/Cloud requests across Windows, macOS, and Linux. Signed
+Qorx Void is the supported local product. Qorx Void Starter gives new accounts
+5,000 included Void/Cloud requests across Windows, macOS, and Linux. Signed
 installers, auto-update, tray, daemon management, provider routing, one-click
 CLI integrations, ORCL, cloud capsule sync, and team policy ship through the
-Ayie/Cloud product path.
+Void/Cloud product path.
 
 Commands that need the always-on product layer return a clear Community Edition
 edition message.

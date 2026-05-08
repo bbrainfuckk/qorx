@@ -34,11 +34,11 @@ async def run_test():
         await page.wait_for_load_state("networkidle", timeout=20000)
         community_body = await page.locator("body").inner_text(timeout=10000)
         assert "Qorx Community Edition" in community_body
-        assert "Qorx Ayie" in community_body
+        assert "Qorx Void" in community_body
         assert "live public metrics" in community_body
         assert "cross-platform GitHub release assets" in community_body
-        assert "Qorx Ayie Starter" in community_body
-        assert "5,000 included Ayie/Cloud requests" in community_body
+        assert "Qorx Void Starter" in community_body
+        assert "5,000 included Void/Cloud requests" in community_body
         assert "PyPI" in community_body
         assert "Arch/AUR" in community_body
         assert "daemon" in community_body
@@ -50,8 +50,8 @@ async def run_test():
         await starter_link.click(timeout=10000)
         await page.wait_for_load_state("networkidle", timeout=20000)
         starter_body = await page.locator("body").inner_text(timeout=10000)
-        assert "Qorx Ayie Starter" in starter_body
-        assert "5,000 included Ayie/Cloud requests" in starter_body
+        assert "Qorx Void Starter" in starter_body
+        assert "5,000 included Void/Cloud requests" in starter_body
         assert "server-side" in starter_body
 
         await page.goto(BASE_URL, wait_until="networkidle", timeout=20000)

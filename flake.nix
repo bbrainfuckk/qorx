@@ -25,7 +25,7 @@
         {
           default = pkgs.rustPlatform.buildRustPackage {
             pname = "qorx";
-            version = "1.0.4a";
+            version = "0.1.0-ylem";
             src = self;
             cargoLock.lockFile = ./Cargo.lock;
             meta = {

@@ -1,6 +1,6 @@
-# Qorx 1.0.4a Community Edition
+# Qorx 0.1-ylem Community Edition
 
-Qorx 1.0.4a Community Edition is a Rust source line for local context
+Qorx 0.1-ylem Community Edition is a Rust source line for local context
 resolution. It defines a small domain-specific language, checked `.qorxb`
 protobuf bytecode, named resolver steps, branches, runtime assertions, a
 Forth-inspired `qstk` stack tape, and `qorx://` handles that resolve against
@@ -48,9 +48,9 @@ The useful Rust pieces are ordinary ones:
 - tests around parser/runtime contracts instead of only end-to-end examples
 - source builds through Cargo
 
-## What changed in 1.0.4a
+## What changed in 0.1-ylem
 
-Version 1.0.4a keeps the small-binary release gate and adds production-facing adapter hot swap:
+Version 0.1-ylem keeps the small-binary release gate and adds production-facing adapter hot swap:
 
 - a local adapter manifest for TypeScript, Python, Rust, Go, parser,
   compressor, provider, or team runtime tools;
@@ -103,7 +103,7 @@ source file, bytecode file, evidence pack, or handle that a resolver can use.
 That is the narrow claim. It should be tested as a Rust runtime and CLI, not as
 a magic context shortcut.
 
-Qorx Ayie is the supported local product. Qorx Ayie Starter gives new accounts
-5,000 included Ayie/Cloud requests across Windows, macOS, and Linux before
+Qorx Void is the supported local product. Qorx Void Starter gives new accounts
+5,000 included Void/Cloud requests across Windows, macOS, and Linux before
 subscription. Edge adds signed installers, tray UX, daemon management, provider
 routing, account activation, and managed local-vault behavior.

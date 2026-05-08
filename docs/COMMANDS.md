@@ -100,9 +100,9 @@ This is a small production seam, not a dynamic-library plugin system. Qorx keeps
 its compact language, index, bytecode, and proof logic in-core. External tools
 stay outside the binary and can be changed by updating the manifest.
 
-## Qorx Ayie Commands
+## Qorx Void Commands
 
-The CE binary explains that these commands live in Qorx Ayie:
+The CE binary explains that these commands live in Qorx Void:
 
 ```text
 bootstrap
@@ -116,19 +116,19 @@ run
 patch
 ```
 
-Those commands belong to Qorx Ayie because they provide the official local
+Those commands belong to Qorx Void because they provide the official local
 runtime experience: background gateway, tray, account activation, provider
 routing, startup integration, and managed local vault behavior.
 
-Ayie exposes a monitor and tray action named `Turn on MCP + hooks`. That action
+Void exposes a monitor and tray action named `Turn on MCP + hooks`. That action
 repairs all known platform wiring in one pass. Managed hooks are available for
 Codex, Gemini CLI, and Claude Code. Antigravity, OpenCode, Copilot CLI, VS Code
 Copilot Chat, Aider, and Cursor are MCP-only unless those clients expose a
 supported hook surface. Other agent clients can use the local hook kit when
 their own loader supports it.
 
-Qorx Ayie Starter lets new accounts use the same Ayie/Cloud command surface on
-Windows, macOS, and Linux with 5,000 included Ayie/Cloud requests. Local CE
+Qorx Void Starter lets new accounts use the same Void/Cloud command surface on
+Windows, macOS, and Linux with 5,000 included Void/Cloud requests. Local CE
 commands remain unmetered.
 
 ## Edition Note

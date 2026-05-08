@@ -6,7 +6,7 @@ Suite: `live`
 
 Target: `.`
 
-Qorx version: `qorx 1.0.4-a.0`
+Qorx version: `qorx 0.1.0-ylem`
 
 Git commit: `b838c23`
 

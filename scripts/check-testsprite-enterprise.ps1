@@ -47,8 +47,8 @@ Require-Text "workflow" $workflow 'github-token:\s*\$\{\{\s*github\.token\s*\}\}
 Require-Text "workflow" $workflow 'blocking:\s*\$\{\{\s*inputs\.blocking\s*\}\}' "must make blocking mode explicit"
 Require-Text "workflow" $workflow 'continue-on-error:\s*\$\{\{\s*inputs\.blocking\s*==\s*''false''\s*\}\}' "must let non-blocking cloud runs report without failing the workflow"
 Require-Text "workflow" $workflow 'Community guide check' "must include the CE guide check job"
-Require-Text "workflow" $workflow 'Qorx Ayie Starter' "must check Starter docs"
-Require-Text "workflow" $workflow '5,000 included Ayie/Cloud requests' "must check Starter allowance"
+Require-Text "workflow" $workflow 'Qorx Void Starter' "must check Starter docs"
+Require-Text "workflow" $workflow '5,000 included Void/Cloud requests' "must check Starter allowance"
 Require-Text "workflow" $workflow 'qorx daemon status' "must verify daemon routing in CE"
 Require-Text "workflow" $workflow 'python scripts/run-testsprite-smoke\.py' "must run repo-managed TestSprite smoke files before cloud action"
 Require-Text "workflow" $workflow 'python -m pip install playwright' "must install Playwright for repo-managed browser smoke files"
@@ -65,23 +65,23 @@ Require-Text "docs" $docs 'Community Edition' "must identify the public CE guide
 
 $community = Read-RepoText "docs\COMMUNITY.md"
 Require-Text "community" $community 'Qorx Community Edition' "must define CE"
-Require-Text "community" $community 'Qorx Ayie' "must name the supported local product"
-Require-Text "community" $community 'Qorx Ayie Starter' "must explain the starter path"
-Require-Text "community" $community '5,000 included Ayie/Cloud requests' "must state the included request count"
-Require-Text "community" $community '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Ayie surface"
-Require-Text "community" $community '(?m)^\s*integrate\s*$' "must list integrations as a Qorx Ayie surface"
+Require-Text "community" $community 'Qorx Void' "must name the supported local product"
+Require-Text "community" $community 'Qorx Void Starter' "must explain the starter path"
+Require-Text "community" $community '5,000 included Void/Cloud requests' "must state the included request count"
+Require-Text "community" $community '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Void surface"
+Require-Text "community" $community '(?m)^\s*integrate\s*$' "must list integrations as a Qorx Void surface"
 
 $commands = Read-RepoText "docs\COMMANDS.md"
-Require-Text "commands" $commands 'Qorx Ayie Commands' "must document Qorx Ayie commands"
-Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must document daemon as a Qorx Ayie command"
+Require-Text "commands" $commands 'Qorx Void Commands' "must document Qorx Void commands"
+Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must document daemon as a Qorx Void command"
 
 $readme = Read-RepoText "README.md"
 Require-Text "README" $readme 'Qorx Community Edition' "must present public repo as CE"
-Require-Text "README" $readme 'Qorx Ayie' "must explain the supported local product"
-Require-Text "README" $readme 'Qorx Ayie Starter' "must explain the 5k starter"
-Require-Text "README" $readme '5,000 included Ayie/Cloud requests' "must state the included request count"
+Require-Text "README" $readme 'Qorx Void' "must explain the supported local product"
+Require-Text "README" $readme 'Qorx Void Starter' "must explain the 5k starter"
+Require-Text "README" $readme '5,000 included Void/Cloud requests' "must state the included request count"
 Require-Text "README" $readme 'PyPI' "must mention package channels"
-Require-Text "README" $readme 'available in Qorx Ayie' "must document command routing"
+Require-Text "README" $readme 'available in Qorx Void' "must document command routing"
 
 $packageCheck = Join-Path $RepoRoot "scripts\check-package-channels.ps1"
 if (-not (Test-Path -LiteralPath $packageCheck -PathType Leaf)) {
@@ -110,12 +110,12 @@ if (-not (Test-Path -LiteralPath $suiteJsonPath -PathType Leaf)) {
             if ($case.testType -notin @("FRONTEND", "BACKEND")) {
                 Add-Failure "TestSprite suite entry '$($case.title)' has invalid testType '$($case.testType)'"
             }
-            $fileName = ($case.title -replace '\s+', '_') -replace '-', '_'
-            $fileName = $fileName -replace '[^a-zA-Z0-9._]', ''
-            if (-not $fileName) {
-                $fileName = "file"
-            }
+            $fileName = ($case.title -replace '\s+', '_') -replace '[^a-zA-Z0-9._-]', ''
             $caseFile = Join-Path $RepoRoot ("testsprite_tests\{0}.py" -f $fileName)
+            if (-not (Test-Path -LiteralPath $caseFile -PathType Leaf) -and $case.testId) {
+                $caseFile = Get-ChildItem -LiteralPath (Join-Path $RepoRoot "testsprite_tests") -File -Filter "$($case.testId)_*.py" |
+                    Select-Object -First 1 -ExpandProperty FullName
+            }
             if (-not (Test-Path -LiteralPath $caseFile -PathType Leaf)) {
                 Add-Failure "missing TestSprite python file for suite title '$($case.title)'"
             } else {

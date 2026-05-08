@@ -74,12 +74,17 @@ if (-not $cargoVersionMatch.Success) {
 if ($cargoVersion -match '^(?<base>\d+\.\d+\.\d+)-a\.0$') {
     $displayVersion = "$($Matches.base)a"
     $pythonVersion = "$($Matches.base)a0"
+    $releaseTag = "v$displayVersion"
+} elseif ($cargoVersion -match '^(?<major>\d+)\.(?<minor>\d+)\.0-ylem$') {
+    $displayVersion = $cargoVersion
+    $pythonVersion = "$($Matches.major).$($Matches.minor).0+ylem"
+    $releaseTag = "v$($Matches.major).$($Matches.minor)-ylem"
 } else {
     $displayVersion = $cargoVersion
     $pythonVersion = $cargoVersion
+    $releaseTag = "v$displayVersion"
 }
 $archVersion = $cargoVersion -replace "-", "_"
-$releaseTag = "v$displayVersion"
 
 $requiredFiles = @(
     "packaging\README.md",
@@ -129,7 +134,7 @@ foreach ($doc in @(
     Require-Text $doc.name $doc.text 'WinGet|Scoop' "must mention Windows package managers"
     Require-Text $doc.name $doc.text 'Docker' "must mention Docker"
     Require-Text $doc.name $doc.text 'Nix' "must mention Nix"
-    Require-Text $doc.name $doc.text '5,000 included Ayie/Cloud requests' "must keep Ayie Starter allowance visible"
+    Require-Text $doc.name $doc.text '5,000 included Void/Cloud requests' "must keep Void Starter allowance visible"
     Reject-Text $doc.name $doc.text '(?i)Community Edition.*(stop|stops|expire|expires).*5,000' "must not claim CE stops at 5,000"
 }
 

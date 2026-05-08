@@ -55,15 +55,15 @@ PyPI token, npm token, AUR push access, Homebrew tap access, Scoop bucket PR,
 WinGet PR, Snapcraft login, Docker registry login, and any Debian/RPM/Nix
 publishing path.
 
-Qorx Ayie Starter includes 5,000 included Ayie/Cloud requests across Windows,
+Qorx Void Starter includes 5,000 included Void/Cloud requests across Windows,
 macOS, and Linux before subscription. Community Edition package files do not cap
 local CLI usage. The request cap belongs to the Qorx account service because a
 local AGPL build can be forked and changed.
 
-Signed installers and auto-update remain Qorx Ayie surfaces.
+Signed installers and auto-update remain Qorx Void surfaces.
 
 ## Maintainer note
 
 Historical tags and archives may still exist. New public work should point to
-Community Edition for AGPL source/CLI assets and to Qorx Ayie for the supported
+Community Edition for AGPL source/CLI assets and to Qorx Void for the supported
 always-on local product.
