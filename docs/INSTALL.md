@@ -8,7 +8,8 @@ command tree and `qorx man` for the manual.
 
 ## Source
 
-This works before any registry package is published:
+This is the current `0.0.1-ylem` path. The source tag is live for source
+installs; binary assets are not attached yet.
 
 ```sh
 cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
@@ -26,7 +27,8 @@ cargo build --release
 
 ## Binary Release
 
-Release assets are named by platform:
+No binary release assets are attached for `0.0.1-ylem` yet. When a maintainer
+attaches assets, they use these platform names:
 
 ```text
 qorx-v0.0.1-ylem-windows-x64.zip
@@ -36,28 +38,21 @@ qorx-v0.0.1-ylem-macos-x64.tar.gz
 qorx-v0.0.1-ylem-macos-arm64.tar.gz
 ```
 
-After extracting, put the directory containing `qorx` or `qorx.exe` on `PATH`.
+When those assets exist, extract the archive and put the directory containing
+`qorx` or `qorx.exe` on `PATH`.
 
 ## Package Managers
 
-These commands are the intended public install surface once each registry has
-accepted the package.
-
-```sh
-cargo install qorx
-npm install -g @brainfukk/qorx
-pipx install qorx
-nix run github:bbrainfuckk/qorx
-brew install bbrainfuckk/qorx/qorx
-```
+Each registry is current only when its public package page shows
+`0.0.1-ylem`. Until then, use the source install above. Older registry packages
+may still point at a previous public line.
 
 Release assets can also be installed directly before a central registry accepts
-the package:
+the package, but only after the GitHub release asset exists:
 
 ```sh
-npm install -g https://github.com/bbrainfuckk/qorx/releases/download/v0.0.1-ylem/qorx-npm-v0.0.1-ylem.tgz
-pipx install https://github.com/bbrainfuckk/qorx/releases/download/v0.0.1-ylem/qorx-0.0.1+ylem-py3-none-any.whl
-brew install bbrainfuckk/qorx/qorx
+npm install -g https://github.com/bbrainfuckk/qorx/releases/download/<tag>/<npm-tarball>
+pipx install https://github.com/bbrainfuckk/qorx/releases/download/<tag>/<python-wheel>
 ```
 
 Linux distribution recipes live under `packaging/`:

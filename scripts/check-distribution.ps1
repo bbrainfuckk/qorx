@@ -5,7 +5,7 @@ param(
 $ErrorActionPreference = "Continue"
 
 Write-Host "GitHub"
-gh release view v0.0.1-ylem --repo bbrainfuckk/qorx --json tagName,isDraft,isPrerelease,url,assets
+git ls-remote --tags https://github.com/bbrainfuckk/qorx.git refs/tags/v0.0.1-ylem
 
 Write-Host "crates.io"
 try { Invoke-RestMethod "https://crates.io/api/v1/crates/$Package" | ConvertTo-Json -Depth 4 } catch { "missing" }

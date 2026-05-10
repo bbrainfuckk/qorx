@@ -35,10 +35,14 @@ and has a resolver available.
 
 ## Install surfaces
 
-- Crates.io: https://crates.io/crates/qorx
-- npm: https://www.npmjs.com/package/@brainfukk/qorx
-- PyPI: https://pypi.org/project/qorx/
-- AUR: https://aur.archlinux.org/packages/qorx
+The current `0.0.1-ylem` line is source-first. Registry pages may still show an
+older public line until a maintainer publishes this version.
+
+- Source: https://github.com/bbrainfuckk/qorx
+- Crates.io package page: https://crates.io/crates/qorx
+- npm package page: https://www.npmjs.com/package/@brainfukk/qorx
+- PyPI package page: https://pypi.org/project/qorx/
+- AUR package page: https://aur.archlinux.org/packages/qorx
 - Homebrew tap: https://github.com/bbrainfuckk/homebrew-qorx
 - Scoop bucket: https://github.com/bbrainfuckk/scoop-qorx
 - Independent review brief: https://bbrainfuckk.github.io/qorx/INDEPENDENT_REVIEW.html

@@ -24,8 +24,8 @@ backups.
 | `.qorxb` bytecode | Ready | AST, QIR, opcodes, `qstk`, and `qorx qorx-inspect <file>` |
 | Local runtime | Ready | `qorx index`, `qorx strict-answer`, `qorx context verify` |
 | Local HTTP gateway | Ready | `qorx daemon start`, `qorx daemon status`, `/health`, `/stats`, `/strict-answer` |
-| Release binaries | Ready | GitHub release assets for Windows, Linux, and macOS |
-| Package wrappers | Ready where published | Cargo git install, npm tarball, Python wheel, Homebrew tap, Scoop bucket, Linux recipes |
+| Release binaries | Pending | No `0.0.1-ylem` GitHub release assets are attached yet |
+| Package wrappers | Ready as recipes | Source-build wrappers and recipes are in the repo; public channels are live only when the package page shows `0.0.1-ylem` |
 | Provenance checks | Ready | `qorx security attest`, `qorx security verify` |
 | Operator check | Ready | `qorx doctor --json` |
 

@@ -66,12 +66,13 @@ Version 0.0.1-ylem carries the current Qorx CLI and Void line while preserving t
 - daemon and gateway documentation
 - Docker, compose, and systemd surfaces
 - Windows release build verification
-- package surfaces for crates.io, npm, PyPI, AUR, Homebrew tap, and Scoop
+- package recipes for crates.io, npm, PyPI, AUR, Homebrew tap, and Scoop
 
-The package is on crates.io:
+The current `0.0.1-ylem` line is source-first until the matching package pages
+and release assets are live:
 
 ```sh
-cargo install qorx --locked
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
 ```
 
 ## What needs review

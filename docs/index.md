@@ -39,11 +39,16 @@ Current public version: `0.0.1-ylem`.
 
 ## Package surfaces
 
-- [GitHub release](https://github.com/bbrainfuckk/qorx/releases/tag/v0.0.1-ylem)
-- [Crates.io](https://crates.io/crates/qorx)
-- [npm](https://www.npmjs.com/package/@brainfukk/qorx)
-- [PyPI](https://pypi.org/project/qorx/)
-- [AUR](https://aur.archlinux.org/packages/qorx)
+The current `0.0.1-ylem` line is source-first. Use [Install](INSTALL.md).
+Registry and binary package files are kept in the repo, but a channel should be
+treated as live only after the matching public package page or GitHub release
+asset exists for this version.
+
+- [Source tag](https://github.com/bbrainfuckk/qorx/tree/v0.0.1-ylem)
+- [Crates.io package page](https://crates.io/crates/qorx)
+- [npm package page](https://www.npmjs.com/package/@brainfukk/qorx)
+- [PyPI package page](https://pypi.org/project/qorx/)
+- [AUR package page](https://aur.archlinux.org/packages/qorx)
 - [Homebrew tap](https://github.com/bbrainfuckk/homebrew-qorx)
 - [Scoop bucket](https://github.com/bbrainfuckk/scoop-qorx)
 

@@ -1,8 +1,7 @@
 # TestSprite enterprise QA
 
 TestSprite is an optional cloud QA gate for Qorx deployments. It is not needed
-to build or use the open-source CLI, daemon, crates.io package, PyPI package, or
-desktop tray.
+to build or use the open-source CLI, daemon, package recipes, or desktop tray.
 
 Use it for the hosted Qorx SaaS/API surface, not for a private laptop daemon.
 The TestSprite GitHub Action needs a reachable `base_url`. `127.0.0.1:47187`

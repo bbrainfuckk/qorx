@@ -4,6 +4,9 @@
 
 Python wrapper for the Qorx Rust binary.
 
+Use this package only after PyPI shows the current `0.0.1+ylem` version. Until
+then, use the source install in the main repo docs.
+
 ```sh
 pipx install qorx
 qorx --version

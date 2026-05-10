@@ -179,7 +179,8 @@ cargo build --release
 
 ## Install
 
-The source install path works anywhere Rust and Cargo are available:
+The current public `0.0.1-ylem` line is source-first. The source tag is the
+install target; binary assets are not attached yet:
 
 ```sh
 cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
@@ -193,7 +194,9 @@ qorx -i -p codex
 qorx -in -p antigravity
 ```
 
-Package-manager wrappers and Linux packaging recipes are in the repo:
+Package-manager wrappers and Linux packaging recipes are in the repo as
+maintainer packaging surfaces. Use them after the matching public package page
+or release asset exists for `0.0.1-ylem`:
 
 - [Install guide](docs/INSTALL.md)
 - [Distribution notes](docs/DISTRIBUTION.md)

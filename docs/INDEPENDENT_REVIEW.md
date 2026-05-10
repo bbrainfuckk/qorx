@@ -18,25 +18,14 @@ and resolve context locally, instead of repeatedly pasting large prompt payloads
 
 ## Install
 
-Use one path:
+Use the source path for the current `0.0.1-ylem` line:
 
 ```sh
-cargo install qorx --locked
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
 ```
 
-```sh
-npm install -g @brainfukk/qorx
-```
-
-```sh
-pipx install qorx
-```
-
-Arch users can use the AUR package:
-
-```sh
-yay -S qorx
-```
+Registry and AUR packages may exist for older public lines. Do not treat a
+package channel as current until its package page shows `0.0.1-ylem`.
 
 ## Quick check
 

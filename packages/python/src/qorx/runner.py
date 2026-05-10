@@ -132,7 +132,8 @@ def ensure_binary() -> Path:
         return binary
     raise SystemExit(
         "qorx binary is unavailable. Set QORX_BIN, install Rust/Cargo, "
-        "or use a platform with a Qorx release asset."
+        "or use a platform with a Qorx release asset. If this version is not "
+        "published yet, install from the public source tag with Cargo."
     )
 
 

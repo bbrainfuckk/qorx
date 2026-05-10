@@ -24,14 +24,16 @@ that maintains `qorx`. Store only the private key as `AUR_SSH_PRIVATE_KEY`.
 
 ## Current Version Mapping
 
-Qorx uses the version form each registry expects:
+Qorx uses the version form each registry expects. This is the intended
+`0.0.1-ylem` mapping; a channel is not live until its package page or release
+asset exists publicly.
 
 ```text
 Cargo/crates.io: 0.0.1-ylem
 npm:             0.0.1-ylem
 PyPI:            0.0.1+ylem
 Arch/AUR:        0.0.1_ylem
-Release tag:     v0.0.1-ylem
+Source tag:      v0.0.1-ylem
 ```
 
 For npm prereleases, the workflow publishes under the `next` dist-tag. Stable

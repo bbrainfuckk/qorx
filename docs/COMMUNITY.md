@@ -16,7 +16,7 @@ evidence-first workflows. It is the public source line, not a dead sample.
 - B2C accounting estimates.
 - SAFE-R claim checks.
 - source build instructions.
-- cross-platform GitHub release assets from maintainer tags.
+- release-asset recipes for maintainer tags.
 - package-channel files for PyPI, npm, Arch/AUR, Homebrew, Scoop, WinGet, Snap,
   Docker, Nix, and Deb/RPM packaging through nfpm.
 - live public metrics through the Qorx Community Metrics worker.
@@ -37,8 +37,9 @@ evidence-first workflows. It is the public source line, not a dead sample.
 - commercial support.
 
 Those surfaces live in Qorx Void or Qorx Cloud. The community still gets the
-source, the language, the local evidence routes, and release assets for direct
-CLI use.
+source, the language, the local evidence routes, and release recipes for direct
+CLI use. Release assets are live only after a maintainer attaches them to a
+GitHub release.
 
 Package-channel files in this repo install or build Community Edition. They do
 not add Void account services, and they do not cap local CLI usage.
