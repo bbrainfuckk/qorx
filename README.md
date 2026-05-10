@@ -1,19 +1,26 @@
 # Qorx
 
-Qorx keeps repeated AI context from being pasted into every request.
+Stop resending the same AI context.
 
-If an AI tool keeps asking for the same repo, notes, logs, policies, or project
-rules, Qorx keeps that context local. The model receives a small carrier or a
-small evidence pack. When proof is needed, Qorx resolves cited local evidence
-instead of dumping the whole workspace into chat.
+AI tools get expensive when they keep receiving the same repo, notes, logs,
+policies, and project rules. Qorx keeps that repeated context local, sends a
+small carrier, and pulls cited proof only when a task needs it.
+
+The first proof:
+
+| Scenario | Number | Meaning |
+| --- | ---: | --- |
+| Current public repo benchmark | 388,573 local tokens -> 69 sent | 5,631.49x smaller session carrier |
+| Website planning model, 2,000-person team | 42.5B repeated input tokens/year kept local | Bounded estimate, not a provider invoice |
+
+The point is not mystery. Qorx does not make tokens vanish. It shows what
+stayed local, what was sent, and what proof was selected.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
 [![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19953308.svg)](https://doi.org/10.5281/zenodo.19953308)
 [![Software Heritage](https://img.shields.io/badge/Software%20Heritage-archived-ff6600)](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/bbrainfuckk/qorx)
 [![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
 [![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
-
-![Qorx banner](docs/assets/qorx-img.jpg)
 
 ## What Qorx Does
 
@@ -34,6 +41,8 @@ large local context -> small model-visible carrier -> cited proof on demand
 
 That is the claim. The rest of the repo exists to make the claim buildable,
 testable, and bounded.
+
+![Qorx banner](docs/assets/qorx-img.jpg)
 
 ## What It Is Not
 
@@ -113,11 +122,11 @@ example input prices from $2 to $5 per 1M tokens
 
 That gives this estimate:
 
-| Team size | Avoided input tokens per day | Estimated yearly range |
-| ---: | ---: | ---: |
-| 100 people | 8,500,000 | $4,250 to $10,625 |
-| 500 people | 42,500,000 | $21,250 to $53,125 |
-| 2,000 people | 170,000,000 | $85,000 to $212,500 |
+| Team size | Avoided input tokens per day | Avoided input tokens per year | Estimated yearly range |
+| ---: | ---: | ---: | ---: |
+| 100 people | 8,500,000 | 2.125B | $4,250 to $10,625 |
+| 500 people | 42,500,000 | 10.625B | $21,250 to $53,125 |
+| 2,000 people | 170,000,000 | 42.5B | $85,000 to $212,500 |
 
 Use your own provider rate. Output tokens, new input, provider cache behavior,
 discounts, and account terms can change the real bill.
