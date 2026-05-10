@@ -5,8 +5,7 @@ and developers who want to evaluate the project without using maintainer copy.
 
 ## What to test
 
-Qorx Community Edition is an AGPL-licensed Rust source project for local context
-resolution. It defines:
+Qorx is an AGPL-licensed Rust project for local context resolution. It defines:
 
 - `.qorx` source files
 - `.qorxb` compiled bytecode
@@ -19,21 +18,32 @@ and resolve context locally, instead of repeatedly pasting large prompt payloads
 
 ## Install
 
-Build from source:
+Use one path:
 
 ```sh
-git clone https://github.com/bbrainfuckk/qorx.git
-cd qorx
-cargo test
-cargo build --release
+cargo install qorx --locked
+```
+
+```sh
+npm install -g @brainfukk/qorx
+```
+
+```sh
+pipx install qorx
+```
+
+Arch users can use the AUR package:
+
+```sh
+yay -S qorx
 ```
 
 ## Quick check
 
 ```sh
-./target/release/qorx --version
-./target/release/qorx doctor --json
-./target/release/qorx strict-answer "what proves this repository contains the Qorx runtime?"
+qorx --version
+qorx doctor --json
+qorx strict-answer "which files explain the resolver boundary?"
 ```
 
 Minimal source file:
@@ -53,8 +63,8 @@ if supported(answer) then emit answer else emit fallback
 Compile and run:
 
 ```sh
-./target/release/qorx qorx-compile goal.qorx --out goal.qorxb
-./target/release/qorx qorx goal.qorxb
+qorx qorx-compile goal.qorx --out goal.qorxb
+qorx goal.qorxb
 ```
 
 ## Review questions
@@ -63,20 +73,15 @@ Compile and run:
 - Is `.qorxb` bytecode useful outside the CLI?
 - Does `qstk` add useful stack-machine dispatch, or is QIR enough?
 - Does local context resolution reduce repeated prompt payloads in real use?
-- Are the resolver, cache, receipt, and provenance contracts clear?
+- Are the resolver, cache, receipt, and provenance boundaries clear?
 - What should be changed before the project is treated as production tooling?
 
-## Scope
+## Boundaries
 
 Qorx is not a hosted AI service, a general-purpose language, a Forth
 implementation, or a general compression system. It cannot reconstruct arbitrary
 unknown files from a tiny message. It cannot make a remote model know hidden
 local data without a resolver path.
-
-Qorx Void is the supported local product. Qorx Void Starter gives new accounts
-5,000 included Void/Cloud requests across Windows, macOS, and Linux before
-subscription. Edge adds signed installers, tray UX, daemon management, provider
-routing, account activation, and managed local-vault behavior.
 
 Token counts in Qorx docs are deterministic local estimates unless another
 tokenizer is explicitly named.

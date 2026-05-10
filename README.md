@@ -1,4 +1,12 @@
-# Qorx Community Edition
+# Qorx CLI
+
+Buildable local context runtime for Qorx.
+
+This is the public source line for the Qorx CLI, language runtime, local
+evidence index, proof commands, benchmark fixtures, and package recipes.
+Qorx Void Desktop is the commercial desktop experience around the same runtime:
+account, license, support, installer flow, tray controls, and managed local
+operation.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
 [![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19953308.svg)](https://doi.org/10.5281/zenodo.19953308)
@@ -8,170 +16,97 @@
 
 ![Qorx banner](docs/assets/qorx-img.jpg)
 
-This repository is the AGPL Community Edition of Qorx.
+Qorx stops AI workflows from pasting the same files into every prompt.
 
-Qorx is a small domain-specific language, compiler, and local context-resolution
-CLI. It lets a workflow carry a checked `.qorx` program, `.qorxb` bytecode,
-Qorx handle, or evidence pack instead of repeatedly pasting the same local files
-into prompts.
+Qorx is a small domain-specific language, compiler, and local runtime for
+context resolution. A `.qorx` file can be a compact directive file or a named
+resolver program with variables, steps, semantic checks, assertions, and an
+`emit` target. Programs can branch on supported evidence. Qorx compiles that
+source to protobuf-envelope `.qorxb` bytecode with AST, QIR, canonical opcodes,
+and integrity hashes, then runs it against local state. The 0.0.1-ylem line also
+emits `qstk`, a Forth-inspired stack tape inside the protobuf envelope for tiny
+local dispatch.
+The model sees a small carrier or evidence pack. The resolver keeps the index,
+receipts, cache, provenance, and proof pages local.
 
-The native `.qorx` language is the core path, but production teams do not have
-to abandon their existing stack. Qorx can read a local adapter manifest for
-external language servers, parser tools, compressors, provider shims, or runtime
-services. Swapping a TypeScript, Python, Rust, Go, or custom runtime adapter is a
-manifest update, not a Qorx rebuild.
-
-Community Edition is the public source line, not a stripped demo. It gives the
-community the parser, bytecode path, local index, strict evidence commands,
-pack/squeeze routes, local accounting, reproducible tests, and benchmark
-fixtures. Build it, inspect it, fork it under AGPL, and use it for local
-evidence-first workflows.
-
-## What You Are Running
-
-The command is `qorx`. That is the CLI people install from Cargo, PyPI, npm,
-Arch/AUR, Homebrew, Scoop, WinGet, Docker, or the GitHub release assets.
-
-On Windows, `qorx.exe` is a console program. If you double-click it, Windows may
-open a black window for a second and close it after Qorx finishes printing. That
-does not mean Qorx crashed. Open PowerShell and run `qorx --version`, or use the
-`Start Qorx CLI.cmd` file included in the Windows zip.
-
-Qorx Void is not a different language. It is the connected product layer for the
-same Qorx experience: signed installer, tray, auto-update, daemon management,
-provider routing, MCP/CLI activation, ORCL, account features, and support. The
-open-source CLI stays local and unmetered; Void/Cloud service calls use the
-Starter request allowance.
-
-Qorx Void is the supported local product line for signed installers, tray UX,
-auto-update, daemon management, provider routing, MCP/CLI activation, ORCL,
-cloud capsule sync, team policy, support, and managed local-vault UX. Qorx Cloud
-is the hosted API and account surface. Community Edition stays focused on the
-open source language, runtime, CLI proof surface, and reproducible local
-benchmarks.
-
-## Qorx Void Starter
-
-Qorx Void Starter is the full product trial path for people who want the real
-Windows, macOS, and Linux experience without starting with a payment wall.
-
-Starter starts with 5,000 included Void/Cloud requests. A request means a managed
-service action: provider routing, ORCL lookup, MCP/CLI activation, cloud capsule
-sync, or an account-backed daemon/API call. Local Community Edition commands
-such as `index`, `pack`, `squeeze`, `strict-answer`, `qorx-check`, and
-`qorx-compile` stay local and unmetered.
-
-After the 5,000 included Void/Cloud requests are used, the account asks the user
-to subscribe before continuing with Void/Cloud services. The cap is enforced
-server-side by the Qorx account service. That is the only honest place to put
-it: a local AGPL binary can always be changed and rebuilt, but a fork cannot
-mint valid Qorx service entitlements or use the official hosted service for
-free forever.
+The break is architectural: context is addressed and faulted in, not pasted over
+and over. That is the claim. It is testable through the command surface and the
+checked proof commands below.
 
 ## Status
 
-Current public version: `0.1-ylem`.
+Current local runtime line: `0.0.1-ylem`.
 
-[![Qorx CE](https://qorx-community-metrics.omniscius.workers.dev/badge/version)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
-[![Build](https://qorx-community-metrics.omniscius.workers.dev/badge/build)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
-[![TestSprite](https://qorx-community-metrics.omniscius.workers.dev/badge/testsprite)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
-[![Local reduction](https://qorx-community-metrics.omniscius.workers.dev/badge/reduction)](https://qorx-community-metrics.omniscius.workers.dev/metrics.json)
+Reviewer docs now track the `0.0.1-ylem` Qorx CLI and Void line. This runtime
+reports its binary/package version with `qorx --version`.
 
-Qorx is free software under `AGPL-3.0-only`. The Qorx name, logo, product marks,
-and official distribution identity are separate from the code license. Forks are
-allowed under the license, but they may not imply that they are official Qorx.
-See [TRADEMARKS.md](TRADEMARKS.md).
+Try the product path when you want the finished desktop experience:
 
-## Live proof
+- Qorx Void Desktop: free 24-hour local demo.
+- Qorx Cloud API: free 5,000 hosted calls.
 
-The README badges are served by a Cloudflare Worker:
+Run `qorx` with no arguments for the Qorx CLI splash, `qorx --help` for
+the command tree, and `qorx man` for the field manual.
 
-```text
-https://qorx-community-metrics.omniscius.workers.dev/metrics.json
-```
+Qorx is free software under `AGPL-3.0-only`. The project identity, Qorx name,
+`.qorx` source format, `.qorxb` bytecode format, and `qorx://` resolver scheme
+are reserved for attribution and ecosystem clarity. Forks are allowed under the
+license, but official branding is covered by [TRADEMARKS.md](TRADEMARKS.md).
 
-The worker refreshes from public GitHub APIs and committed Qorx benchmark proof
-files with a daily edge cache. It reports the current repo version, latest
-release, CI/TestSprite state, and latest local benchmark numbers. The scheduled
-`Daily Community Proof` workflow refreshes `docs/benchmarks/live.json` and
-`docs/benchmarks/live.md` from a real source build and local benchmark run.
+## Live Proof
 
-Current checked-in live proof:
-[`docs/benchmarks/live.md`](docs/benchmarks/live.md)
-
-Metric boundary:
-
-- Qorx Void Starter 0.1-ylem reports local runtime metrics from the Void `/stats` ledger.
-- Qorx API 0.1-ylem reports hosted tenant usage from `/api/v1/usage` and n8n context-fault calls from `/api/v1/n8n/context/fault`.
-- Qorx CLI Community Edition reports local proof metrics from source-built CLI commands and benchmark files.
-
-See [Qorx metrics](docs/METRICS.md).
+The current public proof files are
+[`docs/benchmarks/live.md`](docs/benchmarks/live.md) and
+[`docs/benchmarks/live.json`](docs/benchmarks/live.json). The latest local run
+reports:
 
 | Case | Indexed local tokens | Model-visible tokens | Local reduction |
 | --- | ---: | ---: | ---: |
-| Session carrier | 202,986 | 69 | 2,941.83x |
-| Evidence pack | 202,986 | 484 | 419.39x |
-| Squeeze extract | 202,986 | 419 | 484.45x |
+| Session carrier | 388,573 | 69 | 5,631.49x |
+| Evidence pack | 388,573 | 410 | 947.74x |
+| Squeeze extract | 388,573 | 448 | 867.35x |
 
 These are Qorx local `ceil(chars / 4)` estimates. They are not provider invoice
-savings, and they do not prove answer quality. They show the measurement Qorx is
-built around: large local state, small visible carrier, resolver available.
+savings, and they do not prove answer quality. They show the boundary Qorx is
+built to measure: large local state, small visible carrier, resolver available.
 
-## Global community release
+## Read First
 
-Community Edition now has a maintainer-controlled cross-platform release
-workflow. Tags build source-verified CLI assets for:
+The handbook is the source of truth:
 
-- Windows x64 zip.
-- Linux x64 tarball.
-- macOS tarball.
-
-The assets are unsigned community CLI builds. Qorx Void Starter gives users the
-full Void/Cloud feature set across Windows, macOS, and Linux with 5,000 included
-Void/Cloud requests before subscription. Qorx Void adds signed installers, tray,
-auto-update, daemon, provider routing, MCP activation, and ORCL.
-
-The `0.1-ylem` release also enforces the small-binary target in CI. Release builds
-fail if the CLI binary is over 5 MiB. On this Windows workspace, the optimized
-release binary is about 2.02 MiB before archive compression.
-
-## Package channels
-
-The repo now carries package-channel files for PyPI, npm, Arch/AUR, Homebrew,
-Scoop, WinGet, Snap, Docker, Nix, and Deb/RPM packaging through nfpm. See
-[packaging/README.md](packaging/README.md).
-
-These package files install or build Qorx Community Edition. Community Edition
-local commands are not capped at 5,000 requests. The 5,000 included Void/Cloud
-requests apply only to Qorx Void Starter service features, where the Qorx account
-service can enforce the allowance server-side.
-
-## Read first
-
-- [Community guide](docs/COMMUNITY.md)
-- [Install from source](docs/INSTALL.md)
-- [Qorx Void Starter](docs/AYIE_STARTER.md)
+- [Handbook](docs/handbook/README.md)
+- [Language](docs/handbook/language.md)
+- [Runtime](docs/handbook/runtime.md)
+- [Science notes](docs/handbook/science.md)
+- [Science](docs/SCIENCE.md)
+- [Science and math](docs/SCIENCE_AND_MATH.md)
+- [Trial guide](docs/TRIALS.md)
+- [Void boundary](docs/VOID_BOUNDARY.md)
 - [Live metrics](docs/LIVE_METRICS.md)
 - [Qorx metrics](docs/METRICS.md)
-- [Science and math](docs/SCIENCE_AND_MATH.md)
-- [Package channels](packaging/README.md)
-- [Registry automation](docs/REGISTRY_AUTOMATION.md)
-- [Language](docs/handbook/language.md)
+- [Community guide](docs/COMMUNITY.md)
+- [Protocol](docs/handbook/protocol.md)
 - [Command reference](docs/COMMANDS.md)
-- [Runtime notes](docs/handbook/runtime.md)
-- [Runtime options](docs/SERVER.md)
-- [SAFE-R claim check](docs/SAFE-R.md)
-- [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
+- [Manual](docs/MANUAL.md)
+- [Audience guide](docs/AUDIENCE_GUIDE.md)
+- [Production status](docs/PRODUCTION.md)
+- [Server and daemon](docs/SERVER.md)
+- [SAFE-R anti-hype gate](docs/SAFE-R.md)
+- [TestSprite enterprise QA](docs/TESTSPRITE.md)
+- [Media and reviewer notes](docs/MEDIA.md)
 - [Independent review brief](docs/INDEPENDENT_REVIEW.md)
-- [Qorx 0.1-ylem for Rust reviewers](docs/QORX_1_0_4_RUST.md)
+- [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
+- [Qorx 0.0.1-ylem for Rust reviewers](docs/QORX_1_0_4_RUST.md)
 - [Benchmarks](docs/benchmarks/README.md)
-- [Papers and preprint](docs/papers/README.md)
+- [Qorx papers and preprint](docs/papers/README.md)
+- [Release notes](docs/releases/v0.0.1-ylem.md)
 
 Qorx is not a prompt trick, a billing bypass, a general-purpose language, or
-universal compression of unknown data. It works when a workflow carries Qorx
-source, bytecode, handles, or evidence packs and has a resolver available.
+universal compression of unknown data. It works when a workflow carries `.qorx`
+source, `.qorxb` bytecode, Qorx handles, or Qorx evidence packs and has a
+resolver available.
 
-## Minimal program
+## Minimal Program
 
 ```text
 QORX 1
@@ -191,7 +126,7 @@ Check it:
 cargo run -- qorx-check .\goal.qorx
 ```
 
-Run it from source:
+Run it:
 
 ```powershell
 cargo run -- qorx .\goal.qorx
@@ -204,7 +139,7 @@ cargo run -- qorx-compile .\goal.qorx --out .\goal.qorxb
 cargo run -- qorx .\goal.qorxb
 ```
 
-## Core model
+## Core Model
 
 | Term | Short name | Meaning |
 | --- | --- | --- |
@@ -220,13 +155,18 @@ cargo run -- qorx .\goal.qorxb
 | `qorx://u/...` | qevt | Event handle for a local receipt. |
 | quark | qrk | Bounded, hashed, token-estimated evidence chunk. |
 | local state | qosm | Local Qorx state: index, cache, receipts, provenance, lattice, traces. |
-| resolver surface | hzon | Relationship between local state and the model-visible carrier. |
+| resolver boundary | hzon | Line between local state and model-visible carrier. |
 | qshf factor | qshf | Baseline-to-Compact ratio between local context mass and visible carrier mass. |
 | B2C | b2c | Baseline-to-Compact accounting. Local estimate, not a provider invoice. |
 | B2C allocator | qalc | Local budgeted quark selector used by `b2c-plan` and `pack`. |
 
-These are Qorx vocabulary labels, not physics claims. The claim discipline is in
-[SAFE-R](docs/SAFE-R.md).
+These are Qorx vocabulary labels, not physics claims. The short names are for
+logs, UI, and compact docs after the reader has seen the concrete workflow. The
+full boundary is in [SAFE-R](docs/SAFE-R.md).
+
+The current public glossary also exposes one hundred 3-character Qorx terms via
+`qorx lexicon`. Older labels such as `qosm`, `qshf`, and `qv0d` remain
+compatibility vocabulary for saved handles and old proof strings.
 
 ## Build
 
@@ -237,63 +177,88 @@ cargo clippy --all-targets -- -D warnings
 cargo build --release
 ```
 
-## Install from public source
+## Install
 
-Use Cargo against the current public source branch:
-
-```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --branch main --locked qorx
-```
-
-Or clone the repository and build:
+The source install path works anywhere Rust and Cargo are available:
 
 ```sh
-git clone https://github.com/bbrainfuckk/qorx.git
-cd qorx
-cargo test
-cargo build --release
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
 ```
 
-## Community commands
+Shortcut install surface:
+
+```sh
+qorx -i
+qorx -i -p codex
+qorx -in -p antigravity
+```
+
+Package-manager wrappers and Linux packaging recipes are in the repo:
+
+- [Install guide](docs/INSTALL.md)
+- [Distribution notes](docs/DISTRIBUTION.md)
+- `packages/npm/`
+- `packages/python/`
+- `packaging/`
+- `flake.nix`
+- `snap/snapcraft.yaml`
+
+## Daemon
+
+The official background runtime is the daemon:
+
+```sh
+qorx daemon start
+qorx daemon status
+qorx daemon stop
+```
+
+`qorx daemon` and `qorx daemon run` run the same gateway in the foreground for
+systemd, Docker, or a terminal. Windows also has an optional tray command. The
+tray is a control surface for the daemon; Linux and macOS use the daemon and
+their normal supervisors.
+
+## Proof Commands
 
 ```powershell
 .\target\release\qorx.exe --version
 .\target\release\qorx.exe doctor --json
 .\target\release\qorx.exe index .
-.\target\release\qorx.exe strict-answer "what proves Qorx is a language runtime?"
-.\target\release\qorx.exe b2c-plan "what proves Qorx is a language runtime?" --budget-tokens 900
-.\target\release\qorx.exe pack "what proves Qorx is a language runtime?" --budget-tokens 1200
+.\target\release\qorx.exe session
+.\target\release\qorx.exe b2c-plan "which files explain the resolver boundary?" --budget-tokens 900
+.\target\release\qorx.exe strict-answer "which files explain the resolver boundary?"
+.\target\release\qorx.exe context snapshot
+.\target\release\qorx.exe context verify
 .\target\release\qorx.exe security attest
+.\scripts\safer-check.ps1 -Exe .\target\release\qorx.exe -SkipCargo
 ```
 
-Community Edition focuses on source-built CLI workflows. Commands that require
-the always-on product layer, such as `bootstrap`, `daemon`, `tray`, `startup`,
-`drive`, `hot`, `integrate`, `run`, and `patch`, explain that those surfaces are
-available in Qorx Void. New Void accounts start with 5,000 included Void/Cloud
-requests through Qorx Void Starter.
+Proof numbers use Qorx's deterministic `ceil(chars / 4)` token estimate unless
+another tokenizer is explicitly named. Do not present those numbers as provider
+invoice savings.
 
-## Repository map
+## Repository Map
 
 | Path | Purpose |
 | --- | --- |
-| `src/` | Rust implementation of the parser, runtime components, index, protocol, and CLI. |
+| `src/` | Rust implementation of the parser, runtime, resolver, index, cache, protocol, and CLI. |
 | `tests/` | Runtime, language, capsule, context, lattice, and strict evidence tests. |
 | `docs/handbook/` | Manual-style operating documentation. |
-| `docs/COMMANDS.md` | Community command catalog. |
-| `docs/COMMUNITY.md` | Edition guide for Community Edition, Qorx Void, and Qorx Cloud. |
-| `docs/SERVER.md` | Runtime options for source-built Community Edition users. |
+| `docs/COMMANDS.md` | Command catalog. |
+| `docs/PRODUCTION.md` | Production boundary and readiness gate. |
+| `docs/SERVER.md` | Daemon, HTTP gateway, Docker, and systemd notes. |
+| `docs/releases/` | Release notes. |
+| `Dockerfile` | Container build for the daemon. |
+| `packaging/systemd/` | systemd service template. |
 | `examples/` | Small fixtures for impact and evidence routes. |
-| `scripts/` | Proof, benchmark, and maintainer checks. |
+| `scripts/` | Publishing and proof helpers. |
 
-## What Qorx Does
+## Boundaries
 
 Qorx can resolve Qorx-known local handles, bytecode, indexed evidence, and
 receipts. It cannot reconstruct arbitrary unknown files from a tiny message. It
 cannot make a remote model know hidden local data without a resolver path. It
 does not certify task quality by token savings alone.
-
-Qorx Void is the supported local product experience. Do not describe forks,
-community builds, or self-built binaries as official Qorx products.
 
 ## License
 
@@ -305,4 +270,4 @@ Copyright (c) 2026 Marvin Sarreal Villanueva.
 - Contribution terms: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Security policy: [SECURITY.md](SECURITY.md)
 - Governance: [GOVERNANCE.md](GOVERNANCE.md)
-- Marks and official identity: [TRADEMARKS.md](TRADEMARKS.md)
+- Marks and project identity: [TRADEMARKS.md](TRADEMARKS.md)

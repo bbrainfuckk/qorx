@@ -27,11 +27,11 @@ that maintains `qorx`. Store only the private key as `AUR_SSH_PRIVATE_KEY`.
 Qorx uses the version form each registry expects:
 
 ```text
-Cargo/crates.io: 0.1.0-ylem
-npm:             0.1.0-ylem
-PyPI:            0.1.0+ylem
-Arch/AUR:        0.1.0_ylem
-Release tag:     v0.1-ylem
+Cargo/crates.io: 0.0.1-ylem
+npm:             0.0.1-ylem
+PyPI:            0.0.1+ylem
+Arch/AUR:        0.0.1_ylem
+Release tag:     v0.0.1-ylem
 ```
 
 For npm prereleases, the workflow publishes under the `next` dist-tag. Stable
@@ -46,7 +46,7 @@ pip install --pre qorx
 or:
 
 ```text
-pip install qorx==0.1.0+ylem
+pip install qorx==0.0.1+ylem
 ```
 
 ## Why Rotate Pasted Tokens

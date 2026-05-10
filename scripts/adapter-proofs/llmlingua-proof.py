@@ -13,7 +13,7 @@ def main() -> None:
     context = [
         "Qorx keeps repository context local and avoids repeatedly sending unchanged code. "
         * 12,
-        "The CE planner preserves stable prefixes, exact cache keys, and readable context accounting. "
+        "The proxy preserves stable prefixes, exact replay cache keys, and readable context accounting. "
         * 12,
     ]
     result = compressor.compress_prompt(

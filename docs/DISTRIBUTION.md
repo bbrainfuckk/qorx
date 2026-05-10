@@ -1,69 +1,83 @@
-# Release Channels
+# Distribution
 
-Qorx Community Edition is source-first and now has maintainer-controlled
-cross-platform CLI release assets.
+This file is for maintainers cutting Qorx packages.
 
-## CE distribution
+## Local Gate
 
-Source install:
+Use the release prep script for normal version bumps. It updates Cargo,
+`package.json`, npm, PyPI, AUR, RPM, Debian, Snap, Scoop, WinGet, Homebrew,
+CITATION, Zenodo, and release docs.
 
-```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --branch main --locked qorx
+```powershell
+.\scripts\prepare-release.ps1 -Version 0.0.1-ylem
 ```
 
-Or clone the repo and build:
+The script does not publish by default. For a new version, pass hashes when they
+exist:
+
+```powershell
+.\scripts\prepare-release.ps1 -Version <next-version> `
+  -CrateSha256 <crates-archive-sha256> `
+  -WindowsZipSha256 <release-zip-sha256> `
+  -HomebrewRevision <tag-commit-sha>
+```
+
+Manual gate:
 
 ```sh
-git clone https://github.com/bbrainfuckk/qorx.git
-cd qorx
+cargo fmt --check
 cargo test
-cargo build --release
+cargo clippy --all-targets -- -D warnings
+cargo package
+qorx doctor --json
 ```
 
-## GitHub release assets
+On Windows, build the portable asset:
 
-Release tags build and upload community CLI archives for:
+```powershell
+.\scripts\build-release-assets.ps1 -Version 0.0.1-ylem
+```
 
-- Windows x64.
-- Linux x64.
-- macOS.
+## Registries
 
-These are unsigned AGPL Community Edition CLI assets. They are meant for users
-who want a quick binary after the source build and tests pass in CI.
+The publish script refuses to upload when the matching token is missing.
 
-## Package channel files
+```powershell
+.\scripts\publish-registries.ps1 -Version 0.0.1-ylem -DryRun
+.\scripts\publish-registries.ps1 -Version 0.0.1-ylem
+```
 
-The public repo now includes package-channel files for:
+Or run the dry-run path through the prep script:
 
-- PyPI.
-- npm.
-- Arch/AUR.
-- Homebrew.
-- Scoop.
-- WinGet.
-- Snap.
-- Docker.
-- Nix.
-- Deb/RPM packaging through nfpm.
+```powershell
+.\scripts\prepare-release.ps1 -Version 0.0.1-ylem -DryRunRegistries
+```
 
-These files live under `packaging/`, plus the root `Dockerfile` and `flake.nix`.
-The `Package Channel Manifests` workflow validates the package metadata and
-Docker build shape.
+Expected credentials:
 
-Registry publishing still needs maintainer credentials or external submissions:
-PyPI token, npm token, AUR push access, Homebrew tap access, Scoop bucket PR,
-WinGet PR, Snapcraft login, Docker registry login, and any Debian/RPM/Nix
-publishing path.
+```text
+CARGO_REGISTRY_TOKEN
+NPM_TOKEN or NODE_AUTH_TOKEN
+TWINE_USERNAME=__token__
+TWINE_PASSWORD=<PyPI token>
+```
 
-Qorx Void Starter includes 5,000 included Void/Cloud requests across Windows,
-macOS, and Linux before subscription. Community Edition package files do not cap
-local CLI usage. The request cap belongs to the Qorx account service because a
-local AGPL build can be forked and changed.
+## Linux And Desktop Package Surfaces
 
-Signed installers and auto-update remain Qorx Void surfaces.
+The repo carries packaging recipes for:
 
-## Maintainer note
+```text
+Homebrew/Linuxbrew: packaging/homebrew/qorx.rb
+Arch/AUR:          packaging/aur/PKGBUILD
+Debian/Ubuntu:    packaging/debian/
+Fedora/RHEL:      packaging/rpm/qorx.spec
+Nix:              flake.nix
+Snap:             snap/snapcraft.yaml
+Scoop:            packaging/scoop/qorx.json
+WinGet:           packaging/winget/manifests/
+Docker:           Dockerfile, docker-compose.yml
+systemd:          packaging/systemd/qorx.service
+```
 
-Historical tags and archives may still exist. New public work should point to
-Community Edition for AGPL source/CLI assets and to Qorx Void for the supported
-always-on local product.
+Central distribution still needs submission to each upstream package index.
+Do not mark a channel as live until the public package page exists.

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Qorx logo</title>
+  <desc id="desc">White italic Q with a superscript italic x.</desc>
+  <g fill="#fff" font-family="New York, SF Pro Display, SF Pro Text, -apple-system, BlinkMacSystemFont, Helvetica Neue, Times New Roman, serif" font-style="italic" font-weight="400">
+    <text x="436" y="708" text-anchor="middle" font-size="708">Q</text>
+    <text x="690" y="336" text-anchor="middle" font-size="250">x</text>
+  </g>
+</svg>

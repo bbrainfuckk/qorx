@@ -1,4 +1,9 @@
-use std::{collections::BTreeMap, fs, io::Read, path::Path};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    fs,
+    io::Read,
+    path::{Path, PathBuf},
+};
 
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Utc};
@@ -171,13 +176,80 @@ pub fn load_index(path: &Path) -> Result<RepoIndex> {
         .with_context(|| format!("could not read Qorx index at {}", path.display()))
 }
 
+pub fn load_index_with_live_overlay(path: &Path, query: &str) -> Result<RepoIndex> {
+    let index = load_index(path)?;
+    Ok(with_live_overlay(&index, query, 2_048, 128))
+}
+
+pub fn with_live_overlay(
+    index: &RepoIndex,
+    query: &str,
+    max_files: usize,
+    max_atoms: usize,
+) -> RepoIndex {
+    if max_files == 0 || max_atoms == 0 {
+        return index.clone();
+    }
+    let root = PathBuf::from(&index.root);
+    let Ok(root) = root.canonicalize() else {
+        return index.clone();
+    };
+    if !root.is_dir() {
+        return index.clone();
+    }
+    let query_lower = query.to_lowercase();
+    let terms = retrieval_terms(&query_lower)
+        .into_iter()
+        .filter(|term| !is_noise_term(term))
+        .collect::<Vec<_>>();
+    if terms.is_empty() {
+        return index.clone();
+    }
+
+    let indexed_paths = index
+        .atoms
+        .iter()
+        .map(|atom| atom.path.clone())
+        .collect::<BTreeSet<_>>();
+    let mut scan = LiveOverlayScan {
+        root: &root,
+        indexed_at: index.updated_at,
+        terms: &terms,
+        indexed_paths: &indexed_paths,
+        files_seen: 0,
+        max_files,
+        max_atoms,
+        atoms: Vec::new(),
+        paths: BTreeSet::new(),
+    };
+    scan_live_overlay_dir(&root, &mut scan);
+    if scan.atoms.is_empty() {
+        return index.clone();
+    }
+
+    let mut overlay = index.clone();
+    overlay
+        .atoms
+        .retain(|atom| !scan.paths.contains(atom.path.as_str()));
+    overlay.atoms.extend(scan.atoms);
+    overlay.atoms.sort_by(|a, b| {
+        a.path
+            .cmp(&b.path)
+            .then(a.start_line.cmp(&b.start_line))
+            .then(a.id.cmp(&b.id))
+    });
+    overlay.updated_at = Utc::now();
+    overlay
+}
+
 pub fn search_index(index: &RepoIndex, query: &str, limit: usize) -> Vec<SearchHit> {
     let query_lower = query.to_lowercase();
-    let terms = query_terms(&query_lower);
+    let terms = retrieval_terms(&query_lower);
     if terms.is_empty() {
         return Vec::new();
     }
-    let query_vector = term_vector(&query_lower);
+    let query_material = format!("{}\n{}", query_lower, terms.join(" "));
+    let query_vector = term_vector(&query_material);
 
     let mut hits = index
         .atoms
@@ -200,6 +272,143 @@ pub fn search_index(index: &RepoIndex, query: &str, limit: usize) -> Vec<SearchH
     hits.sort_by(|a, b| b.score.cmp(&a.score).then(a.path.cmp(&b.path)));
     hits.truncate(limit.max(1));
     hits
+}
+
+struct LiveOverlayScan<'a> {
+    root: &'a Path,
+    indexed_at: DateTime<Utc>,
+    terms: &'a [String],
+    indexed_paths: &'a BTreeSet<String>,
+    files_seen: usize,
+    max_files: usize,
+    max_atoms: usize,
+    atoms: Vec<RepoAtom>,
+    paths: BTreeSet<String>,
+}
+
+fn scan_live_overlay_dir(dir: &Path, scan: &mut LiveOverlayScan<'_>) {
+    if scan.files_seen >= scan.max_files || scan.atoms.len() >= scan.max_atoms {
+        return;
+    }
+    let Ok(entries) = fs::read_dir(dir) else {
+        return;
+    };
+    for entry in entries.flatten() {
+        if scan.files_seen >= scan.max_files || scan.atoms.len() >= scan.max_atoms {
+            break;
+        }
+        let path = entry.path();
+        let name = entry.file_name().to_string_lossy().to_lowercase();
+        if path.is_dir() {
+            if should_skip_live_overlay_dir(&name, scan.terms)
+                || should_skip_relative_dir(scan.root, &path)
+            {
+                continue;
+            }
+            scan_live_overlay_dir(&path, scan);
+            continue;
+        }
+        scan.files_seen += 1;
+        maybe_add_live_overlay_file(&path, scan);
+    }
+}
+
+fn should_skip_live_overlay_dir(name: &str, terms: &[String]) -> bool {
+    if matches!(name, "log" | "logs") {
+        return !terms.iter().any(|term| {
+            matches!(
+                term.as_str(),
+                "log" | "logs" | "incident" | "payment" | "ssn" | "customer_ssn" | "token"
+            )
+        });
+    }
+    should_skip_dir(name)
+}
+
+fn maybe_add_live_overlay_file(path: &Path, scan: &mut LiveOverlayScan<'_>) {
+    if scan.atoms.len() >= scan.max_atoms || !should_index_file(path) {
+        return;
+    }
+    if looks_sensitive_path(scan.root, path) {
+        return;
+    }
+    let Ok(relative) = path.strip_prefix(scan.root) else {
+        return;
+    };
+    let relative = relative.to_string_lossy().replace('\\', "/");
+    let file_name_lower = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or_default()
+        .to_lowercase();
+    let path_hit = scan
+        .terms
+        .iter()
+        .any(|term| file_name_lower.contains(term.as_str()));
+    let modified_after_index = fs::metadata(path)
+        .and_then(|metadata| metadata.modified())
+        .map(DateTime::<Utc>::from)
+        .map(|modified| modified > scan.indexed_at)
+        .unwrap_or(false);
+    if !path_hit && !modified_after_index {
+        return;
+    }
+    if scan.indexed_paths.contains(relative.as_str()) && !modified_after_index {
+        return;
+    }
+    if !path_hit && !file_contains_any_query_term(path, scan.terms) {
+        return;
+    }
+    if is_live_overlay_log_path(&relative) {
+        let exact_terms = specific_live_overlay_terms(scan.terms);
+        if !exact_terms.is_empty() && !file_contains_any_query_term(path, &exact_terms) {
+            return;
+        }
+    }
+
+    let mut atoms = Vec::new();
+    if index_file(scan.root, path, &mut atoms, false).ok() != Some(true) {
+        return;
+    }
+    let remaining = scan.max_atoms.saturating_sub(scan.atoms.len());
+    for atom in atoms.into_iter().take(remaining) {
+        scan.paths.insert(atom.path.clone());
+        scan.atoms.push(atom);
+    }
+}
+
+fn file_contains_any_query_term(path: &Path, terms: &[String]) -> bool {
+    let Ok(metadata) = fs::metadata(path) else {
+        return false;
+    };
+    if metadata.len() == 0 || metadata.len() > MAX_FILE_BYTES {
+        return false;
+    }
+    let Ok(bytes) = fs::read(path) else {
+        return false;
+    };
+    if bytes.contains(&0) {
+        return false;
+    }
+    let Ok(text) = String::from_utf8(bytes) else {
+        return false;
+    };
+    let lower = text.to_lowercase();
+    terms.iter().any(|term| lower.contains(term.as_str()))
+}
+
+fn is_live_overlay_log_path(relative: &str) -> bool {
+    relative
+        .split('/')
+        .any(|part| matches!(part, "log" | "logs"))
+}
+
+fn specific_live_overlay_terms(terms: &[String]) -> Vec<String> {
+    terms
+        .iter()
+        .filter(|term| term.len() >= 6 && (term.contains('_') || term.contains('-')))
+        .cloned()
+        .collect()
 }
 
 pub fn pack_context(index: &RepoIndex, query: &str, budget_tokens: u64) -> PackedContext {
@@ -657,6 +866,11 @@ fn should_index_file(path: &Path) -> bool {
                 | "qorx"
                 | "yaml"
                 | "yml"
+                | "conf"
+                | "env"
+                | "ini"
+                | "properties"
+                | "log"
                 | "txt"
                 | "epub"
                 | "ps1"
@@ -723,9 +937,58 @@ fn query_terms(query: &str) -> Vec<String> {
         .collect()
 }
 
+pub(crate) fn retrieval_terms(query: &str) -> Vec<String> {
+    let mut terms = BTreeSet::new();
+    for term in query_terms(query) {
+        terms.insert(term.clone());
+        for alias in query_aliases(&term) {
+            terms.insert((*alias).to_string());
+        }
+    }
+    terms.into_iter().collect()
+}
+
+fn query_aliases(term: &str) -> &'static [&'static str] {
+    match term {
+        "db" | "database" => &[
+            "db_port",
+            "endpoint",
+            "entrance",
+            "gateway",
+            "gateway_entrance",
+            "port",
+            "service_gateway_entrance",
+        ],
+        "db_port" | "port" => &[
+            "database",
+            "endpoint",
+            "entrance",
+            "gateway",
+            "gateway_entrance",
+            "service_gateway_entrance",
+        ],
+        "connect" | "connection" | "endpoint" => &[
+            "entrance",
+            "gateway",
+            "gateway_entrance",
+            "service_gateway_entrance",
+        ],
+        "prod" | "production" => &["active", "prod-v2", "prod_v2"],
+        "deprecated" | "legacy" => &["old", "superseded"],
+        "secret" | "credential" | "password" => &["api_key", "private_key", "token"],
+        _ => &[],
+    }
+}
+
 fn score_atom(atom: &RepoAtom, query_lower: &str, terms: &[String], query_vector: &[u32]) -> u64 {
     let path_lower = atom.path.to_lowercase();
     let text_lower = atom.text.to_lowercase();
+    let active_authority_query = is_active_authority_query(query_lower, terms);
+    let current_authority = looks_current_authority(&path_lower, &text_lower);
+    let stale_authority = looks_stale_authority(&path_lower, &text_lower);
+    if active_authority_query && stale_authority && !current_authority {
+        return 0;
+    }
     let mut score = 0;
 
     if text_lower.contains(query_lower) {
@@ -751,8 +1014,62 @@ fn score_atom(atom: &RepoAtom, query_lower: &str, terms: &[String], query_vector
         let hits = text_lower.matches(term).count() as u64;
         score += hits.min(12).saturating_mul(3);
     }
+    if active_authority_query {
+        if current_authority {
+            score += 80;
+        }
+        if stale_authority {
+            score = score.saturating_sub(180);
+        }
+    }
     score += vector_overlap_score(&atom.vector, query_vector).min(32) * 7;
     score
+}
+
+fn is_active_authority_query(query_lower: &str, terms: &[String]) -> bool {
+    query_lower.contains("source of truth")
+        || terms.iter().any(|term| {
+            matches!(
+                term.as_str(),
+                "active"
+                    | "approved"
+                    | "current"
+                    | "deploy"
+                    | "effective"
+                    | "prefer"
+                    | "production"
+                    | "prod"
+                    | "prod-v2"
+                    | "prod_v2"
+            )
+        })
+}
+
+fn looks_current_authority(path_lower: &str, text_lower: &str) -> bool {
+    path_lower.contains("current")
+        || path_lower.contains("deploy")
+        || path_lower.contains("2026")
+        || text_lower.contains("\"status\":\"active\"")
+        || text_lower.contains("\"status\": \"active\"")
+        || text_lower.contains("status: active")
+        || text_lower.contains("effective:")
+        || text_lower.contains("prod-v2")
+        || text_lower.contains("prod_v2")
+}
+
+fn looks_stale_authority(path_lower: &str, text_lower: &str) -> bool {
+    path_lower.contains("legacy")
+        || path_lower.contains("deprecated")
+        || path_lower.contains("retention_2024")
+        || text_lower.contains("\"status\":\"deprecated\"")
+        || text_lower.contains("\"status\": \"deprecated\"")
+        || text_lower.contains("status: deprecated")
+        || text_lower.contains("status: superseded")
+        || text_lower.contains("superseded")
+        || text_lower.contains("deprecated")
+        || text_lower.contains("stale fallback")
+        || text_lower.contains("old policy")
+        || text_lower.contains("old cluster")
 }
 
 fn atom_vector(path: &str, symbols: &[String], text: &str) -> Vec<u32> {
@@ -906,7 +1223,15 @@ fn signal_mask_for_path(path: &str) -> u16 {
     if lower.contains("test") || lower.contains("spec") {
         mask |= SIG_TEST;
     }
-    if lower.contains("config") || lower.ends_with(".toml") || lower.ends_with(".yaml") {
+    if lower.contains("config")
+        || lower.ends_with(".toml")
+        || lower.ends_with(".yaml")
+        || lower.ends_with(".yml")
+        || lower.ends_with(".conf")
+        || lower.ends_with(".env")
+        || lower.ends_with(".ini")
+        || lower.ends_with(".properties")
+    {
         mask |= SIG_CONFIG;
     }
     if lower.contains("route") || lower.contains("api") || lower.contains("controller") {
@@ -1081,19 +1406,19 @@ mod tests {
             updated_at: Utc::now(),
             atoms: vec![RepoAtom {
                 id: "qva_test".to_string(),
-                path: "src/cache_plan.rs".to_string(),
+                path: "src/proxy.rs".to_string(),
                 start_line: 1,
                 end_line: 3,
                 hash: "abc".to_string(),
                 token_estimate: 12,
-                symbols: vec!["split_stable_prefix".to_string()],
+                symbols: vec!["proxy_to_provider".to_string()],
                 signal_mask: SIG_CALL,
-                vector: term_vector("cache plan stable prefix"),
-                text: "fn split_stable_prefix() { stable_prefix_tokens(); }".to_string(),
+                vector: term_vector("proxy compression provider"),
+                text: "fn proxy_to_provider() { compress_json_body(); }".to_string(),
             }],
         };
 
-        let hits = search_index(&index, "cache plan", 5);
+        let hits = search_index(&index, "proxy compression", 5);
         assert_eq!(hits.len(), 1);
         assert_eq!(hits[0].id, "qva_test");
     }
@@ -1266,5 +1591,242 @@ mod tests {
         let report = benchmark_queries(&index, &["pack context".to_string()], 256);
         assert_eq!(report.rows.len(), 1);
         assert_eq!(report.rows[0].quarks_used, 1);
+    }
+
+    #[test]
+    fn live_overlay_adds_newer_files_without_rebuilding_saved_index() {
+        let root = unique_temp_dir("qorx-live-overlay");
+        fs::create_dir_all(&root).expect("create test root");
+        fs::write(root.join("existing.md"), "stable indexed note").expect("write existing");
+        let mut index = build_index_value(&root, &IndexOptions::default()).expect("index root");
+        index.updated_at = DateTime::parse_from_rfc3339("2026-01-01T00:00:00Z")
+            .unwrap()
+            .with_timezone(&Utc);
+        fs::write(
+            root.join("deploy.yaml"),
+            "env:\n- name: DB_PORT\n  value: \"5433\"\n",
+        )
+        .expect("write fresh deploy");
+
+        let overlay = with_live_overlay(&index, "What is DB_PORT in deploy.yaml?", 128, 16);
+        let hits = search_index(&overlay, "DB_PORT deploy.yaml 5433", 8);
+
+        assert!(!index.atoms.iter().any(|atom| atom.path == "deploy.yaml"));
+        assert!(overlay.atoms.iter().any(|atom| atom.path == "deploy.yaml"));
+        assert!(hits.iter().any(|hit| hit.path == "deploy.yaml"));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn live_overlay_survives_file_spam_and_finds_exact_needles() {
+        let root = unique_temp_dir("qorx-live-overlay-spam");
+        let spam = root.join("spam_test");
+        fs::create_dir_all(&spam).expect("create spam root");
+        fs::write(root.join("README.md"), "stable project root").expect("write readme");
+        let mut index = build_index_value(&root, &IndexOptions::default()).expect("index root");
+        index.updated_at = DateTime::parse_from_rfc3339("2026-01-01T00:00:00Z")
+            .unwrap()
+            .with_timezone(&Utc);
+        for i in 1..=500 {
+            let content = if i == 404 {
+                "const CRITICAL_SYSTEM_PASSWORD = \"PASSWORD_STRESS_TEST_999\";\n"
+            } else {
+                "export function doWork() { return 'ok'; }\n"
+            };
+            fs::write(spam.join(format!("spam_{i}.js")), content).expect("write spam file");
+        }
+
+        let overlay = with_live_overlay(
+            &index,
+            "Find CRITICAL_SYSTEM_PASSWORD in spam_test",
+            1_024,
+            32,
+        );
+        let hits = search_index(&overlay, "CRITICAL_SYSTEM_PASSWORD", 8);
+
+        assert!(hits.iter().any(|hit| hit.path == "spam_test/spam_404.js"));
+        assert!(overlay.atoms.len() < index.atoms.len() + 40);
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn live_overlay_uses_alias_terms_for_business_vocabulary() {
+        let root = unique_temp_dir("qorx-live-overlay-alias");
+        let ops = root.join("ops");
+        fs::create_dir_all(&ops).expect("create ops root");
+        fs::write(root.join("README.md"), "stable project root").expect("write readme");
+        let mut index = build_index_value(&root, &IndexOptions::default()).expect("index root");
+        index.updated_at = DateTime::parse_from_rfc3339("2026-01-01T00:00:00Z")
+            .unwrap()
+            .with_timezone(&Utc);
+        fs::write(
+            ops.join("gateway_entrance.conf"),
+            "SERVICE_GATEWAY_ENTRANCE=5433\nprod-v2 ingress opened\n",
+        )
+        .expect("write aliased config");
+
+        let overlay = with_live_overlay(
+            &index,
+            "What DB_PORT should production connect to?",
+            128,
+            16,
+        );
+        let hits = search_index(&overlay, "What DB_PORT should production connect to?", 8);
+
+        assert!(hits
+            .iter()
+            .any(|hit| hit.path == "ops/gateway_entrance.conf"));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn live_overlay_indexes_fresh_log_needles_for_incident_response() {
+        let root = unique_temp_dir("qorx-live-overlay-logs");
+        let logs = root.join("logs");
+        fs::create_dir_all(&logs).expect("create logs root");
+        fs::write(root.join("README.md"), "stable project root").expect("write readme");
+        let mut index = build_index_value(&root, &IndexOptions::default()).expect("index root");
+        index.updated_at = DateTime::parse_from_rfc3339("2026-01-01T00:00:00Z")
+            .unwrap()
+            .with_timezone(&Utc);
+        fs::write(
+            logs.join("app_617.log"),
+            "WARN incident_id=INC-617 PAYMENT_TOKEN_LIVE=tok_live_redacted CUSTOMER_SSN=999-12-3456\n",
+        )
+        .expect("write incident log");
+
+        let overlay = with_live_overlay(
+            &index,
+            "Which log contains PAYMENT_TOKEN_LIVE CUSTOMER_SSN incident evidence?",
+            128,
+            16,
+        );
+        let hits = search_index(
+            &overlay,
+            "Which log contains PAYMENT_TOKEN_LIVE CUSTOMER_SSN incident evidence?",
+            8,
+        );
+
+        assert!(hits.iter().any(|hit| hit.path == "logs/app_617.log"));
+
+        let _ = fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn active_authority_queries_rank_current_sources_above_stale_sources() {
+        let index = RepoIndex {
+            root: "test".to_string(),
+            updated_at: Utc::now(),
+            atoms: vec![
+                RepoAtom {
+                    id: "legacy".to_string(),
+                    path: "db_v1_legacy.json".to_string(),
+                    start_line: 1,
+                    end_line: 1,
+                    hash: "legacy".to_string(),
+                    token_estimate: 12,
+                    symbols: vec![],
+                    signal_mask: SIG_CONFIG,
+                    vector: term_vector(
+                        r#"{"db_name":"production_db","port":5432,"status":"deprecated"}"#,
+                    ),
+                    text: r#"{"db_name":"production_db","port":5432,"status":"deprecated"}"#
+                        .to_string(),
+                },
+                RepoAtom {
+                    id: "current".to_string(),
+                    path: "db_v2_current.json".to_string(),
+                    start_line: 1,
+                    end_line: 1,
+                    hash: "current".to_string(),
+                    token_estimate: 12,
+                    symbols: vec![],
+                    signal_mask: SIG_CONFIG,
+                    vector: term_vector(
+                        r#"{"db_name":"production_db","port":5433,"status":"active","env":"prod-v2"}"#,
+                    ),
+                    text: r#"{"db_name":"production_db","port":5433,"status":"active","env":"prod-v2"}"#
+                        .to_string(),
+                },
+                RepoAtom {
+                    id: "deploy".to_string(),
+                    path: "deploy.yaml".to_string(),
+                    start_line: 1,
+                    end_line: 3,
+                    hash: "deploy".to_string(),
+                    token_estimate: 12,
+                    symbols: vec![],
+                    signal_mask: SIG_CONFIG,
+                    vector: term_vector("env:\n- name: DB_PORT\n  value: \"5433\"\n"),
+                    text: "env:\n- name: DB_PORT\n  value: \"5433\"\n".to_string(),
+                },
+            ],
+        };
+
+        let hits = search_index(
+            &index,
+            "Resolve active production DB_PORT. Prefer deploy.yaml and active prod-v2 over deprecated 5432.",
+            2,
+        );
+
+        assert!(hits.iter().any(|hit| hit.path == "deploy.yaml"));
+        assert!(hits.iter().any(|hit| hit.path == "db_v2_current.json"));
+        assert!(!hits.iter().any(|hit| hit.path == "db_v1_legacy.json"));
+    }
+
+    #[test]
+    fn active_authority_queries_exclude_superseded_policies_with_old_approvals() {
+        let index = RepoIndex {
+            root: "test".to_string(),
+            updated_at: Utc::now(),
+            atoms: vec![
+                RepoAtom {
+                    id: "old_policy".to_string(),
+                    path: "policy/retention_2024.md".to_string(),
+                    start_line: 1,
+                    end_line: 3,
+                    hash: "old".to_string(),
+                    token_estimate: 16,
+                    symbols: vec![],
+                    signal_mask: SIG_CONFIG,
+                    vector: term_vector(
+                        "status: superseded\nretention_days: 365\napproved_by: old-council",
+                    ),
+                    text: "status: superseded\nretention_days: 365\napproved_by: old-council"
+                        .to_string(),
+                },
+                RepoAtom {
+                    id: "active_policy".to_string(),
+                    path: "policy/retention_2026.md".to_string(),
+                    start_line: 1,
+                    end_line: 4,
+                    hash: "active".to_string(),
+                    token_estimate: 16,
+                    symbols: vec![],
+                    signal_mask: SIG_CONFIG,
+                    vector: term_vector(
+                        "status: active\nretention_days: 30\napproved_by: DPO\neffective: 2026-05-01",
+                    ),
+                    text: "status: active\nretention_days: 30\napproved_by: DPO\neffective: 2026-05-01"
+                        .to_string(),
+                },
+            ],
+        };
+
+        let hits = search_index(
+            &index,
+            "What is the active retention policy and retention_days? Prefer status active over superseded or stale code.",
+            4,
+        );
+
+        assert!(hits
+            .iter()
+            .any(|hit| hit.path == "policy/retention_2026.md"));
+        assert!(!hits
+            .iter()
+            .any(|hit| hit.path == "policy/retention_2024.md"));
     }
 }

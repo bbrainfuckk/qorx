@@ -13,11 +13,6 @@ The implementation is Rust. The current compiler path parses `.qorx`, runs
 semantic checks, lowers to AST and QIR, emits canonical opcodes, emits `qstk`,
 and stores the result in a protobuf envelope.
 
-Qorx Void Starter is the full Void/Cloud trial path: 5,000 included Void/Cloud
-requests across Windows, macOS, and Linux before subscription. Local Community
-Edition commands stay unmetered. The public math is in
-[Science and math](SCIENCE_AND_MATH.md).
-
 ## What Qorx is not
 
 - Qorx is not a general-purpose language like Rust, Python, C, or Forth.
@@ -54,7 +49,7 @@ Use this order when presenting Qorx to a senior technical reviewer:
 
 ## Questions reviewers should ask
 
-- Is the language scope narrow enough?
+- Is the language boundary narrow enough?
 - Are bytecode integrity checks strict enough?
 - Does `qstk` add real dispatch value or only another representation?
 - Does the resolver return the right evidence under adversarial queries?

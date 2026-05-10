@@ -3,7 +3,7 @@ use serde::Serialize;
 pub const RUN_HEADER_VALUE: &str = "qosm=core";
 pub const STACK_ID: &str = "qshf_core";
 pub const PROMPT_TAG: &str = "qosm=core qshf=core_b2c";
-pub const HEADER_STAGES: &str = "capsule_pointer,session_pointer,b2c_quant_allocator,pack,squeeze,sparse_vectors,structural_signals,quark_compress,exact_replay_cache,provider_cache_accounting,kv_hints,usd_accounting";
+pub const HEADER_STAGES: &str = "capsule_pointer,session_pointer,grounding_gate,b2c_quant_allocator,pack,squeeze,sparse_vectors,structural_signals,quark_compress,exact_replay_cache,provider_cache_accounting,kv_hints,usd_accounting";
 
 #[derive(Debug, Clone, Copy, Serialize)]
 pub struct CostStage {
@@ -33,6 +33,10 @@ pub const STAGES: &[CostStage] = &[
     CostStage {
         name: "session_pointer",
         mode: "repo memory is exposed as a tiny qorx://s handle instead of raw files",
+    },
+    CostStage {
+        name: "grounding_gate",
+        mode: "strict evidence, squeeze, B2C planning, claim judging, and what-if savings math run before trusting answer text",
     },
     CostStage {
         name: "b2c_quant_allocator",
@@ -108,6 +112,10 @@ pub const APPLIED_SCIENCE: &[AppliedScience] = &[
     AppliedScience {
         name: "Quant portfolio allocation principle",
         proof: "Qorx applies bounded knapsack-style value density, portfolio diversification penalties, omission-risk caps, and stable-quark cache value inside b2c-plan and pack; it is deterministic local planning, not a financial-performance claim",
+    },
+    AppliedScience {
+        name: "Grounded generation verification principle",
+        proof: "Qorx Grounding Gate judges answer claims against local indexed evidence, blocks unsupported claims, and reports proof-per-token metrics before savings language is trusted",
     },
     AppliedScience {
         name: "B2C qshf accounting",

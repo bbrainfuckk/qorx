@@ -130,7 +130,7 @@ pub fn snapshot(paths: &AppPaths) -> Result<ContextProtoReport> {
     let snapshot = ContextSnapshotPb {
         schema: SCHEMA.to_string(),
         created_at: Utc::now().to_rfc3339(),
-        qorx_version: env!("CARGO_PKG_VERSION").to_string(),
+        qorx_version: crate::version::QORX_VERSION.to_string(),
         data_dir: paths.data_dir.display().to_string(),
         indexed_tokens: index.total_tokens(),
         index_quarks: index.atoms.len() as u64,
@@ -204,7 +204,7 @@ pub fn verify(paths: &AppPaths) -> Result<ContextProtoReport> {
     Ok(ContextProtoReport {
         schema: snapshot.schema,
         snapshot_path: paths.context_protobuf_file.display().to_string(),
-        saved: true,
+        saved: false,
         verified,
         coverage_percent,
         files_checked,

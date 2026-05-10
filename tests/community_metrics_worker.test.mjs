@@ -15,8 +15,8 @@ const repoPayload = {
 };
 
 const releasePayload = {
-  tag_name: "v0.1-ylem",
-  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v0.1-ylem",
+  tag_name: "v0.0.1-ylem",
+  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v0.0.1-ylem",
   published_at: "2026-05-03T00:00:00Z",
 };
 
@@ -33,40 +33,40 @@ const workflowPayload = {
 };
 
 const benchmarkPayload = {
-  generated_at: "2026-05-03T12:34:00+00:00",
-  git_commit: "b838c23",
-  qorx_version: "qorx 0.1.0-ylem",
+  generated_at: "2026-05-10T01:50:01+00:00",
+  git_commit: "34173a6",
+  qorx_version: "qorx 0.0.1-ylem",
   summary: {
-    indexed_tokens: 202986,
+    indexed_tokens: 388573,
     strict_task_pass_rate: 1,
     expected_refusal_pass_rate: 1,
     agent_provider_calls: 0,
   },
   session: {
     json: {
-      quark_count: 380,
+      quark_count: 710,
       visible_tokens: 69,
-      omitted_tokens: 202917,
-      context_reduction_x: 2941.8260869565215,
+      omitted_tokens: 388504,
+      context_reduction_x: 5631.492753623188,
     },
   },
   pack: {
     json: {
-      used_tokens: 484,
-      omitted_tokens: 202502,
-      context_reduction_x: 419.39256198347107,
+      used_tokens: 410,
+      omitted_tokens: 388163,
+      context_reduction_x: 947.7390243902439,
     },
   },
   squeeze: {
     json: {
-      used_tokens: 419,
-      omitted_tokens: 202567,
-      context_reduction_x: 484.45346062052505,
+      used_tokens: 448,
+      omitted_tokens: 388125,
+      context_reduction_x: 867.3504464285714,
     },
   },
   bench: {
     json: {
-      average_reduction_x: 400.59937140587385,
+      average_reduction_x: 877.1377703830394,
     },
   },
 };
@@ -77,7 +77,7 @@ function mockFetch() {
     if (href.endsWith("/repos/bbrainfuckk/qorx")) return jsonResponse(repoPayload);
     if (href.endsWith("/repos/bbrainfuckk/qorx/releases/latest")) return jsonResponse(releasePayload);
     if (href.includes("/actions/workflows/")) return jsonResponse(workflowPayload);
-    if (href.includes("/Cargo.toml")) return new Response('version = "0.1.0-ylem"\n');
+    if (href.includes("/Cargo.toml")) return new Response('version = "0.0.1-ylem"\n');
     if (href.includes("/docs/benchmarks/live.json")) return jsonResponse(benchmarkPayload);
     throw new Error(`unexpected fetch ${href}`);
   };
@@ -101,9 +101,9 @@ test("community metrics worker returns live proof numbers", async () => {
 
     const body = await response.json();
     assert.equal(body.schema, "qorx.community.metrics.v1");
-    assert.equal(body.version.cargo, "0.1.0-ylem");
+    assert.equal(body.version.cargo, "0.0.1-ylem");
     assert.equal(body.repository.stars, 42);
-    assert.equal(body.benchmark.session.reductionX, 2941.83);
+    assert.equal(body.benchmark.session.reductionX, 5631.49);
     assert.equal(body.benchmark.strict.passRate, 1);
     assert.equal(body.benchmark.agent.providerCalls, 0);
     assert.match(body.editions.join(" "), /Qorx Void/);
@@ -127,7 +127,7 @@ test("community metrics worker returns shields badges", async () => {
     const body = await response.json();
     assert.equal(body.schemaVersion, 1);
     assert.equal(body.label, "qorx local reduction");
-    assert.match(body.message, /2941\.83x/);
+    assert.match(body.message, /5631\.49x/);
     assert.equal(body.color, "brightgreen");
   } finally {
     globalThis.fetch = originalFetch;
@@ -143,7 +143,7 @@ test("community metrics worker keeps badges alive when upstream fetches fail", a
     assert.equal(response.status, 200);
     const body = await response.json();
     assert.equal(body.schemaVersion, 1);
-    assert.equal(body.message, "2941.83x");
+    assert.equal(body.message, "5631.49x");
     assert.equal(body.color, "brightgreen");
   } finally {
     globalThis.fetch = originalFetch;

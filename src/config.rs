@@ -1,5 +1,6 @@
 use std::{
     env, fs,
+    net::SocketAddr,
     path::{Path, PathBuf},
 };
 
@@ -8,10 +9,39 @@ use directories::ProjectDirs;
 use serde::{Deserialize, Serialize};
 
 pub const APP_NAME: &str = "Qorx";
+pub const DEFAULT_BIND: &str = "127.0.0.1:47187";
 pub const LOCAL_BASE: &str = "http://127.0.0.1:47187";
 pub const PORTABLE_MARKER: &str = "qorx.portable";
 pub const PORTABLE_DATA_DIR: &str = "qorx-data";
 pub const PORTABLE_EXE_MAX_BYTES: u64 = 5 * 1024 * 1024;
+pub const DRIVE_HOME_CONFIG: &str = "qorx-drive.pb";
+const LEGACY_DRIVE_HOME_CONFIG: &str = "qorx-drive.json";
+
+pub fn runtime_bind() -> String {
+    env::var("QORX_BIND").unwrap_or_else(|_| DEFAULT_BIND.to_string())
+}
+
+pub fn local_base() -> String {
+    if let Ok(value) = env::var("QORX_GATEWAY") {
+        let trimmed = value.trim().trim_end_matches('/');
+        if !trimmed.is_empty() {
+            return trimmed.to_string();
+        }
+    }
+    gateway_base_from_bind(&runtime_bind()).unwrap_or_else(|| LOCAL_BASE.to_string())
+}
+
+pub fn gateway_base_from_bind(bind: &str) -> Option<String> {
+    let addr = bind.parse::<SocketAddr>().ok()?;
+    let host = if addr.ip().is_unspecified() {
+        "127.0.0.1".to_string()
+    } else if addr.is_ipv6() {
+        format!("[{}]", addr.ip())
+    } else {
+        addr.ip().to_string()
+    };
+    Some(format!("http://{host}:{}", addr.port()))
+}
 
 #[derive(Clone, Debug)]
 pub struct AppPaths {
@@ -23,10 +53,18 @@ pub struct AppPaths {
     pub context_protobuf_file: PathBuf,
     pub response_cache_file: PathBuf,
     pub integration_report_file: PathBuf,
-    pub adapter_manifest_file: PathBuf,
     pub provenance_file: PathBuf,
     pub security_keys_file: PathBuf,
     pub shim_dir: PathBuf,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DriveHomeConfig {
+    pub backend: String,
+    pub letter: String,
+    pub size: String,
+    pub home_dir: String,
+    pub backing_dir: String,
 }
 
 #[cfg(test)]
@@ -40,6 +78,27 @@ mod tests {
             Some(PathBuf::from(r"D:\QorxHome")),
             true,
             true,
+            PathBuf::from(r"C:\Users\Example\AppData\Local\qorx"),
+        );
+
+        assert_eq!(selected, PathBuf::from(r"D:\QorxHome"));
+    }
+
+    #[test]
+    fn qorx_home_wins_over_saved_drive_home() {
+        let drive_home = super::DriveHomeConfig {
+            backend: "imdisk-vm".to_string(),
+            letter: "Q".to_string(),
+            size: "512M".to_string(),
+            home_dir: r"Q:\qorx-data".to_string(),
+            backing_dir: r"C:\Users\Example\AppData\Local\qorx".to_string(),
+        };
+        let selected = super::select_data_dir(
+            PathBuf::from(r"C:\portable"),
+            Some(PathBuf::from(r"D:\QorxHome")),
+            Some(&drive_home),
+            false,
+            false,
             PathBuf::from(r"C:\Users\Example\AppData\Local\qorx"),
         );
 
@@ -74,11 +133,31 @@ mod tests {
             PathBuf::from(r"C:\Users\Example\AppData\Local\qorx")
         );
     }
+
+    #[test]
+    fn gateway_base_uses_runtime_bind_without_stale_static_ports() {
+        assert_eq!(
+            super::gateway_base_from_bind("127.0.0.1:8765").unwrap(),
+            "http://127.0.0.1:8765"
+        );
+        assert_eq!(
+            super::gateway_base_from_bind("0.0.0.0:47187").unwrap(),
+            "http://127.0.0.1:47187"
+        );
+        assert_eq!(
+            super::gateway_base_from_bind("[::1]:47187").unwrap(),
+            "http://[::1]:47187"
+        );
+    }
 }
 
 impl AppPaths {
     pub fn resolve() -> Result<Self> {
         resolve_paths(true)
+    }
+
+    pub fn resolve_for_drive() -> Result<Self> {
+        resolve_paths(false)
     }
 }
 
@@ -91,10 +170,12 @@ fn resolve_paths(create_dirs: bool) -> Result<AppPaths> {
     let qorx_home = env::var_os("QORX_HOME").map(PathBuf::from);
     let portable_env = truthy_env("QORX_PORTABLE");
     let marker_exists = exe_dir.join(PORTABLE_MARKER).exists();
-    let portable = qorx_home.is_none() && (portable_env || marker_exists);
-    let data_dir = choose_data_dir(
+    let drive_home = load_drive_home_config()?;
+    let portable = qorx_home.is_none() && (portable_env || marker_exists || drive_home.is_some());
+    let data_dir = select_data_dir(
         exe_dir,
         qorx_home,
+        drive_home.as_ref(),
         portable_env,
         marker_exists,
         normal_data_dir,
@@ -115,11 +196,55 @@ fn resolve_paths(create_dirs: bool) -> Result<AppPaths> {
         context_protobuf_file: data_dir.join("qorx-context.pb"),
         response_cache_file: data_dir.join("response_cache.pb"),
         integration_report_file: data_dir.join("integrations.pb"),
-        adapter_manifest_file: data_dir.join("adapters.json"),
         provenance_file: data_dir.join("qorx-provenance.pb"),
         security_keys_file: data_dir.join("qorx-security-keys.pb"),
         shim_dir,
     })
+}
+
+fn select_drive_home(config: &DriveHomeConfig) -> PathBuf {
+    let home_dir = PathBuf::from(&config.home_dir);
+    if drive_root_from_path(&home_dir).exists() {
+        home_dir
+    } else {
+        PathBuf::from(&config.backing_dir)
+    }
+}
+
+fn select_data_dir(
+    exe_dir: PathBuf,
+    qorx_home: Option<PathBuf>,
+    drive_home: Option<&DriveHomeConfig>,
+    portable_env: bool,
+    marker_exists: bool,
+    normal_data_dir: PathBuf,
+) -> PathBuf {
+    if let Some(path) = qorx_home {
+        return path;
+    }
+    if let Some(drive_home) = drive_home {
+        return select_drive_home(drive_home);
+    }
+    choose_data_dir(exe_dir, None, portable_env, marker_exists, normal_data_dir)
+}
+
+pub fn load_drive_home_config() -> Result<Option<DriveHomeConfig>> {
+    let path = current_exe_dir()?.join(DRIVE_HOME_CONFIG);
+    let legacy_path = current_exe_dir()?.join(LEGACY_DRIVE_HOME_CONFIG);
+    if !path.exists() && !legacy_path.exists() {
+        return Ok(None);
+    }
+    Ok(Some(crate::proto_store::load_required(
+        &path,
+        &[legacy_path.as_path()],
+    )?))
+}
+
+pub fn save_drive_home_config(config: &DriveHomeConfig) -> Result<()> {
+    let exe_dir = current_exe_dir()?;
+    fs::create_dir_all(&exe_dir)?;
+    crate::proto_store::save(&exe_dir.join(DRIVE_HOME_CONFIG), config)?;
+    Ok(())
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -155,10 +280,10 @@ pub fn portable_report(paths: &AppPaths) -> Result<PortableReport> {
         env_home: env::var("QORX_HOME").ok(),
         env_portable: truthy_env("QORX_PORTABLE"),
         q_drive_hint: format!(
-            "Community Edition stores local data at \"{}\". Qorx Void adds managed drive-letter UX.",
+            "Windows optional persistent drive letter: qorx drive init --letter Q maps \"{}\"",
             paths.data_dir.display()
         ),
-        boundary: "The Community Edition executable contains the Qorx language, index, cache, AIM reader, and provenance logic. Qorx Void adds tray, daemon, provider routing, managed drive UX, and RAM-disk setup.".to_string(),
+        boundary: "The portable exe contains the Qorx controller, proxy, AIM reader, cache, indexer, and provenance logic. A true RAM-backed Q: drive still requires a separate Windows RAM-disk runtime such as ImDisk today or a future signed qorxram.sys driver; the exe will not fake RAM with subst.".to_string(),
     })
 }
 
@@ -182,7 +307,6 @@ pub fn init_portable() -> Result<PortableReport> {
         context_protobuf_file: data_dir.join("qorx-context.pb"),
         response_cache_file: data_dir.join("response_cache.pb"),
         integration_report_file: data_dir.join("integrations.pb"),
-        adapter_manifest_file: data_dir.join("adapters.json"),
         provenance_file: data_dir.join("qorx-provenance.pb"),
         security_keys_file: data_dir.join("qorx-security-keys.pb"),
         shim_dir,
@@ -195,6 +319,15 @@ fn current_exe_dir() -> Result<PathBuf> {
         .parent()
         .map(Path::to_path_buf)
         .ok_or_else(|| anyhow!("could not resolve qorx executable directory"))
+}
+
+fn drive_root_from_path(path: &Path) -> PathBuf {
+    let text = path.display().to_string();
+    if text.len() >= 2 && text.as_bytes()[1] == b':' {
+        PathBuf::from(format!("{}\\", &text[..2]))
+    } else {
+        path.to_path_buf()
+    }
 }
 
 fn truthy_env(key: &str) -> bool {
@@ -222,4 +355,26 @@ fn choose_data_dir(
         return exe_dir.join(PORTABLE_DATA_DIR);
     }
     normal_data_dir
+}
+
+#[derive(Clone, Debug)]
+pub struct ProxyConfig {
+    pub bind: String,
+    pub openai_upstream: String,
+    pub anthropic_upstream: String,
+    pub gemini_upstream: String,
+}
+
+impl Default for ProxyConfig {
+    fn default() -> Self {
+        Self {
+            bind: env::var("QORX_BIND").unwrap_or_else(|_| DEFAULT_BIND.to_string()),
+            openai_upstream: env::var("QORX_OPENAI_UPSTREAM")
+                .unwrap_or_else(|_| "https://api.openai.com".to_string()),
+            anthropic_upstream: env::var("QORX_ANTHROPIC_UPSTREAM")
+                .unwrap_or_else(|_| "https://api.anthropic.com".to_string()),
+            gemini_upstream: env::var("QORX_GEMINI_UPSTREAM")
+                .unwrap_or_else(|_| "https://generativelanguage.googleapis.com".to_string()),
+        }
+    }
 }

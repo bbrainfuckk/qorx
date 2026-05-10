@@ -1,7 +1,4 @@
-use std::{env, fs, path::Path};
-
-#[cfg(windows)]
-use std::process::Command;
+use std::{env, fs, path::Path, process::Command};
 
 use anyhow::{anyhow, Result};
 use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
@@ -136,7 +133,7 @@ fn build_unsigned(paths: &AppPaths) -> Result<UnsignedProvenance> {
     let mut unsigned = UnsignedProvenance {
         schema: "qorx.hybrid-provenance.v1".to_string(),
         created_at: Utc::now().to_rfc3339(),
-        qorx_version: env!("CARGO_PKG_VERSION").to_string(),
+        qorx_version: crate::version::QORX_VERSION.to_string(),
         standards,
         subject,
     };
@@ -270,7 +267,6 @@ mod tests {
             context_protobuf_file: tmp.join("qorx-context.pb"),
             response_cache_file: tmp.join("response_cache.pb"),
             integration_report_file: tmp.join("integrations.pb"),
-            adapter_manifest_file: tmp.join("adapters.json"),
             shim_dir: tmp.join("shims"),
             provenance_file: tmp.join("provenance.pb"),
             security_keys_file: tmp.join("security-keys.pb"),

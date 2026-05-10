@@ -92,7 +92,7 @@ pub fn export(paths: &AppPaths, out: &Path) -> Result<ShareExportReport> {
     let mut bundle = ShareBundle {
         schema: "qorx.share.bundle.v1".to_string(),
         created_at: Utc::now().to_rfc3339(),
-        qorx_version: env!("CARGO_PKG_VERSION").to_string(),
+        qorx_version: crate::version::QORX_VERSION.to_string(),
         transport: "local_file".to_string(),
         lattice,
         rules,

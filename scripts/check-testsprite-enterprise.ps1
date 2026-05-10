@@ -46,56 +46,29 @@ Require-Text "workflow" $workflow 'base_url:\s*\$\{\{\s*inputs\.base_url\s*\}\}'
 Require-Text "workflow" $workflow 'github-token:\s*\$\{\{\s*github\.token\s*\}\}' "must pass the GitHub token expected by the TestSprite action"
 Require-Text "workflow" $workflow 'blocking:\s*\$\{\{\s*inputs\.blocking\s*\}\}' "must make blocking mode explicit"
 Require-Text "workflow" $workflow 'continue-on-error:\s*\$\{\{\s*inputs\.blocking\s*==\s*''false''\s*\}\}' "must let non-blocking cloud runs report without failing the workflow"
-Require-Text "workflow" $workflow 'Community guide check' "must include the CE guide check job"
-Require-Text "workflow" $workflow 'Qorx Void Starter' "must check Starter docs"
-Require-Text "workflow" $workflow '5,000 included Void/Cloud requests' "must check Starter allowance"
-Require-Text "workflow" $workflow 'qorx daemon status' "must verify daemon routing in CE"
-Require-Text "workflow" $workflow 'python scripts/run-testsprite-smoke\.py' "must run repo-managed TestSprite smoke files before cloud action"
-Require-Text "workflow" $workflow 'python -m pip install playwright' "must install Playwright for repo-managed browser smoke files"
-Require-Text "workflow" $workflow 'python -m playwright install --with-deps chromium' "must install Chromium for repo-managed browser smoke files"
 Require-Text "workflow" $workflow 'mkdir -p testsprite_tests/tmp' "must create the TestSprite output directory before the action runs"
+Require-Text "workflow" $workflow 'cargo build --release --locked' "must build the checked-in release binary"
+Require-Text "workflow" $workflow '127\.0\.0\.1:47187/health' "must run a local daemon health smoke before cloud testing"
 Require-Text "workflow" $workflow 'TESTSPRITE_BASE_URL:\s*\$\{\{\s*inputs\.base_url\s*\}\}' "must expose the public base URL to repo-managed TestSprite tests"
 
 $docs = Read-RepoText "docs\TESTSPRITE.md"
 Require-Text "docs" $docs 'TESTSPRITE_API_KEY' "must document the GitHub secret name"
 Require-Text "docs" $docs '(?i)revoke|rotate' "must tell operators to revoke or rotate leaked keys"
-Require-Text "docs" $docs '(?i)public staging URL|public.*URL' "must explain that TestSprite needs a reachable target"
+Require-Text "docs" $docs '(?i)public staging URL|public HTTPS URL|reachable.*URL' "must explain that TestSprite needs a reachable target"
 Require-Text "docs" $docs 'TestSprite Enterprise QA' "must name the workflow"
-Require-Text "docs" $docs 'Community Edition' "must identify the public CE guide"
-
-$community = Read-RepoText "docs\COMMUNITY.md"
-Require-Text "community" $community 'Qorx Community Edition' "must define CE"
-Require-Text "community" $community 'Qorx Void' "must name the supported local product"
-Require-Text "community" $community 'Qorx Void Starter' "must explain the starter path"
-Require-Text "community" $community '5,000 included Void/Cloud requests' "must state the included request count"
-Require-Text "community" $community '(?m)^\s*daemon\s*$' "must list daemon as a Qorx Void surface"
-Require-Text "community" $community '(?m)^\s*integrate\s*$' "must list integrations as a Qorx Void surface"
-
-$commands = Read-RepoText "docs\COMMANDS.md"
-Require-Text "commands" $commands 'Qorx Void Commands' "must document Qorx Void commands"
-Require-Text "commands" $commands '(?m)^\s*daemon\s*$' "must document daemon as a Qorx Void command"
-
-$readme = Read-RepoText "README.md"
-Require-Text "README" $readme 'Qorx Community Edition' "must present public repo as CE"
-Require-Text "README" $readme 'Qorx Void' "must explain the supported local product"
-Require-Text "README" $readme 'Qorx Void Starter' "must explain the 5k starter"
-Require-Text "README" $readme '5,000 included Void/Cloud requests' "must state the included request count"
-Require-Text "README" $readme 'PyPI' "must mention package channels"
-Require-Text "README" $readme 'available in Qorx Void' "must document command routing"
-
-$packageCheck = Join-Path $RepoRoot "scripts\check-package-channels.ps1"
-if (-not (Test-Path -LiteralPath $packageCheck -PathType Leaf)) {
-    Add-Failure "missing package-channel verification script"
-} else {
-    & $packageCheck -RepoRoot $RepoRoot | Out-Null
-}
+Require-Text "docs" $docs '(?i)does not generate|only runs' "must not imply the GitHub Action generates the suite"
+Require-Text "docs" $docs 'testsprite_tests/' "must document repo-managed TestSprite suite files"
 
 $suiteJsonPath = Join-Path $RepoRoot "testsprite_tests\tmp\test_results.json"
 if (-not (Test-Path -LiteralPath $suiteJsonPath -PathType Leaf)) {
     Add-Failure "missing testsprite_tests/tmp/test_results.json"
 } else {
+    $suiteRaw = Get-Content -LiteralPath $suiteJsonPath -Raw
+    if ($suiteRaw -match 'C:\\Users\\|Traceback \(most recent call last\)') {
+        Add-Failure "testsprite_tests/tmp/test_results.json must not contain local absolute paths or raw traceback output"
+    }
     try {
-        $suite = Get-Content -LiteralPath $suiteJsonPath -Raw | ConvertFrom-Json
+        $suite = $suiteRaw | ConvertFrom-Json
         if (-not $suite -or $suite.Count -lt 1) {
             Add-Failure "testsprite_tests/tmp/test_results.json must contain at least one suite entry"
         }
@@ -106,6 +79,9 @@ if (-not (Test-Path -LiteralPath $suiteJsonPath -PathType Leaf)) {
             }
             if (($case.PSObject.Properties.Name -contains "testStatus") -and ($case.testStatus -notin @("PASSED", "FAILED"))) {
                 Add-Failure "TestSprite suite entry '$($case.title)' has invalid testStatus '$($case.testStatus)'"
+            }
+            if (($case.PSObject.Properties.Name -contains "testError") -and ($null -eq $case.testError)) {
+                Add-Failure "TestSprite suite entry '$($case.title)' has null testError"
             }
             if ($case.testType -notin @("FRONTEND", "BACKEND")) {
                 Add-Failure "TestSprite suite entry '$($case.title)' has invalid testType '$($case.testType)'"
@@ -145,7 +121,7 @@ $literalSecretPattern = '(?i)\bsk-(user|test|live)-[A-Za-z0-9_-]{24,}'
 Get-ChildItem -LiteralPath $RepoRoot -Recurse -File | Where-Object {
     $full = $_.FullName
     $relative = $full.Substring($RepoRoot.Length).TrimStart('\', '/')
-    $relative -notmatch '(^|[\\/])(\.git|target|node_modules|\.venv)([\\/]|$)' -and
+    $relative -notmatch '(^|[\\/])(\.git|target|dist|node_modules|\.venv|packages[\\/]python[\\/]dist)([\\/]|$)' -and
     $textExtensions -contains $_.Extension
 } | ForEach-Object {
     $relative = $_.FullName.Substring($RepoRoot.Length).TrimStart('\', '/')
@@ -158,7 +134,7 @@ Get-ChildItem -LiteralPath $RepoRoot -Recurse -File | Where-Object {
 if ($failures.Count -gt 0) {
     [pscustomobject]@{
         ok = $false
-        check = "testsprite-enterprise"
+        gate = "testsprite-enterprise"
         failures = $failures
     } | ConvertTo-Json -Depth 4
     exit 1
@@ -166,8 +142,7 @@ if ($failures.Count -gt 0) {
 
 [pscustomobject]@{
     ok = $true
-    check = "testsprite-enterprise"
+    gate = "testsprite-enterprise"
     workflow = ".github/workflows/testsprite-enterprise.yml"
     docs = "docs/TESTSPRITE.md"
-    community_guide = "docs/COMMUNITY.md"
 } | ConvertTo-Json -Depth 4

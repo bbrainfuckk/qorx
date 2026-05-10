@@ -1,0 +1,55 @@
+{
+  "name": "@brainfukk/qorx",
+  "version": "0.0.1-ylem",
+  "description": "Qorx AI-native language and runtime for local context resolution.",
+  "author": {
+    "name": "Marvin Sarreal Villanueva",
+    "email": "marvin@orin.work"
+  },
+  "maintainers": [
+    {
+      "name": "Marvin Sarreal Villanueva",
+      "email": "msarvillan@gmail.com"
+    }
+  ],
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/bbrainfuckk/qorx#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbrainfuckk/qorx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bbrainfuckk/qorx/issues"
+  },
+  "bin": {
+    "qorx": "bin/qorx.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "pack:check": "npm pack --dry-run"
+  },
+  "files": [
+    "bin/",
+    "scripts/",
+    "README.md"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "qorx",
+    "compiler",
+    "runtime",
+    "context",
+    "ai-language"
+  ]
+}

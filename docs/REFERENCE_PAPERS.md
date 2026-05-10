@@ -6,7 +6,7 @@ This file is the readable map.
 
 The papers support the architecture class around Qorx: retrieval-backed context
 omission, prompt compression, repository memory, cache-aware request design,
-agent memory, and runtime cache/KV scope. They do not prove that Qorx wins
+agent memory, and runtime cache/KV boundaries. They do not prove that Qorx wins
 on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 
 ## Prompt Compression
@@ -24,6 +24,12 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 | Reference | Local file or source | How it relates to Qorx |
 | --- | --- | --- |
 | ReACC | `research/papers/reacc.pdf` / ACL 2022 source | Retrieval-augmented code completion supports bringing related code into the model context. Qorx supplies local code quarks to downstream agents. |
+| GraphCoder | https://arxiv.org/abs/2406.07003 | Code context graphs support structured repository retrieval. Qorx Atlas keeps the first production slice deterministic: extracted file/symbol references, hubs, and path traces. |
+| GraphRAG survey | https://arxiv.org/abs/2501.00309 | GraphRAG research separates query processing, retrieval, organization, generation, and data sources. Qorx applies that boundary locally instead of adding a remote graph runtime. |
+| GraphRAG-R1 | https://arxiv.org/abs/2507.23581 | Process-constrained graph reasoning supports keeping retrieval steps inspectable. Qorx Atlas exposes local packs rather than hidden reasoning chains. |
+| MMGraphRAG | https://arxiv.org/abs/2507.20804 | Multimodal graph work supports preserving modality-specific evidence paths. Qorx Atlas inventories modalities now and keeps extractor adapters explicit. |
+| MegaRAG | https://arxiv.org/abs/2512.20626 | Multimodal KG-RAG motivates treating visual/document assets as graph-aware local evidence, not just captions. |
+| M3KG-RAG | https://arxiv.org/abs/2512.20136 | Grounded retrieval and selective pruning match Qorx's local evidence budget before agent context is sent. |
 | Codebase-Memory | `research/papers/codebase_memory_2603.27277.pdf` | Codebase memory and graph-style context motivate Qorx's lightweight symbol and relation surfaces. |
 | BM25 and lexical retrieval | referenced in the evidence map | Exact lexical retrieval remains a strong baseline. Qorx uses deterministic sparse terms plus path and symbol boosts. |
 | Aider repository map | official aider docs | Repository maps are useful, but Qorx keeps a local quark store and budgeted evidence routes rather than only a static map. |
@@ -45,7 +51,7 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 | --- | --- | --- |
 | H-MEM | `research/papers/hmem_2507.22925.pdf` | Hierarchical memory supports multi-layer retrieval. Qorx implements deterministic lattice layers. |
 | HiMem | `research/papers/himem_2601.06377.pdf` | Long-horizon memory organization. Qorx uses local mementos and raw-quark provenance. |
-| TierMem | `research/papers/tiermem_2602.17913.pdf` | Provenance-aware tiered memory is close to Qorx's lattice and attestation model. |
+| TierMem | `research/papers/tiermem_2602.17913.pdf` | Provenance-aware tiered memory is close to Qorx's lattice/attestation boundary. |
 | GAM | `research/papers/gam_2604.12285.pdf` | Graph-based agentic memory supports the idea of relations across memory nodes. Qorx keeps graph work lightweight in core. |
 
 ## Cache And Reuse
@@ -60,11 +66,11 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 | Cache-Craft | `research/papers/cache_craft_2502.15734.pdf` | Chunk cache management for RAG. |
 | Approximate Caching for RAG | `research/papers/approximate_caching_rag_2503.05530.pdf` | Approximate reuse is useful but must be measured and guarded. |
 | Domain-Specific Semantic Cache | `research/papers/domain_specific_semantic_cache_2504.02268.pdf` | Domain-specific embeddings can improve cache reuse, but Qorx core avoids mandatory embedding runtimes. |
-| vCache | `research/papers/vcache_2502.03771.pdf` | Verified semantic prompt caching supports the idea of cache correctness checks. |
+| vCache | `research/papers/vcache_2502.03771.pdf` | Verified semantic prompt caching supports the idea of cache correctness gates. |
 | ContextPilot | `research/papers/contextpilot_2511.03475.pdf` | Long-context reuse. Qorx handles reuse through local handles and evidence resolution. |
 | QVCache | `research/papers/qvcache_2602.02057.pdf` | Query-aware vector cache ideas inform future cache adapters. |
 
-## Runtime And KV Scope
+## Runtime And KV Boundaries
 
 | Reference | Local file or source | How it relates to Qorx |
 | --- | --- | --- |
@@ -73,26 +79,26 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 
 ## Official Provider And Tooling References
 
-| Source | URL | Qorx note |
+| Source | URL | Qorx boundary |
 | --- | --- | --- |
 | OpenAI prompt caching | https://platform.openai.com/docs/guides/prompt-caching | Provider-side cache behavior is separate from Qorx local context omission. |
 | Anthropic prompt caching | https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching | Qorx can help structure stable prefixes, but provider cache hits must be measured upstream. |
-| Gemini context caching | https://ai.google.dev/gemini-api/docs/caching/ | Same provider-cache measurement note. |
+| Gemini context caching | https://ai.google.dev/gemini-api/docs/caching/ | Same provider-cache boundary. |
 | Claude Code memory | https://docs.anthropic.com/en/docs/claude-code/memory | Memory files are useful, but Qorx adds a live local resolver/index path. |
 | Gemini CLI `GEMINI.md` | https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md | Context files are not the same as budgeted local evidence retrieval. |
 | Cursor codebase indexing | https://docs.cursor.com/context/codebase-indexing | Cursor's server-backed indexing is a different deployment model. Qorx keeps the core local. |
-| Cursor secure codebase indexing | https://cursor.com/blog/secure-codebase-indexing | Useful comparison for privacy and indexing models. |
+| Cursor secure codebase indexing | https://cursor.com/blog/secure-codebase-indexing | Useful comparison for privacy and indexing boundaries. |
 
 ## Provenance, Signatures, And Storage
 
-| Source | URL | Qorx note |
+| Source | URL | Qorx boundary |
 | --- | --- | --- |
 | Protocol Buffers | https://protobuf.dev/ | Qorx uses protobuf-envelope persisted state and a typed context snapshot. |
 | NIST FIPS 204 | https://csrc.nist.gov/pubs/fips/204/final | Qorx hybrid attestation uses post-quantum signature practice as a reference point. |
 | C2PA Specification | https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html | Qorx provenance is local metadata, not a full embedded media manifest. |
-| Microsoft kernel-mode signing requirements | https://learn.microsoft.com/en-us/windows-hardware/drivers/install/kernel-mode-code-signing-requirements--windows-vista-and-later- | Real RAM-drive drivers have OS/runtime requirements. Qorx reports RAM mode separately from portable disk-backed mode. |
+| Microsoft kernel-mode signing requirements | https://learn.microsoft.com/en-us/windows-hardware/drivers/install/kernel-mode-code-signing-requirements--windows-vista-and-later- | Real RAM-drive drivers have OS/runtime boundaries. Qorx reports RAM mode separately from portable disk-backed mode. |
 
-## PaperQA Result Scope
+## PaperQA Result Boundary
 
 PaperQA has been used here as a research audit path, not as an oracle. The local
 corpus supports the architecture class. It does not by itself prove Qorx-specific

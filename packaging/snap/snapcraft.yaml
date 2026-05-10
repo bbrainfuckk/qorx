@@ -1,6 +1,6 @@
 name: qorx
 base: core24
-version: "0.1.0-ylem"
+version: "0.0.1-ylem"
 summary: Qorx Community Edition CLI
 description: |
   Qorx Community Edition is the AGPL source CLI for the Qorx language,
@@ -13,7 +13,7 @@ parts:
   qorx:
     plugin: rust
     source: https://github.com/bbrainfuckk/qorx.git
-    source-tag: v0.1-ylem
+    source-tag: v0.0.1-ylem
 
 apps:
   qorx:

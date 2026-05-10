@@ -1,4 +1,4 @@
-# Qorx runtime
+# Qorx Runtime
 
 The runtime has four jobs:
 
@@ -18,10 +18,9 @@ range, hash, estimated mass, sparse terms, and structural signals.
 provenance, lattice state, snapshots, and share records. It stays local unless
 the operator exports a file.
 
-## Daemon Runtime
+## Daemon
 
-The daemon is a Qorx Void product surface. The public CE binary explains where
-daemon commands live:
+The daemon is the official background runtime:
 
 ```sh
 qorx daemon start
@@ -29,10 +28,9 @@ qorx daemon status
 qorx daemon stop
 ```
 
-Qorx Void Starter gives new accounts 5,000 included Void/Cloud requests across
-Windows, macOS, and Linux before subscription. The official daemon, tray,
-provider routing, startup integration, and managed local vault UX are part of
-Qorx Void.
+`qorx daemon` and `qorx daemon run` run the same service in the foreground for a
+supervisor. Windows may run `qorx tray` as an optional notification-area control
+surface. The tray is not required for Linux, macOS, Docker, or systemd.
 
 ## Handles
 
@@ -61,5 +59,5 @@ provider.
 
 ## Failure Rule
 
-If Qorx cannot resolve evidence, it should return a clear no-proof result. It
+If Qorx cannot resolve evidence, it should refuse or return the boundary. It
 should not invent missing context.

@@ -1,87 +1,195 @@
-# Installing Qorx Community Edition
+# Installing Qorx
 
-Community Edition is source-first. Build it with Rust and Cargo, or use the
-maintainer-controlled GitHub release assets when a tag is published.
+Qorx ships as one Rust binary. Package managers are thin wrappers around that
+binary; the runtime is still the same `qorx` command.
 
-## Source build
+Run `qorx` with no arguments to see the ASCII splash. Use `qorx --help` for the
+command tree and `qorx man` for the manual.
 
-```sh
-git clone https://github.com/bbrainfuckk/qorx.git
-cd qorx
-cargo test
-cargo build --release
-./target/release/qorx --version
-```
+## Source
 
-Windows:
-
-```powershell
-git clone https://github.com/bbrainfuckk/qorx.git
-cd qorx
-cargo test
-cargo build --release
-.\target\release\qorx.exe --version
-```
-
-If you double-click `qorx.exe`, Windows may close the console as soon as the
-command finishes. Use PowerShell for normal CLI work. The Windows release zip
-also includes `Start Qorx CLI.cmd`, which opens Qorx in a terminal that stays
-visible.
-
-## Cargo git install
-
-Install from the current public source branch:
+This works before any registry package is published:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --branch main --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
 qorx --version
 ```
 
-## GitHub release assets
+For local development:
 
-Release tags build community CLI archives for Windows, Linux, and macOS. They
-are unsigned CLI assets, not Qorx Void installers.
-
-Use source builds when you need the most auditable path. Use release assets when
-you want the quickest community CLI path.
-
-In the Windows zip:
-
-- `qorx.exe` is the actual CLI.
-- `Start Qorx CLI.cmd` is the beginner-friendly double-click launcher.
-
-## Package channels
-
-Community Edition package-channel files are available for:
-
-- PyPI and npm wrappers that install the CLI through Cargo.
-- Arch/AUR through `packaging/arch/PKGBUILD`.
-- Homebrew through `packaging/homebrew/qorx.rb`.
-- Scoop and WinGet through `packaging/scoop/` and `packaging/winget/`.
-- Snap through `packaging/snap/snapcraft.yaml`.
-- Docker through the root `Dockerfile`.
-- Nix through the root `flake.nix`.
-- Deb/RPM packaging through `packaging/nfpm/qorx.yaml`.
-
-Publishing those channels still needs the maintainer's registry accounts or
-package-submission PRs. The files are in the repo so the package work is
-auditable and repeatable.
-
-Qorx Void Starter is the cross-platform product trial path for service-backed
-features. It includes 5,000 included Void/Cloud requests. Community Edition
-package installs do not cap local CLI usage.
-
-## What to run
-
-Use the CE command set after building:
-
-```powershell
-.\target\release\qorx.exe doctor --json
-.\target\release\qorx.exe index .
-.\target\release\qorx.exe strict-answer "what proves Qorx is a language runtime?"
-.\target\release\qorx.exe b2c-plan "what proves Qorx is a language runtime?" --budget-tokens 900
-.\target\release\qorx.exe security attest
+```sh
+git clone https://github.com/bbrainfuckk/qorx.git
+cd qorx
+cargo test
+cargo build --release
 ```
 
-Read [Community Edition](COMMUNITY.md) before treating a self-built binary as an
-official Qorx product.
+## Binary Release
+
+Release assets are named by platform:
+
+```text
+qorx-v0.0.1-ylem-windows-x64.zip
+qorx-v0.0.1-ylem-linux-x64.tar.gz
+qorx-v0.0.1-ylem-linux-arm64.tar.gz
+qorx-v0.0.1-ylem-macos-x64.tar.gz
+qorx-v0.0.1-ylem-macos-arm64.tar.gz
+```
+
+After extracting, put the directory containing `qorx` or `qorx.exe` on `PATH`.
+
+## Package Managers
+
+These commands are the intended public install surface once each registry has
+accepted the package.
+
+```sh
+cargo install qorx
+npm install -g @brainfukk/qorx
+pipx install qorx
+nix run github:bbrainfuckk/qorx
+brew install bbrainfuckk/qorx/qorx
+```
+
+Release assets can also be installed directly before a central registry accepts
+the package:
+
+```sh
+npm install -g https://github.com/bbrainfuckk/qorx/releases/download/v0.0.1-ylem/qorx-npm-v0.0.1-ylem.tgz
+pipx install https://github.com/bbrainfuckk/qorx/releases/download/v0.0.1-ylem/qorx-0.0.1+ylem-py3-none-any.whl
+brew install bbrainfuckk/qorx/qorx
+```
+
+Linux distribution recipes live under `packaging/`:
+
+```text
+packaging/aur/PKGBUILD
+packaging/debian/
+packaging/rpm/qorx.spec
+packaging/systemd/qorx.service
+snap/snapcraft.yaml
+```
+
+Windows package-manager manifests live under:
+
+```text
+packaging/scoop/qorx.json
+packaging/winget/manifests/
+```
+
+## Boundary
+
+If a registry package is not live yet, use the source install command above.
+Publishing to npm, PyPI, crates.io, AUR, Homebrew taps, Snapcraft, WinGet, and
+Scoop requires maintainer credentials for those services.
+
+## Server
+
+The same binary runs the local daemon:
+
+```sh
+qorx daemon start
+qorx daemon status
+qorx daemon stop
+qorx daemon
+curl -fsS http://127.0.0.1:47187/health
+qorx doctor --json
+```
+
+`qorx daemon` runs in the foreground for supervisors. `qorx daemon start` runs a
+background daemon for workstation use. On Windows, `qorx startup enable` installs
+a login startup script for the daemon and tray. The tray is Windows-only.
+
+Docker and service templates are included:
+
+```text
+Dockerfile
+docker-compose.yml
+packaging/systemd/qorx.service
+```
+
+Read [Server And Daemon](SERVER.md) and [Production Status](PRODUCTION.md)
+before exposing the daemon outside loopback.
+
+## AutoMCP And AutoHook
+
+Qorx can wire its local MCP server and prompt hook connectors into supported AI
+clients:
+
+```sh
+qorx install
+qorx -i
+qorx install --platform codex
+qorx install -p codex
+qorx -i -p codex
+qorx install --platform claude
+qorx install --platform gemini
+qorx install --platform antigravity
+qorx install --platform opencode
+qorx install --platform copilot
+qorx install --platform vscode
+qorx install --platform aider
+qorx install --platform claw
+qorx install --platform droid
+qorx install --platform trae
+qorx install --platform trae-cn
+qorx install --platform hermes
+qorx install --platform kiro
+qorx install --platform pi
+qorx install --platform cursor
+qorx integrate activate -p antigravity
+qorx -in -p antigravity
+qorx integrate settings --automcp true --autohook false
+```
+
+`qorx install` and first-run bootstrap are explicit local setup actions. They
+install the local daemon, PATH shims, Qorx AutoMCP configs, and AutoHook
+connector files where the target client supports hook loading.
+`qorx integrate status` reports the active state.
+
+The local monitor and Windows tray expose the same switches. AutoMCP and
+AutoHook start on by default after setup and stay on until you turn them off:
+
+```text
+http://127.0.0.1:47187/monitor
+AutoMCP
+AutoHook
+Turn on MCP + hooks
+Turn off MCP + hooks
+```
+
+For automation:
+
+```sh
+curl -fsS http://127.0.0.1:47187/integrations
+curl -fsS -X POST http://127.0.0.1:47187/integrations/settings \
+  -H "content-type: application/json" \
+  -d '{"automcp_enabled":true,"autohook_enabled":false}'
+curl -fsS -X POST http://127.0.0.1:47187/integrations/activate \
+  -H "content-type: application/json" \
+  -d '{"platform":"all"}'
+```
+
+Platform behavior is explicit:
+
+- Codex, Gemini CLI, and Claude Code get managed MCP plus hook wiring.
+- Antigravity is quarantined from AutoMCP for now. This Antigravity build can
+  stall when a Qorx MCP child is spawned, so Qorx removes its Antigravity MCP and
+  prompt-rule entries unless `QORX_ANTIGRAVITY_MCP=1` is set for an explicit
+  compatibility test. Qorx does not write global AGENTS.md/GEMINI.md injection
+  rules for Antigravity by default.
+- OpenCode, Copilot CLI, VS Code Copilot Chat, Aider, and Cursor are MCP-only
+  unless those clients expose a supported hook surface.
+- OpenClaw, Factory Droid, Trae, Trae CN, Hermes, Kiro, and Pi get MCP plus a
+  local hook kit that the client may still need to load or enable.
+
+Most clients need a restart or reload after MCP config changes. Qorx reports a
+target as hook-active only when it can see the installed hook files.
+
+Shortcut lexicon:
+
+```text
+-i   install
+-in  integrate activate
+-p   platform
+```

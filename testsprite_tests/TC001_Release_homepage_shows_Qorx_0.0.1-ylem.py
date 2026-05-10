@@ -29,17 +29,10 @@ async def run_test():
         await page.goto(BASE_URL, wait_until="networkidle", timeout=20000)
         body = await page.locator("body").inner_text(timeout=10000)
 
-        assert "Qorx Community Edition" in body
-        assert "Qorx Void" in body
-        assert "0.1-ylem" in body
-        assert "Community guide" in body
-        assert "Live metrics" in body
-        assert "Qorx Void Starter" in body
-        assert "5,000 included Void/Cloud requests" in body
-        assert "PyPI" in body
-        assert "Arch/AUR" in body
-        assert "Public surface" in body
-        assert "Product Lines" in body
+        assert "Qorx handbook" in body
+        assert "Qorx is a small domain-specific language and local runtime" in body
+        assert "Current public version:" in body
+        assert "0.0.1-ylem" in body
     finally:
         if context:
             await context.close()

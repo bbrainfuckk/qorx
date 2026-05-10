@@ -1,5 +1,5 @@
 PackageIdentifier: Qorx.Qorx
-PackageVersion: 0.1.0-ylem
+PackageVersion: 0.0.1-ylem
 InstallerType: zip
 NestedInstallerType: portable
 NestedInstallerFiles:
@@ -7,7 +7,7 @@ NestedInstallerFiles:
     PortableCommandAlias: qorx
 Installers:
   - Architecture: x64
-    InstallerUrl: https://github.com/bbrainfuckk/qorx/releases/download/v0.1-ylem/qorx-v0.1-ylem-windows-x64.zip
+    InstallerUrl: https://github.com/bbrainfuckk/qorx/releases/download/v0.0.1-ylem/qorx-v0.0.1-ylem-windows-x64.zip
     InstallerSha256: 68E302560FFA1DFBFB738703DF97104BB2FB7DC05D2CDD8A2D5A0F7E2A3858FF
 ManifestType: installer
 ManifestVersion: 1.9.0

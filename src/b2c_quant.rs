@@ -1,10 +1,11 @@
-use std::collections::{BTreeSet, HashSet};
+use std::collections::{BTreeMap, BTreeSet, HashSet};
 
 use serde::{Deserialize, Serialize};
 
 use crate::{
     compression::estimate_tokens,
     index::{search_index, RepoAtom, RepoIndex},
+    orcl::{self, OrclOptions},
 };
 
 const SCHEMA: &str = "qorx.b2c-plan.v1";
@@ -41,6 +42,7 @@ pub struct B2cSelectedQuark {
     pub retrieval_score: u64,
     pub expected_value: f64,
     pub token_cost: f64,
+    pub orcl_score: f64,
     pub redundancy_penalty: f64,
     pub omission_risk: f64,
     pub cache_value: f64,
@@ -54,6 +56,7 @@ pub struct B2cRejectedQuark {
     pub id: String,
     pub path: String,
     pub token_estimate: u64,
+    pub orcl_score: f64,
     pub net_value: f64,
     pub reason: String,
 }
@@ -80,6 +83,7 @@ struct Candidate {
     retrieval_score: u64,
     expected_value: f64,
     token_cost: f64,
+    orcl_score: f64,
     omission_risk: f64,
     cache_value: f64,
     matched_terms: Vec<String>,
@@ -95,10 +99,21 @@ struct Pick {
 }
 
 pub fn plan_context(index: &RepoIndex, query: &str, budget_tokens: u64) -> B2cPlan {
+    plan_context_with_diff(index, query, budget_tokens, None)
+}
+
+pub fn plan_context_with_diff(
+    index: &RepoIndex,
+    query: &str,
+    budget_tokens: u64,
+    diff: Option<&str>,
+) -> B2cPlan {
     let budget_tokens = budget_tokens.clamp(128, 20_000);
     let indexed_tokens = index.total_tokens();
     let terms = meaningful_terms(query);
-    let candidates = candidates(index, query, &terms);
+    let orcl_signals = orcl_signals(index, query, diff, budget_tokens);
+    let orcl_active = !orcl_signals.is_empty();
+    let candidates = candidates(index, query, &terms, &orcl_signals);
 
     let mut remaining = candidates;
     let mut picks: Vec<Pick> = Vec::new();
@@ -157,6 +172,7 @@ pub fn plan_context(index: &RepoIndex, query: &str, budget_tokens: u64) -> B2cPl
             id: candidate.atom.id,
             path: candidate.atom.path,
             token_estimate: candidate.atom.token_estimate,
+            orcl_score: round2(candidate.orcl_score),
             net_value: round2(net_value),
             reason: reason.to_string(),
         });
@@ -181,26 +197,111 @@ pub fn plan_context(index: &RepoIndex, query: &str, budget_tokens: u64) -> B2cPl
         context_reduction_x,
         selected_quarks,
         rejected_quarks: rejected,
-        parallel_lanes: lanes(&route, &terms, &picks),
+        parallel_lanes: lanes(&route, &terms, &picks, orcl_active),
         math: B2cMath {
             budget_model: "bounded_knapsack".to_string(),
             redundancy_model: "portfolio_diversification".to_string(),
             risk_model: "omission_risk_cap".to_string(),
             cache_model: "stable_quark_reuse_value".to_string(),
-            score_formula: "net=expected_value + cache_value - token_cost - redundancy_penalty - omission_risk_penalty".to_string(),
+            score_formula: "net=expected_value + orcl_score + cache_value - token_cost - redundancy_penalty - omission_risk_penalty".to_string(),
         },
         text,
-        boundary: "B2C quant planning is deterministic local math over indexed quarks: sparse retrieval, budgeted selection, redundancy penalties, risk caps, and cache value. It performs no provider calls and makes no dollar claim without Qorx stats.".to_string(),
+        boundary: "B2C quant planning is deterministic local math over indexed quarks: sparse retrieval, optional ORCL scope, budgeted selection, redundancy penalties, risk caps, and cache value. It performs no provider calls and makes no dollar claim without Qorx stats.".to_string(),
     }
 }
 
-fn candidates(index: &RepoIndex, query: &str, terms: &[String]) -> Vec<Candidate> {
+#[derive(Debug, Clone, Default)]
+struct OrclSignal {
+    score: f64,
+}
+
+fn orcl_signals(
+    index: &RepoIndex,
+    query: &str,
+    diff: Option<&str>,
+    budget_tokens: u64,
+) -> BTreeMap<String, OrclSignal> {
+    let Some(diff) = diff.filter(|value| !value.trim().is_empty()) else {
+        return BTreeMap::new();
+    };
+
+    let signal_budget = budget_tokens.saturating_mul(3).clamp(512, 4_000);
+    let report = orcl::report(
+        index,
+        query,
+        Some(diff),
+        OrclOptions {
+            budget_tokens: signal_budget,
+            depth: 2,
+            limit: 32,
+        },
+    );
+
+    let mut signals = BTreeMap::<String, OrclSignal>::new();
+    for path in &report.changed_paths {
+        for atom in index.atoms.iter().filter(|atom| atom.path == *path) {
+            add_orcl_signal(&mut signals, &atom.id, 54.0);
+        }
+    }
+    for link in &report.links {
+        add_orcl_signal(&mut signals, &link.from_quark_id, 20.0);
+        add_orcl_signal(&mut signals, &link.to_quark_id, 58.0);
+    }
+    for rank in &report.rank {
+        add_orcl_signal(
+            &mut signals,
+            &rank.quark_id,
+            ((rank.score as f64) / 5.0).min(28.0),
+        );
+    }
+    for quark in &report.quarks {
+        let score = if quark.reason.contains("changed") {
+            24.0
+        } else if quark.reason.contains("orcl_scope") {
+            14.0
+        } else {
+            8.0
+        };
+        add_orcl_signal(&mut signals, &quark.id, score);
+    }
+
+    for signal in signals.values_mut() {
+        signal.score = signal.score.min(112.0);
+    }
+    signals
+}
+
+fn add_orcl_signal(signals: &mut BTreeMap<String, OrclSignal>, id: &str, score: f64) {
+    if id.is_empty() {
+        return;
+    }
+    signals.entry(id.to_string()).or_default().score += score;
+}
+
+fn candidates(
+    index: &RepoIndex,
+    query: &str,
+    terms: &[String],
+    orcl_signals: &BTreeMap<String, OrclSignal>,
+) -> Vec<Candidate> {
     let atoms = index.atom_lookup();
-    let mut out = Vec::new();
+    let mut retrieval_scores = BTreeMap::<String, u64>::new();
     for hit in search_index(index, query, 128) {
-        let Some(atom) = atoms.get(hit.id.as_str()).copied() else {
+        retrieval_scores.insert(hit.id, hit.score);
+    }
+
+    let mut candidate_ids = retrieval_scores.keys().cloned().collect::<BTreeSet<_>>();
+    candidate_ids.extend(orcl_signals.keys().cloned());
+
+    let mut out = Vec::new();
+    for id in candidate_ids {
+        let Some(atom) = atoms.get(id.as_str()).copied() else {
             continue;
         };
+        let retrieval_score = retrieval_scores.get(&id).copied().unwrap_or(0);
+        let orcl_score = orcl_signals
+            .get(id.as_str())
+            .map_or(0.0, |signal| signal.score);
         let matched_terms = matched_terms(atom, terms);
         let coverage = if terms.is_empty() {
             0.0
@@ -209,17 +310,26 @@ fn candidates(index: &RepoIndex, query: &str, terms: &[String]) -> Vec<Candidate
         };
         let symbol_bonus = if atom.symbols.is_empty() { 0.0 } else { 6.0 };
         let structural_bonus = if atom.signal_mask == 0 { 0.0 } else { 4.0 };
-        let expected_value =
-            (hit.score as f64).ln_1p() * 12.0 + coverage * 48.0 + symbol_bonus + structural_bonus;
+        let expected_value = (retrieval_score as f64).ln_1p() * 12.0
+            + coverage * 48.0
+            + symbol_bonus
+            + structural_bonus
+            + orcl_score;
         let token_cost = (atom.token_estimate as f64).sqrt() * 1.7;
-        let omission_risk = (1.0 - coverage).clamp(0.05, 0.95);
+        let base_omission_risk = (1.0 - coverage).clamp(0.05, 0.95);
+        let omission_risk = if orcl_score > 0.0 {
+            (base_omission_risk * 0.55).clamp(0.05, 0.95)
+        } else {
+            base_omission_risk
+        };
         let cache_value = stable_quark_cache_value(atom);
         let carrier = carrier_for(atom, omission_risk);
         out.push(Candidate {
             atom: atom.clone(),
-            retrieval_score: hit.score,
+            retrieval_score,
             expected_value,
             token_cost,
+            orcl_score,
             omission_risk,
             cache_value,
             matched_terms,
@@ -229,6 +339,11 @@ fn candidates(index: &RepoIndex, query: &str, terms: &[String]) -> Vec<Candidate
     out.sort_by(|a, b| {
         b.retrieval_score
             .cmp(&a.retrieval_score)
+            .then_with(|| {
+                b.orcl_score
+                    .partial_cmp(&a.orcl_score)
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            })
             .then(a.atom.path.cmp(&b.atom.path))
     });
     out
@@ -249,6 +364,7 @@ fn selected_quark(pick: &Pick) -> B2cSelectedQuark {
         retrieval_score: candidate.retrieval_score,
         expected_value: round2(candidate.expected_value),
         token_cost: round2(candidate.token_cost),
+        orcl_score: round2(candidate.orcl_score),
         redundancy_penalty: round2(pick.redundancy_penalty),
         omission_risk: round2(candidate.omission_risk),
         cache_value: round2(candidate.cache_value),
@@ -332,9 +448,12 @@ fn choose_route(selected: &[B2cSelectedQuark], used_tokens: u64, budget_tokens: 
     }
 }
 
-fn lanes(route: &str, terms: &[String], picks: &[Pick]) -> Vec<B2cLane> {
+fn lanes(route: &str, terms: &[String], picks: &[Pick], orcl_active: bool) -> Vec<B2cLane> {
     let lane_output = [
-        format!("{} query terms scored with sparse local retrieval", terms.len()),
+        format!(
+            "{} query terms scored with sparse local retrieval; orcl_scope={orcl_active}",
+            terms.len()
+        ),
         format!("{} quarks selected after redundancy penalties", picks.len()),
         format!("risk cap {:.2} applied before carrier selection", RISK_CAP),
         "stable indexed quarks receive reuse value; provider cache still requires upstream metadata"
@@ -377,9 +496,10 @@ fn render_context_text(
         text.push('\n');
         text.push_str(&short_header(candidate));
         text.push_str(&format!(
-            " b2c_net={:.2} retrieval={} risk={:.2} cache={:.2} carrier={}",
+            " b2c_net={:.2} retrieval={} orcl_score={:.2} risk={:.2} cache={:.2} carrier={}",
             pick.net_value,
             candidate.retrieval_score,
+            candidate.orcl_score,
             candidate.omission_risk,
             candidate.cache_value,
             candidate.carrier
@@ -401,6 +521,12 @@ fn short_header(candidate: &Candidate) -> String {
     if !atom.symbols.is_empty() {
         header.push_str(" symbols=");
         header.push_str(&atom.symbols.join(","));
+    }
+    if candidate.orcl_score > 0.0 {
+        header.push_str(&format!(
+            " orcl_scope=true orcl_score={:.2}",
+            candidate.orcl_score
+        ));
     }
     header
 }

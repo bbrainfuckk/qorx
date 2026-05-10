@@ -87,6 +87,7 @@ fn context_snapshot_saves_and_verifies_full_local_context_as_protobuf() {
 
     let snapshot_report: serde_json::Value =
         serde_json::from_slice(&snapshot.stdout).expect("parse snapshot stdout as json");
+    assert_eq!(snapshot_report["saved"], true);
     assert_eq!(snapshot_report["verified"], true);
     assert_eq!(snapshot_report["coverage_percent"], 100.0);
     assert_eq!(snapshot_report["index_quarks"], 1);
@@ -106,6 +107,7 @@ fn context_snapshot_saves_and_verifies_full_local_context_as_protobuf() {
     );
     let verify_report: serde_json::Value =
         serde_json::from_slice(&verify.stdout).expect("parse verify stdout as json");
+    assert_eq!(verify_report["saved"], false);
     assert_eq!(verify_report["verified"], true);
     assert_eq!(verify_report["coverage_percent"], 100.0);
     assert_eq!(verify_report["files_checked"], 10);

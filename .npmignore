@@ -1,0 +1,10 @@
+*
+!package.json
+!README.md
+!LICENSE
+!NOTICE
+!bin/
+!bin/qorx.js
+!scripts/
+scripts/*
+!scripts/npm-postinstall.js

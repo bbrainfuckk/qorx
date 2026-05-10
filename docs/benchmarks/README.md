@@ -5,8 +5,8 @@ runtime on fixed inputs and publish the command outputs used for the claim.
 
 Current reports:
 
-- [Live community proof](live.md)
-- [Live community proof raw JSON](live.json)
+- [Current live proof](live.md)
+- [Current live proof raw JSON](live.json)
 - [2026-05-01 benchmark lab](2026-05-01-benchmark-lab.md)
 - [2026-05-01 benchmark lab raw JSON](2026-05-01-benchmark-lab.json)
 - [2026-05-02 Qorx repo self-benchmark](2026-05-02-qorx-self.md)
@@ -24,7 +24,7 @@ Run it again:
 python scripts/run-benchmark.py
 ```
 
-## Claim Notes
+## Boundary
 
 These benchmarks use Qorx local token accounting. They do not prove provider
 invoice savings, production latency under multi-user load, or downstream model

@@ -31,9 +31,9 @@ const WORKFLOW_FALLBACKS = {
 };
 
 const RELEASE_FALLBACK = {
-  tag_name: "v1.0.4c",
-  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.4c",
-  published_at: "2026-05-03T12:28:43Z",
+  tag_name: "v0.0.1-ylem",
+  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v0.0.1-ylem",
+  published_at: "2026-05-10T01:50:01Z",
 };
 
 const SOURCES = {
@@ -43,40 +43,40 @@ const SOURCES = {
 };
 
 const PACKAGED_BENCHMARK = {
-  generated_at: "2026-05-03T12:34:00+00:00",
-  git_commit: "b838c23",
-  qorx_version: "qorx 1.0.4-a.0",
+  generated_at: "2026-05-10T01:50:01+00:00",
+  git_commit: "34173a6",
+  qorx_version: "qorx 0.0.1-ylem",
   summary: {
-    indexed_tokens: 202986,
+    indexed_tokens: 388573,
     strict_task_pass_rate: 1,
     expected_refusal_pass_rate: 1,
     agent_provider_calls: 0,
   },
   session: {
     json: {
-      quark_count: 380,
+      quark_count: 710,
       visible_tokens: 69,
-      omitted_tokens: 202917,
-      context_reduction_x: 2941.8260869565215,
+      omitted_tokens: 388504,
+      context_reduction_x: 5631.492753623188,
     },
   },
   pack: {
     json: {
-      used_tokens: 484,
-      omitted_tokens: 202502,
-      context_reduction_x: 419.39256198347107,
+      used_tokens: 410,
+      omitted_tokens: 388163,
+      context_reduction_x: 947.7390243902439,
     },
   },
   squeeze: {
     json: {
-      used_tokens: 419,
-      omitted_tokens: 202567,
-      context_reduction_x: 484.45346062052505,
+      used_tokens: 448,
+      omitted_tokens: 388125,
+      context_reduction_x: 867.3504464285714,
     },
   },
   bench: {
     json: {
-      average_reduction_x: 400.59937140587385,
+      average_reduction_x: 877.1377703830394,
     },
   },
   _source: "packaged-worker-fallback",

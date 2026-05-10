@@ -284,7 +284,7 @@ pub fn build(paths: &AppPaths, task: &str, budget_tokens: u64) -> Result<Lattice
 
     Ok(LatticeState {
         schema: "qorx.lattice.v1".to_string(),
-        qorx_version: env!("CARGO_PKG_VERSION").to_string(),
+        qorx_version: crate::version::QORX_VERSION.to_string(),
         created_at,
         task,
         handle,

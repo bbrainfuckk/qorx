@@ -5,7 +5,7 @@ use sha2::{Digest, Sha256};
 
 use crate::{
     compression::estimate_tokens,
-    index::{search_index, RepoAtom, RepoIndex},
+    index::{retrieval_terms, search_index, RepoAtom, RepoIndex},
 };
 
 const SIG_TEST: u16 = 1 << 2;
@@ -52,7 +52,7 @@ pub fn squeeze_context(
     let budget_tokens = budget_tokens.clamp(96, 20_000);
     let limit = limit.clamp(1, 16);
     let indexed_tokens = index.total_tokens();
-    let terms = meaningful_terms(query);
+    let terms = squeeze_terms(query);
     let mut text = format!(
         "# Qorx squeezed context\nquery: {query}\nbudget_tokens: {budget_tokens}\nindexed_tokens: {indexed_tokens}\n"
     );
@@ -190,6 +190,16 @@ fn meaningful_terms(text: &str) -> Vec<String> {
         }
     }
     push_term(&mut terms, &mut current);
+    terms.into_iter().collect()
+}
+
+fn squeeze_terms(text: &str) -> Vec<String> {
+    let mut terms = meaningful_terms(text).into_iter().collect::<BTreeSet<_>>();
+    for term in retrieval_terms(&text.to_lowercase()) {
+        if term.len() >= 3 && !is_stopword(&term) {
+            terms.insert(term);
+        }
+    }
     terms.into_iter().collect()
 }
 
@@ -339,16 +349,15 @@ mod tests {
             atoms: vec![
                 RepoAtom {
                     id: "qva_unit_test".to_string(),
-                    path: "src/money.rs".to_string(),
+                    path: "src/proxy.rs".to_string(),
                     start_line: 1,
                     end_line: 8,
                     hash: "test".to_string(),
                     token_estimate: 40,
-                    symbols: vec!["money_claim_guard_rejects_unsupported_savings".to_string()],
+                    symbols: vec!["qorx_headers_mark_routed_provider_savings".to_string()],
                     signal_mask: 4,
                     vector: vec![],
-                    text: "#[test]\nfn money_claim_guard_rejects_unsupported_savings() {}"
-                        .to_string(),
+                    text: "#[test]\nfn qorx_headers_mark_routed_provider_savings() {}".to_string(),
                 },
                 RepoAtom {
                     id: "qva_money".to_string(),
@@ -371,5 +380,33 @@ mod tests {
         assert!(!report
             .text
             .contains("qorx_headers_mark_routed_provider_savings"));
+    }
+
+    #[test]
+    fn squeeze_keeps_alias_only_business_config_hits() {
+        let index = RepoIndex {
+            root: "test".to_string(),
+            updated_at: Utc::now(),
+            atoms: vec![RepoAtom {
+                id: "qva_gateway".to_string(),
+                path: "ops/gateway_entrance.conf".to_string(),
+                start_line: 1,
+                end_line: 2,
+                hash: "gateway".to_string(),
+                token_estimate: 24,
+                symbols: vec![],
+                signal_mask: 0,
+                vector: vec![],
+                text: "SERVICE_GATEWAY_ENTRANCE=5433\nprod-v2 ingress opened".to_string(),
+            }],
+        };
+
+        let report =
+            super::squeeze_context(&index, "What DB_PORT should production connect to?", 200, 4);
+
+        assert!(report
+            .evidence
+            .iter()
+            .any(|item| item.path == "ops/gateway_entrance.conf"));
     }
 }

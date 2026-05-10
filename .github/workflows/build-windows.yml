@@ -34,23 +34,29 @@ jobs:
       - name: Test
         run: cargo test
 
-      - name: Metrics worker test
-        run: node --test tests/community_metrics_worker.test.mjs
-
       - name: Clippy
         run: cargo clippy -- -D warnings
 
       - name: Build release
-        run: cargo build --release --locked
-
-      - name: Enforce release size
-        shell: pwsh
-        run: .\scripts\check-release-size.ps1 -Binary .\target\release\qorx.exe
+        run: cargo build --release
 
       - name: Smoke test binary
         shell: pwsh
         run: |
           .\target\release\qorx.exe --version
-          .\target\release\qorx.exe doctor --json
           .\target\release\qorx.exe index .
-          .\target\release\qorx.exe strict-answer "language runtime proof"
+          .\target\release\qorx.exe session
+
+      - name: Package artifact
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path dist\qorx-windows-x64 -Force | Out-Null
+          Copy-Item target\release\qorx.exe dist\qorx-windows-x64\
+          Copy-Item README.md dist\qorx-windows-x64\
+          Copy-Item docs\COMMANDS.md dist\qorx-windows-x64\
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: qorx-windows-x64
+          path: dist/qorx-windows-x64

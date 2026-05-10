@@ -1,47 +1,62 @@
-# Community status
+# Production Status
 
-This page defines the public Community Edition release scope.
+This page is the public production boundary for Qorx.
 
 ## Verdict
 
-Qorx Community Edition is suitable for source review, local experiments,
-language/runtime testing, and research reproduction.
+Qorx is production-ready as a local runtime, CLI, compiler, and internal service
+component.
 
-The supported production path is Qorx Void for local installs and Qorx Cloud for
-hosted account features. Qorx Void Starter gives new accounts 5,000 included
-Void/Cloud requests across Windows, macOS, and Linux before subscription.
+Qorx is not yet production-ready as an exposed multi-user cloud service. The
+daemon has no built-in user accounts, tenant isolation, public auth layer, or
+published load-test SLO.
 
-## Ready in CE
+That distinction matters. Run it on a workstation, build runner, internal
+server, or controlled automation host. Do not put the daemon on the public
+internet without a reverse proxy, authentication, TLS, rate limits, logs, and
+backups.
+
+## Ready
 
 | Surface | Status | Evidence |
 | --- | --- | --- |
-| `.qorx` source language | Ready | `qorx qorx <file>` and `qorx qorx-compile <file>` |
-| `.qorxb` bytecode | Ready | `qorx qorx-inspect <file>` |
-| Source build | Ready | `cargo test`, `cargo build --release` |
-| Local indexing | Ready | `qorx index`, `qorx search` |
-| Evidence commands | Ready | `qorx strict-answer`, `qorx pack`, `qorx squeeze`, `qorx judge` |
+| `.qorx` source language | Ready | `qorx qorx-check <file>`, `qorx qorx <file>`, and `qorx qorx-compile <file>` |
+| `.qorxb` bytecode | Ready | AST, QIR, opcodes, `qstk`, and `qorx qorx-inspect <file>` |
+| Local runtime | Ready | `qorx index`, `qorx strict-answer`, `qorx context verify` |
+| Local HTTP gateway | Ready | `qorx daemon start`, `qorx daemon status`, `/health`, `/stats`, `/strict-answer` |
+| Release binaries | Ready | GitHub release assets for Windows, Linux, and macOS |
+| Package wrappers | Ready where published | Cargo git install, npm tarball, Python wheel, Homebrew tap, Scoop bucket, Linux recipes |
 | Provenance checks | Ready | `qorx security attest`, `qorx security verify` |
 | Operator check | Ready | `qorx doctor --json` |
 
-## Qorx Void And Cloud Add
+## Not Ready
 
-| Surface | Product line |
-| --- | --- |
-| 5,000 included Void/Cloud requests | Qorx Void Starter |
-| Official binaries | Qorx Void or maintainer-controlled community channels |
-| Windows tray | Qorx Void |
-| Auto-update | Qorx Void |
-| Daemon startup | Qorx Void |
-| Provider proxy routing | Qorx Void |
-| One-click CLI integrations | Qorx Void |
-| Hosted account features | Qorx API |
-| Cloud capsule sync | Qorx Cloud or Qorx Void |
-| Team policy and fleet controls | Team/Enterprise product |
-| Public SaaS runtime | Separate hosted product with auth, tenancy, logs, backups, and SLOs |
+| Surface | Status | Reason |
+| --- | --- | --- |
+| Public multi-user API | Not ready | No built-in authentication or authorization layer |
+| Tenant-hosted SaaS | Not ready | No tenant isolation model |
+| Public SLO claim | Not ready | No published external load-test data |
+| Managed fleet upgrades | Not ready | No migration controller or rolling update system |
+| Regulated production use without controls | Not ready | Operators must add audit, retention, access, and backup policy |
 
-## CE Proof Check
+## Required Controls
 
-Run this before publishing Community Edition claims:
+For an internal server, add these controls before calling it production:
+
+```text
+supervisor: systemd, Docker, Kubernetes, or another process manager
+network: loopback bind by default, private subnet if remote access is needed
+auth: reverse proxy auth, VPN, SSH tunnel, or mTLS
+tls: terminate at the reverse proxy
+data: set QORX_HOME and back it up
+monitoring: watch /health, /stats, disk, memory, and process restarts
+versioning: pin the binary, package revision, or release tag
+restore: test restore from the QORX_HOME backup
+```
+
+## Production Gate
+
+Run this before publishing operational claims:
 
 ```sh
 cargo fmt --check
@@ -51,19 +66,44 @@ cargo build --release
 qorx --version
 qorx doctor --json
 qorx index .
+qorx qorx-check examples/goal.qorx
+qorx context verify
 qorx security attest
+qorx daemon status
 ```
 
-Use the CE repo for public source, tests, and local proof. Use Qorx Void for the
-supported local runtime and Qorx Cloud for hosted account features.
+Then verify the gateway:
 
-## Allowed claim
+```sh
+qorx daemon start
+curl -fsS http://127.0.0.1:47187/health
+curl -fsS http://127.0.0.1:47187/stats
+qorx daemon stop
+```
+
+Windows users can run:
+
+```powershell
+.\scripts\smoke-gateway.ps1 -Exe .\target\release\qorx.exe
+```
+
+Linux and macOS users can run:
+
+```sh
+./scripts/smoke-gateway.sh ./target/release/qorx
+```
+
+## Allowed Claim
 
 Use this wording:
 
 ```text
-Qorx Community Edition is the AGPL source line for the Qorx language, bytecode,
-local indexing, and evidence-command model. Qorx Void is the supported local
-product, and Qorx Void Starter includes 5,000 Void/Cloud requests before
-subscription.
+Qorx is a production-ready local-first resolution runtime and internal service
+component for context resolution. It includes a small DSL, compiler, bytecode
+format, local daemon, HTTP gateway, daemon control commands, package surfaces,
+and operator checks.
 ```
+
+Do not present Qorx as a public SaaS platform until the external SaaS layer is
+real: auth, tenancy, backups, monitoring, rate limits, incident handling, and
+published load data.

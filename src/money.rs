@@ -124,7 +124,7 @@ pub fn build_money_proof(stats: &Stats, claimed_usd: Option<f64>) -> MoneyProof 
 
     MoneyProof {
         schema: "qorx.money-proof.v1".to_string(),
-        qorx_version: env!("CARGO_PKG_VERSION").to_string(),
+        qorx_version: crate::version::QORX_VERSION.to_string(),
         production_gate_passed,
         verdict,
         reasons,

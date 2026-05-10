@@ -111,15 +111,16 @@ pub struct Part {
 }
 
 pub fn agent_card() -> AgentCard {
+    let gateway = config::local_base();
     AgentCard {
         protocol_version: "1.0".to_string(),
         name: "Qorx".to_string(),
         description: "A local Qorx resolver and Cosmos ledger for .qorx programs, qorx:// handles, and evidence-bounded execution.".to_string(),
-        url: format!("{}/a2a", config::LOCAL_BASE),
+        url: format!("{gateway}/a2a"),
         preferred_transport: "HTTP+JSON".to_string(),
         supported_interfaces: vec![AgentInterface {
             protocol_binding: "HTTP+JSON".to_string(),
-            url: config::LOCAL_BASE.to_string(),
+            url: gateway,
         }],
         capabilities: AgentCapabilities {
             streaming: false,

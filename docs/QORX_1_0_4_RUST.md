@@ -1,10 +1,9 @@
-# Qorx 0.1-ylem Community Edition
+# Qorx 0.0.1-ylem: local context resolution runtime in Rust
 
-Qorx 0.1-ylem Community Edition is a Rust source line for local context
-resolution. It defines a small domain-specific language, checked `.qorxb`
-protobuf bytecode, named resolver steps, branches, runtime assertions, a
-Forth-inspired `qstk` stack tape, and `qorx://` handles that resolve against
-local state.
+Qorx 0.0.1-ylem is a Rust CLI/runtime and small domain-specific language for local
+context resolution. It defines `.qorx` source, checked `.qorxb` protobuf
+bytecode, named resolver steps, branches, runtime assertions, a Forth-inspired
+`qstk` stack tape, and `qorx://` handles that resolve against local state.
 
 The project is early. This page is written for Rust reviewers who want more
 than a repository link.
@@ -36,33 +35,26 @@ qorx goal.qorxb
 
 ## Why Rust
 
-Qorx uses Rust because the runtime contract matters. The parser, bytecode
-envelope, cache, and receipt paths all handle local state that should return
-clear errors rather than guess.
+Qorx uses Rust because the runtime boundary matters. The parser, bytecode
+envelope, cache, and receipt paths all handle local state that should fail
+closed rather than guess.
 
 The useful Rust pieces are ordinary ones:
 
 - explicit error paths through `anyhow` and typed domain errors
 - deterministic hashing for evidence chunks and receipts
 - structured CLI commands with stable output modes
-- tests around parser/runtime contracts instead of only end-to-end examples
-- source builds through Cargo
+- tests around parser/runtime boundaries instead of only end-to-end examples
+- release packaging through Cargo first, with npm/Python wrappers around the
+  Rust binary
 
-## What changed in 0.1-ylem
+## What changed in 0.0.1-ylem
 
-Version 0.1-ylem keeps the small-binary release gate and adds production-facing adapter hot swap:
-
-- a local adapter manifest for TypeScript, Python, Rust, Go, parser,
-  compressor, provider, or team runtime tools;
-- manifest reload without rebuilding the Qorx binary;
-- adapter status in `qorx adapters` and the science report;
-- package-channel metadata for public distribution.
-
-Version 1.0.4 added clarity and operator-facing readiness work:
+Version 0.0.1-ylem carries the current Qorx CLI and Void line while preserving the clarity and operator-facing readiness work:
 
 - problem-first README wording
 - a practical first `.qorx` example
-- `use std...` imports for the first standard-library surface
+- `use std...` imports for the first standard-library boundary
 - `qorx-check`, AST output, and QIR output for language files
 - source-level cache policies for stable local resolver outputs
 - `assert supported(...)` for fail-closed evidence checks
@@ -71,17 +63,21 @@ Version 1.0.4 added clarity and operator-facing readiness work:
 - README-visible benchmark numbers
 - shorter terminology for compact UI/log surfaces
 - `qorx doctor --json`
+- daemon and gateway documentation
+- Docker, compose, and systemd surfaces
 - Windows release build verification
+- package surfaces for crates.io, npm, PyPI, AUR, Homebrew tap, and Scoop
 
-The current public `main` branch is Community Edition. Build it from source:
+The package is on crates.io:
 
 ```sh
-cargo build --release
+cargo install qorx --locked
 ```
 
 ## What needs review
 
-The question is whether the local resolver contract is worth keeping.
+The main question is not whether a CLI can parse a small file. It can. The
+question is whether the boundary is worth keeping.
 
 Useful review questions:
 
@@ -90,10 +86,10 @@ Useful review questions:
 - Is `.qorxb` useful outside the CLI?
 - Does local context resolution reduce repeated prompt payloads in real
   workflows?
-- Are cache, receipt, and provenance contracts clear enough?
+- Are cache, receipt, and provenance boundaries clear enough?
 - What should change before people treat Qorx as production tooling?
 
-## Scope
+## Boundaries
 
 Qorx is not a hosted AI service, a general-purpose language, a Forth
 implementation, or a general compression system. It cannot reconstruct arbitrary
@@ -102,8 +98,3 @@ source file, bytecode file, evidence pack, or handle that a resolver can use.
 
 That is the narrow claim. It should be tested as a Rust runtime and CLI, not as
 a magic context shortcut.
-
-Qorx Void is the supported local product. Qorx Void Starter gives new accounts
-5,000 included Void/Cloud requests across Windows, macOS, and Linux before
-subscription. Edge adds signed installers, tray UX, daemon management, provider
-routing, account activation, and managed local-vault behavior.

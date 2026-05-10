@@ -1,137 +1,160 @@
-# Qorx Community command reference
+# Qorx CLI Command Guide
 
-This reference assumes the binary is built from source.
+Version: 0.0.1-ylem.
 
-```powershell
-cargo build --release
+This guide explains the public CLI surface in the order most people need it.
+Use `qorx --help` for the live command tree and `qorx man` for the short field
+manual.
+
+## Start Here
+
+| Command | Use it when | Example |
+| --- | --- | --- |
+| `qorx doctor` | You want to know whether the install is healthy. | `qorx doctor` |
+| `qorx daemon start` | You need the local gateway running. | `qorx daemon start` |
+| `qorx install -p codex` | You want Codex connected to Qorx. | `qorx install -p codex` |
+| `qorx integrate status` | You want to see which agents are wired. | `qorx integrate status` |
+| `qorx stats` | You want the local counters. | `qorx stats` |
+
+Monitor:
+
+```text
+http://127.0.0.1:47187/monitor
 ```
 
-Use `.\target\release\qorx.exe help` for the live command tree.
+## Connect Agents
 
-## Proof Check
+| Command | What it does |
+| --- | --- |
+| `qorx install` | Installs the local runtime pieces Qorx can safely manage. |
+| `qorx -i` | Shortcut for `qorx install`. |
+| `qorx install -p codex` | Installs Qorx support for Codex only. |
+| `qorx -i -p codex` | Shortcut for Codex install. |
+| `qorx integrate activate -p codex` | Rewrites Qorx-owned Codex connector files. |
+| `qorx -in -p codex` | Shortcut for `integrate activate -p codex`. |
+| `qorx integrate settings --automcp false --autohook false` | Turns connector automation off. |
 
-Run this before publishing Community Edition claims:
+Plain meaning:
+
+- MCP gives an agent a local Qorx tool.
+- Hooks prepare the start of a task where the client supports it.
+- Fix means Qorx rewrites its own connector files.
+- Some clients need a restart after connector changes.
+
+## Work With A Project
+
+| Command | What it does |
+| --- | --- |
+| `qorx index <folder>` | Adds a folder to the local evidence index. |
+| `qorx atlas` | Prints the readable workspace map. |
+| `qorx atlas query "question"` | Asks Atlas what local areas matter. |
+| `qorx atlas path <start> <end>` | Finds a route between two files. |
+| `qorx atlas export --out qorx-atlas` | Writes a shareable local Atlas pack. |
+| `qorx map "question"` | Maps a task to local files and symbols. |
+| `qorx orcl "question"` | Returns ranked local evidence contracts. |
+| `qorx impact "question"` | Shows what local areas a change may affect. |
+
+## Prove A Claim
+
+| Command | What it does |
+| --- | --- |
+| `qorx strict-answer "question"` | Answers only from local evidence; refuses unsupported claims. |
+| `qorx squeeze "question"` | Returns a compact evidence pack. |
+| `qorx pack "question"` | Builds a larger context pack under a budget. |
+| `qorx ground "question" --answer "claim"` | Checks evidence, judges the claim, and shows local savings math. |
+| `qorx judge "answer"` | Checks answer text against local evidence. |
+| `qorx b2c-plan "question"` | Plans the smallest useful context pack. |
+
+Use this before publishing claims:
 
 ```powershell
 cargo fmt --check
 cargo test
 cargo clippy --all-targets -- -D warnings
 cargo build --release
-.\target\release\qorx.exe --version
-.\target\release\qorx.exe doctor --json
-.\target\release\qorx.exe index .
-.\target\release\qorx.exe b2c-plan "language runtime proof" --budget-tokens 900
-.\target\release\qorx.exe strict-answer "language runtime proof"
-.\target\release\qorx.exe security attest
-.\scripts\safer-check.ps1 -Exe .\target\release\qorx.exe
-.\scripts\check-testsprite-enterprise.ps1
+qorx doctor --json
+qorx index .
+qorx ground "version proof" --answer "Qorx is on 0.0.1-ylem."
 ```
 
-## Language
+## Handles And Agent Handoff
 
-```powershell
-.\target\release\qorx.exe qorx .\goal.qorx
-.\target\release\qorx.exe qorx-check .\goal.qorx
-.\target\release\qorx.exe qorx-compile .\goal.qorx --out .\goal.qorxb
-.\target\release\qorx.exe qorx-inspect .\goal.qorxb
-.\target\release\qorx.exe qorx-prompt .\goal.qorx
-.\target\release\qorx.exe lexicon
-```
+| Command | What it does |
+| --- | --- |
+| `qorx session` | Prints the current local session handle. |
+| `qorx context nano "objective" --block` | Creates the smallest local handoff. |
+| `qorx context inject "objective" --block` | Creates a readable local handoff. |
+| `qorx context vm "objective"` | Shows the full resolver contract. |
+| `qorx context expand <handle>` | Expands a supported local handle. |
+| `qorx context fault "query" --handle <handle>` | Pulls proof for a specific query. |
+| `qorx capsule create <folder> --block` | Creates a portable project capsule. |
 
-Minimal source:
+Boundary:
+
+- A handle is not file content.
+- The local runtime must resolve it.
+- If the local index cannot prove the claim, Qorx should refuse or mark it
+  unsupported.
+
+## Runtime And State
+
+| Command | What it does |
+| --- | --- |
+| `qorx daemon` | Runs the gateway in the foreground. |
+| `qorx daemon run` | Same foreground service mode. |
+| `qorx daemon start` | Starts the workstation background service. |
+| `qorx daemon status` | Shows service state. |
+| `qorx daemon stop` | Stops the service. |
+| `qorx tray` | Opens the Windows tray controller. |
+| `qorx stats` | Shows local counters. |
+| `qorx stats reset` | Clears persisted counters. |
+| `qorx startup status` | Checks startup registration. |
+
+Default gateway:
 
 ```text
-QORX 1
-let question = "which files explain how Qorx keeps local evidence outside the model prompt?"
-pack evidence from question budget 700
-cache evidence key question ttl 3600
-strict answer from evidence limit 2
-assert supported(answer)
-emit answer
+127.0.0.1:47187
 ```
 
-## Evidence
+Keep non-loopback binds behind your own auth, TLS, and network rules.
 
-```powershell
-.\target\release\qorx.exe index .
-.\target\release\qorx.exe search "language runtime proof"
-.\target\release\qorx.exe strict-answer "language runtime proof"
-.\target\release\qorx.exe b2c-plan "language runtime proof" --budget-tokens 900
-.\target\release\qorx.exe pack "language runtime proof" --budget-tokens 1200
-.\target\release\qorx.exe squeeze "language runtime proof" --budget-tokens 700
-.\target\release\qorx.exe judge "Qorx is a local context resolver."
-```
+## Advanced Commands
 
-## Reports
+| Command | What it does |
+| --- | --- |
+| `qorx qorx <file.qorx>` | Runs a Qorx task file. |
+| `qorx qorx-check <file.qorx>` | Validates a task file. |
+| `qorx qorx-compile <file.qorx> --out <file.qorxb>` | Compiles a task file. |
+| `qorx qorx-inspect <file.qorxb>` | Inspects a compiled task artifact. |
+| `qorx lexicon` | Prints the public glossary. |
+| `qorx crux run --hours 1` | Runs a local integration stress pass. |
+| `qorx crux report` | Shows the latest Crux state. |
+| `qorx security attest` | Prints a local security attestation. |
+| `qorx security verify` | Verifies supported security evidence. |
+| `qorx memory summarize` | Summarizes local memory notes. |
+| `qorx share capsule --to qorx-share.pb` | Exports a portable capsule. |
+| `qorx adapters` | Lists optional adapters. |
+| `qorx science` | Prints the scientific boundary. |
+| `qorx bench` | Runs a local benchmark pack. |
 
-```powershell
-.\target\release\qorx.exe doctor --json
-.\target\release\qorx.exe stats
-.\target\release\qorx.exe stats reset
-.\target\release\qorx.exe adapters
-.\target\release\qorx.exe adapters init
-.\target\release\qorx.exe adapters add typescript --kind language_server --cmd typescript-language-server
-.\target\release\qorx.exe adapters reload
-.\target\release\qorx.exe adapters remove typescript
-.\target\release\qorx.exe science
-.\target\release\qorx.exe security attest
-.\target\release\qorx.exe security verify
-.\target\release\qorx.exe bench
-```
-
-## Production Language Adapters
-
-Qorx keeps `.qorx` as the native language, but production teams can point Qorx
-at the tools they already use. The adapter manifest is re-read by `adapters`,
-`adapters reload`, and `science`, so a team can swap external language/runtime
-tools without rebuilding the Qorx binary.
-
-```powershell
-.\target\release\qorx.exe adapters init
-.\target\release\qorx.exe adapters manifest
-.\target\release\qorx.exe adapters add typescript --kind language_server --cmd typescript-language-server
-.\target\release\qorx.exe adapters add python --kind language_server --cmd pyright-langserver
-.\target\release\qorx.exe adapters add rust --kind language_server --cmd rust-analyzer
-.\target\release\qorx.exe adapters add team-router --kind provider_route --url http://127.0.0.1:8080
-.\target\release\qorx.exe adapters reload
-```
-
-This is a small production seam, not a dynamic-library plugin system. Qorx keeps
-its compact language, index, bytecode, and proof logic in-core. External tools
-stay outside the binary and can be changed by updating the manifest.
-
-## Qorx Void Commands
-
-The CE binary explains that these commands live in Qorx Void:
+## Shortcuts
 
 ```text
-bootstrap
-daemon
-tray
-startup
-drive
-hot
-integrate
-run
-patch
+-i   install
+-in  integrate activate
+-p   platform
 ```
 
-Those commands belong to Qorx Void because they provide the official local
-runtime experience: background gateway, tray, account activation, provider
-routing, startup integration, and managed local vault behavior.
+Examples:
 
-Void exposes a monitor and tray action named `Turn on MCP + hooks`. That action
-repairs all known platform wiring in one pass. Managed hooks are available for
-Codex, Gemini CLI, and Claude Code. Antigravity, OpenCode, Copilot CLI, VS Code
-Copilot Chat, Aider, and Cursor are MCP-only unless those clients expose a
-supported hook surface. Other agent clients can use the local hook kit when
-their own loader supports it.
+```sh
+qorx -i
+qorx -i -p codex
+qorx -in -p codex
+```
 
-Qorx Void Starter lets new accounts use the same Void/Cloud command surface on
-Windows, macOS, and Linux with 5,000 included Void/Cloud requests. Local CE
-commands remain unmetered.
+## What Not To Claim
 
-## Edition Note
-
-Community Edition is a source-build CLI. Do not describe a self-built CE binary
-as the official Qorx local product.
+Qorx does not hide provider billing, does not make an outside model know files
+it was never given, and does not prove a security claim that was not verified on
+the local machine.

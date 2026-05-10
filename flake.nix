@@ -1,21 +1,14 @@
 {
-  description = "Qorx Community Edition CLI";
+  description = "Qorx language and runtime for local context resolution";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  };
 
   outputs = { self, nixpkgs }:
     let
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-      forAllSystems = f:
-        builtins.listToAttrs (map (system: {
-          name = system;
-          value = f system;
-        }) systems);
+      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
       packages = forAllSystems (system:
@@ -25,15 +18,33 @@
         {
           default = pkgs.rustPlatform.buildRustPackage {
             pname = "qorx";
-            version = "0.1.0-ylem";
-            src = self;
+            version = "1.0.2";
+            src = ./.;
             cargoLock.lockFile = ./Cargo.lock;
-            meta = {
-              description = "Qorx Community Edition CLI";
+            doCheck = true;
+            meta = with pkgs.lib; {
+              description = "Qorx language and runtime for local context resolution";
               homepage = "https://github.com/bbrainfuckk/qorx";
-              license = pkgs.lib.licenses.agpl3Only;
+              license = licenses.agpl3Only;
               mainProgram = "qorx";
             };
+          };
+        });
+
+      apps = forAllSystems (system: {
+        default = {
+          type = "app";
+          program = "${self.packages.${system}.default}/bin/qorx";
+        };
+      });
+
+      devShells = forAllSystems (system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        {
+          default = pkgs.mkShell {
+            packages = [ pkgs.cargo pkgs.rustc pkgs.rustfmt pkgs.clippy ];
           };
         });
     };

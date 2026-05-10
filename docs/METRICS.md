@@ -3,7 +3,7 @@
 Qorx has three public-facing metric surfaces. They use the same B2C accounting
 language, but they do not share one counter store.
 
-## Qorx Void v1.0 / Qorx Void Starter
+## Qorx Void 0.0.1-ylem / Qorx Void Starter
 
 Void is the supported local product runtime: daemon, tray, provider routing,
 MCP/CLI activation, ORCL, account-backed service features, and the local
@@ -39,7 +39,7 @@ Boundary: Void metrics are local runtime evidence. Starter includes 5,000
 Void/Cloud service requests, but local Community Edition commands stay
 unmetered.
 
-## Qorx API v1.0
+## Qorx API 0.0.1-ylem
 
 Qorx API is the hosted account and usage surface for tenant keys, optimizer
 calls, resolver handles, trial keys, pricing, checkout, and usage metering.

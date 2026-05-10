@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: qorx
+Source: https://github.com/bbrainfuckk/qorx
+
+Files: *
+Copyright: 2026 Marvin Sarreal Villanueva
+License: AGPL-3.0-only

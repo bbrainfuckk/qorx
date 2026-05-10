@@ -50,7 +50,7 @@ fn seed_research_index(dir: &Path) {
       "symbols": ["loginRoute"],
       "signal_mask": 66,
       "vector": [21, 22, 23],
-      "text": "export function loginRoute(req) {\n  const session = issueSession(req.user);\n  logAudit(session.id);\n  return session;\n}"
+      "text": "export function loginRoute(req) {\n  // WHY: session route proves local context flow\n  const session = issueSession(req.user);\n  logAudit(session.id);\n  return session;\n}"
     },
     {
       "id": "qva_session_service",
@@ -154,6 +154,357 @@ fn squeeze_returns_query_aware_extracts_under_budget() {
 }
 
 #[test]
+fn graph_cli_exports_dashboard_metrics_for_offline_audits() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let report = qorx(&["graph", "--limit", "64"], &qorx_home);
+
+    assert_eq!(report["schema"], "qorx.graph-view.v1");
+    assert_eq!(report["metrics"]["file_nodes"], 5);
+    assert_eq!(report["metrics"]["reference_edges"], 2);
+    assert_eq!(report["metrics"]["health"], "needs_attention");
+    assert!(report["metrics"]["top_referenced_files"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|item| item["path"] == "src/services/session.ts" && item["incoming_references"] == 1));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn graph_cli_can_scope_dashboard_graph_to_a_query() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let report = qorx(
+        &[
+            "graph",
+            "--query",
+            "login route session audit",
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+
+    let file_paths = report["nodes"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|node| node["kind"] == "file")
+        .map(|node| node["path"].as_str().unwrap().to_string())
+        .collect::<Vec<_>>();
+
+    assert!(file_paths.contains(&"src/routes/auth.ts".to_string()));
+    assert!(file_paths.contains(&"src/services/session.ts".to_string()));
+    assert!(file_paths.contains(&"src/services/audit.ts".to_string()));
+    assert!(!file_paths.contains(&"src/billing.ts".to_string()));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn graph_path_cli_traces_file_to_file_references() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let report = qorx(
+        &[
+            "graph-path",
+            "routes/auth.ts",
+            "services/audit.ts",
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+
+    assert_eq!(report["schema"], "qorx.graph-trace.v1");
+    assert_eq!(report["found"], true);
+    assert_eq!(report["hops"], 1);
+    assert_eq!(report["path"][0]["path"], "src/routes/auth.ts");
+    assert_eq!(report["path"][1]["path"], "src/services/audit.ts");
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn atlas_cli_summarizes_local_connections_without_external_branding() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let report = qorx(&["atlas", "--limit", "64"], &qorx_home);
+
+    assert_eq!(report["schema"], "qorx.atlas-report.v1");
+    assert_eq!(report["mode"], "local_atlas_report");
+    assert_eq!(report["local_only"], true);
+    assert_eq!(report["provider_calls"], 0);
+    assert_eq!(report["item_count"], 11);
+    assert_eq!(report["link_count"], 2);
+    assert!(report["hubs"].as_array().unwrap().iter().any(|hub| {
+        hub["path"] == "src/services/session.ts"
+            && hub["incoming_links"] == 1
+            && hub["confidence"] == "EXTRACTED"
+    }));
+    assert!(report["surprising_connections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|connection| {
+            connection["from_path"] == "src/routes/auth.ts"
+                && connection["to_path"] == "src/services/session.ts"
+                && connection["confidence"] == "EXTRACTED"
+        }));
+    assert!(report["rationale"].as_array().unwrap().iter().any(|item| {
+        item["path"] == "src/routes/auth.ts"
+            && item["marker"] == "WHY"
+            && item["text"]
+                .as_str()
+                .unwrap()
+                .contains("session route proves local context flow")
+    }));
+    assert!(report["suggested_questions"].as_array().unwrap().len() >= 4);
+    assert!(report["confidence"]["EXTRACTED"]
+        .as_str()
+        .unwrap()
+        .contains("read directly"));
+
+    let rendered = serde_json::to_string(&report).unwrap();
+    let external_graph_term = ["Gra", "phify"].concat();
+    let external_graph_term_lower = external_graph_term.to_ascii_lowercase();
+    for banned in [
+        external_graph_term.as_str(),
+        external_graph_term_lower.as_str(),
+        "god",
+    ] {
+        assert!(
+            !rendered.contains(banned),
+            "atlas surface leaked external term {banned}: {rendered}"
+        );
+    }
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn atlas_export_writes_qorx_pack_files_for_agents() {
+    let qorx_home = unique_temp_dir();
+    let out_dir = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let report = qorx(
+        &[
+            "atlas",
+            "export",
+            "--out",
+            out_dir.to_str().unwrap(),
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+
+    assert_eq!(report["schema"], "qorx.atlas-export.v1");
+    assert_eq!(
+        report["files"]["json"].as_str().unwrap(),
+        out_dir.join("atlas.json").to_string_lossy()
+    );
+    assert_eq!(
+        report["files"]["markdown"].as_str().unwrap(),
+        out_dir.join("ATLAS_REPORT.md").to_string_lossy()
+    );
+    assert_eq!(
+        report["files"]["html"].as_str().unwrap(),
+        out_dir.join("atlas.html").to_string_lossy()
+    );
+    assert!(out_dir.join("atlas.json").exists());
+    assert!(out_dir.join("ATLAS_REPORT.md").exists());
+    assert!(out_dir.join("atlas.html").exists());
+    assert!(out_dir.join("manifest.json").exists());
+    assert!(out_dir.join("AGENTS.atlas.md").exists());
+
+    let markdown = fs::read_to_string(out_dir.join("ATLAS_REPORT.md")).unwrap();
+    assert!(markdown.contains("# Qorx Atlas Report"));
+    assert!(markdown.contains("src/services/session.ts"));
+    assert!(markdown.contains("session route proves local context flow"));
+    let agent_note = fs::read_to_string(out_dir.join("AGENTS.atlas.md")).unwrap();
+    assert!(agent_note.contains("Read ATLAS_REPORT.md before broad file reads"));
+
+    let pack: serde_json::Value =
+        serde_json::from_slice(&fs::read(out_dir.join("atlas.json")).unwrap()).unwrap();
+    assert_eq!(pack["schema"], "qorx.atlas-pack.v1");
+    assert_eq!(pack["report"]["schema"], "qorx.atlas-report.v1");
+    assert!(pack["modalities"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|item| { item["kind"] == "code" && item["file_count"].as_u64().unwrap() >= 4 }));
+    assert!(pack["research_basis"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|item| {
+            item["name"] == "GraphCoder" && item["source"] == "https://arxiv.org/abs/2406.07003"
+        }));
+
+    let rendered = serde_json::to_string(&pack).unwrap();
+    let external_graph_term = ["Gra", "phify"].concat();
+    assert!(!rendered.contains(&external_graph_term));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+    let _ = fs::remove_dir_all(&out_dir);
+}
+
+#[test]
+fn atlas_global_registry_adds_lists_and_reports_path() {
+    let qorx_home = unique_temp_dir();
+    let out_dir = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let _ = qorx(
+        &[
+            "atlas",
+            "export",
+            "--out",
+            out_dir.to_str().unwrap(),
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+
+    let added = qorx(
+        &[
+            "atlas",
+            "global",
+            "add",
+            out_dir.join("atlas.json").to_str().unwrap(),
+            "fixture",
+        ],
+        &qorx_home,
+    );
+    assert_eq!(added["schema"], "qorx.atlas-global.v1");
+    assert_eq!(added["projects"][0]["name"], "fixture");
+
+    let listed = qorx(&["atlas", "global", "list"], &qorx_home);
+    assert_eq!(listed["projects"][0]["name"], "fixture");
+    assert_eq!(listed["projects"][0]["schema"], "qorx.atlas-pack.v1");
+
+    let path = qorx(&["atlas", "global", "path"], &qorx_home);
+    assert_eq!(
+        path["path"].as_str().unwrap(),
+        qorx_home.join("atlas-global.json").to_string_lossy()
+    );
+
+    let _ = fs::remove_dir_all(&qorx_home);
+    let _ = fs::remove_dir_all(&out_dir);
+}
+
+#[test]
+fn atlas_merge_combines_exported_packs() {
+    let qorx_home = unique_temp_dir();
+    let out_a = unique_temp_dir();
+    let out_b = unique_temp_dir();
+    let merged = unique_temp_dir().join("merged-atlas.json");
+    seed_research_index(&qorx_home);
+
+    let _ = qorx(
+        &[
+            "atlas",
+            "export",
+            "--out",
+            out_a.to_str().unwrap(),
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+    let _ = qorx(
+        &[
+            "atlas",
+            "export",
+            "--out",
+            out_b.to_str().unwrap(),
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+
+    let report = qorx(
+        &[
+            "atlas",
+            "merge",
+            out_a.join("atlas.json").to_str().unwrap(),
+            out_b.join("atlas.json").to_str().unwrap(),
+            "--out",
+            merged.to_str().unwrap(),
+        ],
+        &qorx_home,
+    );
+
+    assert_eq!(report["schema"], "qorx.atlas-merge.v1");
+    assert_eq!(report["input_count"], 2);
+    assert_eq!(report["output"].as_str().unwrap(), merged.to_string_lossy());
+    assert!(merged.exists());
+
+    let merged_json: serde_json::Value =
+        serde_json::from_slice(&fs::read(&merged).unwrap()).unwrap();
+    assert_eq!(merged_json["schema"], "qorx.atlas-merged.v1");
+    assert!(merged_json["hubs"].as_array().unwrap().iter().any(|hub| {
+        hub["path"] == "src/services/session.ts" && hub["incoming_links"].as_u64().unwrap() >= 1
+    }));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+    let _ = fs::remove_dir_all(&out_a);
+    let _ = fs::remove_dir_all(&out_b);
+    if let Some(parent) = merged.parent() {
+        let _ = fs::remove_dir_all(parent);
+    }
+}
+
+#[test]
+fn atlas_query_and_path_reuse_local_graph_surfaces() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let query = qorx(
+        &[
+            "atlas",
+            "query",
+            "login route session audit",
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+    assert_eq!(query["schema"], "qorx.graph-view.v1");
+    assert!(query["nodes"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|node| { node["path"] == "src/routes/auth.ts" && node["kind"] == "file" }));
+
+    let path = qorx(
+        &[
+            "atlas",
+            "path",
+            "routes/auth.ts",
+            "services/audit.ts",
+            "--limit",
+            "64",
+        ],
+        &qorx_home,
+    );
+    assert_eq!(path["schema"], "qorx.graph-trace.v1");
+    assert_eq!(path["found"], true);
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
 fn judge_marks_supported_and_unsupported_claims() {
     let qorx_home = unique_temp_dir();
     seed_research_index(&qorx_home);
@@ -174,6 +525,100 @@ fn judge_marks_supported_and_unsupported_claims() {
         .as_str()
         .unwrap()
         .contains("indexed local evidence"));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn ground_gate_blocks_unsupported_answer_and_simulates_large_context_savings() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let report = qorx(
+        &[
+            "ground",
+            "production gate routed provider evidence",
+            "--answer",
+            "production gate requires routed provider savings evidence. warp drive cooking schedule is approved.",
+            "--budget-tokens",
+            "220",
+            "--raw-tokens",
+            "5000000000",
+            "--sent-tokens",
+            "1000",
+            "--input-usd-per-million",
+            "2.5",
+        ],
+        &qorx_home,
+    );
+
+    assert_eq!(report["schema"], "qorx.grounding-gate.v1");
+    assert_eq!(report["local_only"], true);
+    assert_eq!(report["provider_calls"], 0);
+    assert_eq!(report["hallucination_gate_passed"], false);
+    assert_eq!(report["verdict"], "blocked_unsupported_claims");
+    assert_eq!(report["answer_judgement"]["unsupported_claims"], 1);
+    assert!(report["claim_policy"]
+        .as_str()
+        .unwrap()
+        .contains("no 100 percent hallucination claim"));
+    assert_eq!(
+        report["savings_simulation"]["raw_input_tokens"],
+        5_000_000_000u64
+    );
+    assert_eq!(report["savings_simulation"]["sent_input_tokens"], 1_000u64);
+    assert_eq!(report["savings_simulation"]["raw_input_cost_usd"], 12_500.0);
+    assert_eq!(
+        report["savings_simulation"]["compact_input_cost_usd"],
+        0.0025
+    );
+    assert!(report["retrieval_plan"]["stages"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|stage| stage["name"] == "strict-answer"));
+    assert!(report["retrieval_plan"]["stages"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|stage| stage["name"] == "squeeze"));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn ground_gate_passes_supported_answer_with_proof_per_token_metrics() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+
+    let report = qorx(
+        &[
+            "ground",
+            "production gate routed provider evidence",
+            "--answer",
+            "production gate requires routed provider savings evidence.",
+            "--budget-tokens",
+            "220",
+        ],
+        &qorx_home,
+    );
+
+    assert_eq!(report["schema"], "qorx.grounding-gate.v1");
+    assert_eq!(report["hallucination_gate_passed"], true);
+    assert_eq!(report["verdict"], "grounded");
+    assert_eq!(report["answer_judgement"]["unsupported_claims"], 0);
+    assert_eq!(report["answer_judgement"]["supported_claims"], 1);
+    assert!(report["proof_per_token"]["support_rate"].as_f64().unwrap() >= 1.0);
+    assert!(
+        report["proof_per_token"]["evidence_items"]
+            .as_u64()
+            .unwrap()
+            >= 1
+    );
+    assert!(report["prompt_contract"]
+        .as_str()
+        .unwrap()
+        .contains("Use only cited Qorx evidence"));
 
     let _ = fs::remove_dir_all(&qorx_home);
 }
@@ -234,6 +679,48 @@ fn b2c_plan_runs_quant_allocator_over_indexed_quarks() {
         .as_str()
         .unwrap()
         .contains("deterministic local math"));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn b2c_plan_uses_orcl_scope_to_pull_linked_quarks_under_budget() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+    let diff_file = qorx_home.join("auth.diff");
+    fs::write(
+        &diff_file,
+        "diff --git a/src/routes/auth.ts b/src/routes/auth.ts\n+++ b/src/routes/auth.ts\n@@\n+  logAudit(session.id);\n",
+    )
+    .expect("write diff");
+
+    let diff_file_text = diff_file.display().to_string();
+    let report = qorx(
+        &[
+            "b2c-plan",
+            "login route",
+            "--diff-file",
+            &diff_file_text,
+            "--budget-tokens",
+            "220",
+        ],
+        &qorx_home,
+    );
+
+    assert_eq!(report["schema"], "qorx.b2c-plan.v1");
+    assert!(report["used_tokens"].as_u64().unwrap() <= 220);
+    let selected = report["selected_quarks"].as_array().unwrap();
+    assert!(selected
+        .iter()
+        .any(|item| item["id"] == "qva_auth_route" && item["orcl_score"].as_f64().unwrap() > 0.0));
+    assert!(selected.iter().any(|item| {
+        item["id"] == "qva_session_service" && item["orcl_score"].as_f64().unwrap() > 0.0
+    }));
+    assert!(selected.iter().any(|item| {
+        item["id"] == "qva_audit_service" && item["orcl_score"].as_f64().unwrap() > 0.0
+    }));
+    assert!(!selected.iter().any(|item| item["id"] == "qva_unrelated"));
+    assert!(report["text"].as_str().unwrap().contains("orcl_scope=true"));
 
     let _ = fs::remove_dir_all(&qorx_home);
 }
@@ -311,6 +798,69 @@ fn map_reports_changed_paths_symbols_and_related_edges() {
                 && edge["to_path"] == "src/services/session.ts"
         }));
     assert!(!report["text"].as_str().unwrap().contains("billCustomer"));
+
+    let _ = fs::remove_dir_all(&qorx_home);
+}
+
+#[test]
+fn orcl_reports_ranked_contracts_and_links_without_external_terms() {
+    let qorx_home = unique_temp_dir();
+    seed_research_index(&qorx_home);
+    let diff_file = qorx_home.join("auth.diff");
+    fs::write(
+        &diff_file,
+        "diff --git a/src/routes/auth.ts b/src/routes/auth.ts\n+++ b/src/routes/auth.ts\n@@\n+  logAudit(session.id);\n",
+    )
+    .expect("write diff");
+
+    let diff_file_text = diff_file.display().to_string();
+    let report = qorx(
+        &[
+            "orcl",
+            "login route session audit",
+            "--diff-file",
+            &diff_file_text,
+            "--budget-tokens",
+            "420",
+            "--depth",
+            "2",
+        ],
+        &qorx_home,
+    );
+
+    assert_eq!(report["schema"], "qorx.orcl.v1");
+    assert_eq!(report["changed_paths"][0], "src/routes/auth.ts");
+    assert!(report["symbols"].as_array().unwrap().iter().any(|symbol| {
+        symbol["name"] == "issueSession"
+            && symbol["signature"] == "export function issueSession(user) {"
+    }));
+    assert!(report["links"].as_array().unwrap().iter().any(|link| {
+        link["from_path"] == "src/routes/auth.ts"
+            && link["to_path"] == "src/services/session.ts"
+            && link["symbol"] == "issueSession"
+    }));
+    assert!(report["rank"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|rank| rank["symbol"] == "issueSession" && rank["fan_in"].as_u64().unwrap() > 0));
+
+    let rendered = serde_json::to_string(&report).unwrap();
+    let external_graph_term = ["Gra", "phify"].concat();
+    let external_graph_term_lower = external_graph_term.to_ascii_lowercase();
+    for banned in [
+        external_graph_term.as_str(),
+        external_graph_term_lower.as_str(),
+        "god",
+        "node",
+        "edge",
+        "graph_edges",
+    ] {
+        assert!(
+            !rendered.contains(banned),
+            "orcl surface leaked external term {banned}: {rendered}"
+        );
+    }
 
     let _ = fs::remove_dir_all(&qorx_home);
 }

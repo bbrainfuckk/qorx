@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	cargo build --release --locked
+
+override_dh_auto_test:
+	cargo test --locked
+
+override_dh_auto_install:
+	install -Dm755 target/release/qorx debian/qorx/usr/bin/qorx
+	install -Dm644 README.md debian/qorx/usr/share/doc/qorx/README.md
+	install -Dm644 docs/COMMANDS.md debian/qorx/usr/share/doc/qorx/COMMANDS.md

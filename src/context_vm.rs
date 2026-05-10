@@ -5,7 +5,7 @@ use sha2::{Digest, Sha256};
 
 use crate::{
     compression::{estimate_tokens, TOKEN_ESTIMATOR_LABEL},
-    config::LOCAL_BASE,
+    config::local_base,
     index::{pack_context, RepoIndex},
     session::{build_session_pointer, SessionPointer},
     squeeze::{squeeze_context, SqueezedEvidence},
@@ -343,16 +343,26 @@ pub fn resolve_context_fault(
     query: &str,
     options: ContextVmOptions,
 ) -> ContextFaultReport {
+    resolve_context_fault_with_auth_index(index, index, handle, query, options)
+}
+
+pub fn resolve_context_fault_with_auth_index(
+    auth_index: &RepoIndex,
+    evidence_index: &RepoIndex,
+    handle: &str,
+    query: &str,
+    options: ContextVmOptions,
+) -> ContextFaultReport {
     let options = options.normalized();
-    let authorization = authorize_handle(index, handle);
+    let authorization = authorize_handle(auth_index, handle);
     if !authorization.authorized {
-        return unauthorized_fault(index, handle, query, options, authorization);
+        return unauthorized_fault(evidence_index, handle, query, options, authorization);
     }
     let resolved_handle = authorization.resolved_handle.clone();
     let carrier = authorization.carrier.clone();
 
-    let strict = strict_answer(index, query, options.limit.min(4));
-    let squeezed = squeeze_context(index, query, options.budget_tokens, options.limit);
+    let strict = strict_answer(evidence_index, query, options.limit.min(4));
+    let squeezed = squeeze_context(evidence_index, query, options.budget_tokens, options.limit);
     let mut pages_by_key = BTreeMap::new();
 
     for item in &strict.evidence {
@@ -378,7 +388,7 @@ pub fn resolve_context_fault(
         .map(|page| page.excerpt_tokens + 20)
         .sum::<u64>();
     let used_tokens = estimate_tokens(query) + proof_tokens;
-    let indexed_tokens = index.total_tokens();
+    let indexed_tokens = evidence_index.total_tokens();
     let avoided_context_tokens = indexed_tokens.saturating_sub(used_tokens.min(indexed_tokens));
     let context_reduction_x = indexed_tokens.max(1) as f64 / used_tokens.max(1) as f64;
     let status = fault_status(&strict.coverage, &strict.missing_terms, &proof_pages);
@@ -446,6 +456,7 @@ pub fn build_context_nano(
     let indexed_tokens = index.total_tokens();
     let avoided_context_tokens = indexed_tokens.saturating_sub(visible_tokens.min(indexed_tokens));
     let context_reduction_x = indexed_tokens.max(1) as f64 / visible_tokens.max(1) as f64;
+    let gateway = local_base();
 
     ContextNanoReport {
         schema: "qorx.context-nano.v1".to_string(),
@@ -459,8 +470,8 @@ pub fn build_context_nano(
         context_reduction_x,
         local_only: true,
         provider_calls: 0,
-        fault_endpoint: format!("{LOCAL_BASE}/context/fault"),
-        expand_endpoint: format!("{LOCAL_BASE}/context/expand"),
+        fault_endpoint: format!("{gateway}/context/fault"),
+        expand_endpoint: format!("{gateway}/context/expand"),
         budget_tokens: options.budget_tokens,
         boundary: "A Qorx nano carrier is a pointer to local Cosmos context. Cosmos means local Qorx state, not astrophysics. The carrier does not contain the local context; Qorx must expand or fault proof pages locally before any quality claim is made.".to_string(),
     }
@@ -476,6 +487,7 @@ pub fn build_context_quetta(
     let visible_tokens = estimate_tokens(QUETTA_ALIAS).max(1);
     let manifest = quetta_manifest(index, &session);
     let value_ledger = quetta_value_ledger();
+    let gateway = local_base();
 
     ContextQuettaReport {
         schema: "qorx.context-quetta.v1".to_string(),
@@ -489,8 +501,8 @@ pub fn build_context_quetta(
         value_ledger,
         local_only: true,
         provider_calls: 0,
-        fault_endpoint: format!("{LOCAL_BASE}/context/fault"),
-        expand_endpoint: format!("{LOCAL_BASE}/context/expand"),
+        fault_endpoint: format!("{gateway}/context/fault"),
+        expand_endpoint: format!("{gateway}/context/expand"),
         budget_tokens: options.budget_tokens,
         boundary: "Q opens the vault: the Quetta alias is one visible resolver alias for measured local Cosmos state. It contains no hidden context, it is not physical storage proof, and it is not a provider billing record.".to_string(),
     }
@@ -576,10 +588,11 @@ fn ledger(indexed_tokens: u64, visible_frame_tokens: u64, proof_tokens: u64) -> 
 }
 
 fn tool_contract(handle: &str, budget_tokens: u64, limit: usize) -> VmToolContract {
+    let gateway = local_base();
     VmToolContract {
-        gateway: LOCAL_BASE.to_string(),
-        vm_endpoint: format!("{LOCAL_BASE}/context/vm"),
-        fault_endpoint: format!("{LOCAL_BASE}/context/fault"),
+        gateway: gateway.clone(),
+        vm_endpoint: format!("{gateway}/context/vm"),
+        fault_endpoint: format!("{gateway}/context/fault"),
         request_shape: serde_json::json!({
             "handle": handle,
             "query": "<specific local evidence question>",
@@ -601,9 +614,10 @@ fn prompt_block(
     budget_tokens: u64,
 ) -> String {
     format!(
-        "QORX_CONTEXT_VM {version} {handle}\nContext VM: active local Cosmos resolver, not a Linux VM.\nGateway: {gateway}\nFault endpoint: {fault_endpoint}\nFault body: {{\"handle\":\"{handle}\",\"query\":\"<specific local evidence question>\",\"budget_tokens\":{budget_tokens}}}\nObjective hint: {objective}\nRule: keep broad local context out of the prompt; ask Qorx for cited proof pages when needed.\nsubagents: use the same handle and fault endpoint; do not receive raw repo dumps.\nBoundary: unsupported or unauthorized Qorx faults must be treated as no local proof.",
+        "QORX_CONTEXT_VM {version} {handle}\nQorx is ready for this turn.\nContext VM: local proof resolver, not a Linux VM.\nLocal context stays on this computer until exact proof is needed.\nWorkspace: {root}\nGateway: {gateway}\nProof endpoint: {fault_endpoint}\nProof request: {{\"handle\":\"{handle}\",\"query\":\"<specific local evidence question>\",\"budget_tokens\":{budget_tokens}}}\nObjective: {objective}\nRule: do not paste broad local context upstream. Pull cited proof only when the task needs it.\nsubagents: use the same handle and proof endpoint; do not receive raw repo dumps.\nBoundary: if Qorx refuses or cannot prove a claim, say the local index does not prove it.",
         version = CONTEXT_VM_VERSION,
         handle = session.handle,
+        root = session.root,
         gateway = contract.gateway,
         fault_endpoint = contract.fault_endpoint,
     )
@@ -899,4 +913,66 @@ fn fault_status(coverage: &str, missing_terms: &[String], pages: &[ProofPage]) -
         return "partial".to_string();
     }
     "resolved".to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use chrono::{Duration, Utc};
+
+    use crate::index::{RepoAtom, RepoIndex};
+
+    fn fake_index() -> RepoIndex {
+        RepoIndex {
+            root: r"C:\repo\qorx".to_string(),
+            updated_at: Utc::now(),
+            atoms: vec![RepoAtom {
+                id: "qva_billing".to_string(),
+                path: "src/billing.rs".to_string(),
+                start_line: 1,
+                end_line: 80,
+                hash: "billing_hash".to_string(),
+                token_estimate: 5_000,
+                symbols: vec!["invoice".to_string()],
+                signal_mask: 0,
+                vector: vec![1, 2, 3],
+                text: "invoice context evidence".to_string(),
+            }],
+        }
+    }
+
+    #[test]
+    fn context_fault_accepts_base_handle_for_live_overlay_evidence() {
+        let base = fake_index();
+        let handle = super::build_session_pointer(&base).handle;
+        let mut evidence = base.clone();
+        evidence.updated_at += Duration::seconds(1);
+        evidence.atoms.push(RepoAtom {
+            id: "qva_live_query".to_string(),
+            path: ".qorx/live-query.txt".to_string(),
+            start_line: 1,
+            end_line: 1,
+            hash: "live_query_hash".to_string(),
+            token_estimate: 5,
+            symbols: vec!["live_query".to_string()],
+            signal_mask: 0,
+            vector: vec![7, 8, 9],
+            text: "invoice live query overlay evidence".to_string(),
+        });
+
+        let report = super::resolve_context_fault_with_auth_index(
+            &base,
+            &evidence,
+            &handle,
+            "invoice live query",
+            super::ContextVmOptions {
+                budget_tokens: 200,
+                limit: 3,
+            },
+        );
+
+        assert!(report.authorized);
+        assert_eq!(report.authorization, "active-session");
+        assert_eq!(report.handle, handle);
+        assert!(report.indexed_tokens > base.total_tokens());
+    }
 }

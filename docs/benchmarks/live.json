@@ -1,24 +1,25 @@
 {
   "schema": "qorx.evaluation.v1",
-  "generated_at": "2026-05-03T12:34:00+00:00",
+  "generated_at": "2026-05-10T01:50:01+00:00",
   "suite": "live",
   "target_path": ".",
-  "git_commit": "b838c23",
-  "qorx_version": "qorx 0.1.0-ylem",
+  "qorx_home": "target/qorx-benchmark-home-live",
+  "git_commit": "34173a6",
+  "qorx_version": "qorx 0.0.1-ylem",
   "budget_tokens": 600,
   "squeeze_budget_tokens": 450,
   "queries": [
+    "Context injection is a compact agent contract",
     "context fault proof pages resolver boundary",
-    "qorx carriers .qorx .qorxb qorx handle",
     "strict answer refusal unsupported claims"
   ],
-  "supported_question": "context fault proof pages resolver boundary",
+  "supported_question": "Context injection is a compact agent contract",
   "unsupported_question": "galactic banana escrow treaty",
-  "agent_objective": "prove context fault proof pages resolver boundary",
+  "agent_objective": "prove Context injection is a compact agent contract",
   "output_json": "docs/benchmarks/live.json",
   "output_md": "docs/benchmarks/live.md",
   "summary": {
-    "indexed_tokens": 202986,
+    "indexed_tokens": 388573,
     "strict_tasks": 2,
     "strict_task_passes": 2,
     "strict_task_pass_rate": 1.0,
@@ -26,84 +27,423 @@
     "expected_refusal_passes": 1,
     "expected_refusal_pass_rate": 1.0,
     "agent_provider_calls": 0,
-    "note": "Local benchmark. Token counts are Qorx deterministic estimates, not provider billing records."
+    "boundary": "Local benchmark. Token counts are Qorx deterministic estimates, not provider billing records."
+  },
+  "commands": {
+    "version": {
+      "command": [
+        "<repo>/target/release/qorx.exe",
+        "--version"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 22.722,
+      "stderr": "",
+      "stdout": "qorx 0.0.1-ylem"
+    },
+    "index": {
+      "command": [
+        "<repo>/target/release/qorx.exe",
+        "index",
+        "<repo>"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 556.067,
+      "stderr": "",
+      "stdout": "Indexed 710 quarks from <repo> into <repo>/target/qorx-benchmark-home-live/repo_index.pb (388573 estimated tokens, 4117 symbols, 2146 signals, 54048 sparse vector terms)"
+    }
   },
   "session": {
+    "command": [
+      "<repo>/target/release/qorx.exe",
+      "session"
+    ],
+    "exit_code": 0,
+    "elapsed_ms": 149.763,
+    "stderr": "",
     "json": {
-      "quark_count": 380,
-      "indexed_tokens": 202986,
+      "handle": "qorx://s/a1d21969258d0fd8",
+      "root": "<repo>",
+      "root_fingerprint": "a1d21969258d0fd81ac8197698aabe743b5dadaba1c018b8bab0000e7ac0e54f",
+      "updated_at": "2026-05-10T01:49:59.883961900+00:00",
+      "quark_count": 710,
+      "indexed_tokens": 388573,
       "visible_tokens": 69,
-      "omitted_tokens": 202917,
-      "context_reduction_x": 2941.8260869565215
-    }
-  },
-  "pack": {
-    "json": {
-      "used_tokens": 484,
-      "omitted_tokens": 202502,
-      "context_reduction_x": 419.39256198347107,
-      "quarks_used": 3
-    }
-  },
-  "squeeze": {
-    "json": {
-      "used_tokens": 419,
-      "omitted_tokens": 202567,
-      "context_reduction_x": 484.45346062052505,
-      "quarks_used": 3
+      "omitted_tokens": 388504,
+      "context_reduction_x": 5631.492753623188,
+      "boundary": "Qorx session pointers are local resolver handles; exact context stays in local Qorx qosm state and is resolved by the Qorx proxy. qosm is the Qorx name for local protobuf state, not a physics claim.",
+      "prompt_block": "QORX_SESSION qorx://s/a1d21969258d0fd8\nr=a1d21969258d0fd8 q=710 local_idx=388573\nqosm=local qshf=ready; local_idx stays local; resolve with Qorx.\nproof at=2026-05-10T01:49:59Z ctx=388573t vis=69t omitted=388504t qshf=5631.49x est=char4 b2c=accounting qosm=core qshf=core_b2c"
     }
   },
   "bench": {
+    "command": [
+      "<repo>/target/release/qorx.exe",
+      "bench",
+      "--budget-tokens",
+      "600",
+      "Context injection is a compact agent contract",
+      "context fault proof pages resolver boundary",
+      "strict answer refusal unsupported claims"
+    ],
+    "exit_code": 0,
+    "elapsed_ms": 205.27,
+    "stderr": "",
     "json": {
-      "average_reduction_x": 400.59937140587385,
+      "budget_tokens": 600,
+      "indexed_tokens": 388573,
       "rows": [
         {
-          "query": "context fault proof pages resolver boundary",
-          "used_tokens": 484,
-          "omitted_tokens": 202502,
-          "context_reduction_x": 419.39256198347107,
-          "quarks_used": 3
+          "query": "Context injection is a compact agent contract",
+          "used_tokens": 410,
+          "omitted_tokens": 388163,
+          "context_reduction_x": 947.7390243902439,
+          "quarks_used": 1
         },
         {
-          "query": "qorx carriers .qorx .qorxb qorx handle",
-          "used_tokens": 511,
-          "omitted_tokens": 202475,
-          "context_reduction_x": 397.2328767123288,
-          "quarks_used": 3
+          "query": "context fault proof pages resolver boundary",
+          "used_tokens": 448,
+          "omitted_tokens": 388125,
+          "context_reduction_x": 867.3504464285714,
+          "quarks_used": 2
         },
         {
           "query": "strict answer refusal unsupported claims",
-          "used_tokens": 527,
-          "omitted_tokens": 202459,
-          "context_reduction_x": 385.17267552182165,
-          "quarks_used": 4
+          "used_tokens": 476,
+          "omitted_tokens": 388097,
+          "context_reduction_x": 816.3298319327731,
+          "quarks_used": 3
         }
-      ]
+      ],
+      "average_reduction_x": 877.1397675838629
+    }
+  },
+  "pack": {
+    "command": [
+      "<repo>/target/release/qorx.exe",
+      "pack",
+      "Context injection is a compact agent contract",
+      "--budget-tokens",
+      "600"
+    ],
+    "exit_code": 0,
+    "elapsed_ms": 157.131,
+    "stderr": "",
+    "json": {
+      "query": "Context injection is a compact agent contract",
+      "budget_tokens": 600,
+      "indexed_tokens": 388573,
+      "used_tokens": 410,
+      "omitted_tokens": 388163,
+      "context_reduction_x": 947.7390243902439,
+      "quarks_used": 1,
+      "text": "# Qorx B2C packed context\nquery: Context injection is a compact agent contract\nbudget_tokens: 600\nindexed_tokens: 388573\nb2c_route=pack\nb2c_parallel_lanes=retrieval,portfolio,risk,cache,carrier\nb2c_math=bounded_knapsack,portfolio_diversification,omission_risk_cap,stable_quark_reuse_value\n\n## id=qva_99342341f400 path=docs/SERVER.md lines=81-160 tokens=373 b2c_net=52.38 retrieval=64 orcl_score=0.00 risk=0.40 cache=5.92 carrier=fault_if_needed\n| `/squeeze` | `GET`, `POST` | Compact local evidence into a budget |\n| `/judge` | `GET`, `POST` | Check an answer against local evidence |\n| `/ground` | `GET`, `POST` | Run the proof-per-token grounding gate |\n| `/cache-plan` | `GET`, `POST` | Explain cache behavior for a prompt |\n| `/agent` | `GET`, `POST` | Build an agent-ready evidence packet |\n| `/map` | `GET`, `POST` | Map likely impact from local evidence |\n| `/memory` | `GET`, `POST` | Local memory operations |\n\nContext routes:\n\n```text\n/context/vm\n/context/fault\n/context/inject\n/context/nano\n/context/quetta\n/context/expand\n```\n\nProvider proxy routes:\n\n```text\n/anthropic/*\n/gemini/*\n/*\n```\n\nThe catch-all route proxies OpenAI-compatible traffic after Qorx handling.\nKeep that route behind the same network and auth controls as the daemon.\n\n## systemd\n\nA hardened unit template lives at:\n\n```text\npackaging/systemd/qorx.service\n```\n\nInstall example:\n\n```sh\nsudo install -Dm0644 packaging/systemd/qorx.service /etc/systemd/system/qorx.service\nsudo systemctl daemon-reload\nsudo systemctl enable --now qorx\nsystemctl status qorx\ncurl -fsS http://127.0.0.1:47187/health\n```\n\n## Docker\n\nBuild:\n\n```sh\ndocker build -t qorx:local .\n```\n\nRun loopback-only:\n\n```sh\ndocker run --rm /\n  -p 127.0.0.1:47187:47187 /\n  -v qorx-data:/data /\n  qorx:local\n```\n\nCompose:\n\n```sh\ndocker compose up --build\n```\n\nThe container sets:\n\n```text\nQORX_HOME=/data\nQORX_BIND=0.0.0.0:47187\n```\n\nThe published compose port is still loopback-only on the host.\n"
+    }
+  },
+  "squeeze": {
+    "command": [
+      "<repo>/target/release/qorx.exe",
+      "squeeze",
+      "Context injection is a compact agent contract",
+      "--budget-tokens",
+      "450",
+      "--limit",
+      "4"
+    ],
+    "exit_code": 0,
+    "elapsed_ms": 141.467,
+    "stderr": "",
+    "json": {
+      "schema": "qorx.squeeze.v1",
+      "query": "Context injection is a compact agent contract",
+      "mode": "extractive_query_squeeze",
+      "local_only": true,
+      "provider_calls": 0,
+      "budget_tokens": 450,
+      "indexed_tokens": 388573,
+      "source_tokens": 2155,
+      "squeezed_tokens": 346,
+      "used_tokens": 448,
+      "omitted_tokens": 388125,
+      "context_reduction_x": 867.3504464285714,
+      "quarks_used": 3,
+      "evidence": [
+        {
+          "id": "qva_f26c27360bf7",
+          "path": "src/context_vm.rs",
+          "start_line": 401,
+          "end_line": 480,
+          "source_tokens": 783,
+          "excerpt_tokens": 71,
+          "matched_terms": [
+            "agent",
+            "compact",
+            "context",
+            "contract",
+            "injection"
+          ],
+          "excerpt_hash": "92a56ad5f3a71e56",
+          "excerpt": "avoided_context_tokens,\npub fn build_context_injection(\nlet additional_context = prompt_block(&session, objective, &contract, options.budget_tokens);\nboundary: \"Context injection is a compact agent contract. It carries a handle and resolver path, not raw local files.\".to_string(),"
+        },
+        {
+          "id": "qva_3471930eff70",
+          "path": "src/context_vm.rs",
+          "start_line": 561,
+          "end_line": 640,
+          "source_tokens": 962,
+          "excerpt_tokens": 249,
+          "matched_terms": [
+            "agent",
+            "context",
+            "contract"
+          ],
+          "excerpt_hash": "52acd1e8a83588d7",
+          "excerpt": "contract,\nsubagent_policy: \"Subagents use the same handle and the same /context/fault endpoint instead of receiving raw repo or capsule dumps.\".to_string(),\nboundary: \"This contract gives agents an on-demand local resolver. It does not make outside models understand hidden data without a Qorx call.\".to_string(),\n\"QORX_CONTEXT_VM {version} {handle}/nQorx is ready for this turn./nContext VM: local proof resolver, not a Linux VM./nLocal context stays on this computer until exact proof is needed./nWorkspace: {root}/nGateway: {gateway}/nProof endpoint: {fault_endpoint}/nProof request: {{/\"handle/\":/\"{handle}/\",/\"query/\":/\"<specific local evidence question>/\",/\"budget_tokens/\":{budget_tokens}}}/nObjective: {objective}/nRule: do not paste broad local context upstream. Pull cited proof only when the task needs it./nsubagents: use the same handle and proof endpoint; do not receive raw repo dumps./nBoundary: if Qorx refuses or cannot prove a claim, say the local index does not prove it.\","
+        },
+        {
+          "id": "qva_471964c0f1b6",
+          "path": "src/proxy.rs",
+          "start_line": 321,
+          "end_line": 400,
+          "source_tokens": 410,
+          "excerpt_tokens": 26,
+          "matched_terms": [
+            "agent",
+            "context"
+          ],
+          "excerpt_hash": "3662092bfd309767",
+          "excerpt": "struct AgentParams {\nstruct ContextVmParams {\nstruct ContextFaultParams {\nstruct ContextInjectParams {"
+        }
+      ],
+      "text": "# Qorx squeezed context\nquery: Context injection is a compact agent contract\nbudget_tokens: 450\nindexed_tokens: 388573\n\n## src/context_vm.rs:401-480 id=qva_f26c27360bf7 source_tokens=783 excerpt_tokens=71 score=373\navoided_context_tokens,\npub fn build_context_injection(\nlet additional_context = prompt_block(&session, objective, &contract, options.budget_tokens);\nboundary: \"Context injection is a compact agent contract. It carries a handle and resolver path, not raw local files.\".to_string(),\n\n## src/context_vm.rs:561-640 id=qva_3471930eff70 source_tokens=962 excerpt_tokens=249 score=204\ncontract,\nsubagent_policy: \"Subagents use the same handle and the same /context/fault endpoint instead of receiving raw repo or capsule dumps.\".to_string(),\nboundary: \"This contract gives agents an on-demand local resolver. It does not make outside models understand hidden data without a Qorx call.\".to_string(),\n\"QORX_CONTEXT_VM {version} {handle}/nQorx is ready for this turn./nContext VM: local proof resolver, not a Linux VM./nLocal context stays on this computer until exact proof is needed./nWorkspace: {root}/nGateway: {gateway}/nProof endpoint: {fault_endpoint}/nProof request: {{/\"handle/\":/\"{handle}/\",/\"query/\":/\"<specific local evidence question>/\",/\"budget_tokens/\":{budget_tokens}}}/nObjective: {objective}/nRule: do not paste broad local context upstream. Pull cited proof only when the task needs it./nsubagents: use the same handle and proof endpoint; do not receive raw repo dumps./nBoundary: if Qorx refuses or cannot prove a claim, say the local index does not prove it.\",\n\n## src/proxy.rs:321-400 id=qva_471964c0f1b6 source_tokens=410 excerpt_tokens=26 score=138\nstruct AgentParams {\nstruct ContextVmParams {\nstruct ContextFaultParams {\nstruct ContextInjectParams {\n",
+      "boundary": "Squeeze is extractive and local: it keeps only query-relevant lines from indexed quarks, preserves citations and hashes, and uses no model calls or generated missing context."
     }
   },
   "agent": {
+    "command": [
+      "<repo>/target/release/qorx.exe",
+      "agent",
+      "prove Context injection is a compact agent contract",
+      "--budget-tokens",
+      "600"
+    ],
+    "exit_code": 0,
+    "elapsed_ms": 220.906,
+    "stderr": "",
     "json": {
+      "schema": "qorx.agent.v1",
+      "agent_name": "Marvin",
+      "objective": "prove Context injection is a compact agent contract",
+      "mode": "deterministic_subatomic",
+      "local_only": true,
       "provider_calls": 0,
-      "local_only": true
+      "contract": {
+        "hallucination_policy": "refuse_unsupported_indexed_context",
+        "error_policy": "strict_extract_then_refuse",
+        "compression_policy": "subatomic_context_budget",
+        "b2c_policy": "account_then_claim",
+        "boundary": "Marvin enforces strict indexed-context mode for local evidence and keeps the working set subatomic: small enough for the requested token budget. Subatomic is a Qorx context-size label, not a physics claim. Downstream model correctness, external tool behavior, and facts absent from the local index are outside this local planner contract."
+      },
+      "steps": [
+        {
+          "action": "session",
+          "status": "completed",
+          "reason": "emit tiny local session pointer without bulk context"
+        },
+        {
+          "action": "strict-answer",
+          "status": "partial",
+          "reason": "ground objective against indexed quarks only"
+        },
+        {
+          "action": "pack",
+          "status": "completed",
+          "reason": "return the smallest relevant working set under budget"
+        }
+      ],
+      "session": {
+        "handle": "qorx://s/a1d21969258d0fd8",
+        "root": "<repo>",
+        "root_fingerprint": "a1d21969258d0fd81ac8197698aabe743b5dadaba1c018b8bab0000e7ac0e54f",
+        "updated_at": "2026-05-10T01:49:59.883961900+00:00",
+        "quark_count": 710,
+        "indexed_tokens": 388573,
+        "visible_tokens": 69,
+        "omitted_tokens": 388504,
+        "context_reduction_x": 5631.492753623188,
+        "boundary": "Qorx session pointers are local resolver handles; exact context stays in local Qorx qosm state and is resolved by the Qorx proxy. qosm is the Qorx name for local protobuf state, not a physics claim.",
+        "prompt_block": "QORX_SESSION qorx://s/a1d21969258d0fd8\nr=a1d21969258d0fd8 q=710 local_idx=388573\nqosm=local qshf=ready; local_idx stays local; resolve with Qorx.\nproof at=2026-05-10T01:49:59Z ctx=388573t vis=69t omitted=388504t qshf=5631.49x est=char4 b2c=accounting qosm=core qshf=core_b2c"
+      },
+      "strict_answer": {
+        "schema": "qorx.strict-answer.v1",
+        "question": "prove Context injection is a compact agent contract",
+        "coverage": "partial",
+        "answer": "avoided_context_tokens,\npub fn build_context_injection(\nlet additional_context = prompt_block(&session, objective, &contract, options.budget_tokens);\nboundary: \"Context injection is a compact agent contract. It carries a handle and resolver path, not raw local files.\".to_string(),\ncontract,\nsubagent_policy: \"Subagents use the same handle and the same /context/fault endpoint instead of receiving raw repo or capsule dumps.\".to_string(),\nboundary: \"This contract gives agents an on-demand local resolver. It does not make outside models understand hidden data without a Qorx call.\".to_string(),\n\"QORX_CONTEXT_VM {version} {handle}/nQorx is ready for this turn./nContext VM: local proof resolver, not a Linux VM./nLocal context stays on this computer until exact proof is needed./nWorkspace: {root}/nGateway: {gateway}/nProof endpoint: {fault_endpoint}/nProof request: {{/\"handle...",
+        "evidence": [
+          {
+            "id": "qva_f26c27360bf7",
+            "path": "src/context_vm.rs",
+            "start_line": 401,
+            "end_line": 480,
+            "score": 348,
+            "matched_terms": [
+              "context",
+              "contract",
+              "injection"
+            ],
+            "excerpt_hash": "92a56ad5f3a71e56",
+            "excerpt": "avoided_context_tokens,\npub fn build_context_injection(\nlet additional_context = prompt_block(&session, objective, &contract, options.budget_tokens);\nboundary: \"Context injection is a compact agent contract. It carries a handle and resolver path, not raw local files.\".to_string(),"
+          },
+          {
+            "id": "qva_3471930eff70",
+            "path": "src/context_vm.rs",
+            "start_line": 561,
+            "end_line": 640,
+            "score": 217,
+            "matched_terms": [
+              "agent",
+              "context",
+              "contract"
+            ],
+            "excerpt_hash": "daa69f3603e42bec",
+            "excerpt": "contract,\nsubagent_policy: \"Subagents use the same handle and the same /context/fault endpoint instead of receiving raw repo or capsule dumps.\".to_string(),\nboundary: \"This contract gives agents an on-demand local resolver. It does not make outside models understand hidden data without a Qorx call.\".to_string(),\n\"QORX_CONTEXT_VM {version} {handle}/nQorx is ready for this turn./nContext VM: local proof resolver, not a Linux VM./nLocal context stays on this computer until exact proof is needed./nWorkspace: {root}/nGateway: {gateway}/nProof endpoint: {fault_endpoint}/nProof request: {{/\"handle..."
+          }
+        ],
+        "supported_terms": [
+          "agent",
+          "context",
+          "contract",
+          "injection"
+        ],
+        "missing_terms": [
+          "compact"
+        ],
+        "indexed_tokens": 388573,
+        "used_tokens": 270,
+        "omitted_tokens": 388303,
+        "boundary": "Strict answers are extractive: every answer byte comes from indexed quark excerpts. Unsupported questions return not_found instead of model guesses."
+      },
+      "packed_context": {
+        "query": "prove Context injection is a compact agent contract",
+        "budget_tokens": 600,
+        "indexed_tokens": 388573,
+        "used_tokens": 411,
+        "omitted_tokens": 388162,
+        "context_reduction_x": 945.4330900243309,
+        "quarks_used": 1,
+        "text": "# Qorx B2C packed context\nquery: prove Context injection is a compact agent contract\nbudget_tokens: 600\nindexed_tokens: 388573\nb2c_route=pack\nb2c_parallel_lanes=retrieval,portfolio,risk,cache,carrier\nb2c_math=bounded_knapsack,portfolio_diversification,omission_risk_cap,stable_quark_reuse_value\n\n## id=qva_99342341f400 path=docs/SERVER.md lines=81-160 tokens=373 b2c_net=46.68 retrieval=64 orcl_score=0.00 risk=0.50 cache=5.92 carrier=fault_if_needed\n| `/squeeze` | `GET`, `POST` | Compact local evidence into a budget |\n| `/judge` | `GET`, `POST` | Check an answer against local evidence |\n| `/ground` | `GET`, `POST` | Run the proof-per-token grounding gate |\n| `/cache-plan` | `GET`, `POST` | Explain cache behavior for a prompt |\n| `/agent` | `GET`, `POST` | Build an agent-ready evidence packet |\n| `/map` | `GET`, `POST` | Map likely impact from local evidence |\n| `/memory` | `GET`, `POST` | Local memory operations |\n\nContext routes:\n\n```text\n/context/vm\n/context/fault\n/context/inject\n/context/nano\n/context/quetta\n/context/expand\n```\n\nProvider proxy routes:\n\n```text\n/anthropic/*\n/gemini/*\n/*\n```\n\nThe catch-all route proxies OpenAI-compatible traffic after Qorx handling.\nKeep that route behind the same network and auth controls as the daemon.\n\n## systemd\n\nA hardened unit template lives at:\n\n```text\npackaging/systemd/qorx.service\n```\n\nInstall example:\n\n```sh\nsudo install -Dm0644 packaging/systemd/qorx.service /etc/systemd/system/qorx.service\nsudo systemctl daemon-reload\nsudo systemctl enable --now qorx\nsystemctl status qorx\ncurl -fsS http://127.0.0.1:47187/health\n```\n\n## Docker\n\nBuild:\n\n```sh\ndocker build -t qorx:local .\n```\n\nRun loopback-only:\n\n```sh\ndocker run --rm /\n  -p 127.0.0.1:47187:47187 /\n  -v qorx-data:/data /\n  qorx:local\n```\n\nCompose:\n\n```sh\ndocker compose up --build\n```\n\nThe container sets:\n\n```text\nQORX_HOME=/data\nQORX_BIND=0.0.0.0:47187\n```\n\nThe published compose port is still loopback-only on the host.\n"
+      },
+      "boundary": "Marvin is Qorx's deterministic local planner. The planner uses local indexed evidence, zero provider calls, and explicit refusal for unsupported indexed context."
     }
   },
   "strict_answer_tasks": [
     {
-      "question": "context fault proof pages resolver boundary",
+      "command": [
+        "<repo>/target/release/qorx.exe",
+        "strict-answer",
+        "Context injection is a compact agent contract",
+        "--limit",
+        "3"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 202.106,
+      "stderr": "",
+      "json": {
+        "schema": "qorx.strict-answer.v1",
+        "question": "Context injection is a compact agent contract",
+        "coverage": "supported",
+        "answer": "avoided_context_tokens,\npub fn build_context_injection(\nlet additional_context = prompt_block(&session, objective, &contract, options.budget_tokens);\nboundary: \"Context injection is a compact agent contract. It carries a handle and resolver path, not raw local files.\".to_string(),\ncontract,\nsubagent_policy: \"Subagents use the same handle and the same /context/fault endpoint instead of receiving raw repo or capsule dumps.\".to_string(),\nboundary: \"This contract gives agents an on-demand local resolver. It does not make outside models understand hidden data without a Qorx call.\".to_string(),\n\"QORX_CONTEXT_VM {version} {handle}/nQorx is ready for this turn./nContext VM: local proof resolver, not a Linux VM./nLocal context stays on this computer until exact proof is needed./nWorkspace: {root}/nGateway: {gateway}/nProof endpoint: {fault_endpoint}/nProof request: {{/\"handle...\nreturn not truthy_env(\"QORX_CODEX_CONTEXT_OFF\")\ndef compact_context_enabled():\nif carrier and compact_context_enabled():\nif compact_context_enabled():",
+        "evidence": [
+          {
+            "id": "qva_f26c27360bf7",
+            "path": "src/context_vm.rs",
+            "start_line": 401,
+            "end_line": 480,
+            "score": 373,
+            "matched_terms": [
+              "context",
+              "contract",
+              "injection"
+            ],
+            "excerpt_hash": "92a56ad5f3a71e56",
+            "excerpt": "avoided_context_tokens,\npub fn build_context_injection(\nlet additional_context = prompt_block(&session, objective, &contract, options.budget_tokens);\nboundary: \"Context injection is a compact agent contract. It carries a handle and resolver path, not raw local files.\".to_string(),"
+          },
+          {
+            "id": "qva_3471930eff70",
+            "path": "src/context_vm.rs",
+            "start_line": 561,
+            "end_line": 640,
+            "score": 204,
+            "matched_terms": [
+              "agent",
+              "context",
+              "contract"
+            ],
+            "excerpt_hash": "daa69f3603e42bec",
+            "excerpt": "contract,\nsubagent_policy: \"Subagents use the same handle and the same /context/fault endpoint instead of receiving raw repo or capsule dumps.\".to_string(),\nboundary: \"This contract gives agents an on-demand local resolver. It does not make outside models understand hidden data without a Qorx call.\".to_string(),\n\"QORX_CONTEXT_VM {version} {handle}/nQorx is ready for this turn./nContext VM: local proof resolver, not a Linux VM./nLocal context stays on this computer until exact proof is needed./nWorkspace: {root}/nGateway: {gateway}/nProof endpoint: {fault_endpoint}/nProof request: {{/\"handle..."
+          },
+          {
+            "id": "qva_731c7b4a7eb6",
+            "path": "src/integrations.rs",
+            "start_line": 3281,
+            "end_line": 3360,
+            "score": 183,
+            "matched_terms": [
+              "compact",
+              "context"
+            ],
+            "excerpt_hash": "5076f6083f6f1e2e",
+            "excerpt": "return not truthy_env(\"QORX_CODEX_CONTEXT_OFF\")\ndef compact_context_enabled():\nif carrier and compact_context_enabled():\nif compact_context_enabled():"
+          }
+        ],
+        "supported_terms": [
+          "agent",
+          "compact",
+          "context",
+          "contract",
+          "injection"
+        ],
+        "missing_terms": [],
+        "indexed_tokens": 388573,
+        "used_tokens": 325,
+        "omitted_tokens": 388248,
+        "boundary": "Strict answers are extractive: every answer byte comes from indexed quark excerpts. Unsupported questions return not_found instead of model guesses."
+      },
+      "question": "Context injection is a compact agent contract",
       "expected_coverage": "supported",
-      "actual_coverage": "supported",
-      "passed": true,
-      "evidence_count": 3,
-      "used_tokens": 380
+      "passed": true
     },
     {
+      "command": [
+        "<repo>/target/release/qorx.exe",
+        "strict-answer",
+        "galactic banana escrow treaty",
+        "--limit",
+        "3"
+      ],
+      "exit_code": 0,
+      "elapsed_ms": 159.302,
+      "stderr": "",
+      "json": {
+        "schema": "qorx.strict-answer.v1",
+        "question": "galactic banana escrow treaty",
+        "coverage": "not_found",
+        "answer": "",
+        "evidence": [],
+        "supported_terms": [],
+        "missing_terms": [
+          "banana",
+          "escrow",
+          "galactic",
+          "treaty"
+        ],
+        "indexed_tokens": 388573,
+        "used_tokens": 8,
+        "omitted_tokens": 388565,
+        "boundary": "Strict answers are extractive: every answer byte comes from indexed quark excerpts. Unsupported questions return not_found instead of model guesses."
+      },
       "question": "galactic banana escrow treaty",
       "expected_coverage": "not_found",
-      "actual_coverage": "not_found",
-      "passed": true,
-      "evidence_count": 0,
-      "used_tokens": 8
+      "passed": true
     }
   ],
-  "reproduce_command": "python scripts/run-benchmark.py --target . --suite live --budget-tokens 600 --squeeze-budget-tokens 450 --query \"context fault proof pages resolver boundary\" --query \"qorx carriers .qorx .qorxb qorx handle\" --query \"strict answer refusal unsupported claims\" --supported-question \"context fault proof pages resolver boundary\" --unsupported-question \"galactic banana escrow treaty\" --agent-objective \"prove context fault proof pages resolver boundary\" --output-json docs/benchmarks/live.json --output-md docs/benchmarks/live.md"
+  "reproduce_command": "python scripts/run-benchmark.py --target . --suite live --budget-tokens 600 --squeeze-budget-tokens 450 --query \"Context injection is a compact agent contract\" --query \"context fault proof pages resolver boundary\" --query \"strict answer refusal unsupported claims\" --supported-question \"Context injection is a compact agent contract\" --unsupported-question \"galactic banana escrow treaty\" --agent-objective \"prove Context injection is a compact agent contract\" --output-json docs/benchmarks/live.json --output-md docs/benchmarks/live.md"
 }

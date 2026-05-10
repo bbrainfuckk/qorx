@@ -3,8 +3,6 @@
 This page names the math and engineering used in Qorx. It is not a claim that
 Qorx is peer reviewed. It is a map from terms to code paths and commands.
 
-For the public reader-facing version, see [Science and math](../SCIENCE_AND_MATH.md).
-
 ## Measurement Rule
 
 Qorx uses local estimates unless a command says otherwise.
@@ -37,6 +35,7 @@ Code path:
 ```text
 src/b2c_quant.rs
 src/index.rs
+src/proxy.rs
 ```
 
 The allocator works on indexed quarks. It scores local candidates, then chooses
@@ -94,7 +93,7 @@ parser.
 Command:
 
 ```powershell
-qorx squeeze "production proof routed provider evidence" --budget-tokens 700
+qorx squeeze "production gate routed provider evidence" --budget-tokens 700
 ```
 
 Code path:
@@ -118,11 +117,13 @@ Code path:
 
 ```text
 src/cache_plan.rs
+src/proxy.rs
 ```
 
-The plan separates a stable prefix from a dynamic tail. Community Edition
-reports the plan locally. Qorx Void and Qorx Cloud add routed provider cache
-headers.
+The plan separates a stable prefix from a dynamic tail. The proxy exposes the
+plan in headers such as `x-qorx-cache-plan` and
+`x-qorx-cacheable-prefix-tokens`. Provider cache savings are counted only when
+the provider returns cache metadata.
 
 ## Exact Replay Cache
 
@@ -130,12 +131,12 @@ Code path:
 
 ```text
 src/response_cache.rs
+src/proxy.rs
 ```
 
-Non-streaming routed calls can be replayed when a managed runtime owns the
-provider route and the normalized request matches a cached response. Community
-Edition keeps the cache model for review and tests. It does not ship the managed
-route.
+Non-streaming routed calls can be replayed locally when the normalized request
+matches a cached response. This saves an upstream call for that request. It does
+not generalize semantically similar prompts.
 
 ## KV Hints
 
@@ -165,37 +166,24 @@ Code path:
 ```text
 src/stats.rs
 src/money.rs
+src/proxy.rs
 ```
 
-Qorx reports omitted local context and estimated USD saved from local token
-counts. Qorx Void and Qorx Cloud add managed routed input, exact replay hits,
-provider cache reads, and provider cache writes. Provider bills remain the
-authority for invoice claims.
+Qorx reports omitted local context, compressed routed input, exact replay cache
+hits, provider cache reads, provider cache writes, and estimated USD saved. The
+estimate uses configured input prices and local token estimates. Provider bills
+remain the authority for invoice claims.
 
-## Qorx Void Starter Request Math
+## Release Gate
 
-Qorx Void Starter uses service-side allowance accounting:
-
-```text
-included_requests = 5000
-used_requests = count(successful_metered_edge_cloud_requests)
-remaining_requests = max(0, included_requests - used_requests)
-```
-
-Local CE commands stay unmetered. The service owns the usage ledger because a
-local AGPL binary can be changed and rebuilt.
-
-## Community Proof Check
-
-Run the local proof checks before publishing Community Edition claims:
+Run the full release prep before publishing a new version:
 
 ```powershell
-cargo fmt --check
-cargo test
-cargo clippy --all-targets -- -D warnings
-cargo build --release
-.\target\release\qorx.exe doctor --json
-.\target\release\qorx.exe index .
-.\target\release\qorx.exe security attest
-.\scripts\safer-check.ps1 -Exe .\target\release\qorx.exe
+.\scripts\prepare-release.ps1 -Version 0.0.1-ylem
+```
+
+For registry dry runs:
+
+```powershell
+.\scripts\prepare-release.ps1 -Version 0.0.1-ylem -DryRunRegistries
 ```

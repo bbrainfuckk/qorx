@@ -60,6 +60,29 @@ fn run_text(args: &[&str], qorx_home: &Path) -> String {
     String::from_utf8(output.stdout).expect("stdout is utf8")
 }
 
+fn run_json_in_dir(args: &[&str], qorx_home: &Path, cwd: &Path, home: &Path) -> serde_json::Value {
+    let _ = home;
+    let output = Command::new(env!("CARGO_BIN_EXE_qorx"))
+        .args(args)
+        .current_dir(cwd)
+        .env("QORX_HOME", qorx_home)
+        .output()
+        .unwrap_or_else(|err| panic!("run qorx {args:?}: {err}"));
+    assert!(
+        output.status.success(),
+        "qorx {args:?} failed: status={:?} stderr={} stdout={}",
+        output.status.code(),
+        String::from_utf8_lossy(&output.stderr),
+        String::from_utf8_lossy(&output.stdout)
+    );
+    serde_json::from_slice(&output.stdout).unwrap_or_else(|err| {
+        panic!(
+            "parse qorx {args:?} JSON: {err}\nstdout={}",
+            String::from_utf8_lossy(&output.stdout)
+        )
+    })
+}
+
 #[test]
 fn capsule_points_to_folder_memory_and_aim_with_tiny_prompt() {
     let root = unique_temp_dir();
@@ -183,40 +206,51 @@ fn capsule_points_to_folder_memory_and_aim_with_tiny_prompt() {
 }
 
 #[test]
-fn bootstrap_is_refused_in_community_edition() {
+fn bootstrap_loads_cosmos_capsule_for_selected_folder_without_provider_calls() {
     let root = unique_temp_dir();
+    let home = root.join("user");
     let qorx_home = root.join("qorx-home");
     let project = root.join("project");
+    fs::create_dir_all(home.join("Documents").join("brain")).expect("create home brain");
     fs::create_dir_all(&qorx_home).expect("create qorx home");
     fs::create_dir_all(&project).expect("create project");
     fs::write(
         project.join("README.md"),
-        "Qorx CE keeps bootstrap activation outside the public command surface.",
+        "Qorx bootstrap loads this project folder into a local cosmos capsule.",
     )
     .expect("write project readme");
 
-    let output = Command::new(env!("CARGO_BIN_EXE_qorx"))
-        .args([
+    let report = run_json_in_dir(
+        &[
             "bootstrap",
             "--json",
             "--no-integrations",
             "--path",
             project.to_str().unwrap(),
-        ])
-        .current_dir(&project)
-        .env("QORX_HOME", &qorx_home)
-        .output()
-        .expect("run bootstrap");
-    assert!(
-        !output.status.success(),
-        "bootstrap unexpectedly succeeded: stdout={} stderr={}",
-        String::from_utf8_lossy(&output.stdout),
-        String::from_utf8_lossy(&output.stderr)
+        ],
+        &qorx_home,
+        &project,
+        &home,
     );
-    let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("available in Qorx Void"));
-    assert!(stderr.contains("5,000 included Void/Cloud requests"));
-    assert!(stderr.contains("Community Edition keeps local source CLI commands unmetered"));
+
+    assert_eq!(report["schema"], "qorx.bootstrap.v1");
+    assert_eq!(report["message"], "Qorx cosmos capsule is loaded");
+    assert!(report["prompt_block"]
+        .as_str()
+        .unwrap()
+        .starts_with("QORX_CAPSULE qorx://c/"));
+    assert_eq!(report["cosmos"]["loaded"], true);
+    assert!(
+        report["cosmos"]["capsule"]["visible_tokens"]
+            .as_u64()
+            .unwrap()
+            < 90
+    );
+    assert!(report["next"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|item| item.as_str().unwrap().contains("another project")));
 
     let _ = fs::remove_dir_all(&root);
 }

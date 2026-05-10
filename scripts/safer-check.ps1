@@ -51,6 +51,19 @@ function Invoke-Native {
     }
 }
 
+function Invoke-Cargo {
+    param([string[]]$ArgumentList)
+    $oldTarget = $env:CARGO_TARGET_DIR
+    try {
+        if ($script:cargoTarget) {
+            $env:CARGO_TARGET_DIR = $script:cargoTarget
+        }
+        Invoke-Native -File "cargo" -ArgumentList $ArgumentList
+    } finally {
+        $env:CARGO_TARGET_DIR = $oldTarget
+    }
+}
+
 function Run-Step {
     param(
         [string]$Name,
@@ -194,6 +207,13 @@ function Test-SecretPatterns {
 Set-Location -LiteralPath $repoRoot
 $script:exePath = $null
 $script:qorxHome = Join-Path ([System.IO.Path]::GetTempPath()) ("qorx-safer-" + [guid]::NewGuid().ToString("N"))
+$script:ownCargoTarget = $false
+if ($env:QORX_SAFE_R_CARGO_TARGET) {
+    $script:cargoTarget = [System.IO.Path]::GetFullPath($env:QORX_SAFE_R_CARGO_TARGET)
+} else {
+    $script:cargoTarget = Join-Path ([System.IO.Path]::GetTempPath()) ("qorx-safer-cargo-target-" + [guid]::NewGuid().ToString("N"))
+    $script:ownCargoTarget = $true
+}
 New-Item -ItemType Directory -Path $script:qorxHome | Out-Null
 
 try {
@@ -203,13 +223,28 @@ try {
     }
 
     if (-not $SkipCargo) {
-        Run-Step "cargo_fmt" { Invoke-Native -File "cargo" -ArgumentList @("fmt", "--check") }
-        Run-Step "cargo_build_debug" { Invoke-Native -File "cargo" -ArgumentList @("build", "--locked") }
-        Run-Step "cargo_test" { Invoke-Native -File "cargo" -ArgumentList @("test", "--locked") }
-        Run-Step "cargo_clippy" { Invoke-Native -File "cargo" -ArgumentList @("clippy", "--all-targets", "--", "-D", "warnings") }
-        Run-Step "cargo_package" { Invoke-Native -File "cargo" -ArgumentList @("package", "--locked", "--allow-dirty") }
+        Run-Step "cargo_fmt" { Invoke-Cargo -ArgumentList @("fmt", "--check") }
+        Run-Step "cargo_build_debug" { Invoke-Cargo -ArgumentList @("build", "--locked") }
+        Run-Step "cargo_test" { Invoke-Cargo -ArgumentList @("test", "--locked") }
+        Run-Step "cargo_clippy" { Invoke-Cargo -ArgumentList @("clippy", "--all-targets", "--", "-D", "warnings") }
+        Run-Step "cargo_package" { Invoke-Cargo -ArgumentList @("package", "--locked", "--allow-dirty") }
     } else {
         Add-Result -Name "cargo_checks" -Status "skip" -Details "SkipCargo was set"
+    }
+
+    Run-Step "npm_pack_dry_run" {
+        Invoke-Native -File "npm" -ArgumentList @("pack", "--dry-run") -WorkDir (Join-Path $repoRoot "packages\npm")
+    }
+
+    Run-Step "twine_check" {
+        $distDir = Join-Path $repoRoot "packages\python\dist"
+        $files = Get-ChildItem -LiteralPath $distDir -File | Where-Object {
+            $_.Name -match '(\.whl|\.tar\.gz)$'
+        } | ForEach-Object { $_.FullName }
+        if (-not $files -or $files.Count -eq 0) {
+            throw "no Python dist files found"
+        }
+        Invoke-Native -File "python" -ArgumentList (@("-m", "twine", "check") + $files)
     }
 
     Run-Step "temp_index" {
@@ -290,6 +325,10 @@ try {
     $tempRoot = [System.IO.Path]::GetTempPath()
     if ($resolvedHome -and $resolvedHome.Path.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
         Remove-Item -LiteralPath $resolvedHome.Path -Recurse -Force
+    }
+    $resolvedCargoTarget = Resolve-Path -LiteralPath $script:cargoTarget -ErrorAction SilentlyContinue
+    if ($script:ownCargoTarget -and $resolvedCargoTarget -and $resolvedCargoTarget.Path.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        Remove-Item -LiteralPath $resolvedCargoTarget.Path -Recurse -Force
     }
 }
 

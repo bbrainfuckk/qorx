@@ -7,9 +7,9 @@ summary of Qorx.
 
 ## Summary
 
-Qorx Community Edition is an AGPL-licensed Rust source project for local context
-resolution. It defines a small `.qorx` source format, compiled `.qorxb`
-bytecode, and `qorx://` handles resolved by a local runtime.
+Qorx is an AGPL-licensed Rust project for local context resolution. It defines a
+small `.qorx` source format, compiled `.qorxb` bytecode, and `qorx://` handles
+resolved by a local runtime.
 
 Qorx is not a hosted AI service. It is not a general compression system. It
 works when a workflow carries Qorx source, bytecode, evidence packs, or handles
@@ -19,10 +19,10 @@ and has a resolver available.
 
 | Field | Value |
 | --- | --- |
-| Project | Qorx Community Edition |
+| Project | Qorx |
 | Creator | Marvin Sarreal Villanueva |
 | Location | Metro Manila |
-| Current public version | 0.1-ylem |
+| Current public version | 0.0.1-ylem |
 | Initial public release line | May 1, 2026 |
 | Implementation language | Rust |
 | Source extension | `.qorx` |
@@ -33,15 +33,15 @@ and has a resolver available.
 | Handbook | https://bbrainfuckk.github.io/qorx/ |
 | Banner image | https://raw.githubusercontent.com/bbrainfuckk/qorx/main/docs/assets/qorx-img.jpg |
 
-## Install surface
+## Install surfaces
 
-- Source build: https://github.com/bbrainfuckk/qorx
+- Crates.io: https://crates.io/crates/qorx
+- npm: https://www.npmjs.com/package/@brainfukk/qorx
+- PyPI: https://pypi.org/project/qorx/
+- AUR: https://aur.archlinux.org/packages/qorx
+- Homebrew tap: https://github.com/bbrainfuckk/homebrew-qorx
+- Scoop bucket: https://github.com/bbrainfuckk/scoop-qorx
 - Independent review brief: https://bbrainfuckk.github.io/qorx/INDEPENDENT_REVIEW.html
-
-Qorx Void Starter gives new accounts 5,000 included Void/Cloud requests across
-Windows, macOS, and Linux before subscription. Qorx Void adds official
-installers, package-manager wrappers, tray UX, provider routing, and account
-activation.
 
 ## Technical review questions
 
@@ -51,9 +51,9 @@ These are fair questions to test against the implementation:
 - Is the `.qorxb` bytecode layer useful outside the CLI?
 - Does resolving local handles reduce repeated prompt payloads in real workflows?
 - What data should be allowed into local evidence packs?
-- What are the operational contracts for resolver trust, receipts, and cache?
+- What are the operational boundaries for resolver trust, receipts, and cache?
 
-## Scope
+## Boundaries
 
 Qorx can resolve Qorx-known local handles, bytecode, indexed evidence, cache
 entries, and receipts. It cannot reconstruct arbitrary unknown files from a tiny

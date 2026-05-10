@@ -26,7 +26,7 @@ A resolver response should identify:
 - paths and line ranges when applicable;
 - hashes or fingerprints;
 - budget used;
-- claim notes.
+- boundary notes.
 
 ## Media Types
 

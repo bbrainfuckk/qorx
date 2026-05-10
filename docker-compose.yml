@@ -1,0 +1,15 @@
+services:
+  qorx:
+    build: .
+    image: qorx:local
+    environment:
+      QORX_HOME: /data
+      QORX_BIND: 0.0.0.0:47187
+    ports:
+      - "127.0.0.1:47187:47187"
+    volumes:
+      - qorx-data:/data
+    restart: unless-stopped
+
+volumes:
+  qorx-data:

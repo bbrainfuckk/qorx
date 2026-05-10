@@ -1,10 +1,12 @@
 /target/
+/target-codex-*/
 /target-ship/
 /node_modules/
 /.venv/
 /.pqa/
 /.gemini/
 /.pytest_cache/
+/testsprite_tests/tmp/
 /dist/
 /build/
 /packages/npm/vendor/
@@ -12,9 +14,6 @@
 /packages/python/build/
 /packages/python/*.egg-info/
 /packages/python/src/*.egg-info/
-/packaging/pypi/dist/
-/packaging/pypi/build/
-/packaging/pypi/*.egg-info/
 __pycache__/
 *.pyc
 *.tgz

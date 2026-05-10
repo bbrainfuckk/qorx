@@ -153,16 +153,19 @@ fn lexicon_report_names_qorx_ai_language_vocabulary() {
     );
     assert_eq!(report["aliases"]["qvoid"], "qv0d");
     let terms = report["terms"].as_array().expect("terms");
-    assert!(terms.len() >= 50);
+    assert_eq!(terms.len(), 100);
     assert!(
         terms
             .iter()
-            .all(|term| (3..=4).contains(&term["name"].as_str().unwrap().len())),
-        "primary terms must stay 3-4 chars"
+            .all(|term| term["name"].as_str().unwrap().len() == 3),
+        "primary terms must stay exactly 3 chars"
     );
     assert!(terms
         .iter()
-        .any(|term| term["name"] == "qv0d" && term["kind"] == "runtime"));
+        .any(|term| term["name"] == "qvd" && term["kind"] == "runtime"));
+    assert!(terms
+        .iter()
+        .any(|term| term["name"] == "qay" && term["meaning"].as_str().unwrap().contains("Void")));
     assert!(report["layers"]["cost_transform"]
         .as_str()
         .unwrap()
@@ -177,6 +180,10 @@ fn lexicon_report_names_qorx_ai_language_vocabulary() {
         .as_str()
         .unwrap()
         .contains("not a physics engine"));
+    assert!(report["boundary"]
+        .as_str()
+        .unwrap()
+        .contains("not physics claims"));
     assert!(report["boundary"]
         .as_str()
         .unwrap()
