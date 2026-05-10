@@ -51,10 +51,10 @@ tokens. At an example input price of $2 per 1M tokens, that is about $0.78 of
 repeated input avoided for that one context send. At $5 per 1M tokens, it is
 about $1.94.
 
-The website planning example uses a team model:
+The website planning example uses a company model:
 
 ```text
-100,000 repeated input tokens per developer per workday
+100,000 repeated input tokens per person using AI tools per workday
 85% of that repeated input kept local
 250 workdays per year
 example input prices from $2 to $5 per 1M tokens
@@ -62,7 +62,7 @@ example input prices from $2 to $5 per 1M tokens
 
 That gives this planning range:
 
-| Team size | Avoided input tokens per day | Estimated yearly range |
+| People using AI tools | Avoided input tokens per day | Estimated yearly range |
 | ---: | ---: | ---: |
 | 100 people | 8,500,000 | $4,250 to $10,625 |
 | 500 people | 42,500,000 | $21,250 to $53,125 |
@@ -76,6 +76,7 @@ Read next:
 - [Metrics](METRICS.md)
 - [Live benchmark](benchmarks/live.md)
 - [Trials](TRIALS.md)
+- [Enterprise AI spend calculator](https://qorx.orin.work/#enterprise-calculator)
 
 ## I Review Code Or Operations
 

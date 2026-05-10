@@ -93,12 +93,18 @@ These are deterministic Qorx estimates using `ceil(chars / 4)`. They show how
 much local context stayed out of the model-visible request. They are not a
 provider bill.
 
+For money questions, use the live calculators. The benchmark above is a static
+run; the calculators let you change volume, team size, and product path:
+
+- [Enterprise AI spend calculator](https://qorx.orin.work/#enterprise-calculator)
+- [Cloud API vs Void calculator](https://qorx.orin.work/dashboard#qorx-savings-calculator)
+
 Source:
 
 - [Live benchmark](docs/benchmarks/live.md)
 - [Live benchmark JSON](docs/benchmarks/live.json)
 
-## What That Can Mean For Cost
+## Enterprise AI Spend Model
 
 The cost math is intentionally plain:
 
@@ -110,25 +116,25 @@ For the session carrier above, Qorx omitted about 388,504 estimated input
 tokens. At $2 per 1M input tokens, that is about $0.78 of repeated input avoided
 for one context send. At $5 per 1M input tokens, it is about $1.94.
 
-For planning, the public website uses this team model:
+For planning, the website calculator starts with this company model:
 
 ```text
-100,000 repeated input tokens per developer per workday
+100,000 repeated input tokens per person using AI tools per workday
 85% of that repeated input kept local
 250 workdays per year
 example input prices from $2 to $5 per 1M tokens
 ```
 
-That gives this estimate:
+That gives this estimate before you adjust the live calculator:
 
-| Team size | Avoided input tokens per day | Avoided input tokens per year | Estimated yearly range |
+| People using AI tools | Avoided input tokens per day | Avoided input tokens per year | Estimated yearly range |
 | ---: | ---: | ---: | ---: |
 | 100 people | 8,500,000 | 2.125B | $4,250 to $10,625 |
 | 500 people | 42,500,000 | 10.625B | $21,250 to $53,125 |
 | 2,000 people | 170,000,000 | 42.5B | $85,000 to $212,500 |
 
-Use your own provider rate. Output tokens, new input, provider cache behavior,
-discounts, and account terms can change the real bill.
+Use your own provider rate in the calculator. Output tokens, new input,
+provider cache behavior, discounts, and account terms can change the real bill.
 
 ## Which Qorx Should I Try?
 

@@ -77,14 +77,14 @@ Main CLI metrics:
 - local benchmark output
 - security/provenance attestation results
 
-Primary public proof files:
+Primary public benchmark files:
 
 ```text
 docs/benchmarks/live.json
 docs/benchmarks/live.md
 ```
 
-Boundary: CLI CE metrics are local, reproducible proof numbers. They are not
+Boundary: CLI CE metrics are local, reproducible benchmark numbers. They are not
 provider invoice savings and they are not capped by Qorx Void Starter.
 
 ## Product labels
