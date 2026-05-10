@@ -73,7 +73,7 @@ routed request.
 
 If you are evaluating Qorx, start with the trial that matches your work:
 
-- Qorx Void Desktop: free 24-hour local demo.
+- Qorx Void Desktop: free 1-hour local demo.
 - Qorx Cloud API: free 5,000 hosted calls.
 
 Try it first. The counters are easier to trust after you watch them move.

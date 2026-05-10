@@ -520,7 +520,7 @@ pub async fn run_gateway(paths: AppPaths, config: ProxyConfig) -> Result<()> {
             }
             _ = tokio::time::sleep(duration) => {
                 demo::mark_stopped(&stop_paths)?;
-                anyhow::bail!("Qorx Void Demo expired after {} hours", demo::VOID_DEMO_LIMIT_HOURS);
+                anyhow::bail!("Qorx Void Demo expired after 1 hour");
             }
         }
     } else {

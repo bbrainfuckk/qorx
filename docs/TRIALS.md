@@ -6,7 +6,7 @@ Qorx has two ways to start.
 
 Use Void when the work lives on your computer.
 
-You get a free 24-hour local demo. It is meant for the first real check: open a
+You get a free 1-hour local demo. It is meant for the first real check: open a
 workspace, let Qorx index it, watch the monitor, and ask for cited proof.
 
 Good first jobs:

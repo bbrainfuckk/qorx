@@ -121,7 +121,7 @@ enum CommandKind {
         #[arg(long)]
         json: bool,
     },
-    /// Show the 24-hour demo status.
+    /// Show the 1-hour demo status.
     Demo {
         #[arg(long)]
         json: bool,
@@ -782,7 +782,7 @@ impl DoctorReport {
             schema: "qorx.doctor.v1".to_string(),
             version: crate::version::QORX_VERSION.to_string(),
             tier: if demo::is_demo_mode() {
-                "Qorx Void Demo 24-hour runtime".to_string()
+                "Qorx Void Demo 1-hour runtime".to_string()
             } else {
                 format!("{} private runtime", crate::version::product_name())
             },
@@ -1154,7 +1154,7 @@ What Qorx is:
 The product line:
   Qorx Ayie       owner-machine build
   Qorx Void       public local runtime
-  Qorx Void Demo  24-hour trial
+  Qorx Void Demo  1-hour trial
 
 Pick what you want:
   Check Qorx         qorx doctor

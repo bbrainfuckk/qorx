@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::config::AppPaths;
 
-pub const VOID_DEMO_LIMIT_HOURS: i64 = 24;
+pub const VOID_DEMO_LIMIT_HOURS: i64 = 1;
 const VOID_DEMO_STATE_FILE: &str = "void-demo.pb";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -77,7 +77,7 @@ pub fn ensure_runtime(paths: &AppPaths) -> Result<DemoStatus> {
     if status.demo && status.expired {
         mark_stopped(paths)?;
         return Err(anyhow!(
-            "Qorx Void Demo expired after {VOID_DEMO_LIMIT_HOURS} hours. Install Qorx Void to keep the local gateway running."
+            "Qorx Void Demo expired after 1 hour. Install Qorx Void to keep the local gateway running."
         ));
     }
     Ok(status)
@@ -184,7 +184,7 @@ fn status_from_state(
         seconds_remaining: remaining.max(0) as u64,
         expired,
         state_file: Some(path.display().to_string()),
-        boundary: "Qorx Void Demo runs the full local Void gateway for 24 hours from first launch, then the daemon refuses to start and any running gateway shuts down.".to_string(),
+        boundary: "Qorx Void Demo runs the full local Void gateway for 1 hour from first launch, then the daemon refuses to start and any running gateway shuts down.".to_string(),
     }
 }
 
@@ -234,21 +234,21 @@ mod tests {
     #[test]
     fn demo_status_counts_down_from_first_start() {
         let now = Utc::now();
-        let start = now - ChronoDuration::hours(1);
+        let start = now - ChronoDuration::minutes(10);
         let state = DemoState::new(start);
         let path = PathBuf::from("void-demo.pb");
         let status = status_from_state(&path, Some(&state), now, true);
 
         assert!(status.demo);
         assert!(!status.expired);
-        assert!(status.seconds_remaining <= 23 * 60 * 60);
-        assert!(status.seconds_remaining > 22 * 60 * 60);
+        assert!(status.seconds_remaining <= 50 * 60);
+        assert!(status.seconds_remaining > 49 * 60);
     }
 
     #[test]
-    fn demo_status_expires_after_twenty_four_hours() {
+    fn demo_status_expires_after_one_hour() {
         let now = Utc::now();
-        let start = now - ChronoDuration::hours(25);
+        let start = now - ChronoDuration::minutes(70);
         let state = DemoState::new(start);
         let path = PathBuf::from("void-demo.pb");
         let status = status_from_state(&path, Some(&state), now, true);

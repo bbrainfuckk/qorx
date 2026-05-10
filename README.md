@@ -11,7 +11,7 @@ The first numbers to notice:
 | Scenario | Number | Meaning |
 | --- | ---: | --- |
 | Current public repo benchmark | 388,573 local tokens -> 69 sent | 5,631.49x smaller session carrier |
-| Website planning model, 2,000-person team | 42.5B repeated input tokens/year kept local | Bounded estimate, not a provider invoice |
+| Website planning model, 2,000 people using AI tools | 42.5B repeated input tokens/year kept local | Bounded estimate, not a provider invoice |
 
 What matters is visible: what stayed local, what was sent, and which
 source-backed context Qorx selected.
@@ -94,7 +94,7 @@ much local context stayed out of the model-visible request. They are not a
 provider bill.
 
 For money questions, use the live calculators. The benchmark above is a static
-run; the calculators let you change volume, team size, and product path:
+run; the calculators let you change volume, people using AI tools, and product path:
 
 - [Enterprise AI spend calculator](https://qorx.orin.work/#enterprise-calculator)
 - [Cloud API vs Void calculator](https://qorx.orin.work/dashboard#qorx-savings-calculator)
@@ -142,7 +142,7 @@ Qorx has two product paths around the same idea.
 
 | If your repeated context lives in... | Start with | Trial |
 | --- | --- | --- |
-| Your computer, editor, repos, notes, logs, and long AI sessions | Qorx Void Desktop | Free 24-hour local demo |
+| Your computer, editor, repos, notes, logs, and long AI sessions | Qorx Void Desktop | Free 1-hour local demo |
 | Your app, dashboard, support bot, n8n flow, or hosted agent call | Qorx Cloud API | Free 5,000 hosted calls |
 
 This public repo is the buildable CLI/runtime source line. Qorx Void Desktop is
