@@ -72,7 +72,16 @@ built to measure: large local state, small visible carrier, resolver available.
 
 ## Read First
 
-The handbook is the source of truth:
+Start with the path that matches your question:
+
+| If you want to... | Start with |
+| --- | --- |
+| Build with AI tools and local repos | [Reader guide](docs/AUDIENCE_GUIDE.md) and [Manual](docs/MANUAL.md) |
+| Understand token and cost impact | [Reader guide](docs/AUDIENCE_GUIDE.md), [Metrics](docs/METRICS.md), and [Live proof](docs/benchmarks/live.md) |
+| Review the runtime as software | [Qorx for Rust reviewers](docs/QORX_1_0_4_RUST.md) and [Command reference](docs/COMMANDS.md) |
+| Check the science and claim boundary | [Science](docs/SCIENCE.md), [Science and math](docs/SCIENCE_AND_MATH.md), and [SAFE-R](docs/SAFE-R.md) |
+
+Then use the handbook as the source of truth:
 
 - [Handbook](docs/handbook/README.md)
 - [Language](docs/handbook/language.md)

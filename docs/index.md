@@ -13,6 +13,7 @@ Current public version: `0.0.1-ylem`.
 
 ## Start here
 
+- [Reader guide](AUDIENCE_GUIDE.md)
 - [Install](INSTALL.md)
 - [Language and runtime](QORX.md)
 - [Handbook](handbook/README.md)
