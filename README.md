@@ -4,17 +4,17 @@ Stop resending the same AI context.
 
 AI tools get expensive when they keep receiving the same repo, notes, logs,
 policies, and project rules. Qorx keeps that repeated context local, sends a
-small carrier, and pulls cited proof only when a task needs it.
+small carrier, and pulls the exact local lines only when a task needs them.
 
-The first proof:
+The first numbers to notice:
 
 | Scenario | Number | Meaning |
 | --- | ---: | --- |
 | Current public repo benchmark | 388,573 local tokens -> 69 sent | 5,631.49x smaller session carrier |
 | Website planning model, 2,000-person team | 42.5B repeated input tokens/year kept local | Bounded estimate, not a provider invoice |
 
-The point is not mystery. Qorx does not make tokens vanish. It shows what
-stayed local, what was sent, and what proof was selected.
+What matters is visible: what stayed local, what was sent, and which
+source-backed context Qorx selected.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
 [![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19953308.svg)](https://doi.org/10.5281/zenodo.19953308)
@@ -30,28 +30,27 @@ In plain terms:
 
 1. It indexes a workspace on your machine.
 2. It sends a small carrier or evidence pack to the AI workflow.
-3. It pulls cited proof only when a task needs it.
+3. It pulls cited local context only when a task needs it.
 4. It marks unsupported claims instead of pretending the evidence exists.
 
 The core boundary is simple:
 
 ```text
-large local context -> small model-visible carrier -> cited proof on demand
+large local context -> small model-visible carrier -> cited local context on demand
 ```
 
-That is the claim. The rest of the repo exists to make the claim buildable,
+That is the product shape. The rest of the repo exists to make it buildable,
 testable, and bounded.
 
 ![Qorx banner](docs/assets/qorx-img.jpg)
 
-## What It Is Not
+## The Boundary
 
-Qorx is not a prompt trick, a billing bypass, or magic compression.
+Qorx works inside a real boundary. A remote model sees the small carrier and
+any local context the resolver explicitly returns.
 
-It cannot make a remote model read hidden local files without a Qorx resolver.
-It does not prove answer quality just because fewer tokens were sent. It does
-not claim provider invoice savings unless routed provider billing evidence
-exists.
+Fewer tokens do not automatically mean a better answer. Provider invoice
+savings are shown only when billing data is present.
 
 ## Current Line
 
@@ -79,7 +78,7 @@ cargo build --release
 Package recipes are included, but a package channel should be treated as live
 only when its public package page shows `0.0.1-ylem`.
 
-## Proof In Numbers
+## Measured Numbers
 
 The current public benchmark indexed this repo and measured how much context
 had to be visible to the model.
@@ -235,7 +234,7 @@ cargo clippy --all-targets -- -D warnings
 cargo build --release
 ```
 
-Proof checks:
+Useful checks:
 
 ```sh
 qorx --version
@@ -259,7 +258,7 @@ qorx security attest
 | `docs/benchmarks/` | Reproducible local benchmark reports. |
 | `packages/` | npm and Python wrapper sources. |
 | `packaging/` | Linux, Windows, macOS, systemd, and registry recipes. |
-| `scripts/` | Release, proof, distribution, and safety helpers. |
+| `scripts/` | Release, benchmark, distribution, and safety helpers. |
 
 ## Main Docs
 
