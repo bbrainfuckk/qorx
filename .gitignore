@@ -1,0 +1,13 @@
+*
+!.gitignore
+!.gitattributes
+!README.md
+!AUTHORS
+!CITATION.cff
+!LICENSE
+!NOTICE
+!TRADEMARKS.md
+!SECURITY.md
+!CONTRIBUTING.md
+!docs/
+!docs/**
