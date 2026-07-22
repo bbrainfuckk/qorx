@@ -38,9 +38,9 @@ The committed public benchmark indexed this repository and used the local
 
 | Case | Indexed | Used or visible | Reduction |
 | --- | ---: | ---: | ---: |
-| Session carrier | 407,902 | 69 | 5,911.62x |
-| Evidence pack | 407,902 | 410 | 994.88x |
-| Squeeze extract | 407,902 | 448 | 910.50x |
+| Session carrier | 407,392 | 69 | 5,904.23x |
+| Evidence pack | 407,392 | 410 | 993.64x |
+| Squeeze extract | 407,392 | 448 | 909.36x |
 
 Reproduce or inspect it from [live.md](../benchmarks/live.md) and
 [live.json](../benchmarks/live.json). These are local deterministic estimates,
