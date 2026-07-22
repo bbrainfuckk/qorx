@@ -26,16 +26,24 @@ The command surface is domain-neutral. Local files can be source code, technical
 documentation, research notes, contracts, case material, operating procedures,
 or any other text the operator is authorized to use.
 
-## Measured Development Artifact
+## Measured Development Artifacts
 
-The current Windows x64 development binary is 229,376 bytes (0.219 MiB). Its
-SHA-256 is
-`8bb9def221a2eedd5067aea2af45e126781258b787dcd2f19726b625b24f9f65`.
-The release gate is 1 MiB on every native target.
+Native CI passed on Windows, Linux, and macOS for x64 and ARM64. Every artifact
+passed the 1 MiB release gate and its downloaded bytes matched the emitted
+SHA-256 sidecar.
 
-Native CI is defined for Windows, Linux, and macOS on x64 and ARM64. An artifact
-is not considered available until that native job passes and publishes its own
-checksum.
+| Target | Bytes | MiB | SHA-256 |
+| --- | ---: | ---: | --- |
+| Windows x64 | 229,888 | 0.22 | `85331b85b7ecabb724d4cba46ee41334dedf3ffec63bb91b85712e8fb507afd9` |
+| Windows ARM64 | 215,552 | 0.21 | `1086347491b254658df83009a0119ac620020be72476b1f45ec7c5d3d786c6e6` |
+| Linux x64 | 409,488 | 0.39 | `632db483aae490ebe1690b53444684a734320716924faf86892e7865cdea4f3d` |
+| Linux ARM64 | 397,944 | 0.38 | `b10a3c69cc766696e44e9ce663387c8eb64f3b4a25e0a3058ae1bb4a01b97058` |
+| macOS x64 | 378,704 | 0.36 | `73fba256dda675f42e9c2f6f8eb6c7e51e5a8895a26786f2738e8b7989c411f0` |
+| macOS ARM64 | 386,016 | 0.37 | `62fbfc85af59c8fd2cda3965aceefe84e52d470d37818f99622fea0d700367f9` |
+
+The Windows x64 CI artifact was also executed on a local Windows machine. It
+reported Qorx 1.0.6, produced the expected `qorx.eco.v1` report, and completed
+the scoped 13.2M descriptor lookup benchmark under one millisecond.
 
 ## Claims Boundary
 
@@ -65,4 +73,3 @@ The public layer contains the language and command contracts, schemas, package
 launchers, examples, and non-sensitive accounting such as `qorx eco`. Protected
 kernel implementation details stay outside the public repository. Release
 binaries carry checksums and must pass the same public command contract.
-
