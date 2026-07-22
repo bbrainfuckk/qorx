@@ -30,6 +30,44 @@ repo + notes + rules + logs
      human or AI agent
 ```
 
+## Why Qorx exists
+
+> I built Qorx after reading thousands of papers across information theory,
+> retrieval, compilers, formal methods, cryptography, agent memory, optimization,
+> quantum information, nonlinear dynamics, and energy-aware computing. The goal
+> was practical: make useful AI cheaper and accessible to more people without
+> making every request reprocess the same material.
+>
+> — Marvin Sarreal Villanueva
+
+Qorx turns that research into ordinary local software. Its engineering draws
+directly from classical information theory, information retrieval, programming
+languages, proof-carrying systems, authenticated provenance, and local runtime
+design. Quantum information, quantum-inspired optimization, and quantum chaos
+are conceptual influences on its vocabulary and design questions. Qorx 1.0.6
+runs deterministic classical algorithms on ordinary computers; it does not run
+a quantum algorithm or require quantum hardware.
+
+| Research area | Public Qorx connection |
+| --- | --- |
+| Classical information theory | Select useful evidence under a visible token budget. |
+| Certified compilation and proof-carrying semantics | Check source, bytecode integrity, citations, and evidence boundaries. |
+| Quantum-inspired combinatorial optimization and operations research | Treat local evidence selection as a constrained portfolio problem. |
+| Retrieval-augmented agent memory | Reuse indexed local knowledge and retrieve only what the task needs. |
+| Cryptographic provenance and local runtime architecture | Bind local records to hashes, receipts, and explicit ownership boundaries. |
+| Nonlinear dynamics and quantum chaos | A research lens for stability and sensitivity, not an implemented physics model. |
+| Energy-aware computing | Avoid unnecessary repeated model-bound input and calculate impact scenarios from user-supplied factors. |
+
+The physics words are operational names, not claims about particles. A **quark**
+is a bounded, hashed evidence chunk. A **carrier** or **photon** is the small
+model-visible object selected from local state. **Hot**, **penumbra**, and
+**abyss** name resident, semi-active, and cold local storage layers. **Prism** is
+the planning term for splitting one objective into agent-ready packs. Hot and
+cold are storage metaphors, not quark flavours or temperature measurements.
+
+See the [research map](docs/research.md), [reference sources](docs/REFERENCE_PAPERS.md),
+and [science and mathematics boundary](docs/SCIENCE_AND_MATH.md).
+
 ## The product family
 
 | Name | What it is |
@@ -160,6 +198,15 @@ The smaller public-repository benchmark is reproducible from committed data:
 See [live benchmark notes](docs/benchmarks/live.md), [benchmark JSON](docs/benchmarks/live.json),
 and the [scoped comparison with other context systems](docs/void/benchmarks.md#comparison-board).
 
+Within the ten closest public token- and context-reduction references reviewed,
+the Qorx run's **13,199,246.07x** carrier-reduction factor is the largest
+published numeric factor. That sentence is deliberately narrow: the systems
+did not run under the same corpus, hardware, task, or quality gate, so the
+result is not a universal win or an answer-quality comparison. The full audit
+separates those ten references from a 60-item research landscape containing
+memory systems, benchmarks, protocols, and infrastructure that should not be
+called direct competitors.
+
 ## Qorx Zero at four hackathons
 
 Each Qorx Zero edition is an independently runnable clean-room application. It
@@ -180,6 +227,13 @@ source, compiler internals, binaries, or private datasets.
 
 ## Environmental accounting
 
+One reason to keep repeated context local is to avoid unnecessary model-bound
+input. Transformer inference has a prefill phase that processes input context,
+and recent measurements show that energy behaviour depends on input length,
+output length, model, hardware, and serving conditions. Reducing repeated input
+can therefore reduce work in some deployments, but it does not produce a
+universal energy, CO2e, or water conversion.
+
 `qorx eco` reports supplied token counts and reduction arithmetic locally. It
 only calculates energy, CO2e, or water scenarios when you provide factors for
 the hardware, workload, electricity source, cooling system, and reporting
@@ -191,7 +245,8 @@ qorx eco --local-tokens 13200000 --sent-tokens 8
 
 The command makes no network call and does not invent a universal
 tokens-to-impact conversion. Its stable output contract is
-[`qorx.eco.v1`](schemas/qorx.eco.v1.schema.json).
+[`qorx.eco.v1`](schemas/qorx.eco.v1.schema.json). The method and primary
+environmental references are in [Environmental accounting](docs/benchmarks.md#environmental-accounting).
 
 ## Build and verify
 
@@ -230,66 +285,16 @@ Qorx was created and is maintained by **Marvin Sarreal Villanueva** as a
 one-man team. If you use or cite it, see [CITATION.cff](CITATION.cff) and the
 [Qorx Local Context Resolution preprint](https://doi.org/10.5281/zenodo.19953308).
 
-Qorx acknowledges the following 50 public projects, systems, standards, and
-research references. They are background reading, influence, or comparison
-points, not bundled dependencies. Inclusion does not imply copied code,
-affiliation, or endorsement. Qorx has its own language, compiler/runtime
-design, product architecture, and implementation.
+**Special mention:** [Kortex by Arjay](https://github.com/H4D3ZS/kortex) helped
+shape Qorx's early local-context direction. Qorx is independently authored and
+does not copy, import, or package Kortex source.
 
-| # | Project or reference | Area |
-| ---: | --- | --- |
-| 1 | [TempleOS](https://templeos.org/) | Language and small-system design |
-| 2 | [HolyC](https://templeos.org/Wb/Doc/HolyC.html) | Language and compiler design |
-| 3 | [ZealOS](https://github.com/Zeal-Operating-System/ZealOS) | Living historical systems reference |
-| 4 | [C](https://www.open-std.org/jtc1/sc22/wg14/) | Portable systems language |
-| 5 | [Zig](https://ziglang.org/) | Systems language and toolchain |
-| 6 | [Rust](https://www.rust-lang.org/) | Memory-safe systems language |
-| 7 | [Python](https://www.python.org/) | Scripting and interoperability |
-| 8 | [TinyCC / TCC](https://bellard.org/tcc/) | Small compiler baseline |
-| 9 | [QBE](https://c9x.me/compile/) | Compact compiler backend |
-| 10 | [Cranelift](https://cranelift.dev/) | Code generation and runtime compilation |
-| 11 | [LLVM / Clang](https://llvm.org/) | Industrial compiler architecture |
-| 12 | [GNU Mes](https://www.gnu.org/software/mes/) | Auditable bootstrapping |
-| 13 | [Bootstrappable Builds](https://bootstrappable.org/) | Reproducible compiler bootstrap work |
-| 14 | [LLVM Kaleidoscope](https://llvm.org/docs/tutorial/) | Compiler construction reference |
-| 15 | [WebAssembly](https://webassembly.org/specs/) | Portable validated execution |
-| 16 | [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) | Parsing and editor tooling |
-| 17 | [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) | Editor interoperability |
-| 18 | [Protocol Buffers](https://protobuf.dev/) | Structured messages and schemas |
-| 19 | [SHA-256 / FIPS 180-4](https://csrc.nist.gov/pubs/fips/180-4/upd1/final) | Content integrity |
-| 20 | [C2PA](https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html) | Content provenance |
-| 21 | [NIST FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) | Post-quantum signatures |
-| 22 | [Kortex by Arjay](https://github.com/H4D3ZS/kortex) | Early local-context direction |
-| 23 | [Graphify](https://github.com/safishamsi/graphify) | Codebase graph representation |
-| 24 | [ReACC](https://aclanthology.org/2022.acl-long.431/) | Retrieval-augmented code completion |
-| 25 | [CodePromptZip](https://arxiv.org/abs/2502.14925) | Code-context compression |
-| 26 | [Stingy Context](https://arxiv.org/abs/2601.19929) | Context selection under tight budgets |
-| 27 | [Codebase-Memory](https://arxiv.org/abs/2603.27277) | Repository memory for agents |
-| 28 | [AtomMem](https://arxiv.org/abs/2601.08323) | Agent memory architecture |
-| 29 | [AgeMem](https://arxiv.org/abs/2601.01885) | Long-horizon agent memory |
-| 30 | [SURE-RAG](https://arxiv.org/abs/2605.03534) | Retrieval and answer reliability |
-| 31 | [FaithfulRAG](https://arxiv.org/abs/2506.08938) | Evidence-grounded generation |
-| 32 | [RAGChecker](https://arxiv.org/abs/2408.08067) | Retrieval-augmented generation evaluation |
-| 33 | [ARES](https://arxiv.org/abs/2311.09476) | Automated RAG evaluation |
-| 34 | [RT4CHART](https://arxiv.org/abs/2603.27752) | Retrieval and grounding evaluation |
-| 35 | [MedRAGChecker](https://arxiv.org/abs/2601.06519) | Domain-specific RAG evaluation |
-| 36 | [Submodular coverage](https://doi.org/10.1007/BF01588971) | Budgeted set selection |
-| 37 | [Minimum Description Length](https://doi.org/10.1016/0005-1098(78)90005-5) | Compact model selection |
-| 38 | [Conditional Value at Risk](https://doi.org/10.21314/JOR.2000.038) | Tail-risk-aware optimization |
-| 39 | [QAOA](https://arxiv.org/abs/1411.4028) | Combinatorial optimization reference |
-| 40 | [Ising / QUBO](https://www.frontiersin.org/journals/physics/articles/10.3389/fphy.2014.00005/full) | Discrete optimization formulation |
-| 41 | [QVCache](https://arxiv.org/abs/2602.02057) | KV-cache compression |
-| 42 | [TurboQuant](https://arxiv.org/abs/2504.19874) | Quantized inference state |
-| 43 | [LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Prompt compression comparison |
-| 44 | [LongLLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Long-context compression comparison |
-| 45 | [LLMLingua-2](https://arxiv.org/abs/2403.12968) | Task-agnostic prompt compression comparison |
-| 46 | [Context Mode](https://context-mode.com/) | Local context management comparison |
-| 47 | [LeanCTX](https://leanctx.com/) | Context compression comparison |
-| 48 | [sqz CLI](https://github.com/ojuschugh1/sqz) | Repository-context compression comparison |
-| 49 | [indxr](https://docs.rs/crate/indxr/0.2.0) | Local code indexing comparison |
-| 50 | [Aider Repo Map](https://aider.chat/docs/repomap.html) | Repository mapping comparison |
+Research authors, projects, standards, and comparison systems are cited where
+their work is discussed in the [research map](docs/research.md),
+[reference-source map](docs/REFERENCE_PAPERS.md), and
+[audited comparison landscape](docs/void/benchmarks.md#reviewed-reference-landscape-60-items).
+They are citations, not Qorx contributors, affiliations, or endorsements.
 
-The detailed academic and engineering map is in [Research](docs/research.md).
 Thanks also to AMD and ROCm, Lablab.ai, Fireworks AI, OpenAI Build Week, Qwen
 Cloud and Alibaba Cloud, Devpost, and NamasteDev for the hardware, tools, or
 event settings used in the published hackathon work. No endorsement is implied.

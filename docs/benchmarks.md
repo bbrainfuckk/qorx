@@ -110,22 +110,33 @@ Corpus notes:
 - HotpotQA repository: https://github.com/hotpotqa/hotpot
 - Needle In A Haystack: https://github.com/gkamradt/LLMTest_NeedleInAHaystack
 
-## Energy Calculation
+## Environmental accounting
 
-The Qorx calculator estimates avoided inference energy from repeated input tokens avoided.
-
-Formula:
+`qorx eco` is a local scenario calculator, not an emissions meter. It records
+user-supplied token counts and only estimates energy, CO2e, or water when the
+user also supplies workload- and boundary-specific factors.
 
 | Item | Formula |
 | --- | --- |
-| Tokens avoided | repeated input tokens - carrier tokens |
-| Energy avoided | tokens avoided x joules per token / 3,600,000 |
-| CO2e avoided | kWh avoided x avoided-electricity emissions factor |
+| Tokens avoided | `max(local tokens - sent tokens, 0)` |
+| Energy scenario | `tokens avoided / 1,000,000 × kWh per million tokens` |
+| CO2e scenario | `energy scenario × kg CO2e per kWh` |
+| Water scenario | `energy scenario × litres per kWh` |
 
-Public references:
+The mechanism is conditional. Transformer inference processes input during
+prefill, and measured energy behaviour changes with input and output length,
+model, hardware, batching, and serving configuration. Smaller repeated input
+can reduce work in some deployments, but Qorx does not supply a universal
+token-to-impact factor. Electricity mix, cooling, water accounting, and system
+boundaries also vary.
 
-- ML.ENERGY Leaderboard v3.0: https://ml.energy/blog/measurement/energy/diagnosing-inference-energy-consumption-with-the-mlenergy-leaderboard-v30/
-- EPA avoided-electricity factor history: https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator-revision-history
-- EPA calculation references: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
-- DOE LED bulb reference: https://www.energy.gov/femp/purchasing-energy-efficient-light-bulbs
-- IEA Energy and AI: https://www.iea.org/reports/energy-and-ai/executive-summary
+The command makes no network calls. Its machine-readable contract is
+[`qorx.eco.v1`](../schemas/qorx.eco.v1.schema.json).
+
+Primary and public references:
+
+- [IEA, *Energy and AI* executive summary](https://www.iea.org/reports/energy-and-ai/executive-summary)
+- [Lawrence Berkeley National Laboratory, *2024 United States Data Center Energy Usage Report*](https://eta-publications.lbl.gov/sites/default/files/2024-12/us_data_center_energy_usage_report_lbnl-2001637_0.pdf)
+- [SweetSpot: An Analytical Model for Predicting Energy Efficiency of LLM Inference](https://arxiv.org/abs/2602.05695)
+- [Towards Green AI: Decoding the Energy of LLM Inference in Software Development](https://arxiv.org/abs/2602.05712)
+- [EPA greenhouse-gas equivalencies calculation references](https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references)

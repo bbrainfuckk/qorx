@@ -17,8 +17,8 @@ being written and compiled in Qorx.
   -> local interpreter
 ```
 
-The implementation and tests for that pipeline live in `src/qorx.rs`,
-`src/qorx_language.rs`, and the language test suite.
+The implementation lives in `src/qorx.rs`; the end-to-end language tests live
+in `tests/qorx_language.rs`.
 
 ## Self-hosting gate
 

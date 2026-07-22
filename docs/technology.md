@@ -13,7 +13,14 @@ Qorx Void is the buyer-facing product: local project memory for Codex users. It 
 | Qorx Void app | The installed app when referring specifically to the local app. |
 | Quark | A local memory unit. Quarks hold workspace facts, proof traces, and task-relevant context without forcing the whole workspace back into the prompt. |
 | Carrier | A small frame selected from quarks for the current turn. |
+| Photon | A physics-inspired alias for a model-visible carrier. |
 | Proof record | A compact record that explains why a carrier was selected and what local evidence supports it. |
+| Hot / penumbra / abyss | Resident, semi-active, and cold local storage layers. These are storage metaphors. |
+| Prism | A planning term for splitting one objective into agent-ready packs. |
+
+These names come from physics and astronomy, but the objects are software
+records. Hot and cold are not quark flavours, photon does not mean a physical
+particle, and Qorx does not claim to simulate those systems.
 
 ## How A Turn Works
 
@@ -27,13 +34,19 @@ The important point is locality. Qorx is built so the repeated project memory li
 
 ## Qorx Language
 
-Qorx is based on plain human English. It treats direct grammar as a programming surface: nouns, verbs, targets, conditions, receipts, and proof steps become executable structure for the runtime.
+Qorx uses an English-like, explicit programming surface. Nouns, verbs, targets,
+conditions, budgets, receipts, and proof steps become checked structure for the
+runtime.
 
-The public language explanation stays high level. It explains why Qorx is easier to read for humans and AI agents, but it does not publish unpublished implementation material or executable source.
+The public repository includes `.qorx` examples, the Rust bootstrap compiler,
+bytecode runtime, and tests. It does not include Qorx Void source, private
+algorithms, hosted orchestration, signing keys, or proprietary service policy.
 
 ## Academic Map
 
-The five public buckets are a map, not a claim that Qorx is based on only five subjects. Qorx's center is information under budget, carried by programs, resolved by local proof.
+The public buckets are a research map, not a claim that every named theory is
+implemented. Qorx's center is information under budget, carried by programs and
+resolved by local evidence.
 
 | Bucket | What it names |
 | --- | --- |
@@ -42,6 +55,11 @@ The five public buckets are a map, not a claim that Qorx is based on only five s
 | Quantum-Inspired Combinatorial Optimization | Budgeted selection across many possible context states. |
 | Retrieval-Augmented Agent Memory Systems | Local workspace memory that can be reused across agent turns. |
 | Cryptographic Provenance and Local Runtime Architecture | Signed state, local ownership, receipts, and audit trails. |
+| Nonlinear Dynamics and Quantum Chaos | A conceptual lens for stability and sensitivity, not an implemented physical model. |
+| Energy-Aware Computing | Conditional accounting for work avoided when repeated model-bound input is reduced. |
+
+Qorx 1.0.6 runs deterministic classical algorithms on ordinary hardware. It
+does not execute a quantum algorithm or require quantum hardware.
 
 ## Core Subjects
 
@@ -61,16 +79,18 @@ The five public buckets are a map, not a claim that Qorx is based on only five s
 | 12 | Graph-Based Codebase and Knowledge Representation |
 | 13 | Cryptography / Authenticated Data Structures |
 | 14 | Provenance, Audit, and Trust Infrastructure |
+| 15 | Nonlinear Dynamics / Quantum Chaos |
+| 16 | Energy-Aware Computing / Computational Sustainability |
 
 ## Secondary Subjects
 
 | # | Subject |
 | ---: | --- |
-| 15 | KV Cache / Inference Runtime Optimization |
-| 16 | Agent Memory and Long-Horizon Autonomy |
-| 17 | Protocol and Interoperability Design: MCP, A2A, HTTP, protobuf |
-| 18 | Cost Accounting / Computational Economics |
-| 19 | Software Supply Chain and Release Engineering |
-| 20 | Human-Computer Interaction / Developer Tooling |
+| 17 | KV Cache / Inference Runtime Optimization |
+| 18 | Agent Memory and Long-Horizon Autonomy |
+| 19 | Protocol and Interoperability Design: MCP, A2A, HTTP, protobuf |
+| 20 | Cost Accounting / Computational Economics |
+| 21 | Software Supply Chain and Release Engineering |
+| 22 | Human-Computer Interaction / Developer Tooling |
 
 The product experience stays simple: keep the Codex plan you already own, add local project memory, and reduce repeated context.

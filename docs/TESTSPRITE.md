@@ -84,4 +84,7 @@ Before relying on the cloud gate, verify the repo wiring locally:
 
 This check verifies that the workflow uses the GitHub secret, requires a public
 base URL, keeps blocking mode explicit, runs a daemon health smoke, documents
-key rotation, and does not contain a literal TestSprite-style secret.
+key rotation, and does not contain a literal TestSprite-style secret. It also
+expects `testsprite_tests/tmp/test_results.json` from a completed TestSprite
+run. That generated result is intentionally gitignored; the local check does
+not create or invent a cloud-run result.
