@@ -36,7 +36,7 @@ repo + notes + rules + logs
 | --- | --- |
 | **Qorx** | The open language, compiler, portable bytecode runtime, and local evidence tools in this repository. |
 | **Qorx Void** | The private local project-memory product. This repository publishes [Void documentation](docs/void/README.md), not Void source or proprietary internals. |
-| **Qorx Zero** | Three clean-room hackathon applications that demonstrate bounded, device-local memory without using private Qorx code. |
+| **Qorx Zero** | Four clean-room hackathon applications that demonstrate bounded local evidence, memory, and routing without using private Qorx Void code. |
 
 ## The language
 
@@ -160,18 +160,20 @@ The smaller public-repository benchmark is reproducible from committed data:
 See [live benchmark notes](docs/benchmarks/live.md), [benchmark JSON](docs/benchmarks/live.json),
 and the [scoped comparison with other context systems](docs/void/benchmarks.md#comparison-board).
 
-## Qorx Zero at three hackathons
+## Qorx Zero at four hackathons
 
 Each Qorx Zero edition is an independently runnable clean-room application. It
-keeps complete records in the browser, selects a capped proof frame, supports
-expiry and immediate forgetting, and exposes source hashes so recall can be
-inspected.
+demonstrates some combination of local records, capped proof frames, expiry and
+forgetting, inspectable source hashes, and deterministic local-first routing.
+
+Qorx is a one-man team led by its creator, **Marvin Sarreal Villanueva**.
 
 | Hackathon edition | What it demonstrated | Links |
 | --- | --- | --- |
 | **NamasteDev Hackathon** | Device-local IndexedDB memory, bounded recall, and an OpenAI Responses API adapter. | [Repository](https://github.com/bbrainfuckk/qorx-zero-namaste) · [Live demo](https://bbrainfuckk.github.io/qorx-zero-namaste/) · [Video](https://youtu.be/NjWIGFTAFok) |
 | **Qwen Cloud Global AI Hackathon, Track 1: MemoryAgent** | Persistent local memory, TTL and forgetting, proof-supported learning, and a Qwen Cloud adapter through Alibaba Cloud Model Studio. | [Repository](https://github.com/bbrainfuckk/qorx-zero-qwen-memory) |
 | **OpenAI Build Week** | Local proof frames, visible recall scores, Codex build evidence, and a GPT-5.6 Terra Responses API adapter. | [Repository](https://github.com/bbrainfuckk/qorx-zero-build-week) · [Live demo](https://qorx-zero-build-week.omniscius.workers.dev) · [Video](https://youtu.be/GBPWgpuye-Q) |
+| **AMD Developer Hackathon: ACT II, T1 General-Purpose AI Agent** | Ranked **106** on the AMD automated scoring leaderboard with **78.9% accuracy** and **9,382 tokens**. Submitted July 13, 2026 at 04:57 GMT+8 and scored at 11:44 GMT+8. The event recorded 20,728 participants across 4,892 teams and was marked as judging in progress when this result was documented. | [Submission](https://lablab.ai/submissions/d043jqk70ns3skwd28sjpyt4) · [Leaderboard](https://lablab.ai/ai-hackathons/amd-developer-hackathon-act-ii/live) · [Event](https://lablab.ai/ai-hackathons/amd-developer-hackathon-act-ii) |
 
 The Qorx Zero repositories do not contain or depend on private Qorx Void
 source, compiler internals, binaries, or private datasets.
@@ -224,21 +226,73 @@ qorx ground "release proof" --answer "Qorx is on 1.0.6."
 
 ## Credits and acknowledgements
 
-Qorx was created and is maintained by **Marvin Sarreal Villanueva**. If you use
-or cite it, see [CITATION.cff](CITATION.cff) and the
+Qorx was created and is maintained by **Marvin Sarreal Villanueva** as a
+one-man team. If you use or cite it, see [CITATION.cff](CITATION.cff) and the
 [Qorx Local Context Resolution preprint](https://doi.org/10.5281/zenodo.19953308).
 
-[Kortex by Arjay](https://github.com/H4D3ZS/kortex) helped shape the early
-local-context direction. It is credited as an influence, not used as a
-dependency; Qorx has its own language, compiler/runtime design, product
-architecture, and implementation. Additional research and engineering
-references are listed in [Research](docs/research.md).
+Qorx acknowledges the following 50 public projects, systems, standards, and
+research references. They are background reading, influence, or comparison
+points, not bundled dependencies. Inclusion does not imply copied code,
+affiliation, or endorsement. Qorx has its own language, compiler/runtime
+design, product architecture, and implementation.
 
-Thanks to the Rust, Protocol Buffers, retrieval, compiler, and reproducible-build
-communities whose public work provides the comparison map. AMD/ROCm, OpenAI
-Build Week, Qwen Cloud and Alibaba Cloud, Devpost, and NamasteDev identify the
-hardware or event settings used in the published work; no endorsement is
-implied.
+| # | Project or reference | Area |
+| ---: | --- | --- |
+| 1 | [TempleOS](https://templeos.org/) | Language and small-system design |
+| 2 | [HolyC](https://templeos.org/Wb/Doc/HolyC.html) | Language and compiler design |
+| 3 | [ZealOS](https://github.com/Zeal-Operating-System/ZealOS) | Living historical systems reference |
+| 4 | [C](https://www.open-std.org/jtc1/sc22/wg14/) | Portable systems language |
+| 5 | [Zig](https://ziglang.org/) | Systems language and toolchain |
+| 6 | [Rust](https://www.rust-lang.org/) | Memory-safe systems language |
+| 7 | [Python](https://www.python.org/) | Scripting and interoperability |
+| 8 | [TinyCC / TCC](https://bellard.org/tcc/) | Small compiler baseline |
+| 9 | [QBE](https://c9x.me/compile/) | Compact compiler backend |
+| 10 | [Cranelift](https://cranelift.dev/) | Code generation and runtime compilation |
+| 11 | [LLVM / Clang](https://llvm.org/) | Industrial compiler architecture |
+| 12 | [GNU Mes](https://www.gnu.org/software/mes/) | Auditable bootstrapping |
+| 13 | [Bootstrappable Builds](https://bootstrappable.org/) | Reproducible compiler bootstrap work |
+| 14 | [LLVM Kaleidoscope](https://llvm.org/docs/tutorial/) | Compiler construction reference |
+| 15 | [WebAssembly](https://webassembly.org/specs/) | Portable validated execution |
+| 16 | [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) | Parsing and editor tooling |
+| 17 | [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) | Editor interoperability |
+| 18 | [Protocol Buffers](https://protobuf.dev/) | Structured messages and schemas |
+| 19 | [SHA-256 / FIPS 180-4](https://csrc.nist.gov/pubs/fips/180-4/upd1/final) | Content integrity |
+| 20 | [C2PA](https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html) | Content provenance |
+| 21 | [NIST FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) | Post-quantum signatures |
+| 22 | [Kortex by Arjay](https://github.com/H4D3ZS/kortex) | Early local-context direction |
+| 23 | [Graphify](https://github.com/safishamsi/graphify) | Codebase graph representation |
+| 24 | [ReACC](https://aclanthology.org/2022.acl-long.431/) | Retrieval-augmented code completion |
+| 25 | [CodePromptZip](https://arxiv.org/abs/2502.14925) | Code-context compression |
+| 26 | [Stingy Context](https://arxiv.org/abs/2601.19929) | Context selection under tight budgets |
+| 27 | [Codebase-Memory](https://arxiv.org/abs/2603.27277) | Repository memory for agents |
+| 28 | [AtomMem](https://arxiv.org/abs/2601.08323) | Agent memory architecture |
+| 29 | [AgeMem](https://arxiv.org/abs/2601.01885) | Long-horizon agent memory |
+| 30 | [SURE-RAG](https://arxiv.org/abs/2605.03534) | Retrieval and answer reliability |
+| 31 | [FaithfulRAG](https://arxiv.org/abs/2506.08938) | Evidence-grounded generation |
+| 32 | [RAGChecker](https://arxiv.org/abs/2408.08067) | Retrieval-augmented generation evaluation |
+| 33 | [ARES](https://arxiv.org/abs/2311.09476) | Automated RAG evaluation |
+| 34 | [RT4CHART](https://arxiv.org/abs/2603.27752) | Retrieval and grounding evaluation |
+| 35 | [MedRAGChecker](https://arxiv.org/abs/2601.06519) | Domain-specific RAG evaluation |
+| 36 | [Submodular coverage](https://doi.org/10.1007/BF01588971) | Budgeted set selection |
+| 37 | [Minimum Description Length](https://doi.org/10.1016/0005-1098(78)90005-5) | Compact model selection |
+| 38 | [Conditional Value at Risk](https://doi.org/10.21314/JOR.2000.038) | Tail-risk-aware optimization |
+| 39 | [QAOA](https://arxiv.org/abs/1411.4028) | Combinatorial optimization reference |
+| 40 | [Ising / QUBO](https://www.frontiersin.org/journals/physics/articles/10.3389/fphy.2014.00005/full) | Discrete optimization formulation |
+| 41 | [QVCache](https://arxiv.org/abs/2602.02057) | KV-cache compression |
+| 42 | [TurboQuant](https://arxiv.org/abs/2504.19874) | Quantized inference state |
+| 43 | [LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Prompt compression comparison |
+| 44 | [LongLLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Long-context compression comparison |
+| 45 | [LLMLingua-2](https://arxiv.org/abs/2403.12968) | Task-agnostic prompt compression comparison |
+| 46 | [Context Mode](https://context-mode.com/) | Local context management comparison |
+| 47 | [LeanCTX](https://leanctx.com/) | Context compression comparison |
+| 48 | [sqz CLI](https://github.com/ojuschugh1/sqz) | Repository-context compression comparison |
+| 49 | [indxr](https://docs.rs/crate/indxr/0.2.0) | Local code indexing comparison |
+| 50 | [Aider Repo Map](https://aider.chat/docs/repomap.html) | Repository mapping comparison |
+
+The detailed academic and engineering map is in [Research](docs/research.md).
+Thanks also to AMD and ROCm, Lablab.ai, Fireworks AI, OpenAI Build Week, Qwen
+Cloud and Alibaba Cloud, Devpost, and NamasteDev for the hardware, tools, or
+event settings used in the published hackathon work. No endorsement is implied.
 
 Copyright (c) 2026 Marvin Sarreal Villanueva. Code and operational
 documentation are licensed under [AGPL-3.0-only](LICENSE). See
