@@ -1,14 +1,22 @@
 # Research
 
-Qorx is built from a language idea and a runtime idea.
+Qorx is built from a language idea and a runtime idea. Marvin Sarreal
+Villanueva describes its origin as years spent reading thousands of papers
+across information theory, retrieval, compilers, formal methods, cryptography,
+optimization, agent memory, quantum information, nonlinear dynamics, and
+energy-aware computing.
 
-The language idea: humans and AI agents should be able to write direct instructions that preserve intent. Qorx uses plain English structure, grammar, verbs, targets, receipts, and proof steps as the readable surface.
+The language idea: humans and AI agents should be able to write direct
+instructions that preserve intent. Qorx uses an English-like, explicit grammar
+of verbs, targets, budgets, receipts, and proof steps as its readable surface.
 
 The runtime idea: a local machine can hold repeated project memory, resolve the current task against that memory, and send a small proof frame instead of replaying a large workspace.
 
 ## Academic Map
 
-The five public buckets are a high-level map. They are not the whole foundation of Qorx. The center is information under budget, carried by programs, resolved by local proof.
+These public buckets are a high-level map, not proof that Qorx implements every
+theory named here. The center is information under budget, carried by programs
+and resolved by local evidence.
 
 | Bucket | Qorx connection |
 | --- | --- |
@@ -17,6 +25,12 @@ The five public buckets are a high-level map. They are not the whole foundation 
 | Quantum-Inspired Combinatorial Optimization | Uses selection pressure over many local context candidates rather than a flat prompt dump. |
 | Retrieval-Augmented Agent Memory Systems | Turns local workspace memory into task-specific quarks and carriers. |
 | Cryptographic Provenance and Local Runtime Architecture | Keeps proof records and source ownership tied to local artifacts and checksums. |
+| Nonlinear Dynamics and Quantum Chaos | Supplies a research lens for stability and sensitivity; Qorx does not implement a physical chaos model. |
+| Computational Sustainability | Treats repeated model-bound input as avoidable work when deployment measurements support that conclusion. |
+
+Qorx 1.0.6 is deterministic classical software. The quantum subjects are
+conceptual and optimization references; the runtime neither executes a quantum
+algorithm nor requires quantum hardware.
 
 ## Core Subjects
 
@@ -36,21 +50,26 @@ The five public buckets are a high-level map. They are not the whole foundation 
 | 12 | Graph-Based Codebase and Knowledge Representation | Project maps, relationships, and provenance edges. |
 | 13 | Cryptography / Authenticated Data Structures | Hashes, signed records, and tamper-evident artifacts. |
 | 14 | Provenance, Audit, and Trust Infrastructure | Receipts, review paths, and customer-visible proof. |
+| 15 | Nonlinear Dynamics / Quantum Chaos | Conceptual vocabulary for stability and sensitivity, not an implemented physics simulation. |
+| 16 | Energy-Aware Computing / Computational Sustainability | Scenario-based accounting for repeated input work under explicit measurement boundaries. |
 
 ## Secondary Subjects
 
 | # | Subject | Qorx connection |
 | ---: | --- | --- |
-| 15 | KV Cache / Inference Runtime Optimization | Avoiding repeated inference work when state can be reused or represented more compactly. |
-| 16 | Agent Memory and Long-Horizon Autonomy | Keeping useful workspace memory across many turns without making every turn start over. |
-| 17 | Protocol and Interoperability Design: MCP, A2A, HTTP, protobuf | Connecting local proof, tools, and agents through clear transport and schema boundaries. |
-| 18 | Cost Accounting / Computational Economics | Tracking token, time, and compute budgets as product constraints. |
-| 19 | Software Supply Chain and Release Engineering | Separating private implementation from public documentation, releases, and checksums. |
-| 20 | Human-Computer Interaction / Developer Tooling | Making a complex local memory system understandable inside the developer's daily workflow. |
+| 17 | KV Cache / Inference Runtime Optimization | Avoiding repeated inference work when state can be reused or represented more compactly. |
+| 18 | Agent Memory and Long-Horizon Autonomy | Keeping useful workspace memory across many turns without making every turn start over. |
+| 19 | Protocol and Interoperability Design: MCP, A2A, HTTP, protobuf | Connecting local proof, tools, and agents through clear transport and schema boundaries. |
+| 20 | Cost Accounting / Computational Economics | Tracking token, time, and compute budgets as product constraints. |
+| 21 | Software Supply Chain and Release Engineering | Separating private implementation from public documentation, releases, and checksums. |
+| 22 | Human-Computer Interaction / Developer Tooling | Making a complex local memory system understandable inside the developer's daily workflow. |
 
 ## Language And Compiler References
 
-These projects are credited as background reading, inspiration, or comparison points. Qorx implementation details remain private.
+These projects are background reading and engineering references, not Qorx
+contributors or bundled implementations. The Qorx language, compiler, runtime,
+and tests in this repository are public under the repository license. Qorx Void
+source and proprietary service internals are not published here.
 
 - Zig: https://github.com/ziglang/zig
 - Rust: https://github.com/rust-lang/rust

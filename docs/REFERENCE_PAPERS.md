@@ -1,109 +1,102 @@
-# Qorx Reference Papers And External Sources
+# Qorx reference papers and external sources
 
-Qorx is not built from vibes. The current repo keeps a local PaperQA corpus in
-`research/papers`, plus official provider and provenance references in the docs.
-This file is the readable map.
+This is the public source map behind the Qorx research narrative. Every entry
+links to a paper, standard, official project page, or public report. A citation
+supports a design direction; it does not prove a Qorx-specific benchmark or
+mean that Qorx contains the cited implementation.
 
-The papers support the architecture class around Qorx: retrieval-backed context
-omission, prompt compression, repository memory, cache-aware request design,
-agent memory, and runtime cache/KV boundaries. They do not prove that Qorx wins
-on every task. Qorx-specific claims still need Qorx-specific benchmarks.
+## Foundational research
 
-## Prompt Compression
+| Reference | Qorx connection and boundary |
+| --- | --- |
+| [Shannon, *A Mathematical Theory of Communication* (1948)](https://doi.org/10.1002/j.1538-7305.1948.tb00917.x) | Classical information theory motivates useful information under a budget. Qorx's carrier ratio is an engineering measurement, not a new information-theoretic law. |
+| [Necula, *Proof-Carrying Code* (1997)](https://doi.org/10.1145/263699.263712) | Proof-carrying systems motivate checked artifacts and explicit evidence. Qorx does not claim formal verification of arbitrary AI answers. |
+| [Lewis et al., *Retrieval-Augmented Generation* (2020)](https://papers.neurips.cc/paper/2020/file/6b493230205f780e1bc26945df7481e5-Paper.pdf) | Retrieval-backed generation motivates separating stored knowledge from task-time evidence. Qorx uses a deterministic local retrieval boundary. |
+| [Farhi, Goldstone, and Gutmann, *A Quantum Approximate Optimization Algorithm*](https://arxiv.org/abs/1411.4028) | A reference for quantum-inspired combinatorial selection. Qorx 1.0.6 executes classical deterministic selection and does not implement QAOA on quantum hardware. |
+| [Bohigas, Giannoni, and Schmit, *Characterization of Chaotic Quantum Spectra*](https://doi.org/10.1103/PhysRevLett.52.1) | Quantum-chaos research is a conceptual influence on questions of stability and sensitivity. It is not an implemented Qorx physics model. |
+| [Lorenz, *Deterministic Nonperiodic Flow* (1963)](https://doi.org/10.1175/1520-0469%281963%29020%3C0130%3ADNF%3E2.0.CO%3B2) | Nonlinear dynamics is a research lens for state and sensitivity, not a claim that Qorx simulates the Lorenz system. |
+| [NIST FIPS 180-4, Secure Hash Standard](https://csrc.nist.gov/pubs/fips/180-4/upd1/final) | Cryptographic hashing is used for integrity and provenance records. Hashes detect changes; they do not hide public source. |
+| [NIST FIPS 204, Module-Lattice-Based Digital Signature Standard](https://csrc.nist.gov/pubs/fips/204/final) | Post-quantum signature practice is a reference for Qorx attestation work. It does not make the runtime quantum. |
 
-| Reference | Local file or source | How it relates to Qorx |
-| --- | --- | --- |
-| LLMLingua | `research/papers/llmlingua_2310.05736.pdf` | Learned prompt compression supports the broader idea that prompts can be shortened while preserving useful information. Qorx does not bundle LLMLingua. |
-| LongLLMLingua | `research/papers/longllmlingua_2310.06839.pdf` | Long-context prompt compression and budget control. Qorx uses deterministic budgeted packing and extractive squeeze in the portable core. |
-| Active Context Compression | `research/papers/active_context_compression_2601.07190.pdf` | Active context pruning supports the idea that not all context should remain visible all the time. |
-| Gist Tokens | `research/papers/gist_tokens_2304.08467.pdf` | Soft-token memory is a model-side technique. Qorx treats this as adapter/future scope because vendor CLIs cannot consume arbitrary learned gist tokens. |
-| Experience Compression Spectrum | `research/papers/experience_compression_spectrum_2604.15877.pdf` | Useful for thinking about compression levels and provenance loss. Qorx keeps exact local fallback instead of relying only on summaries. |
+## Prompt and context reduction
 
-## Repository And Code Context
+| Reference | Qorx connection and boundary |
+| --- | --- |
+| [LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Learned prompt compression supports shortening task input. Qorx does not bundle LLMLingua and reports a different local carrier operation. |
+| [LongLLMLingua](https://arxiv.org/abs/2310.06839) | Long-context budget control is relevant to context selection. Its published ratios are not directly comparable without a matched run. |
+| [LLMLingua-2](https://arxiv.org/abs/2403.12968) | Task-agnostic prompt compression is a close public metric reference. Qorx uses deterministic local evidence resolution. |
+| [Active Context Compression](https://arxiv.org/abs/2601.07190) | Agent-side context pruning supports keeping only task-relevant material visible. Its SWE-bench experiment is not a Qorx head-to-head result. |
+| [Gist Tokens](https://arxiv.org/abs/2304.08467) | Learned soft-token memory shows a model-side compression path. Qorx carriers remain inspectable and do not require learned gist-token support. |
+| [CodePromptZip](https://arxiv.org/abs/2502.14925) | Code-context compression is relevant to repository agents. Qorx's public proof is attached to its own corpus and measurement boundary. |
+| [MInference](https://arxiv.org/abs/2407.02490) | Long-context inference optimization is adjacent model-runtime work, not a local index-to-carrier comparison. |
 
-| Reference | Local file or source | How it relates to Qorx |
-| --- | --- | --- |
-| ReACC | `research/papers/reacc.pdf` / ACL 2022 source | Retrieval-augmented code completion supports bringing related code into the model context. Qorx supplies local code quarks to downstream agents. |
-| GraphCoder | https://arxiv.org/abs/2406.07003 | Code context graphs support structured repository retrieval. Qorx Atlas keeps the first production slice deterministic: extracted file/symbol references, hubs, and path traces. |
-| GraphRAG survey | https://arxiv.org/abs/2501.00309 | GraphRAG research separates query processing, retrieval, organization, generation, and data sources. Qorx applies that boundary locally instead of adding a remote graph runtime. |
-| GraphRAG-R1 | https://arxiv.org/abs/2507.23581 | Process-constrained graph reasoning supports keeping retrieval steps inspectable. Qorx Atlas exposes local packs rather than hidden reasoning chains. |
-| MMGraphRAG | https://arxiv.org/abs/2507.20804 | Multimodal graph work supports preserving modality-specific evidence paths. Qorx Atlas inventories modalities now and keeps extractor adapters explicit. |
-| MegaRAG | https://arxiv.org/abs/2512.20626 | Multimodal KG-RAG motivates treating visual/document assets as graph-aware local evidence, not just captions. |
-| M3KG-RAG | https://arxiv.org/abs/2512.20136 | Grounded retrieval and selective pruning match Qorx's local evidence budget before agent context is sent. |
-| Codebase-Memory | `research/papers/codebase_memory_2603.27277.pdf` | Codebase memory and graph-style context motivate Qorx's lightweight symbol and relation surfaces. |
-| BM25 and lexical retrieval | referenced in the evidence map | Exact lexical retrieval remains a strong baseline. Qorx uses deterministic sparse terms plus path and symbol boosts. |
-| Aider repository map | official aider docs | Repository maps are useful, but Qorx keeps a local quark store and budgeted evidence routes rather than only a static map. |
+## Repository retrieval and agent memory
 
-## Agent Memory And Long-Horizon Context
+| Reference | Qorx connection and boundary |
+| --- | --- |
+| [ReACC](https://aclanthology.org/2022.acl-long.431/) | Retrieval-augmented code completion supports bringing related code into task context. |
+| [GraphCoder](https://arxiv.org/abs/2406.07003) | Graph-based code context motivates explicit repository relations. Qorx keeps its public core deterministic and local. |
+| [GraphRAG survey](https://arxiv.org/abs/2501.00309) | Separates query processing, retrieval, organization, generation, and data sources. |
+| [GraphRAG-R1](https://arxiv.org/abs/2507.23581) | Process-constrained graph retrieval motivates inspectable evidence paths. |
+| [MMGraphRAG](https://arxiv.org/abs/2507.20804) | Multimodal graph retrieval motivates preserving modality-specific evidence paths. |
+| [MegaRAG](https://arxiv.org/abs/2512.20626) | Multimodal knowledge-graph RAG is relevant to local document and visual evidence. |
+| [M³KG-RAG](https://arxiv.org/abs/2512.20136) | Grounded retrieval and selective pruning are relevant to evidence budgets. |
+| [Codebase-Memory](https://arxiv.org/abs/2603.27277) | Persistent repository knowledge graphs are a close code-agent memory reference. |
+| [AtomMem](https://arxiv.org/abs/2601.08323) | Learned atomic memory operations are adjacent to Qorx's explicit local memory objects; the implementations differ. |
+| [AgeMem](https://arxiv.org/abs/2601.01885) | Unified long- and short-term agent memory informs memory-operation design. |
+| [Titans](https://arxiv.org/abs/2501.00663) | Neural long-term memory is model-side research. Qorx does not claim a Titans-like learned runtime. |
+| [TokMem](https://arxiv.org/abs/2510.00444) | One-token procedural memory is a learned model technique, not the current Qorx carrier format. |
+| [Structural Memory](https://arxiv.org/abs/2412.15266) | Compares memory structures and retrieval methods for agents. |
+| [H-MEM](https://arxiv.org/abs/2507.22925) | Hierarchical memory supports layered retrieval. |
+| [HiMem](https://arxiv.org/abs/2601.06377) | Hierarchical long-horizon memory is adjacent to Qorx's local memory layers. |
+| [TierMem](https://arxiv.org/abs/2602.17913) | Provenance-aware tiered memory is close to Qorx's summary-to-raw-evidence boundary. |
+| [GAM](https://arxiv.org/abs/2604.12285) | Graph-based agent memory informs relation-aware retrieval. |
 
-| Reference | Local file or source | How it relates to Qorx |
-| --- | --- | --- |
-| AgeMem | `research/papers/agemem_2601.01885.pdf` | Explicit memory operations matter for agents. Qorx exposes local memory CRUD and summaries. |
-| AtomMem | `research/papers/atommem_2601.08323.pdf` | Atomized memory matches Qorx's quark-level evidence approach, but Qorx keeps its implementation deterministic. |
-| Titans | `research/papers/titans_2501.00663.pdf` | Neural long-term memory is a real research direction. Qorx does not claim a Titans-like learned memory runtime. |
-| TokMem | `research/papers/tokmem_2510.00444.pdf` | Token memory research informs future adapter ideas, not the current portable-core claim. |
-| Memory Survey | `research/papers/memory_survey_2603.07670.pdf` | Broad survey background for explicit memory design. |
-| Structural Memory | `research/papers/structural_memory_2412.15266.pdf` | Supports structured memory and provenance-aware state. |
+## Cache and inference boundaries
 
-## Hierarchical Memory
+| Reference | Qorx connection and boundary |
+| --- | --- |
+| [Preble](https://arxiv.org/abs/2407.00023) | Prefix-aware request scheduling is relevant to stable-prefix planning. Provider cache hits remain provider measurements. |
+| [Similarity caching for language models](https://arxiv.org/abs/1912.03888) | Approximate reuse can reduce work but introduces correctness tradeoffs; Qorx defaults to exact replay where replay is used. |
+| [RAGCache](https://arxiv.org/abs/2404.12457) | Caches intermediate states of retrieved knowledge. This is an inference-system optimization, not Qorx context omission. |
+| [Cache-Craft](https://arxiv.org/abs/2502.15734) | Reuses RAG chunk KV caches while managing recomputation and quality. |
+| [QVCache](https://arxiv.org/abs/2602.02057) | Query-vector caching is adjacent cache research, not prompt compression. |
+| [TurboQuant](https://arxiv.org/abs/2504.19874) | Quantized KV-cache work is a model-runtime measurement problem. Qorx claims no realized runtime gain without a runtime proof. |
 
-| Reference | Local file or source | How it relates to Qorx |
-| --- | --- | --- |
-| H-MEM | `research/papers/hmem_2507.22925.pdf` | Hierarchical memory supports multi-layer retrieval. Qorx implements deterministic lattice layers. |
-| HiMem | `research/papers/himem_2601.06377.pdf` | Long-horizon memory organization. Qorx uses local mementos and raw-quark provenance. |
-| TierMem | `research/papers/tiermem_2602.17913.pdf` | Provenance-aware tiered memory is close to Qorx's lattice/attestation boundary. |
-| GAM | `research/papers/gam_2604.12285.pdf` | Graph-based agentic memory supports the idea of relations across memory nodes. Qorx keeps graph work lightweight in core. |
+## Environmental accounting
 
-## Cache And Reuse
+| Reference | Qorx connection and boundary |
+| --- | --- |
+| [IEA, *Energy and AI* executive summary](https://www.iea.org/reports/energy-and-ai/executive-summary) | Establishes the broader data-centre electricity context. It does not provide a universal token-to-energy factor. |
+| [Lawrence Berkeley National Laboratory, *2024 United States Data Center Energy Usage Report*](https://eta-publications.lbl.gov/sites/default/files/2024-12/us_data_center_energy_usage_report_lbnl-2001637_0.pdf) | Documents energy and direct-water boundaries for US data centres. Qorx water scenarios still require a workload-specific factor. |
+| [SweetSpot: energy efficiency of LLM inference](https://arxiv.org/abs/2602.05695) | Shows that inference efficiency depends nonlinearly on input and output lengths, model, and hardware. |
+| [Towards Green AI: energy of LLM inference in software development](https://arxiv.org/abs/2602.05712) | Separates input prefill from output decoding and measures model-dependent energy behaviour. |
 
-| Reference | Local file or source | How it relates to Qorx |
-| --- | --- | --- |
-| Preble | `research/papers/preble_2407.00023.pdf` | Prefix/cache-aware request design. Qorx has `cache-plan` for stable prefix and dynamic tail separation. |
-| Don't Break the Cache | `research/papers/dont_break_cache_2601.06007.pdf` | Supports careful prompt structure so provider caches remain useful. |
-| Similarity Caching | `research/papers/similarity_caching_1912.03888.pdf` | Approximate reuse can save cost but has correctness tradeoffs. Qorx keeps approximate answer replay out of the default path. |
-| GPT Semantic Cache | `research/papers/gpt_semantic_cache_2411.05276.pdf` | Semantic caching supports future guarded adapters. Qorx ships exact replay cache first. |
-| RAGCache | `research/papers/ragcache_2404.12457.pdf` | Retrieval cache design for RAG workflows. |
-| Cache-Craft | `research/papers/cache_craft_2502.15734.pdf` | Chunk cache management for RAG. |
-| Approximate Caching for RAG | `research/papers/approximate_caching_rag_2503.05530.pdf` | Approximate reuse is useful but must be measured and guarded. |
-| Domain-Specific Semantic Cache | `research/papers/domain_specific_semantic_cache_2504.02268.pdf` | Domain-specific embeddings can improve cache reuse, but Qorx avoids mandatory embedding runtimes. |
-| vCache | `research/papers/vcache_2502.03771.pdf` | Verified semantic prompt caching supports the idea of cache correctness gates. |
-| ContextPilot | `research/papers/contextpilot_2511.03475.pdf` | Long-context reuse. Qorx handles reuse through local handles and evidence resolution. |
-| QVCache | `research/papers/qvcache_2602.02057.pdf` | Query-aware vector cache ideas inform future cache adapters. |
+These sources support a mechanism, not a guaranteed impact number: reducing
+repeated model-bound input can reduce prefill and data-movement work in some
+deployments. Actual energy, CO2e, and water depend on hardware, model, batching,
+electricity, cooling, and the reporting boundary. `qorx eco` therefore performs
+scenario arithmetic only from user-supplied factors.
 
-## Runtime And KV Boundaries
+## Official provider and tooling boundaries
 
-| Reference | Local file or source | How it relates to Qorx |
-| --- | --- | --- |
-| TurboQuant | `research/papers/turboquant_2504.19874.pdf` | KV/cache compression is a runtime measurement problem. Qorx can emit hints but does not claim realized TurboQuant/vLLM gains without a runtime proof. |
-| vCache and QVCache | local cache papers above | Useful for guarded cache reuse and query-aware cache design. |
+| Source | Qorx boundary |
+| --- | --- |
+| [OpenAI prompt caching](https://platform.openai.com/docs/guides/prompt-caching) | Provider-side caching is separate from Qorx local context omission. |
+| [Anthropic prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching) | Qorx can help structure stable prefixes, but upstream cache hits must be measured by the provider. |
+| [Gemini context caching](https://ai.google.dev/gemini-api/docs/caching/) | Same provider-cache boundary. |
+| [Claude Code memory](https://docs.anthropic.com/en/docs/claude-code/memory) | Instruction files are useful but are not the same as budgeted local evidence retrieval. |
+| [Gemini CLI `GEMINI.md`](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md) | Hierarchical context files differ from a local evidence resolver. |
+| [Cursor codebase indexing](https://docs.cursor.com/context/codebase-indexing) | Cursor's indexing deployment model differs from Qorx's local core. |
+| [Protocol Buffers](https://protobuf.dev/) | Qorx uses typed persisted envelopes; protobuf does not prove application-level correctness. |
+| [C2PA specification](https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html) | Qorx provenance is local metadata, not a complete C2PA media manifest. |
 
-## Official Provider And Tooling References
+## Reading the map
 
-| Source | URL | Qorx boundary |
-| --- | --- | --- |
-| OpenAI prompt caching | https://platform.openai.com/docs/guides/prompt-caching | Provider-side cache behavior is separate from Qorx local context omission. |
-| Anthropic prompt caching | https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching | Qorx can help structure stable prefixes, but provider cache hits must be measured upstream. |
-| Gemini context caching | https://ai.google.dev/gemini-api/docs/caching/ | Same provider-cache boundary. |
-| Claude Code memory | https://docs.anthropic.com/en/docs/claude-code/memory | Memory files are useful, but Qorx adds a live local resolver/index path. |
-| Gemini CLI `GEMINI.md` | https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md | Context files are not the same as budgeted local evidence retrieval. |
-| Cursor codebase indexing | https://docs.cursor.com/context/codebase-indexing | Cursor's server-backed indexing is a different deployment model. Qorx keeps the core local. |
-| Cursor secure codebase indexing | https://cursor.com/blog/secure-codebase-indexing | Useful comparison for privacy and indexing boundaries. |
-
-## Provenance, Signatures, And Storage
-
-| Source | URL | Qorx boundary |
-| --- | --- | --- |
-| Protocol Buffers | https://protobuf.dev/ | Qorx uses protobuf-envelope persisted state and a typed context snapshot. |
-| NIST FIPS 204 | https://csrc.nist.gov/pubs/fips/204/final | Qorx hybrid attestation uses post-quantum signature practice as a reference point. |
-| C2PA Specification | https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html | Qorx provenance is local metadata, not a full embedded media manifest. |
-| Microsoft kernel-mode signing requirements | https://learn.microsoft.com/en-us/windows-hardware/drivers/install/kernel-mode-code-signing-requirements--windows-vista-and-later- | Real RAM-drive drivers have OS/runtime boundaries. Qorx reports RAM mode separately from portable disk-backed mode. |
-
-## PaperQA Result Boundary
-
-PaperQA has been used here as a research audit path, not as an oracle. The local
-corpus supports the architecture class. It does not by itself prove Qorx-specific
-accuracy, latency, cost, or task-success improvement.
-
-The next benchmark that matters is empirical: multiple repositories, repeated
-agent tasks, routed provider traffic, retrieval-support scoring, latency, cache
-hit rates, and invoice/provider-token comparison.
+- Research citations belong here, not in the contributor credits.
+- The closest numeric comparisons belong in the
+  [Qorx Void benchmark board](void/benchmarks.md#comparison-board).
+- Qorx-specific accuracy, latency, cost, and impact claims require Qorx-specific
+  evidence.
+- The next fair comparison is a matched-corpus, matched-task, matched-quality
+  rerun with provider traffic and energy measured at the same boundary.
