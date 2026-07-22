@@ -1,60 +1,103 @@
-# Day-To-Day Use
+# Day-to-day use
 
-Qorx Void and `qorx-free` serve different users.
+Qorx Void is designed to remove repeated setup from local AI work. The public
+commands below describe the operator surface without exposing the private Void
+implementation.
 
-## Qorx Void Users
-
-Qorx Void is for people who work with Codex on real projects and do not want to repeat the same context every turn.
-
-Day to day, the user should experience:
-
-- less repeated project explanation;
-- fewer manual context restarts;
-- compact evidence when Codex needs local support;
-- local-first handling of workspace memory;
-- clear refusal when a claim is not supported by local evidence.
-
-Public docs can describe this experience. They should not publish the private product material behind it.
-
-## `qorx-free` Testers
-
-`qorx-free` is for public testers with Linux AMD MI300X machines.
-
-Useful daily commands:
+## 1. Check the local runtime
 
 ```sh
-./qorx-free hardware
-./qorx-free doctor
-./qorx-free verify-demo
-./qorx-free amd-run --suite big10 --sample 30 --distractors 12 --out ./qorx-free-run
+qorx doctor
+qorx daemon start
+qorx integrate status
 ```
 
-Testers can use it after:
+The monitor is local by default:
 
-- ROCm updates;
-- kernel updates;
-- model endpoint changes;
-- machine rebuilds;
-- reproducibility checks;
-- benchmark issue reports.
+```text
+http://127.0.0.1:47187/monitor
+```
 
-## What To Attach To Issues
+## 2. Connect an agent
 
-When reporting a public `qorx-free` benchmark issue, attach only sanitized outputs:
+```sh
+qorx install -p codex
+qorx integrate activate -p codex
+```
 
-- `qorx-free doctor --json` output;
-- `qorx-free-amd-run.json`;
-- `qorx-free-amd-run-manifest.json`;
-- `qorx-free-amd-run-checksums.txt`;
-- hardware and ROCm version notes.
+Qorx 1.0.6 recognizes these integration slugs:
 
-Do not attach:
+```text
+codex, claude, opencode, copilot, vscode, aider, claw, droid,
+trae, trae-cn, gemini, hermes, kiro, pi, cursor, antigravity
+```
 
-- private repository files;
-- raw prompts;
-- model response bodies;
-- secret values;
-- local usernames;
-- private hostnames;
-- unpublished technical material;
-- private Qorx logs.
+`all` selects every supported integration and `windows` selects Windows-managed
+surfaces. Support differs by client: some use MCP, some use hooks or generated
+configuration, and some need a restart or manual enable step.
+
+## 3. Index the work
+
+```sh
+qorx index .
+qorx atlas
+qorx session
+```
+
+Only index material you are authorized to use. The session handle identifies
+local state; it is not the full file content.
+
+## 4. Ask for the smallest useful context
+
+```sh
+qorx context inject "review the authentication boundary" --block
+qorx map "which files control authentication?"
+qorx squeeze "what changed in authentication?" --budget-tokens 900
+qorx strict-answer "which files control authentication?"
+```
+
+When a carrier needs expansion:
+
+```sh
+qorx context fault "show the exact policy lines" --handle <qorx-handle>
+qorx context expand <qorx-handle>
+```
+
+## 5. Check a proposed answer
+
+```sh
+qorx ground "authentication policy" --answer "the API accepts anonymous writes"
+qorx judge "the API accepts anonymous writes" --query "authentication policy"
+```
+
+An unsupported result is useful. It means the local evidence did not justify
+the claim under the current query and limit.
+
+## 6. Inspect the accounting
+
+```sh
+qorx stats
+qorx eco --local-tokens 13200000 --sent-tokens 8
+```
+
+`qorx eco` reports supplied token arithmetic. Energy, CO2e, and water outputs
+remain empty unless the operator supplies scenario factors.
+
+## 7. End or maintain the local session
+
+```sh
+qorx memory summarize
+qorx context snapshot
+qorx context verify
+qorx security attest
+qorx daemon stop
+```
+
+## Safe issue reports
+
+Attach command versions, sanitized JSON reports, operating-system details, and
+reproduction steps. Do not attach provider keys, private files, full prompts,
+model response bodies, local usernames, hostnames, account data, or proprietary
+Void artifacts.
+
+The complete command and MCP inventory is in [Tools](tools.md).

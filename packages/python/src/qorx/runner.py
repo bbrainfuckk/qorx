@@ -12,7 +12,7 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
-VERSION = "1.0.5"
+VERSION = "1.0.6"
 TAG = f"v{VERSION}"
 REPO = "https://github.com/bbrainfuckk/qorx"
 

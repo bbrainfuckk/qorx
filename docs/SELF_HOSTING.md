@@ -1,6 +1,6 @@
 # Qorx compiler bootstrap
 
-Qorx 1.0.5 has a real parser, semantic checker, compiler, bytecode format, and
+Qorx 1.0.6 has a real parser, semantic checker, compiler, bytecode format, and
 interpreter. The shipping compiler is currently bootstrapped in Rust. That is a
 normal starting point for a language implementation, but it is not the same as
 being written and compiled in Qorx.
@@ -34,7 +34,7 @@ Qorx will use the label “self-hosted” only after all of these are reproducib
 stage artifacts exist.
 
 Qorx 1 does not yet expose enough general parsing and file primitives to write
-that compiler without native bootstrap support, so the 1.0.5 manifest says
+that compiler without native bootstrap support, so the 1.0.6 manifest says
 `self_hosted: false`. A wrapper that merely calls the Rust compiler would not be
 self-hosting and is deliberately not counted as proof.
 

@@ -23,15 +23,15 @@ long-lived PyPI token is stored in this repository.
 ## Current Version Mapping
 
 Qorx uses the version form each registry expects. This is the intended
-`1.0.5` mapping; a channel is not live until its package page or release
+`1.0.6` mapping; a channel is not live until its package page or release
 asset exists publicly.
 
 ```text
-Cargo/crates.io: 1.0.5
-npm:             1.0.5
-PyPI:            1.0.5
-Arch/AUR:        1.0.5
-Source tag:      v1.0.5
+Cargo/crates.io: 1.0.6
+npm:             1.0.6
+PyPI:            1.0.6
+Arch/AUR:        1.0.6
+Source tag:      v1.0.6
 ```
 
 For npm prereleases, the workflow publishes under the `next` dist-tag. Stable
@@ -46,7 +46,7 @@ pip install --pre qorx
 or:
 
 ```text
-pip install qorx==1.0.5
+pip install qorx==1.0.6
 ```
 
 ## Why Rotate Pasted Tokens

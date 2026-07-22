@@ -77,7 +77,7 @@ use crate::{
     name = "qorx",
     version = crate::version::QORX_VERSION,
     about = "Qorx language, compiler, and local runtime",
-    long_about = "Qorx 1.0.5 compiles .qorx programs to portable .qorxb bytecode and runs local, evidence-grounded workflows for humans and AI agents.",
+    long_about = "Qorx 1.0.6 compiles .qorx programs to portable .qorxb bytecode and runs local, evidence-grounded workflows for humans and AI agents.",
     after_help = "START HERE:
   qorx doctor                     Check the local install
   qorx daemon start               Start the local gateway
@@ -976,7 +976,7 @@ fn splash_text() -> String {
   \___\_\\___/|_| \_\/_/\_\
 
 QORX CLI
-Version: 1.0.5
+Version: 1.0.6
 Local context and proof for AI agents.
 Runtime: {}.
 
@@ -1008,7 +1008,7 @@ fn print_splash() {
 fn manual_text(topic: Option<&str>) -> String {
     match topic.unwrap_or("all").to_ascii_lowercase().as_str() {
         "install" | "integrate" | "automcp" | "autohook" => r#"Qorx CLI Manual - Connect agents
-Version: 1.0.5
+Version: 1.0.6
 
 What this does:
   Qorx writes the local connector files it owns, starts the local gateway when
@@ -1054,7 +1054,7 @@ Boundary:
 "#
         .to_string(),
         "stats" | "counters" => r#"Qorx CLI Manual - Counters
-Version: 1.0.5
+Version: 1.0.6
 
 Read the counters:
   qorx stats
@@ -1076,7 +1076,7 @@ Boundary:
 "#
         .to_string(),
         "daemon" | "server" => r#"Qorx CLI Manual - Local gateway
-Version: 1.0.5
+Version: 1.0.6
 
 Run the gateway in the foreground:
   qorx daemon
@@ -1098,7 +1098,7 @@ Plain meaning:
 "#
         .to_string(),
         "atlas" | "map" | "context" | "evidence" => r#"Qorx CLI Manual - Local evidence
-Version: 1.0.5
+Version: 1.0.6
 
 Index a folder:
   qorx index .
@@ -1115,7 +1115,7 @@ Find useful files for a task:
 
 Answer with proof only:
   qorx strict-answer "what version is this repo on?"
-  qorx ground "version proof" --answer "Qorx is on 1.0.5."
+  qorx ground "version proof" --answer "Qorx is on 1.0.6."
 
 Create a local handoff for an agent:
   qorx context inject "fix CLI docs" --block
@@ -1129,7 +1129,7 @@ Plain meaning:
 "#
         .to_string(),
         "crux" => r#"Qorx CLI Manual - Crux
-Version: 1.0.5
+Version: 1.0.6
 
 Run a production-style local integration stress pass:
   qorx crux run --hours 1
@@ -1149,7 +1149,7 @@ status.
 "#
         .to_string(),
         "lexicon" | "terms" => r#"Qorx CLI Manual - Glossary
-Version: 1.0.5
+Version: 1.0.6
 
 Print the Qorx glossary:
   qorx lexicon
@@ -1159,7 +1159,7 @@ as qosm and qshf may still appear in compatibility fields and saved handles.
 "#
         .to_string(),
         _ => r#"Qorx CLI Manual
-Version: 1.0.5
+Version: 1.0.6
 
 What Qorx is:
   Qorx is a language, compiler, bytecode runtime, and local evidence resolver.
@@ -2375,7 +2375,7 @@ mod tests {
     fn splash_points_people_at_help_and_manual() {
         let splash = super::splash_text();
         assert!(splash.contains("QORX CLI"));
-        assert!(splash.contains("Version: 1.0.5"));
+        assert!(splash.contains("Version: 1.0.6"));
         assert!(splash.contains("qorx doctor"));
         assert!(splash.contains("qorx --help"));
         assert!(splash.contains("qorx man"));

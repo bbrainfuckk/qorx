@@ -8,7 +8,7 @@ authors:
     email: "marvin@orin.work"
     affiliation: "Metro Manila, Philippines"
     orcid: "https://orcid.org/0009-0001-2017-5508"
-version: "1.0.5"
+version: "1.0.6"
 date-released: "2026-07-22"
 repository-code: "https://github.com/bbrainfuckk/qorx"
 doi: "10.5281/zenodo.19875352"

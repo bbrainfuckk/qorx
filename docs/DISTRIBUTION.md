@@ -9,7 +9,7 @@ Use the release prep script for normal version bumps. It updates Cargo,
 CITATION, Zenodo, and release docs.
 
 ```powershell
-.\scripts\prepare-release.ps1 -Version 1.0.5
+.\scripts\prepare-release.ps1 -Version 1.0.6
 ```
 
 The script does not publish by default. For a new version, pass hashes when they
@@ -35,7 +35,7 @@ qorx doctor --json
 On Windows, build the portable asset:
 
 ```powershell
-.\scripts\build-release-assets.ps1 -Version 1.0.5
+.\scripts\build-release-assets.ps1 -Version 1.0.6
 ```
 
 ## Registries
@@ -43,14 +43,14 @@ On Windows, build the portable asset:
 The publish script refuses to upload when the matching token is missing.
 
 ```powershell
-.\scripts\publish-registries.ps1 -Version 1.0.5 -DryRun
-.\scripts\publish-registries.ps1 -Version 1.0.5
+.\scripts\publish-registries.ps1 -Version 1.0.6 -DryRun
+.\scripts\publish-registries.ps1 -Version 1.0.6
 ```
 
 Or run the dry-run path through the prep script:
 
 ```powershell
-.\scripts\prepare-release.ps1 -Version 1.0.5 -DryRunRegistries
+.\scripts\prepare-release.ps1 -Version 1.0.6 -DryRunRegistries
 ```
 
 Expected credentials:

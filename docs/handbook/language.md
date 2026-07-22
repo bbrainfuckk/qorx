@@ -1,6 +1,6 @@
 # Qorx Language
 
-Qorx source is plain text. Qorx 1 is an AI-native programming language for
+Qorx source is plain text. Qorx 1 is a provider-agnostic programming language for
 humans and agents, with bindings, imports, named resolver operations, semantic
 checks, branches, assertions, QIR, protobuf-envelope bytecode, and a local
 interpreter. It is host- and provider-agnostic. Qorx 1 intentionally focuses on

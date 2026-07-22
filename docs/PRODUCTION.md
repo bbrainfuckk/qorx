@@ -24,8 +24,8 @@ backups.
 | `.qorxb` bytecode | Ready | AST, QIR, opcodes, `qstk`, and `qorx qorx-inspect <file>` |
 | Local runtime | Ready | `qorx index`, `qorx strict-answer`, `qorx context verify` |
 | Local HTTP gateway | Ready | `qorx daemon start`, `qorx daemon status`, `/health`, `/stats`, `/strict-answer` |
-| Release binaries | Automated | `release-assets.yml` builds six x64/ARM64 targets from `v1.0.5` |
-| Package wrappers | Built locally | Registry channels are live only when the public package page shows `1.0.5` |
+| Release binaries | Automated | `release-assets.yml` builds six x64/ARM64 targets from `v1.0.6` |
+| Package wrappers | Built locally | Registry channels are live only when the public package page shows `1.0.6` |
 | Provenance checks | Ready | `qorx security attest`, `qorx security verify` |
 | Operator check | Ready | `qorx doctor --json` |
 

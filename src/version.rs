@@ -89,8 +89,8 @@ pub(crate) fn runtime_edition_for_test(
 mod tests {
     #[test]
     fn package_version_tracks_qorx_release() {
-        assert_eq!(env!("CARGO_PKG_VERSION"), "1.0.5");
-        assert_eq!(super::QORX_VERSION, "1.0.5");
+        assert_eq!(env!("CARGO_PKG_VERSION"), "1.0.6");
+        assert_eq!(super::QORX_VERSION, "1.0.6");
     }
 
     #[test]

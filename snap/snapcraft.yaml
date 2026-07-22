@@ -1,9 +1,9 @@
 name: qorx
 base: core24
-version: "1.0.5"
-summary: Qorx AI-native language and runtime for local context resolution
+version: "1.0.6"
+summary: Qorx agnostic language and runtime for local context resolution
 description: |
-  Qorx is an AI-native programming language and local runtime for context resolution.
+  Qorx is a provider-agnostic programming language and local runtime for context resolution.
 
 grade: stable
 confinement: strict

@@ -1,7 +1,7 @@
 # Qorx package channels
 
 This folder keeps Qorx package-channel files. These recipes install or build the
-same Qorx 1.0.5 language, compiler, and runtime from the canonical repository.
+same Qorx 1.0.6 language, compiler, and runtime from the canonical repository.
 
 ## Channel status
 

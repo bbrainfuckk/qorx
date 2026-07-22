@@ -32,7 +32,7 @@ async def run_test():
         assert "Qorx handbook" in body
         assert "AI-native programming language" in body
         assert "Current public version:" in body
-        assert "1.0.5" in body
+        assert "1.0.6" in body
     finally:
         if context:
             await context.close()

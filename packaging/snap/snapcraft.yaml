@@ -1,6 +1,6 @@
 name: qorx
 base: core24
-version: "1.0.5"
+version: "1.0.6"
 summary: Qorx language, compiler, and local runtime
 description: |
   Qorx is a programming language, compiler, portable bytecode runtime,
@@ -13,7 +13,7 @@ parts:
   qorx:
     plugin: rust
     source: https://github.com/bbrainfuckk/qorx.git
-    source-tag: v1.0.5
+    source-tag: v1.0.6
 
 apps:
   qorx:

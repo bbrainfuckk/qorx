@@ -1,7 +1,7 @@
 Name:           qorx
-Version:        1.0.5
+Version:        1.0.6
 Release:        1%{?dist}
-Summary:        Qorx AI-native language and runtime for local context resolution
+Summary:        Qorx agnostic language and runtime for local context resolution
 License:        AGPL-3.0-only
 URL:            https://github.com/bbrainfuckk/qorx
 Source0:        https://github.com/bbrainfuckk/qorx/archive/refs/tags/v%{version}.tar.gz
@@ -9,7 +9,7 @@ BuildRequires:  cargo
 BuildRequires:  rust
 
 %description
-Qorx is an AI-native programming language and local runtime for context resolution.
+Qorx is a provider-agnostic programming language and local runtime for context resolution.
 
 %prep
 %autosetup -n qorx-%{version}
@@ -33,8 +33,8 @@ install -Dm644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
-* Wed Jul 22 2026 Marvin Sarreal Villanueva <marvin@orin.work> - 1.0.5-1
-- Package the Qorx 1.0.5 language, compiler, and runtime.
+* Wed Jul 22 2026 Marvin Sarreal Villanueva <marvin@orin.work> - 1.0.6-1
+- Package the Qorx 1.0.6 language, compiler, and runtime.
 
 * Sat May 02 2026 Marvin Sarreal Villanueva <marvin@orin.work> - 1.0.3-1
 - Package Qorx distribution release.

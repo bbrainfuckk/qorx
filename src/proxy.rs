@@ -210,7 +210,7 @@ mod monitor_tests {
         assert!(html.contains("qorx man"));
         assert!(html.contains("qorx integrate status"));
         assert!(html.contains("qorx atlas export"));
-        assert!(html.contains("Qorx CLI, version 1.0.5"));
+        assert!(html.contains("Qorx CLI, version 1.0.6"));
         assert!(html.contains("platformTiles"));
         assert!(html.contains("https://qorx.orin.work/dashboard#account"));
         assert!(html.contains("Google Login"));

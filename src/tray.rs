@@ -1826,7 +1826,7 @@ mod tests {
     fn switch_panel_labels_read_like_a_small_vpn_control() {
         let labels = super::switch_panel_labels(super::SwitchPanelSnapshot {
             product: "Qorx Void".to_string(),
-            version: "1.0.5".to_string(),
+            version: "1.0.6".to_string(),
             enabled: true,
             kept_tokens: 488_837_426,
             sent_tokens: 96_079,
@@ -2000,7 +2000,7 @@ mod tests {
     fn counter_animation_interpolates_visible_numbers() {
         let from = super::SwitchPanelSnapshot {
             product: "Qorx Void".to_string(),
-            version: "1.0.5".to_string(),
+            version: "1.0.6".to_string(),
             enabled: true,
             kept_tokens: 100,
             sent_tokens: 10,
