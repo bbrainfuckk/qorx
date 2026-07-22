@@ -1,20 +1,15 @@
-# Qorx
+# Qorx 1.0.6
 
-Stop resending the same AI context.
+**An agnostic programming language for humans and AI agents.**
 
 AI tools get expensive when they keep receiving the same repo, notes, logs,
 policies, and project rules. Qorx keeps that repeated context local, sends a
 small carrier, and pulls the exact local lines only when a task needs them.
 
-The first numbers to notice:
-
-| Scenario | Number | Meaning |
-| --- | ---: | --- |
-| Current public repo benchmark | 388,573 local tokens -> 69 sent | 5,631.49x smaller session carrier |
-| Website planning model, 2,000 people using AI tools | 42.5B repeated input tokens/year kept local | Bounded estimate, not a provider invoice |
-
-What matters is visible: what stayed local, what was sent, and which
-source-backed context Qorx selected.
+Qorx gives that workflow a language: plain `.qorx` source, checked bytecode,
+local evidence, explicit budgets, and refusal when the available evidence does
+not support an answer. It is provider-agnostic and runs on Windows, Linux, and
+macOS across x64 and ARM64.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
 [![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19953308.svg)](https://doi.org/10.5281/zenodo.19953308)
@@ -22,266 +17,230 @@ source-backed context Qorx selected.
 [![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
 [![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
 
-## What Qorx Is
-
-Qorx 1.0.5 is an AI-native programming language, compiler, portable bytecode
-runtime, and local context resolver. It is provider-agnostic and runs locally on
-Windows, Linux, and macOS across x64 and ARM64.
-
-In plain terms:
-
-1. The parser and semantic checker validate `.qorx` source.
-2. The compiler lowers source through an AST and QIR into `.qorxb` bytecode.
-3. The runtime verifies bytecode integrity before interpreting it locally.
-4. Resolver operations select cited evidence under explicit budgets.
-5. Unsupported claims fail closed instead of inventing evidence.
-
-The core boundary is simple:
-
 ```text
-large local context -> small model-visible carrier -> cited local context on demand
+repo + notes + rules + logs
+            |
+            v
+      Qorx stays local
+            |
+            v
+ small carrier + exact cited lines
+            |
+            v
+     human or AI agent
 ```
 
-That is the product shape. The rest of the repo exists to make it buildable,
-testable, and bounded.
+## The product family
 
-![Qorx banner](docs/assets/qorx-img.jpg)
-
-## The Boundary
-
-Qorx works inside a real boundary. A remote model sees the small carrier and
-any local context the resolver explicitly returns.
-
-Fewer tokens do not automatically mean a better answer. Provider invoice
-savings are shown only when billing data is present.
-
-## Current Line
-
-Current public version: `1.0.5`.
-
-The compiler is currently bootstrapped in Rust. Qorx source can be checked,
-compiled, and executed today; a compiler is only called self-hosted after the
-stage-1 and stage-2 reproducibility gate in [Self-hosting](docs/SELF_HOSTING.md)
-passes. The repository does not claim that proof early.
-
-Install from source:
-
-```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
-qorx --version
-```
-
-For local development:
-
-```sh
-git clone https://github.com/bbrainfuckk/qorx.git
-cd qorx
-cargo test
-cargo build --release
-```
-
-Package recipes are included, but a package channel should be treated as live
-only when its public package page shows `1.0.5`.
-
-## Measured Numbers
-
-The current public benchmark indexed this repo and measured how much context
-had to be visible to the model.
-
-| Case | Local context | Sent to model | Local reduction |
-| --- | ---: | ---: | ---: |
-| Session carrier | 388,573 tokens | 69 tokens | 5,631.49x |
-| Evidence pack | 388,573 tokens | 410 tokens | 947.74x |
-| Squeeze extract | 388,573 tokens | 448 tokens | 867.35x |
-
-These are deterministic Qorx estimates using `ceil(chars / 4)`. They show how
-much local context stayed out of the model-visible request. They are not a
-provider bill.
-
-For money questions, use the live calculators. The benchmark above is a static
-run; the calculators let you change volume, people using AI tools, and product path:
-
-- [Enterprise AI spend calculator](https://qorx.orin.work/#enterprise-calculator)
-- [Cloud API vs Void calculator](https://qorx.orin.work/dashboard#qorx-savings-calculator)
-
-Source:
-
-- [Live benchmark](docs/benchmarks/live.md)
-- [Live benchmark JSON](docs/benchmarks/live.json)
-
-## Enterprise AI Spend Model
-
-The cost math is intentionally plain:
-
-```text
-avoided input cost = omitted input tokens / 1,000,000 * input price
-```
-
-For the session carrier above, Qorx omitted about 388,504 estimated input
-tokens. At $2 per 1M input tokens, that is about $0.78 of repeated input avoided
-for one context send. At $5 per 1M input tokens, it is about $1.94.
-
-For planning, the website calculator starts with this company model:
-
-```text
-100,000 repeated input tokens per person using AI tools per workday
-85% of that repeated input kept local
-250 workdays per year
-example input prices from $2 to $5 per 1M tokens
-```
-
-That gives this estimate before you adjust the live calculator:
-
-| People using AI tools | Avoided input tokens per day | Avoided input tokens per year | Estimated yearly range |
-| ---: | ---: | ---: | ---: |
-| 100 people | 8,500,000 | 2.125B | $4,250 to $10,625 |
-| 500 people | 42,500,000 | 10.625B | $21,250 to $53,125 |
-| 2,000 people | 170,000,000 | 42.5B | $85,000 to $212,500 |
-
-Use your own provider rate in the calculator. Output tokens, new input,
-provider cache behavior, discounts, and account terms can change the real bill.
-
-## Start Here
-
-Pick the path that matches your question.
-
-| Question | Start with |
+| Name | What it is |
 | --- | --- |
-| I want to use Qorx with AI tools and local repos. | [Reader guide](docs/AUDIENCE_GUIDE.md), [Manual](docs/MANUAL.md), [Commands](docs/COMMANDS.md) |
-| I want to understand token and cost impact. | [Reader guide](docs/AUDIENCE_GUIDE.md), [Metrics](docs/METRICS.md), [Live benchmark](docs/benchmarks/live.md) |
-| I want to review the compiler and runtime. | [Language handbook](docs/handbook/language.md), [Self-hosting](docs/SELF_HOSTING.md), [Production status](docs/PRODUCTION.md) |
-| I want the science and math boundary. | [Science](docs/SCIENCE.md), [Science and math](docs/SCIENCE_AND_MATH.md), [SAFE-R](docs/SAFE-R.md) |
+| **Qorx** | The open language, compiler, portable bytecode runtime, and local evidence tools in this repository. |
+| **Qorx Void** | The private local project-memory product. This repository publishes [Void documentation](docs/void/README.md), not Void source or proprietary internals. |
+| **Qorx Zero** | Three clean-room hackathon applications that demonstrate bounded, device-local memory without using private Qorx code. |
 
-## First Commands
+## The language
 
-After installing:
+Qorx source is meant to be readable by a person and deterministic enough for an
+agent to generate, check, compile, and inspect.
 
-```sh
-qorx doctor
-qorx daemon start
-qorx index .
-qorx strict-answer "which files explain the resolver boundary?"
-qorx eco --local-tokens 13200000 --sent-tokens 8
-```
-
-Open the local monitor:
-
-```text
-http://127.0.0.1:47187/monitor
-```
-
-Useful command groups:
-
-```sh
-qorx --help
-qorx man
-qorx stats
-qorx atlas
-qorx context snapshot
-qorx context verify
-qorx security attest
-```
-
-## Minimal `.qorx` File
-
-```text
+```qorx
 QORX 1
 use std.evidence
 use std.branch as br
-let question = "which files explain how Qorx keeps local evidence outside the model prompt?"
+
+let question = "which files define the release boundary?"
 let fallback = "local evidence does not support this answer"
+
 pack evidence from question budget 700
 cache evidence key question ttl 3600
 strict answer from evidence limit 2
 if supported(answer) then emit answer else emit fallback
 ```
 
-Check it:
-
 ```sh
 qorx qorx-check goal.qorx
 qorx qorx-compile goal.qorx --out goal.qorxb
 qorx qorx goal.qorxb
+qorx qorx-inspect goal.qorxb
 ```
 
-## Language Terms
+The implementation path is explicit:
 
-You do not need these terms to start. They help when reading the code and
-benchmark output.
+1. The parser and semantic checker validate `.qorx` source.
+2. The compiler lowers the source through an AST and QIR.
+3. The compiler emits integrity-checked `.qorxb` bytecode.
+4. The local runtime executes supported instructions and resolves cited evidence.
+5. Unsupported claims can be refused instead of filled with invented context.
 
-| Term | Meaning |
-| --- | --- |
-| `.qorx` | Human-readable Qorx source file. |
-| `.qorxb` | Checked protobuf-envelope bytecode. |
-| carrier | Small model-visible object: source, bytecode, handle, or evidence pack. |
-| `qorx://s/...` | Session handle for indexed local state. |
-| evidence pack | Selected cited local evidence under a token budget. |
-| resolver boundary | Line between local state and model-visible text. |
-| B2C | Baseline-to-Compact accounting. Local estimate, not a provider invoice. |
+The 1.0.6 compiler is bootstrapped in Rust. Qorx is not described as
+self-hosted until the stage-1 and stage-2 reproducibility gate passes. See
+[Self-hosting](docs/SELF_HOSTING.md).
 
-Qorx also has compact vocabulary for logs and UI. Those names are labels, not
-physics claims. The full boundary is in [SAFE-R](docs/SAFE-R.md).
+## Quick start
 
-## Build And Test
+Install from the 1.0.6 source tag:
+
+```sh
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
+qorx --version
+```
+
+Then start a local workflow:
+
+```sh
+qorx doctor
+qorx daemon start
+qorx index .
+qorx map "which files control authentication?"
+qorx strict-answer "which files control authentication?"
+qorx eco --local-tokens 13200000 --sent-tokens 8
+```
+
+The local monitor listens at `http://127.0.0.1:47187/monitor` by default.
+
+Package recipes exist for Cargo, npm, PyPI, Arch/AUR, Homebrew, Debian, RPM,
+Snap, Scoop, WinGet, Nix, and container workflows. Treat a registry channel as
+live only when its public package page shows `1.0.6`.
+
+## Qorx Void
+
+Qorx Void keeps project memory beside the work. Repositories, notes,
+instructions, logs, policies, and prior decisions remain available locally;
+the current task receives a compact proof-shaped frame and can request narrower
+source lines when needed.
+
+The public handbook documents:
+
+- the user-visible workflow and local security boundary;
+- all public CLI and MCP tools used by Void operators;
+- supported agent integrations;
+- the measured AMD MI300X results and comparison board;
+- exactly what is and is not published in this repository.
+
+It does **not** publish Qorx Void source, private algorithms, prompts, signing
+operations, account infrastructure, release procedures, or proprietary
+implementation details.
+
+Start with the [Qorx Void handbook](docs/void/README.md), then see the
+[complete tool surface](docs/void/tools.md) and [benchmark evidence](docs/void/benchmarks.md).
+
+## Measured evidence
+
+The product benchmark published on [qorx.eu.cc](https://qorx.eu.cc/#benchmark)
+used an AMD Radeon Instinct MI300X GPU with ROCm and GPT-OSS 120b-ROCm7 on a
+machine with 192 GB VRAM, 20 vCPU, and 240 GB RAM.
+
+| Measurement | Result |
+| --- | ---: |
+| Indexed context | 184,789,445 tokens |
+| Average carrier | 14.0 tokens |
+| Context reduction | 13,199,246.07x average |
+| Local core latency | 0.8974 ms average, 3.512 ms maximum |
+| Quality scorecard | 38 perfect target checks out of 52 |
+| Grounding gates | 1.0 pass |
+| Provider calls during the local run | 0 |
+
+These measurements belong to that disclosed run. Core latency is not model
+inference latency, context reduction is not a universal answer-quality score,
+and the result does not guarantee that an outside model cannot hallucinate.
+
+The separate [compact-kernel contract](docs/KERNEL_1_0_6.md) records six native
+x64/ARM64 CI artifacts from 0.21 to 0.39 MiB. Those are compact offline-kernel
+artifacts, not the full Windows x64 CLI; the local 1.0.6 release build of that
+CLI measured 4.65 MiB.
+
+The smaller public-repository benchmark is reproducible from committed data:
+
+| Case | Local context | Model-visible | Reduction |
+| --- | ---: | ---: | ---: |
+| Session carrier | 388,573 tokens | 69 tokens | 5,631.49x |
+| Evidence pack | 388,573 tokens | 410 tokens | 947.74x |
+| Squeeze extract | 388,573 tokens | 448 tokens | 867.35x |
+
+See [live benchmark notes](docs/benchmarks/live.md), [benchmark JSON](docs/benchmarks/live.json),
+and the [scoped comparison with other context systems](docs/void/benchmarks.md#comparison-board).
+
+## Qorx Zero at three hackathons
+
+Each Qorx Zero edition is an independently runnable clean-room application. It
+keeps complete records in the browser, selects a capped proof frame, supports
+expiry and immediate forgetting, and exposes source hashes so recall can be
+inspected.
+
+| Hackathon edition | What it demonstrated | Links |
+| --- | --- | --- |
+| **NamasteDev Hackathon** | Device-local IndexedDB memory, bounded recall, and an OpenAI Responses API adapter. | [Repository](https://github.com/bbrainfuckk/qorx-zero-namaste) · [Live demo](https://bbrainfuckk.github.io/qorx-zero-namaste/) · [Video](https://youtu.be/NjWIGFTAFok) |
+| **Qwen Cloud Global AI Hackathon, Track 1: MemoryAgent** | Persistent local memory, TTL and forgetting, proof-supported learning, and a Qwen Cloud adapter through Alibaba Cloud Model Studio. | [Repository](https://github.com/bbrainfuckk/qorx-zero-qwen-memory) |
+| **OpenAI Build Week** | Local proof frames, visible recall scores, Codex build evidence, and a GPT-5.6 Terra Responses API adapter. | [Repository](https://github.com/bbrainfuckk/qorx-zero-build-week) · [Live demo](https://qorx-zero-build-week.omniscius.workers.dev) · [Video](https://youtu.be/GBPWgpuye-Q) |
+
+The Qorx Zero repositories do not contain or depend on private Qorx Void
+source, compiler internals, binaries, or private datasets.
+
+## Environmental accounting
+
+`qorx eco` reports supplied token counts and reduction arithmetic locally. It
+only calculates energy, CO2e, or water scenarios when you provide factors for
+the hardware, workload, electricity source, cooling system, and reporting
+boundary.
+
+```sh
+qorx eco --local-tokens 13200000 --sent-tokens 8
+```
+
+The command makes no network call and does not invent a universal
+tokens-to-impact conversion. Its stable output contract is
+[`qorx.eco.v1`](schemas/qorx.eco.v1.schema.json).
+
+## Build and verify
 
 ```sh
 cargo fmt --check
-cargo test
+cargo test --locked
 cargo clippy --all-targets -- -D warnings
-cargo build --release
+cargo build --release --locked
 ```
 
-Useful checks:
+Useful proof commands:
 
 ```sh
-qorx --version
 qorx doctor --json
 qorx index .
 qorx session
-qorx b2c-plan "which files explain the resolver boundary?" --budget-tokens 900
-qorx strict-answer "which files explain the resolver boundary?"
-qorx context snapshot
 qorx context verify
 qorx security attest
+qorx ground "release proof" --answer "Qorx is on 1.0.6."
 ```
 
-## Repository Map
+## Documentation
 
-| Path | Purpose |
+| Area | Start here |
 | --- | --- |
-| `src/` | Rust parser, runtime, resolver, index, cache, daemon, protocol, and CLI. |
-| `tests/` | Runtime, language, capsule, context, lattice, MCP, and strict evidence tests. |
-| `docs/` | Manual, command guide, science notes, metrics, production boundary, and reviews. |
-| `docs/benchmarks/` | Reproducible local benchmark reports. |
-| `packages/` | npm and Python wrapper sources. |
-| `packaging/` | Linux, Windows, macOS, systemd, and registry recipes. |
-| `scripts/` | Release, benchmark, distribution, and safety helpers. |
+| Language and compiler | [Language handbook](docs/handbook/language.md) · [Self-hosting boundary](docs/SELF_HOSTING.md) |
+| Qorx Void | [Void handbook](docs/void/README.md) · [Tools](docs/void/tools.md) · [Benchmarks](docs/void/benchmarks.md) |
+| Installation and commands | [Install](docs/INSTALL.md) · [Command guide](docs/COMMANDS.md) · [Manual](docs/MANUAL.md) |
+| Metrics and science | [Metrics](docs/METRICS.md) · [Science](docs/SCIENCE.md) · [SAFE-R](docs/SAFE-R.md) · [Technical credibility](docs/TECHNICAL_CREDIBILITY.md) |
+| Security and production | [Security](SECURITY.md) · [Production status](docs/PRODUCTION.md) · [Void release boundary](docs/void/release-boundary.md) |
+| Release | [Qorx 1.0.6 notes](docs/releases/v1.0.6.md) · [Distribution](docs/DISTRIBUTION.md) |
 
-## Main Docs
+## Credits and acknowledgements
 
-- [Reader guide](docs/AUDIENCE_GUIDE.md)
-- [Manual](docs/MANUAL.md)
-- [Command guide](docs/COMMANDS.md)
-- [Install guide](docs/INSTALL.md)
-- [Metrics](docs/METRICS.md)
-- [Production status](docs/PRODUCTION.md)
-- [Server and daemon](docs/SERVER.md)
-- [Science](docs/SCIENCE.md)
-- [Science and math](docs/SCIENCE_AND_MATH.md)
-- [Reference papers](docs/REFERENCE_PAPERS.md)
-- [Independent review brief](docs/INDEPENDENT_REVIEW.md)
-- [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
-- [Qorx 1.0.6 compact kernel contract](docs/KERNEL_1_0_6.md)
-- [Release notes](docs/releases/v1.0.5.md)
+Qorx was created and is maintained by **Marvin Sarreal Villanueva**. If you use
+or cite it, see [CITATION.cff](CITATION.cff) and the
+[Qorx Local Context Resolution preprint](https://doi.org/10.5281/zenodo.19953308).
 
-## License And Marks
+[Kortex by Arjay](https://github.com/H4D3ZS/kortex) helped shape the early
+local-context direction. It is credited as an influence, not used as a
+dependency; Qorx has its own language, compiler/runtime design, product
+architecture, and implementation. Additional research and engineering
+references are listed in [Research](docs/research.md).
 
-Copyright (c) 2026 Marvin Sarreal Villanueva.
+Thanks to the Rust, Protocol Buffers, retrieval, compiler, and reproducible-build
+communities whose public work provides the comparison map. AMD/ROCm, OpenAI
+Build Week, Qwen Cloud and Alibaba Cloud, Devpost, and NamasteDev identify the
+hardware or event settings used in the published work; no endorsement is
+implied.
 
-- Code and operational docs: [AGPL-3.0-only](LICENSE)
-- Citation metadata: [CITATION.cff](CITATION.cff)
-- Qorx Local Context Resolution preprint: [10.5281/zenodo.19953308](https://doi.org/10.5281/zenodo.19953308)
-- Contribution terms: [CONTRIBUTING.md](CONTRIBUTING.md)
-- Security policy: [SECURITY.md](SECURITY.md)
-- Governance: [GOVERNANCE.md](GOVERNANCE.md)
-- Marks and project identity: [TRADEMARKS.md](TRADEMARKS.md)
+Copyright (c) 2026 Marvin Sarreal Villanueva. Code and operational
+documentation are licensed under [AGPL-3.0-only](LICENSE). See
+[CONTRIBUTING](CONTRIBUTING.md), [GOVERNANCE](GOVERNANCE.md), and
+[TRADEMARKS](TRADEMARKS.md).

@@ -31,9 +31,9 @@ const WORKFLOW_FALLBACKS = {
 };
 
 const RELEASE_FALLBACK = {
-  tag_name: "v1.0.5",
-  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.5",
-  published_at: "2026-05-10T01:50:01Z",
+  tag_name: "v1.0.6",
+  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.6",
+  published_at: "2026-07-22T00:00:00Z",
 };
 
 const SOURCES = {
@@ -178,7 +178,7 @@ async function buildMetrics(env = {}) {
       note: "Local deterministic accounting only. These are not provider invoice savings or answer-quality guarantees.",
     },
     editions: [
-      "Qorx 1.0.5 is AGPL source with cross-platform CLI release assets.",
+      "Qorx 1.0.6 is AGPL source with cross-platform CLI release assets.",
       "Qorx Void Starter gives new accounts 5,000 included Void/Cloud requests across Windows, macOS, and Linux before subscription.",
       "Qorx Void adds signed tray, daemon, provider routing, MCP activation, ORCL endpoint, local support, and managed workstation UX.",
       "Qorx Cloud covers hosted account and API features.",

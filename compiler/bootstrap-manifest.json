@@ -1,6 +1,6 @@
 {
   "schema": "qorx.bootstrap.v1",
-  "release": "1.0.5",
+  "release": "1.0.6",
   "compiler": {
     "implementation": "Rust bootstrap",
     "source": "src/qorx.rs",

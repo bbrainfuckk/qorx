@@ -1,7 +1,7 @@
 {
   "name": "qorx",
-  "version": "1.0.5",
-  "qorxTag": "v1.0.5",
+  "version": "1.0.6",
+  "qorxTag": "v1.0.6",
   "description": "Qorx language, compiler, and runtime installer.",
   "license": "AGPL-3.0-only",
   "homepage": "https://github.com/bbrainfuckk/qorx",

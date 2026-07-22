@@ -1,43 +1,60 @@
-# Qorx Void Architecture
+# Qorx Void architecture
 
-This page describes the public architecture. It is not an implementation spec.
+This is the public system model, not an implementation specification.
 
-## System Model
+```mermaid
+flowchart LR
+    W["Local repos, notes, logs, and rules"] --> I["Local Qorx index and session"]
+    T["Current task"] --> R["Local resolver"]
+    I --> R
+    R --> C["Small carrier or cited evidence pack"]
+    C --> A["Human or AI agent"]
+    A -->|"narrow proof request"| R
+```
 
-Qorx Void sits beside Codex as a local context layer.
+## A turn in public terms
 
-1. The user works in a local repository.
-2. Qorx Void observes task-relevant workspace state.
-3. Local memory units, called quarks, keep reusable facts and proof traces.
-4. The runtime selects a compact carrier for the current task.
-5. Codex receives the carrier and continues with less repeated context.
+1. The operator indexes an authorized local workspace.
+2. Qorx gives the workspace a local session handle.
+3. The current objective is resolved against the local index under a declared
+   evidence or token budget.
+4. The agent receives a compact carrier, selected citations, or an explicit
+   unsupported result.
+5. If more proof is needed, the agent asks for a narrower local expansion.
 
-The key boundary is locality. The useful project memory starts on the user's machine and should not become a public source dump, prompt dump, or benchmark artifact.
+The carrier is not a magical compression format that lets a remote model read
+data it never received. It is a small local pointer or evidence frame whose
+meaning depends on the local Qorx runtime.
 
-## Public Components
+## Public components
 
-| Component | Public description |
+| Component | Public contract |
 | --- | --- |
-| Local memory | Stores task-relevant facts, proof traces, and prior work as quarks. |
-| Context selection | Chooses a compact local frame for the current task. |
-| Carrier | The compact frame sent to the agent when it needs context. |
-| Proof record | A small record explaining why the carrier was selected. |
-| Benchmarker | `qorx-free`, the public Linux AMD MI300X reproducibility build. |
+| Local index | Records authorized text, file references, and graph relationships on the machine. |
+| Session | Identifies the current local evidence state with a `qorx://` handle. |
+| Resolver | Selects bounded context for the current objective. |
+| Carrier | A small handle, source artifact, bytecode artifact, or evidence pack. |
+| Grounding gate | Checks whether cited local evidence supports the requested claim. |
+| MCP server | Gives supported agents nine local Qorx tools over stdio. |
+| Loopback gateway | Serves the local health, session, context, and proof endpoints. |
+| Local ledger | Records disclosed token and reduction accounting. |
 
-## Private Boundary
+## Trust boundary
 
-The public repository does not publish Qorx Void source, unpublished implementation material, sensitive operational details, private data, or build and release procedures.
+By default the gateway binds to `127.0.0.1:47187`. Local files, indexes, memory,
+and private workspace state remain on the machine unless the operator asks an
+agent or provider to receive selected output.
 
-## Safe Depth
+The provider boundary is explicit:
 
-The public docs can explain the shape of a turn, the operator experience, the benchmark boundary, and expected outputs. They should not explain how to reproduce the private product.
+- Qorx can keep source material local.
+- An agent sees the carrier or evidence text returned to it.
+- Provider authentication remains with the provider client.
+- A non-loopback deployment needs the operator's own authentication, TLS,
+  network policy, supervision, and backups.
 
-Good public detail:
+## Documentation boundary
 
-- what the user runs;
-- what files a public benchmark writes;
-- what data must not be written;
-- what security checks are expected;
-- what claims are blocked.
-
-Boundary rule: public docs stay at product, benchmark, support, and release-boundary level. More specific private material stays outside GitHub.
+This page intentionally stops at observable components and data movement. It
+does not disclose proprietary Void algorithms, private source layout, internal
+ranking weights, production signing and licensing flows, or release operations.

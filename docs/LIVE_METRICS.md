@@ -49,6 +49,6 @@ savings and they do not prove model answer quality.
 
 For the product metric split, see [Qorx metrics](METRICS.md):
 
-- Qorx 1.0.5: local `/stats` ledger.
+- Qorx 1.0.6: local `/stats` ledger.
 - Qorx API: hosted `/api/v1/usage` tenant ledger.
 - Qorx CLI: local source-built proof and benchmark metrics.

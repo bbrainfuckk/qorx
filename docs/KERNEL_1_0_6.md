@@ -1,6 +1,6 @@
 # Qorx 1.0.6 Compact Kernel Contract
 
-Status: development contract. Qorx 1.0.5 remains the published stable release.
+Status: Qorx 1.0.6 public compact-kernel contract.
 
 The compact kernel is the offline-only Qorx runtime intended for developers,
 engineers, researchers, legal teams, scientists, students, local AI agents, and

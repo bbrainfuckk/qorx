@@ -1,6 +1,6 @@
 {
   "name": "@brainfukk/qorx",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Qorx programming language, compiler, bytecode runtime, and local context resolver.",
   "author": {
     "name": "Marvin Sarreal Villanueva",

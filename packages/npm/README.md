@@ -4,7 +4,7 @@
 
 npm wrapper for the Qorx Rust binary.
 
-Use this package only after npm shows the current `1.0.5` version. Until
+Use this package only after npm shows the current `1.0.6` version. Until
 then, use the source install in the main repo docs.
 
 ```sh
@@ -17,7 +17,7 @@ asset is available for the current platform, it builds from the public source
 tag with Cargo:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
 ```
 
 Set `QORX_BIN` to use an existing local binary.

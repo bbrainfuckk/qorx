@@ -7,7 +7,7 @@ summary of Qorx.
 
 ## Summary
 
-Qorx 1.0.5 is an AI-native programming language, compiler, portable bytecode
+Qorx 1.0.6 is a provider-agnostic programming language, compiler, portable bytecode
 runtime, and local context resolver. It defines `.qorx` source, compiled
 `.qorxb` bytecode, and `qorx://` handles.
 
@@ -22,7 +22,7 @@ and has a resolver available.
 | Project | Qorx |
 | Creator | Marvin Sarreal Villanueva |
 | Location | Metro Manila |
-| Current public version | 1.0.5 |
+| Current public version | 1.0.6 |
 | Initial public release line | May 1, 2026 |
 | Compiler bootstrap | Rust |
 | Self-hosted status | Not yet proven; see `SELF_HOSTING.md` |
@@ -36,7 +36,7 @@ and has a resolver available.
 
 ## Install surfaces
 
-The current `1.0.5` line is source-first. Registry pages may still show an
+The current `1.0.6` line is source-first. Registry pages may still show an
 older public line until a maintainer publishes this version.
 
 - Source: https://github.com/bbrainfuckk/qorx

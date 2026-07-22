@@ -10,5 +10,5 @@ Rules-Requires-Root: no
 Package: qorx
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: AI-native language and runtime for local context resolution
- Qorx is an AI-native programming language and local runtime for context resolution.
+Description: Agnostic language and runtime for local context resolution
+ Qorx is a provider-agnostic programming language and local runtime for context resolution.

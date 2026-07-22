@@ -3,7 +3,7 @@
 Qorx has three public-facing metric surfaces. They use the same B2C accounting
 language, but they do not share one counter store.
 
-## Qorx 1.0.5 local runtime
+## Qorx 1.0.6 local runtime
 
 Void is the supported local product runtime: daemon, tray, provider routing,
 MCP/CLI activation, ORCL, account-backed service features, and the local

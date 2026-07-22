@@ -1,6 +1,6 @@
-# Qorx 1.0.5 for Rust reviewers
+# Qorx 1.0.6 for Rust reviewers
 
-Qorx 1.0.5 is an AI-native programming language with a Rust-bootstrap compiler
+Qorx 1.0.6 is a provider-agnostic programming language with a Rust-bootstrap compiler
 and local runtime. It defines `.qorx` source, checked `.qorxb` protobuf
 bytecode, named resolver steps, branches, runtime assertions, a Forth-inspired
 `qstk` stack tape, and `qorx://` handles that resolve against local state.
@@ -48,9 +48,9 @@ The useful Rust pieces are ordinary ones:
 - release packaging through Cargo first, with npm/Python wrappers around the
   Rust binary
 
-## What changed in 1.0.5
+## What changed in 1.0.6
 
-Version 1.0.5 carries the canonical Qorx language, compiler, and runtime:
+Version 1.0.6 carries the canonical Qorx language, compiler, and runtime:
 
 - problem-first README wording
 - a practical first `.qorx` example
@@ -68,11 +68,11 @@ Version 1.0.5 carries the canonical Qorx language, compiler, and runtime:
 - Windows release build verification
 - package recipes for crates.io, npm, PyPI, AUR, Homebrew tap, and Scoop
 
-The current `1.0.5` line is source-first until the matching package pages
+The current `1.0.6` line is source-first until the matching package pages
 and release assets are live:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
 ```
 
 ## What needs review

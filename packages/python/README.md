@@ -4,7 +4,7 @@
 
 Python wrapper for the Qorx Rust binary.
 
-Use this package only after PyPI shows the current `1.0.5` version. Until
+Use this package only after PyPI shows the current `1.0.6` version. Until
 then, use the source install in the main repo docs.
 
 ```sh

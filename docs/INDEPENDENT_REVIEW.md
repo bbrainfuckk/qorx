@@ -18,14 +18,14 @@ and resolve context locally, instead of repeatedly pasting large prompt payloads
 
 ## Install
 
-Use the source path for the current `1.0.5` line:
+Use the source path for the current `1.0.6` line:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
 ```
 
 Registry and AUR packages may exist for older public lines. Do not treat a
-package channel as current until its package page shows `1.0.5`.
+package channel as current until its package page shows `1.0.6`.
 
 ## Quick check
 

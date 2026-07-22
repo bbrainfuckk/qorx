@@ -1,8 +1,8 @@
 # Maintainer: Marvin Sarreal Villanueva <marvin@orin.work>
 pkgname=qorx
-pkgver=1.0.5
+pkgver=1.0.6
 pkgrel=1
-_cratever=1.0.5
+_cratever=1.0.6
 pkgdesc="Qorx programming language, compiler, and local runtime"
 arch=("x86_64" "aarch64")
 url="https://github.com/bbrainfuckk/qorx"

@@ -51,7 +51,7 @@ cargo run --locked -- strict-answer "which files explain the resolver boundary?"
 The expected version line for this repo is:
 
 ```text
-qorx 1.0.5
+qorx 1.0.6
 ```
 
 ## Claim Boundary

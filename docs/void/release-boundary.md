@@ -1,48 +1,48 @@
-# Release Boundary
+# Release boundary
 
-Qorx has two public-facing surfaces.
+Qorx 1.0.6 and Qorx Void have different publication boundaries.
 
-## Main Public Repository
+## Public Qorx repository
 
-The main public repository is allowed to contain:
+This repository may publish:
 
-- documentation;
-- benchmark summaries;
-- research references;
-- citation metadata;
-- license, notice, trademark, and security files;
-- GitHub Release assets for approved public packages.
+- Qorx language, compiler, bytecode runtime, schemas, examples, and public CLI source;
+- operator documentation for Qorx Void;
+- public command and MCP contracts;
+- benchmark summaries and sanitized reproducibility data;
+- research references and citation metadata;
+- package recipes and approved Qorx release assets;
+- licenses, security policy, governance, and trademark terms.
 
-It should not contain source, unpublished technical material, private assets, or release archives committed into git history.
+## Qorx Void material excluded here
 
-## GitHub Release Assets
+This repository must not publish:
 
-`qorx-free` may be uploaded as a GitHub Release asset because it is a bounded benchmarker.
+- proprietary Qorx Void source code or private kernel implementation;
+- unpublished selection, routing, memory, or grounding algorithms;
+- private prompts, datasets, evaluation material, or model transcripts;
+- signing keys, provider credentials, customer ledgers, or account data;
+- private deployment topology, build systems, or release procedures;
+- internal binaries or archives that have not passed a separate public-release audit.
 
-Safe release asset:
+## Distribution
 
-```text
-qorx-free-0.0.1-linux-amd-mi300x-x64.tar.gz
-```
+The source tag and package channels in this repository distribute Qorx 1.0.6.
+They are not a source distribution of Qorx Void. Void product distribution,
+licensing, accounts, and updates are handled outside this repository.
 
-The asset should be attached to a tag such as:
+Documentation may link to an approved Void download or account page. It must not
+commit a private Void package into git or attach one to a public Qorx release
+without a separate release review.
 
-```text
-qorx-free-v0.0.1
-```
+## Clean-room demos
 
-The release should say:
+The Qorx Zero hackathon repositories are allowed public examples because they
+were built as standalone clean-room applications. They do not contain or depend
+on private Qorx Void source, compiler internals, binaries, or datasets.
 
-> `qorx-free` is a public Linux AMD MI300X benchmark and reproducibility build. It verifies the public bundle, checks the hardware boundary, and writes sanitized benchmark artifacts. It is not Qorx Void and does not include private product material.
+## Review rule
 
-## Void Distribution
-
-Qorx Void can be documented in this public repository.
-
-Qorx Void should not be published as a public release asset unless the shipped package has a separate release audit proving that it contains only approved public material.
-
-Until then:
-
-- public repo documents Void;
-- `qorx-free` serves public benchmarkers;
-- full Qorx Void remains a private product/runtime distribution.
+If a file would disclose more than an operator needs to install, use, inspect,
+or verify the public behavior, keep it out of this repository until it receives
+an explicit release review.

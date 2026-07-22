@@ -1,8 +1,8 @@
 # Maintainer: Marvin Sarreal Villanueva <marvin@orin.work>
 pkgname=qorx
-pkgver=1.0.5
+pkgver=1.0.6
 pkgrel=1
-pkgdesc="Qorx AI-native language and runtime for local context resolution"
+pkgdesc="Qorx agnostic language and runtime for local context resolution"
 arch=('x86_64' 'aarch64')
 url="https://github.com/bbrainfuckk/qorx"
 license=('AGPL-3.0-only')
