@@ -2,7 +2,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Binary,
 
-    [int64]$MaxBytes = 5242880
+    [int64]$MaxBytes = 6291456
 )
 
 $ErrorActionPreference = "Stop"
