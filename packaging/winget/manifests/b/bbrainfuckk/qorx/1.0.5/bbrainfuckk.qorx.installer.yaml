@@ -8,6 +8,6 @@ NestedInstallerFiles:
 Installers:
   - Architecture: x64
     InstallerUrl: https://github.com/bbrainfuckk/qorx/releases/download/v1.0.5/qorx-v1.0.5-windows-x64.zip
-    InstallerSha256: PENDING_V1_0_5_RELEASE_SHA256
+    InstallerSha256: 27DAEFED001165B34D519645B4E422A0D2F523D12F12B22E04141567C1538C1B
 ManifestType: installer
 ManifestVersion: 1.9.0
