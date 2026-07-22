@@ -1,0 +1,2062 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Qorx Void Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f4f3ee;
+  --paper:#fbfaf5;
+  --paper-soft:#eeede6;
+  --ink:#191817;
+  --muted:#5a554e;
+  --faint:#8a847a;
+  --line:#d8d3c8;
+  --line-strong:#bfb6a8;
+  --accent:#1f5f87;
+  --good:#386b4b;
+  --warn:#9a6a1f;
+  --danger:#a24e42;
+  --logo:#050505;
+  --shadow:0 20px 70px rgba(31,27,20,.08);
+  --ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro","Geist","Inter","Aptos","Segoe UI",sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro","Geist","Inter","Aptos","Segoe UI",sans-serif;
+  --accent-font:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --mono:"Geist Mono","SF Mono","JetBrains Mono",ui-monospace,monospace;
+  --num:var(--display);
+}
+[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f0e0c;
+  --paper:#171512;
+  --paper-soft:#211e19;
+  --ink:#f7f3ea;
+  --muted:#b7afa3;
+  --faint:#928b80;
+  --line:#38332b;
+  --line-strong:#5b5347;
+  --accent:#8ab6d1;
+  --good:#9fceb0;
+  --warn:#d5b26f;
+  --danger:#e18a7d;
+  --logo:#f7f3ea;
+  --shadow:0 24px 80px rgba(0,0,0,.36);
+}
+[data-theme="light"]{color-scheme:light}
+[data-product="ayie"]{--accent:#7a5a18}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg)}
+body{
+  min-height:100%;
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--ui);
+  font-size:15px;
+  line-height:1.45;
+  letter-spacing:0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+button,a.button,input{
+  font:inherit;
+  letter-spacing:0;
+}
+button,a.button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+  color:var(--ink);
+  padding:8px 12px;
+  text-decoration:none;
+  cursor:pointer;
+}
+button:hover,a.button:hover{border-color:var(--line-strong)}
+input{
+  min-height:38px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+  color:var(--ink);
+  padding:8px 10px;
+  width:100%;
+}
+summary{cursor:pointer}
+.shell{
+  width:min(1160px,100%);
+  margin:0 auto;
+  padding:22px 22px 40px;
+}
+.top{
+  display:grid;
+  grid-template-columns:auto minmax(220px,1fr) auto;
+  align-items:center;
+  gap:16px;
+  min-height:44px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.mark{
+  width:38px;
+  height:38px;
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--logo);
+  background:transparent;
+  font-family:var(--accent-font);
+  font-size:34px;
+  font-style:italic;
+  font-weight:400;
+  line-height:1;
+  text-shadow:none;
+}
+.mark span{display:block;transform:translateY(1px)}
+.mark sup{
+  font-size:.35em;
+  line-height:0;
+  margin-left:-.06em;
+  position:relative;
+  top:-.72em;
+}
+h1,h2,h3,.big-number,.wordmark{
+  font-family:var(--display);
+  font-weight:500;
+  letter-spacing:0;
+}
+.wordmark{
+  font-family:var(--accent-font);
+  font-size:21px;
+  line-height:1;
+  font-style:italic;
+  font-weight:400;
+  white-space:nowrap;
+}
+.runtime{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:56vw;
+}
+.top-claim{
+  min-width:0;
+  color:var(--ink);
+  font-family:var(--accent-font);
+  font-size:clamp(18px,1.8vw,26px);
+  font-style:italic;
+  font-weight:400;
+  line-height:1;
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.top-actions .button[href="/stats"]{display:none}
+.button.primary{
+  background:var(--ink);
+  color:var(--paper);
+  border-color:var(--ink);
+}
+.hero{
+  min-height:calc(100vh - 190px);
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+  align-items:center;
+  justify-items:center;
+  padding:26px 0 30px;
+}
+.hero-copy{
+  width:min(420px,100%);
+  display:grid;
+  justify-items:center;
+  gap:14px;
+  text-align:center;
+}
+.switch-orb{
+  width:min(72vw,252px);
+  aspect-ratio:1;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  box-shadow:0 24px 70px color-mix(in srgb,var(--ink) 13%,transparent);
+  display:grid;
+  place-items:center;
+  gap:8px;
+  padding:22px;
+  cursor:pointer;
+}
+.switch-orb[aria-pressed="true"]{
+  background:var(--ink);
+  color:var(--bg);
+  border-color:var(--ink);
+}
+.switch-mark{
+  display:block;
+  font-family:var(--accent-font);
+  font-size:64px;
+  font-style:italic;
+  line-height:.75;
+}
+.switch-mark sup{
+  font-size:.35em;
+  position:relative;
+  top:-.72em;
+}
+.switch-label{
+  display:grid;
+  gap:5px;
+  text-align:center;
+}
+.switch-label b{
+  font-family:var(--display);
+  font-size:18px;
+  font-weight:500;
+}
+.switch-label span{
+  font-family:var(--ui);
+  font-size:12px;
+  font-style:normal;
+  color:var(--muted);
+}
+.switch-orb[aria-pressed="true"] .switch-label span{
+  color:color-mix(in srgb,var(--bg) 75%,transparent);
+}
+.status-line{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+}
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--good);
+  box-shadow:0 0 0 5px color-mix(in srgb,var(--good) 18%,transparent);
+  flex:0 0 auto;
+}
+.hero-proof{
+  width:min(460px,100%);
+  min-width:0;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--paper);
+  box-shadow:var(--shadow);
+  padding:12px;
+}
+.plain-status{
+  font-family:var(--ui);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.38;
+  font-style:normal;
+  margin:6px 0 0;
+}
+.micro-flow{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:6px;
+  margin-top:8px;
+}
+.micro-step{
+  border-top:1px solid var(--line);
+  padding-top:6px;
+}
+.micro-step b{
+  display:block;
+  color:var(--ink);
+  font-family:var(--display);
+  font-size:13px;
+  font-style:normal;
+  font-weight:600;
+  line-height:1.05;
+}
+.micro-step span{
+  display:block;
+  color:var(--muted);
+  font-family:var(--ui);
+  font-size:10px;
+  font-style:normal;
+  line-height:1.15;
+  margin-top:4px;
+}
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:0;
+}
+.metric{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper-soft);
+  padding:9px;
+  min-width:0;
+}
+.metric span{
+  display:block;
+  color:var(--muted);
+  font-family:var(--ui);
+  font-size:11px;
+  font-style:normal;
+  font-weight:600;
+  letter-spacing:.02em;
+}
+.big-number{
+  display:block;
+  font-family:var(--num);
+  font-style:normal;
+  font-weight:500;
+  font-size:clamp(24px,3vw,36px);
+  line-height:1;
+  margin-top:7px;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.big-number.is-rolling{
+  animation:counter-roll .58s cubic-bezier(.2,.8,.2,1);
+  text-shadow:0 9px 16px color-mix(in srgb,var(--ink) 16%,transparent);
+}
+@keyframes counter-roll{
+  0%{transform:translateY(.42em);opacity:.38;filter:blur(1px)}
+  42%{transform:translateY(-.13em);opacity:1;filter:blur(0)}
+  100%{transform:translateY(0);opacity:1;filter:blur(0)}
+}
+.section{
+  border-top:1px solid var(--line);
+  padding:28px 0;
+}
+.section[hidden],.foot[hidden]{display:none!important}
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+.section h2{
+  font-family:var(--accent-font);
+  font-size:clamp(28px,4vw,48px);
+  line-height:1;
+  margin:0;
+  font-style:italic;
+  font-weight:400;
+}
+.section-copy{
+  max-width:520px;
+  color:var(--muted);
+  margin:0;
+}
+.today-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+}
+.statement{
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:8px;
+  padding:15px;
+  min-height:112px;
+}
+.statement b{
+  display:block;
+  font-size:15px;
+}
+.statement p{
+  color:var(--muted);
+  margin:8px 0 0;
+  font-size:13px;
+}
+.map-grid{
+  display:grid;
+  grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);
+  gap:14px;
+}
+.map-card,.details-card{
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:8px;
+  padding:15px;
+}
+.map-metrics{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.map-metric{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:11px;
+  background:var(--paper-soft);
+}
+.map-metric span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+}
+.map-metric b{
+  display:block;
+  font-family:var(--display);
+  font-size:30px;
+  font-weight:400;
+  line-height:1;
+  margin-top:7px;
+  font-variant-numeric:tabular-nums;
+}
+.quiet-list{
+  display:grid;
+  gap:8px;
+  margin-top:12px;
+}
+.quiet-row{
+  display:grid;
+  gap:3px;
+  border-top:1px solid var(--line);
+  padding-top:9px;
+}
+.quiet-row:first-child{
+  border-top:0;
+  padding-top:0;
+}
+.quiet-row b{
+  font-size:13px;
+}
+.card-title{
+  display:block;
+  font-size:13px;
+  margin-bottom:2px;
+}
+.quiet-row code,.details-card code{
+  color:var(--muted);
+  font-family:var(--mono);
+  font-size:11px;
+  word-break:break-all;
+}
+.search-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+  margin-top:13px;
+}
+.workspace-shelf{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+  min-height:32px;
+  align-items:center;
+  color:var(--muted);
+  font-size:12px;
+}
+.workspace-chip{
+  min-height:30px;
+  padding:0 10px;
+  border-radius:999px;
+  font-size:12px;
+  background:var(--paper-soft);
+}
+.workspace-chip.is-active{
+  background:var(--ink);
+  color:var(--bg);
+  border-color:var(--ink);
+}
+.atlas-stage{
+  grid-column:1/-1;
+  display:grid;
+  gap:12px;
+  overflow:hidden;
+}
+.atlas-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:14px;
+  align-items:start;
+}
+.atlas-title{
+  display:grid;
+  gap:4px;
+}
+.atlas-title b{
+  font-size:15px;
+}
+.atlas-title span,.atlas-selection span{
+  color:var(--muted);
+  font-size:12px;
+}
+.atlas-legend{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  color:var(--muted);
+  font-size:11px;
+}
+.atlas-legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+}
+.atlas-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--accent);
+  border:1px solid color-mix(in srgb,var(--paper) 60%,transparent);
+}
+.atlas-dot.file{background:#d7c87a}
+.atlas-dot.symbol{background:#8ab6d1}
+.atlas-dot.hub{background:#9fceb0}
+.atlas-canvas-wrap{
+  position:relative;
+  min-height:360px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden;
+  background:#12110f;
+}
+.atlas-overlay{
+  position:absolute;
+  right:10px;
+  top:10px;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(247,243,234,.18);
+  border-radius:999px;
+  background:rgba(18,17,15,.72);
+  padding:4px;
+  backdrop-filter:blur(10px);
+}
+.atlas-canvas{
+  display:block;
+  width:100%;
+  height:360px;
+  cursor:grab;
+  touch-action:none;
+}
+.atlas-empty{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:rgba(247,243,234,.72);
+  font-size:13px;
+  pointer-events:none;
+}
+.atlas-empty[hidden]{display:none!important}
+.atlas-controls{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  border-radius:999px;
+}
+.atlas-controls button{
+  min-height:28px;
+  min-width:32px;
+  padding:0 9px;
+  border-radius:999px;
+  border-color:rgba(247,243,234,.18);
+  color:rgba(247,243,234,.92);
+  background:rgba(247,243,234,.08);
+}
+.atlas-controls span{
+  min-width:44px;
+  text-align:center;
+  color:rgba(247,243,234,.78);
+  font-size:12px;
+  font-variant-numeric:tabular-nums;
+}
+.atlas-overlay .ghost{
+  min-height:28px;
+  border-radius:999px;
+  border-color:rgba(247,243,234,.18);
+  color:rgba(247,243,234,.92);
+  background:rgba(247,243,234,.08);
+}
+.atlas-footer{
+  display:grid;
+  gap:8px;
+  align-items:center;
+}
+.atlas-selection{
+  min-width:0;
+  display:grid;
+  gap:3px;
+}
+.atlas-selection b{
+  font-size:13px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.atlas-selection span{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.integration-bar{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:16px;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+  padding:14px;
+}
+.switches{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.switch{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--muted);
+  font-size:13px;
+}
+.switch input{width:auto;min-height:0}
+.mode-panel{
+  display:grid;
+  gap:12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+  padding:14px;
+  margin-top:12px;
+}
+.mode-panel-head{
+  display:grid;
+  gap:4px;
+}
+.mode-panel-head b,.docs-card b{
+  font-size:14px;
+}
+.mode-panel-head span,.mode-note,.docs-card p{
+  color:var(--muted);
+  font-size:12px;
+  margin:0;
+}
+.mode-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+}
+.mode-button{
+  min-height:64px;
+  display:grid;
+  justify-items:start;
+  align-content:center;
+  gap:4px;
+  text-align:left;
+}
+.mode-button b{
+  font-size:13px;
+}
+.mode-button span{
+  color:var(--muted);
+  font-size:11px;
+}
+.mode-button.is-active{
+  background:var(--ink);
+  color:var(--bg);
+  border-color:var(--ink);
+}
+.mode-button.is-active span{
+  color:color-mix(in srgb,var(--bg) 72%,transparent);
+}
+.platform-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:6px;
+  margin-top:12px;
+  max-height:300px;
+  overflow:auto;
+  padding-right:2px;
+}
+.platform-card{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+  padding:8px;
+  min-height:56px;
+  display:grid;
+  grid-template-columns:26px minmax(0,1fr) auto;
+  grid-template-rows:auto auto;
+  column-gap:8px;
+  row-gap:3px;
+  align-items:center;
+}
+.platform-head{
+  display:contents;
+}
+.platform-icon{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  display:grid;
+  place-items:center;
+  font-size:10px;
+  color:var(--accent);
+  grid-column:1;
+  grid-row:1 / span 2;
+}
+.platform-name{
+  font-weight:700;
+  font-size:12px;
+  grid-column:2;
+  grid-row:1;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.platform-lines{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  grid-column:2;
+  grid-row:2;
+}
+.platform-lines span{
+  font-size:10px;
+  color:var(--muted);
+  border:0;
+  border-radius:0;
+  padding:0;
+}
+.platform-on{color:var(--good)!important;border-color:color-mix(in srgb,var(--good) 40%,var(--line))!important}
+.platform-off{color:var(--faint)!important}
+.platform-card button{
+  min-height:28px;
+  width:auto;
+  padding:0 8px;
+  grid-column:3;
+  grid-row:1 / span 2;
+}
+.details-block{
+  grid-column:1/-1;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+  padding:0;
+}
+.details-block summary{
+  padding:15px;
+  font-weight:700;
+  cursor:pointer;
+  display:grid;
+  gap:4px;
+  list-style:none;
+}
+.details-block summary::-webkit-details-marker{display:none}
+.details-block summary small{
+  color:var(--muted);
+  font-weight:500;
+  font-size:12px;
+}
+.details-inner{
+  border-top:1px solid var(--line);
+  padding:15px;
+  display:grid;
+  gap:14px;
+}
+.details-note{
+  margin:0;
+  color:var(--muted);
+  max-width:620px;
+  font-size:13px;
+}
+.advanced-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.tree{
+  max-height:260px;
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px;
+  background:var(--paper-soft);
+  font-size:12px;
+}
+.tree ul{
+  margin:0;
+  padding-left:16px;
+}
+.tree li{margin:3px 0}
+.data-links{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.docs-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.docs-card{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--paper);
+  padding:15px;
+  display:grid;
+  align-content:start;
+  gap:8px;
+  min-height:150px;
+}
+.docs-card ul{
+  margin:0;
+  padding-left:18px;
+  color:var(--muted);
+  font-size:12px;
+}
+.docs-card li{margin:4px 0}
+.docs-card code{
+  display:inline-block;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:var(--paper-soft);
+  padding:2px 5px;
+  color:var(--ink);
+}
+.foot{
+  color:var(--muted);
+  font-size:12px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+@media (max-width:900px){
+  .top{
+    grid-template-columns:auto auto;
+  }
+  .top-claim{
+    grid-column:1/-1;
+    grid-row:2;
+    text-align:left;
+    font-size:25px;
+  }
+  .hero{
+    min-height:auto;
+    grid-template-columns:1fr;
+    padding:16px 0 18px;
+  }
+  .metrics{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .micro-flow{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .today-grid,.map-grid,.advanced-grid,.docs-grid{
+    grid-template-columns:1fr;
+  }
+  .atlas-head,.atlas-footer{
+    grid-template-columns:1fr;
+  }
+  .atlas-legend{
+    justify-content:flex-start;
+  }
+  .platform-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media (max-width:560px){
+  .shell{padding:20px 16px 36px}
+  .top{align-items:flex-start}
+  .top-claim{font-size:22px;white-space:normal}
+  .switch-orb{width:min(74vw,220px)}
+  .switch-mark{font-size:52px}
+  .hero-proof{padding:10px}
+  .metrics{gap:8px}
+  .metric{padding:8px}
+  .metric span{font-size:12px}
+  .big-number{font-size:clamp(20px,5.8vw,22px);margin-top:5px}
+  .hero-copy .plain-status{font-size:13px}
+  .micro-flow{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:6px;
+    overflow:visible;
+    padding-bottom:0;
+  }
+  .micro-step{
+    min-width:0;
+    padding-top:5px;
+  }
+  .micro-step b{font-size:12px}
+  .micro-step span{font-size:8.5px;line-height:1.1}
+  .status-line{display:none}
+  .map-metrics,.platform-grid,.integration-bar,.mode-grid{
+    grid-template-columns:1fr;
+  }
+  .atlas-canvas-wrap{min-height:300px}
+  .atlas-canvas{height:300px}
+  .switches{justify-content:flex-start}
+  .search-row{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .big-number.is-rolling{animation:none;text-shadow:none}
+}
+</style>
+</head>
+<body data-product="void">
+<main class="shell">
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-label="Qorx logo, Q superscript x"><span>Q<sup>x</sup></span></div>
+      <div>
+        <div class="wordmark" id="runtimeTitle">Qorx Void</div>
+        <div class="runtime" id="runtime">Checking this computer</div>
+      </div>
+    </div>
+    <div class="top-claim" id="heroTitle">Nothing leaves until Void chooses the useful lines.</div>
+    <div class="top-actions">
+      <a class="button" href="/stats">Data</a>
+      <a class="button" href="https://qorx.orin.work/dashboard#account" target="_blank" rel="noopener">Google Login</a>
+      <button id="settingsButton" type="button">Preferences</button>
+      <button id="theme" type="button">Dark</button>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-copy">
+      <button class="switch-orb" id="voidSwitch" type="button" aria-pressed="false">
+        <span class="switch-mark">Q<sup>x</sup></span>
+        <span class="switch-label">
+          <b id="switchState">Qorx is off</b>
+          <span id="switchHint">Click to turn on MCP + hooks.</span>
+        </span>
+      </button>
+      <p class="plain-status" id="plainStatus">No local context has moved yet.</p>
+      <div class="status-line"><i class="dot" id="dot"></i><span id="statusText">Ready on this computer.</span></div>
+    </div>
+
+    <aside class="hero-proof" aria-label="Current Qorx state">
+      <div class="metrics" aria-label="Live savings counters">
+        <div class="metric"><span>Kept here</span><b class="big-number" id="keptTokens">0</b></div>
+        <div class="metric"><span>Sent to AI</span><b class="big-number" id="sentTokens">0</b></div>
+        <div class="metric"><span>Reduction</span><b class="big-number" id="reduction">waiting</b></div>
+        <div class="metric"><span>Avoided input cost</span><b class="big-number" id="savedUsd">$0.0000</b></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="section preference-only" id="preferencesPanel" hidden aria-labelledby="todayTitle">
+    <div class="section-head">
+      <div>
+        <h2 id="todayTitle">Preferences</h2>
+      </div>
+      <p class="section-copy">Void runs on this computer. It keeps repeated local context from being sent again.</p>
+    </div>
+    <div class="integration-bar account-bar">
+      <div>
+        <b id="accountMode">No cloud account connected.</b>
+        <div class="runtime" id="accountDetail">Sign in on qorx.orin.work, then connect this computer from the dashboard.</div>
+      </div>
+      <div class="switches">
+        <a class="button" id="cloudLogin" href="https://qorx.orin.work/dashboard#account" target="_blank" rel="noopener">Google Login</a>
+        <button id="accountDisconnect" type="button" hidden>Disconnect</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section preference-only" aria-labelledby="mapTitle" hidden>
+    <div class="section-head">
+      <div>
+        <h2 id="mapTitle">Workspace Map</h2>
+      </div>
+      <p class="section-copy" id="mapSummary">Qorx shows what it can search and which files are connected.</p>
+    </div>
+    <div class="map-grid">
+      <div class="map-card">
+        <div class="map-metrics" id="graphMetrics">
+          <div class="map-metric"><span>Searchable files</span><b id="mapAreaCount">0</b></div>
+          <div class="map-metric"><span>File links</span><b id="mapLinkCount">0</b></div>
+          <div class="map-metric"><span>Best starting points</span><b id="mapBusyCount">0</b></div>
+          <div class="map-metric"><span>Other files</span><b id="mapQuietCount">0</b></div>
+        </div>
+        <div class="search-row">
+          <input id="graphQuery" type="search" placeholder="Filter map by folder or file">
+          <button id="graphQueryRun" type="button">Show</button>
+          <input id="workspaceDirectoryInput" type="file" webkitdirectory directory hidden>
+        </div>
+        <p class="mode-note">Other files are still searchable. They are just not good starting points yet.</p>
+        <div class="workspace-shelf" id="workspaceShelf" aria-label="Main local areas">Loading main areas</div>
+      </div>
+      <div class="map-card">
+        <b class="card-title">Best starting points</b>
+        <div class="quiet-list" id="graphHotspots">No important local areas yet.</div>
+      </div>
+      <div class="map-card atlas-stage" aria-labelledby="atlasVisualTitle">
+        <div class="atlas-head">
+          <div class="atlas-title">
+            <b id="atlasVisualTitle">Live map</b>
+            <span>Drag to move. Scroll or use +/- to zoom. Bigger stars are better starting points.</span>
+          </div>
+          <div class="atlas-legend" aria-label="Atlas legend">
+            <span><i class="atlas-dot file"></i>Local file</span>
+            <span><i class="atlas-dot symbol"></i>Symbol</span>
+            <span><i class="atlas-dot hub"></i>Reference hub</span>
+          </div>
+        </div>
+        <div class="atlas-canvas-wrap">
+          <div class="atlas-overlay">
+            <div class="atlas-controls" aria-label="Map zoom controls">
+              <button id="atlasZoomOut" type="button" aria-label="Zoom out">-</button>
+              <span id="atlasZoomLabel">100%</span>
+              <button id="atlasZoomIn" type="button" aria-label="Zoom in">+</button>
+            </div>
+            <button class="ghost" id="atlasReset" type="button">Reset</button>
+          </div>
+          <canvas class="atlas-canvas" id="atlasCanvas" aria-label="Interactive workspace graph"></canvas>
+          <div class="atlas-empty" id="atlasEmpty">Loading local map</div>
+        </div>
+        <div class="atlas-footer">
+          <div class="atlas-selection">
+            <b id="atlasSelectionTitle">Select a file</b>
+            <span id="atlasSelectionDetail">Select a star to see the path and references.</span>
+          </div>
+        </div>
+      </div>
+      <details class="details-block" id="advancedDetails">
+        <summary><span>Advanced data</span><small>Health, routes, file tree, and JSON for support.</small></summary>
+        <div class="details-inner">
+          <p class="details-note">The live map above is the simple view. This section is for support checks and reproducible evidence.</p>
+          <div class="data-links">
+            <a class="button" href="/health">Health</a>
+            <a class="button" href="/stats">Stats</a>
+            <a class="button" href="/graph?limit=96">Map JSON</a>
+            <a class="button" href="/atlas?limit=96">Atlas JSON</a>
+          </div>
+          <div class="advanced-grid">
+            <div class="details-card">
+              <b>Connected areas</b>
+              <div class="quiet-list" id="graphComponents">No groups yet</div>
+            </div>
+            <div class="details-card">
+              <b>Find a path</b>
+              <div class="search-row">
+                <input id="graphPathSource" type="text" placeholder="Start path">
+                <input id="graphPathTarget" type="text" placeholder="End path">
+                <button id="graphPathRun" type="button">Find</button>
+              </div>
+              <div class="quiet-list" id="graphPathTrace">No route selected</div>
+            </div>
+            <div class="details-card">
+              <b id="graphMeta">File tree</b>
+              <div class="tree" id="graphTree">Loading local tree</div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="section preference-only" aria-labelledby="connectTitle" hidden>
+    <div class="section-head">
+      <div>
+        <h2 id="connectTitle">Control where it works</h2>
+      </div>
+      <p class="section-copy">Use the switches to repair or turn off editor and agent wiring on this machine.</p>
+    </div>
+    <div class="integration-bar">
+      <div>
+        <b id="integrationMode">MCP + hooks are on by default.</b>
+        <div class="runtime">Codex, Claude, Gemini, OpenCode, Cursor, and other local agents can be repaired here.</div>
+      </div>
+      <div class="switches">
+        <label class="switch"><input id="automcpSwitch" type="checkbox"> MCP</label>
+        <label class="switch"><input id="autohookSwitch" type="checkbox"> Hooks</label>
+        <button id="integrateAll" type="button">Turn on MCP + hooks</button>
+        <button id="integrateOff" type="button">Turn off MCP + hooks</button>
+        <button id="integrationRefresh" type="button">Refresh</button>
+      </div>
+    </div>
+    <div class="mode-panel" aria-labelledby="contextModeTitle">
+      <div class="mode-panel-head">
+        <b id="contextModeTitle">Agent context</b>
+        <span id="contextModeDetail">Qorx prepares Codex with a local proof handle when a new task starts.</span>
+      </div>
+      <div class="mode-grid" role="group" aria-label="Agent context mode">
+        <button class="mode-button" type="button" data-context-mode="auto"><b>Auto</b><span>Quiet handle. Ask for proof only when needed.</span></button>
+        <button class="mode-button" type="button" data-context-mode="readable"><b>Readable</b><span>Show the plain-English handoff note.</span></button>
+        <button class="mode-button" type="button" data-context-mode="deep"><b>Deep</b><span>More local guidance for hard work.</span></button>
+        <button class="mode-button" type="button" data-context-mode="off"><b>Off</b><span>Do not prepare agent context.</span></button>
+      </div>
+      <p class="mode-note" id="contextModeNote">Auto is the default for customers.</p>
+    </div>
+    <div class="platform-grid" id="platformTiles">Loading integrations</div>
+  </section>
+
+  <section class="section preference-only" aria-labelledby="docsTitle" hidden>
+    <div class="section-head">
+      <div>
+        <h2 id="docsTitle">Docs</h2>
+      </div>
+      <p class="section-copy">Qorx CLI, version 0.0.1-ylem, in plain language: what stays local, how agents connect, which commands matter, and how to prove the result.</p>
+    </div>
+    <div class="docs-grid">
+      <div class="docs-card">
+        <b>What Qorx does</b>
+        <p>Qorx keeps repeated workspace context on this computer and gives agents a small local handle when they need proof.</p>
+        <ul>
+          <li>Less repeated context sent upstream.</li>
+          <li>Local proof before local claims.</li>
+          <li>Readable counters for what stayed here.</li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Agent context</b>
+        <p>Choose how much local guidance an agent receives at the start of a task.</p>
+        <ul>
+          <li>Auto is the quiet default.</li>
+          <li>Readable shows the handoff note.</li>
+          <li>Deep is for hard local tasks.</li>
+          <li>Off sends nothing.</li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Editor connectors</b>
+        <p>MCP gives an agent a local tool. Hooks prepare the beginning of a task where the client supports it.</p>
+        <ul>
+          <li>Fix rewrites Qorx-owned connector files.</li>
+          <li>MCP does not replace normal chat.</li>
+          <li>Agents still need proof for local claims.</li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Workspace Map</b>
+        <p>The map shows the files Qorx can search and the references it found between them.</p>
+        <ul>
+          <li>Files appear as stars.</li>
+          <li>Lines are confirmed references.</li>
+          <li>Important files receive more links.</li>
+          <li>Other files remain searchable.</li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Proof boundary</b>
+        <p>A handle is not a file dump. Outside models cannot read local files from it by themselves.</p>
+        <ul>
+          <li>Handles are not file contents.</li>
+          <li>Proof is pulled only on demand.</li>
+          <li>Unsupported claims must stay unsupported.</li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>First run</b>
+        <p>Use these when a customer wants to install, check, or open the local runtime.</p>
+        <ul>
+          <li><code>qorx</code></li>
+          <li><code>qorx --help</code></li>
+          <li><code>qorx man</code></li>
+          <li><code>qorx doctor</code></li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Install and repair</b>
+        <p>These commands match the Manual and Command Reference.</p>
+        <ul>
+          <li><code>qorx install</code></li>
+          <li><code>qorx install -p codex</code></li>
+          <li><code>qorx integrate activate -p codex</code></li>
+          <li><code>qorx integrate status</code></li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Local runtime</b>
+        <p>The daemon is the local gateway behind this monitor.</p>
+        <ul>
+          <li><code>qorx daemon start</code></li>
+          <li><code>qorx daemon status</code></li>
+          <li><code>qorx stats</code></li>
+          <li><code>qorx stats reset</code></li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Evidence commands</b>
+        <p>Use these when an agent needs local proof without reading the whole workspace.</p>
+        <ul>
+          <li><code>qorx index &lt;folder&gt;</code></li>
+          <li><code>qorx map "question"</code></li>
+          <li><code>qorx strict-answer "question"</code></li>
+          <li><code>qorx ground "question"</code></li>
+        </ul>
+      </div>
+      <div class="docs-card">
+        <b>Atlas commands</b>
+        <p>The map in this monitor is backed by the same local Atlas data.</p>
+        <ul>
+          <li><code>qorx atlas</code></li>
+          <li><code>qorx atlas query "question"</code></li>
+          <li><code>qorx atlas export --out qorx-atlas</code></li>
+          <li><code>qorx atlas global list</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot preference-only" hidden>
+    Gateway: <span id="gateway">127.0.0.1:47187</span>
+  </footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const num=n=>new Intl.NumberFormat().format(Math.max(0,Math.round(Number(n)||0)));
+const money=n=>"$"+(Number(n)||0).toFixed(4);
+const counterState=new Map();
+const easeOut=t=>1-Math.pow(1-t,3);
+function setText(id,value){
+  const el=$(id);
+  if(!el)return;
+  const next=String(value);
+  if(el.textContent!==next)el.textContent=next;
+}
+function animateCounter(id,target,format){
+  const el=$(id);
+  if(!el)return;
+  const next=Number(target)||0;
+  const formatted=format(next);
+  const state=counterState.get(id)||{value:next,text:el.textContent};
+  if(state.text===formatted&&state.target===next)return;
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    el.textContent=formatted;
+    counterState.set(id,{value:next,target:next,text:formatted});
+    return;
+  }
+  if(state.raf)cancelAnimationFrame(state.raf);
+  const from=Number.isFinite(state.value)?state.value:next;
+  const start=performance.now();
+  const duration=620;
+  el.classList.add("is-rolling");
+  function frame(now){
+    const progress=Math.min(1,(now-start)/duration);
+    const value=from+(next-from)*easeOut(progress);
+    el.textContent=format(value);
+    if(progress<1){
+      state.raf=requestAnimationFrame(frame);
+    }else{
+      state.value=next;
+      state.target=next;
+      state.text=formatted;
+      el.textContent=formatted;
+      el.classList.remove("is-rolling");
+    }
+  }
+  counterState.set(id,state);
+  state.raf=requestAnimationFrame(frame);
+}
+function setCounterText(id,value){
+  const el=$(id);
+  if(!el)return;
+  const state=counterState.get(id);
+  if(state?.raf)cancelAnimationFrame(state.raf);
+  counterState.delete(id);
+  el.classList.remove("is-rolling");
+  setText(id,value);
+}
+function setTheme(mode){
+  document.documentElement.dataset.theme=mode;
+  localStorage.qorxTheme=mode;
+  setText("theme",mode==="dark"?"Light":"Dark");
+  requestAnimationFrame(drawAtlasScene);
+}
+setTheme(localStorage.qorxTheme||"light");
+$("theme").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+function setPreferencesOpen(open){
+  document.querySelectorAll(".preference-only").forEach(el=>{el.hidden=!open});
+  setText("settingsButton",open?"Switch":"Preferences");
+}
+$("settingsButton").onclick=()=>setPreferencesOpen($("preferencesPanel").hidden);
+function setSwitchState(on){
+  const button=$("voidSwitch");
+  if(!button)return;
+  button.setAttribute("aria-pressed",on?"true":"false");
+  document.body.classList.toggle("qorx-on",on);
+  setText("switchState",on?"Qorx is on":"Qorx is off");
+  setText("switchHint",on?"MCP + hooks are connected.":"Click to turn on MCP + hooks.");
+}
+
+function decodeBridgePayload(encoded){
+  const normalized=String(encoded||"").replace(/-/g,"+").replace(/_/g,"/");
+  const padded=normalized+"=".repeat((4-normalized.length%4)%4);
+  const binary=atob(padded);
+  const bytes=Uint8Array.from(binary,ch=>ch.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+async function connectAccountFromHash(){
+  if(!location.hash)return;
+  const params=new URLSearchParams(location.hash.slice(1));
+  const encoded=params.get("qorx_account");
+  if(!encoded)return;
+  try{
+    const payload=decodeBridgePayload(encoded);
+    await fetch("/account/connect",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload)});
+    history.replaceState(null,"",location.pathname+location.search);
+    setPreferencesOpen(true);
+    await loadAccountStatus();
+  }catch(e){
+    setText("accountDetail","Account link could not be read. Open the dashboard and connect again.");
+  }
+}
+function renderAccountStatus(account){
+  const connected=!!account?.connected&&!!account?.tenant;
+  const name=account?.displayName||account?.email||"Qorx account";
+  const plan=account?.plan?String(account.plan).replace(/[-_]/g," "):"Developer";
+  const prefix=account?.apiKeyPrefix?` · ${account.apiKeyPrefix}`:"";
+  setText("accountMode",connected?`${name} connected`:"No cloud account connected.");
+  setText("accountDetail",connected?`${plan}${prefix}`:"Sign in on qorx.orin.work, then connect this computer from the dashboard.");
+  $("accountDisconnect").hidden=!connected;
+}
+async function loadAccountStatus(){
+  try{
+    const account=await fetch("/account/status",{cache:"no-store"}).then(r=>r.json());
+    renderAccountStatus(account);
+  }catch(e){
+    setText("accountDetail","Local account bridge unavailable.");
+  }
+}
+
+function shortName(name,platform){
+  const raw=String(name||platform||"?").replace(/qorx/ig,"").trim()||String(platform||"?");
+  return raw.split(/[\s_-]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase().slice(0,2)||"?";
+}
+function statusPill(label,on){
+  const span=document.createElement("span");
+  span.className=on?"platform-on":"platform-off";
+  span.textContent=`${label} ${on?"on":"off"}`;
+  return span;
+}
+function normalizeContextMode(mode){
+  const value=String(mode||"auto").toLowerCase();
+  if(value==="verbose")return "readable";
+  return ["auto","readable","deep","off"].includes(value)?value:"auto";
+}
+function contextModeCopy(mode){
+  switch(normalizeContextMode(mode)){
+    case "readable": return ["Readable is on.","Codex receives a plain-English local handoff note."];
+    case "deep": return ["Deep is on.","Codex receives stronger first-turn guidance for hard local work."];
+    case "off": return ["Agent context is off.","Codex starts without a Qorx handoff."];
+    default: return ["Auto is on.","Codex receives a quiet local proof handle when a task starts."];
+  }
+}
+function renderContextMode(mode){
+  const current=normalizeContextMode(mode);
+  document.querySelectorAll("[data-context-mode]").forEach(button=>{
+    const active=button.dataset.contextMode===current;
+    button.classList.toggle("is-active",active);
+    button.setAttribute("aria-pressed",active?"true":"false");
+  });
+  const [title,note]=contextModeCopy(current);
+  setText("contextModeDetail",title);
+  setText("contextModeNote",note);
+}
+async function activateIntegration(platform){
+  await fetch("/integrations/activate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({platform})});
+  await loadIntegrations();
+}
+async function saveIntegrationSettings(patch){
+  const report=await fetch("/integrations/settings",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(patch)}).then(r=>r.json());
+  renderIntegrations(report);
+}
+function renderIntegrations(report){
+  const settings=report.settings||{};
+  $("automcpSwitch").checked=!!settings.automcp_enabled;
+  $("autohookSwitch").checked=!!settings.autohook_enabled;
+  renderContextMode(settings.codex_context_mode);
+  setSwitchState(!!settings.automcp_enabled&&!!settings.autohook_enabled);
+  const mode=settings.automcp_enabled&&settings.autohook_enabled?"MCP + hooks are on by default.":settings.automcp_enabled?"MCP is on. Hooks are off.":settings.autohook_enabled?"Hooks are on. MCP is off.":"MCP + hooks are off from this device.";
+  setText("integrationMode",mode);
+  const root=$("platformTiles");
+  root.replaceChildren();
+  const targets=(report.targets||[]).slice().sort((a,b)=>String(a.name||a.platform).localeCompare(String(b.name||b.platform)));
+  if(!targets.length){root.textContent="No local agent records yet.";return}
+  targets.forEach(t=>{
+    const card=document.createElement("div");
+    card.className="platform-card";
+    const head=document.createElement("div");
+    head.className="platform-head";
+    const icon=document.createElement("div");
+    icon.className="platform-icon";
+    icon.textContent=shortName(t.name,t.platform);
+    const button=document.createElement("button");
+    button.type="button";
+    button.textContent=t.active?"Fix":"Turn on";
+    button.onclick=()=>activateIntegration(t.platform);
+    head.append(icon,button);
+    const name=document.createElement("div");
+    name.className="platform-name";
+    name.textContent=t.name||t.platform||"Local agent";
+    const lines=document.createElement("div");
+    lines.className="platform-lines";
+    lines.append(statusPill("MCP",!!t.mcp_active),statusPill("Hook",!!t.hook_active),statusPill("Installed",!!t.installed));
+    card.append(head,name,lines);
+    root.appendChild(card);
+  });
+}
+async function loadIntegrations(){
+  try{
+    const report=await fetch("/integrations",{cache:"no-store"}).then(r=>r.json());
+    renderIntegrations(report);
+  }catch(e){
+    setText("platformTiles","Integration status unavailable.");
+  }
+}
+
+function quietRow(title,path,note){
+  const row=document.createElement("div");
+  row.className="quiet-row";
+  const b=document.createElement("b");
+  const code=document.createElement("code");
+  const span=document.createElement("span");
+  b.textContent=title;
+  code.textContent=path||"";
+  span.textContent=note||"";
+  row.append(b,code,span);
+  return row;
+}
+function shortPath(path){
+  const parts=String(path||"").split(/[\\/]/).filter(Boolean);
+  return parts.slice(-2).join("/")||String(path||"unknown");
+}
+let atlasVisual={nodes:[],links:[],selected:null,hovered:null,lastGraph:null,zoom:1,panX:0,panY:0,dragging:false,dragMoved:false,lastPointer:null};
+const atlasPalette=["#d7c87a","#8ab6d1","#9fceb0","#d6a06f","#b69bd6","#75b8ad","#d28a7b","#b8b16c"];
+function hashText(value){
+  let hash=2166136261;
+  for(const ch of String(value||"")){
+    hash^=ch.charCodeAt(0);
+    hash=Math.imul(hash,16777619);
+  }
+  return hash>>>0;
+}
+function cssColor(name,fallback){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()||fallback;
+}
+function atlasCanvasContext(){
+  const canvas=$("atlasCanvas");
+  if(!canvas)return null;
+  const rect=canvas.getBoundingClientRect();
+  const width=Math.max(320,Math.floor(rect.width||canvas.parentElement?.clientWidth||860));
+  const height=Math.max(280,Math.floor(rect.height||360));
+  const dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+  if(canvas.width!==Math.floor(width*dpr)||canvas.height!==Math.floor(height*dpr)){
+    canvas.width=Math.floor(width*dpr);
+    canvas.height=Math.floor(height*dpr);
+  }
+  const ctx=canvas.getContext("2d");
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {canvas,ctx,width,height};
+}
+function clampNumber(value,min,max){
+  return Math.min(max,Math.max(min,value));
+}
+function renderAtlasZoom(){
+  setText("atlasZoomLabel",`${Math.round((atlasVisual.zoom||1)*100)}%`);
+}
+function setAtlasZoom(value){
+  atlasVisual.zoom=clampNumber(Number(value)||1,.65,2.4);
+  renderAtlasZoom();
+  drawAtlasScene();
+}
+function atlasScreenPoint(node,width,height){
+  const zoom=atlasVisual.zoom||1;
+  return {
+    x:width/2+(node.x-width/2)*zoom+(atlasVisual.panX||0),
+    y:height/2+(node.y-height/2)*zoom+(atlasVisual.panY||0),
+    r:node.r*Math.sqrt(zoom)
+  };
+}
+function atlasWorldPoint(point,width,height){
+  const zoom=atlasVisual.zoom||1;
+  return {
+    x:width/2+(point.x-(atlasVisual.panX||0)-width/2)/zoom,
+    y:height/2+(point.y-(atlasVisual.panY||0)-height/2)/zoom
+  };
+}
+function atlasComponentByPath(graph){
+  const map=new Map();
+  (graph.metrics?.components||[]).forEach((component,idx)=>{
+    (component.paths||[]).forEach(path=>map.set(path,idx));
+  });
+  return map;
+}
+function atlasIncomingById(graph){
+  const incoming=new Map();
+  const degree=new Map();
+  (graph.edges||[]).forEach(edge=>{
+    if(edge.relation==="references"){
+      incoming.set(edge.target,(incoming.get(edge.target)||0)+1);
+    }
+    degree.set(edge.source,(degree.get(edge.source)||0)+1);
+    degree.set(edge.target,(degree.get(edge.target)||0)+1);
+  });
+  return {incoming,degree};
+}
+function atlasBuildLayout(graph,width,height){
+  const componentByPath=atlasComponentByPath(graph);
+  const {incoming,degree}=atlasIncomingById(graph);
+  const fileNodes=(graph.nodes||[]).filter(node=>node.kind==="file");
+  const symbolNodes=(graph.nodes||[]).filter(node=>node.kind==="symbol").slice(0,32);
+  const sourceNodes=[...fileNodes,...symbolNodes].slice(0,96);
+  const componentSizes=new Map();
+  sourceNodes.forEach(node=>{
+    const component=componentByPath.get(node.path)||0;
+    componentSizes.set(component,(componentSizes.get(component)||0)+1);
+  });
+  const components=[...componentSizes.entries()].sort((a,b)=>b[1]-a[1]||a[0]-b[0]).map(([id])=>id);
+  const centers=new Map();
+  const cx=width/2;
+  const cy=height/2;
+  const radius=Math.max(72,Math.min(width,height)*.31);
+  components.forEach((id,idx)=>{
+    if(idx===0){
+      centers.set(id,{x:cx,y:cy});
+      return;
+    }
+    const angle=((idx-1)/Math.max(1,components.length-1))*Math.PI*2-Math.PI/2;
+    centers.set(id,{x:cx+Math.cos(angle)*radius,y:cy+Math.sin(angle)*radius*.82});
+  });
+  const nodes=sourceNodes.map((node,idx)=>{
+    const seed=hashText(node.id||node.label||idx);
+    const component=componentByPath.get(node.path)||0;
+    const center=centers.get(component)||{x:cx,y:cy};
+    const angle=((seed%360)/360)*Math.PI*2;
+    const spread=18+((seed>>>8)%54);
+    const refs=incoming.get(node.id)||0;
+    const links=degree.get(node.id)||0;
+    const isFile=node.kind==="file";
+    return {
+      id:node.id,
+      label:node.label||node.path||node.id,
+      kind:node.kind||"file",
+      path:node.path||"",
+      component,
+      incoming:refs,
+      degree:links,
+      hub:refs>1,
+      x:center.x+Math.cos(angle)*spread,
+      y:center.y+Math.sin(angle)*spread*.75,
+      vx:0,
+      vy:0,
+      r:isFile?Math.min(13,5+Math.sqrt(refs+links)*1.8):3.5,
+      color:isFile?atlasPalette[component%atlasPalette.length]:"#8ab6d1"
+    };
+  });
+  const byId=new Map(nodes.map(node=>[node.id,node]));
+  const links=(graph.edges||[])
+    .filter(edge=>byId.has(edge.source)&&byId.has(edge.target))
+    .slice(0,160)
+    .map(edge=>({source:byId.get(edge.source),target:byId.get(edge.target),relation:edge.relation||"references"}));
+  for(let step=0;step<88;step++){
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i],b=nodes[j];
+        let dx=b.x-a.x,dy=b.y-a.y;
+        let dist=Math.sqrt(dx*dx+dy*dy)||1;
+        const min=34+a.r+b.r;
+        if(dist<min){
+          const push=(min-dist)/dist*.018;
+          dx*=push;dy*=push;
+          a.vx-=dx;a.vy-=dy;b.vx+=dx;b.vy+=dy;
+        }
+      }
+    }
+    links.forEach(link=>{
+      const a=link.source,b=link.target;
+      const target=link.relation==="references"?92:48;
+      let dx=b.x-a.x,dy=b.y-a.y;
+      const dist=Math.sqrt(dx*dx+dy*dy)||1;
+      const pull=(dist-target)/dist*(link.relation==="references"?.018:.01);
+      dx*=pull;dy*=pull;
+      a.vx+=dx;a.vy+=dy;b.vx-=dx;b.vy-=dy;
+    });
+    nodes.forEach(node=>{
+      const center=centers.get(node.component)||{x:cx,y:cy};
+      node.vx+=(center.x-node.x)*.006;
+      node.vy+=(center.y-node.y)*.006;
+      node.vx*=.78;
+      node.vy*=.78;
+      node.x=Math.min(width-18,Math.max(18,node.x+node.vx));
+      node.y=Math.min(height-18,Math.max(18,node.y+node.vy));
+    });
+  }
+  return {nodes,links};
+}
+function drawAtlasScene(){
+  const target=atlasCanvasContext();
+  if(!target)return;
+  const {ctx,width,height}=target;
+  ctx.clearRect(0,0,width,height);
+  ctx.fillStyle="#12110f";
+  ctx.fillRect(0,0,width,height);
+  if(!atlasVisual.nodes.length)return;
+  ctx.lineCap="round";
+  atlasVisual.links.forEach(link=>{
+    const source=atlasScreenPoint(link.source,width,height);
+    const target=atlasScreenPoint(link.target,width,height);
+    ctx.beginPath();
+    ctx.moveTo(source.x,source.y);
+    ctx.lineTo(target.x,target.y);
+    ctx.strokeStyle=link.relation==="references"?"rgba(138,182,209,.34)":"rgba(247,243,234,.10)";
+    ctx.lineWidth=link.relation==="references"?1.2:.8;
+    ctx.stroke();
+  });
+  const selected=atlasVisual.selected;
+  const hovered=atlasVisual.hovered;
+  atlasVisual.nodes.forEach(node=>{
+    const point=atlasScreenPoint(node,width,height);
+    const active=node===selected||node===hovered;
+    ctx.beginPath();
+    ctx.arc(point.x,point.y,point.r+(active?3:0),0,Math.PI*2);
+    ctx.fillStyle=node.kind==="symbol"?"rgba(138,182,209,.86)":node.color;
+    ctx.globalAlpha=node.kind==="symbol"?.72:1;
+    ctx.fill();
+    ctx.globalAlpha=1;
+    if(node.hub||active){
+      ctx.beginPath();
+      ctx.arc(point.x,point.y,point.r+5+(active?2:0),0,Math.PI*2);
+      ctx.strokeStyle=node.hub?"rgba(159,206,176,.7)":"rgba(247,243,234,.5)";
+      ctx.lineWidth=1.2;
+      ctx.stroke();
+    }
+  });
+  const labels=atlasVisual.nodes
+    .filter(node=>node===selected||node===hovered||node.hub)
+    .sort((a,b)=>(b===selected)-(a===selected)||(b.incoming-a.incoming))
+    .slice(0,8);
+  ctx.font="12px Geist Mono, SF Mono, monospace";
+  labels.forEach(node=>{
+    const point=atlasScreenPoint(node,width,height);
+    const label=shortPath(node.path||node.label);
+    const x=Math.min(width-170,Math.max(10,point.x+10));
+    const y=Math.min(height-12,Math.max(18,point.y-8));
+    const textWidth=Math.min(164,ctx.measureText(label).width+12);
+    ctx.fillStyle="rgba(18,17,15,.82)";
+    ctx.fillRect(x-5,y-13,textWidth,18);
+    ctx.fillStyle="rgba(247,243,234,.92)";
+    ctx.fillText(label,x,y);
+  });
+}
+function setAtlasSelection(node){
+  atlasVisual.selected=node||null;
+  if(!node){
+    setText("atlasSelectionTitle","Select a file");
+    setText("atlasSelectionDetail","Select a star to see the path and references.");
+    drawAtlasScene();
+    return;
+  }
+  const title=shortPath(node.path||node.label);
+  const kind=node.kind==="symbol"?"Symbol":"File";
+  const detail=`${kind} · ${num(node.incoming)} incoming reference${node.incoming===1?"":"s"} · ${num(node.degree)} total link${node.degree===1?"":"s"}${node.path?` · ${node.path}`:""}`;
+  setText("atlasSelectionTitle",title);
+  setText("atlasSelectionDetail",detail);
+  drawAtlasScene();
+}
+function nearestAtlasNode(x,y){
+  let best=null;
+  let bestDistance=18;
+  atlasVisual.nodes.forEach(node=>{
+    const dx=node.x-x,dy=node.y-y;
+    const distance=Math.sqrt(dx*dx+dy*dy)-node.r;
+    if(distance<bestDistance){
+      best=node;
+      bestDistance=distance;
+    }
+  });
+  return best;
+}
+function atlasPointerPosition(event){
+  const rect=$("atlasCanvas").getBoundingClientRect();
+  return {x:event.clientX-rect.left,y:event.clientY-rect.top};
+}
+function nearestAtlasNodeFromPointer(point){
+  const target=atlasCanvasContext();
+  if(!target)return null;
+  const world=atlasWorldPoint(point,target.width,target.height);
+  return nearestAtlasNode(world.x,world.y);
+}
+function renderAtlasScene(graph){
+  const target=atlasCanvasContext();
+  if(!target)return;
+  atlasVisual.lastGraph=graph;
+  const layout=atlasBuildLayout(graph,target.width,target.height);
+  atlasVisual.nodes=layout.nodes;
+  atlasVisual.links=layout.links;
+  atlasVisual.hovered=null;
+  atlasVisual.selected=null;
+  atlasVisual.panX=0;
+  atlasVisual.panY=0;
+  atlasVisual.dragging=false;
+  atlasVisual.dragMoved=false;
+  atlasVisual.lastPointer=null;
+  $("atlasEmpty").hidden=!!atlasVisual.nodes.length;
+  setAtlasSelection(null);
+  drawAtlasScene();
+}
+let workspaceTargets=[];
+function workspaceKey(path){
+  const parts=String(path||"").split(/[\\/]/).filter(Boolean);
+  if(!parts.length)return "";
+  if(parts.some(part=>part===".git"||part==="node_modules"))return "";
+  if(parts[0]===".vercel"&&parts[1]==="output")return "";
+  if(/^run-\d+/.test(parts[0])||/^testsprite-\d+/.test(parts[0]))return "";
+  if(parts[0]===".proof"&&(/^run-\d+/.test(parts[1]||"")||/^testsprite-\d+/.test(parts[1]||"")||parts[1]===".vercel"))return "";
+  if(parts.length===1&&/\.[a-z0-9]+$/i.test(parts[0]))return "";
+  if(parts[0].startsWith(".")&&parts.length>1)return `${parts[0]}/${parts[1]}`;
+  return parts[0];
+}
+function workspaceLabel(key){
+  const parts=String(key||"").split(/[\\/]/).filter(Boolean);
+  const label=parts[parts.length-1]||key||"workspace";
+  return label
+    .replace(/^qorx-api-frontend$/i,"Qorx API frontend")
+    .replace(/^reference-design$/i,"Reference design")
+    .replace(/^testsprite.*$/i,"TestSprite")
+    .replace(/^run-\d+$/i,"Run artifacts")
+    .replace(/[-_]+/g," ")
+    .replace(/\b\w/g,ch=>ch.toUpperCase());
+}
+function workspaceTargetsFromGraph(graph){
+  const seen=new Map();
+  (graph.nodes||[]).forEach(node=>{
+    const key=workspaceKey(node.path||"");
+    if(!key)return;
+    const item=seen.get(key)||{query:key,label:workspaceLabel(key),path:key,count:0,tokens:0};
+    item.count+=1;
+    item.tokens+=Number(node.token_estimate||0);
+    seen.set(key,item);
+  });
+  return [...seen.values()]
+    .filter(item=>item.count>1)
+    .sort((a,b)=>b.count-a.count||b.tokens-a.tokens||a.label.localeCompare(b.label))
+    .slice(0,4);
+}
+function renderWorkspaceShelf(graph,focused){
+  const root=$("workspaceShelf");
+  if(!root)return;
+  const discovered=workspaceTargetsFromGraph(graph);
+  if(discovered.length&&(!focused||!workspaceTargets.length))workspaceTargets=discovered;
+  root.replaceChildren();
+  if(!workspaceTargets.length){
+    root.textContent="No indexed workspaces yet.";
+    return;
+  }
+  workspaceTargets.forEach(workspace=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className=`workspace-chip${focused===workspace.query?" is-active":""}`;
+    button.textContent=`${workspace.label} (${num(workspace.count)})`;
+    button.title=`Show ${workspace.path}`;
+    button.onclick=()=>focusWorkspace(workspace.query);
+    root.appendChild(button);
+  });
+}
+async function focusWorkspace(query){
+  if(!query)return;
+  $("graphQuery").value=query;
+  await loadGraph(query);
+  $("graphHotspots").scrollIntoView({block:"nearest",behavior:"smooth"});
+}
+function focusWorkspaceFromFolderName(name){
+  const folder=String(name||"").trim();
+  if(!folder)return;
+  focusWorkspace(folder);
+}
+async function openWorkspacePicker(){
+  if(window.showDirectoryPicker){
+    try{
+      const handle=await window.showDirectoryPicker({mode:"read"});
+      focusWorkspaceFromFolderName(handle.name);
+      return;
+    }catch(e){
+      return;
+    }
+  }
+  $("workspaceDirectoryInput").click();
+}
+function treeNode(n){
+  const li=document.createElement("li");
+  li.textContent=n.name||"node";
+  if(n.children&&n.children.length){
+    const ul=document.createElement("ul");
+    n.children.slice(0,60).forEach(child=>ul.appendChild(treeNode(child)));
+    li.appendChild(ul);
+  }
+  return li;
+}
+function isHumanWorkspacePath(path){
+  const value=String(path||"");
+  if(!value)return false;
+  if(value.includes(".vercel/output/")||value.includes(".vercel\\output\\"))return false;
+  if(value.includes("/testsprite-")||value.includes("\\testsprite-"))return false;
+  if(value.includes("/run-")||value.includes("\\run-"))return false;
+  if(value.includes(".func/")||value.includes(".func\\"))return false;
+  return true;
+}
+function renderGraph(graph,focused){
+  const m=graph.metrics||{};
+  const files=Number(m.file_nodes||0);
+  const links=Number(m.reference_edges||0);
+  const top=(m.top_referenced_files||[]).filter(item=>isHumanWorkspacePath(item.path)).slice(0,5);
+  const groups=(m.components||[])
+    .map(component=>({...component,paths:(component.paths||[]).filter(isHumanWorkspacePath)}))
+    .filter(component=>component.paths.length)
+    .slice(0,4);
+  setText("mapAreaCount",num(files));
+  setText("mapLinkCount",num(links));
+  setText("mapBusyCount",num(top.length));
+  setText("mapQuietCount",num(m.isolated_files||0));
+  setText("mapSummary",focused?`Showing "${focused}".`:`Qorx found ${num(files)} searchable files and ${num(links)} file links. Start with the larger stars.`);
+  setText("graphMeta",`File tree · ${num(graph.node_count||0)} items · ${num(graph.edge_count||0)} links`);
+  const hotspots=$("graphHotspots");
+  hotspots.replaceChildren();
+  if(!top.length){hotspots.textContent="No starting points yet."}
+  else top.forEach((h,idx)=>{
+    const count=Number(h.incoming_references||0);
+    hotspots.appendChild(quietRow(`${idx+1}. ${shortPath(h.path)}`,h.path,`${num(count)} file link${count===1?"":"s"} point here`));
+  });
+  const components=$("graphComponents");
+  components.replaceChildren();
+  if(!groups.length){components.textContent="No connected areas yet."}
+  else groups.forEach((c,idx)=>components.appendChild(quietRow(`Area ${idx+1}`,c.paths.slice(0,3).join("  /  "),`${num(c.paths.length)} visible file${c.paths.length===1?"":"s"} connected by file links`)));
+  const root=document.createElement("ul");
+  root.appendChild(treeNode(graph.tree||{name:"workspace",children:[]}));
+  $("graphTree").replaceChildren(root);
+  renderAtlasScene(graph);
+}
+async function loadGraph(forceQuery){
+  try{
+    const query=String(forceQuery ?? $("graphQuery").value ?? "").trim();
+    const url=query?`/graph?limit=96&query=${encodeURIComponent(query)}`:"/graph?limit=96";
+    const graph=await fetch(url,{cache:"no-store"}).then(r=>r.json());
+    renderGraph(graph,query);
+    renderWorkspaceShelf(graph,query);
+  }catch(e){
+    setText("mapSummary","Void could not load the local map yet.");
+    setText("graphTree","Local tree unavailable.");
+    $("atlasEmpty").hidden=false;
+    setText("atlasEmpty","Atlas map unavailable.");
+  }
+}
+async function loadGraphPath(){
+  const source=($("graphPathSource").value||"").trim();
+  const target=($("graphPathTarget").value||"").trim();
+  if(!source||!target){setText("graphPathTrace","Start and end paths are required.");return}
+  try{
+    const trace=await fetch(`/graph/path?source=${encodeURIComponent(source)}&target=${encodeURIComponent(target)}&limit=128`,{cache:"no-store"}).then(r=>r.json());
+    const root=$("graphPathTrace");
+    root.replaceChildren();
+    if(!trace.found){root.textContent="No connection found.";return}
+    (trace.path||[]).forEach((step,idx)=>root.appendChild(quietRow(`${idx+1}. ${shortPath(step.path)}`,step.path,"")));
+  }catch(e){
+    setText("graphPathTrace","Route view unavailable.");
+  }
+}
+
+async function loadHealth(){
+  try{
+    const h=await fetch("/health",{cache:"no-store"}).then(r=>r.json());
+    setText("gateway",h.bind||"127.0.0.1:47187");
+  }catch(e){
+    setText("runtime","Gateway offline");
+  }
+}
+async function tick(){
+  try{
+    const s=await fetch("/stats",{cache:"no-store"}).then(r=>r.json());
+    const session=s.session||{};
+    const product=s.product||"Qorx Void";
+    const version=s.version||"";
+    const contextKept=Number(session.context_omitted_tokens||0)||Number(s.context_omitted_tokens||0)||0;
+    const proxyKept=Number(session.saved_prompt_tokens||0)||Number(s.saved_prompt_tokens||0)||Number(s.cache_saved_prompt_tokens||0)||0;
+    const kept=contextKept||proxyKept;
+    const contextSent=Number(session.context_sent_tokens||0)||Number(s.context_sent_tokens||0)||0;
+    const proxySent=Number(session.compressed_prompt_tokens||0)||Number(s.compressed_prompt_tokens||0)||0;
+    const sent=contextSent||proxySent;
+    const sessionPacks=Number(session.context_pack_requests||0)||0;
+    const totalPacks=Number(s.context_pack_requests||0)||0;
+    const packs=sessionPacks||totalPacks;
+    const inferredRatio=kept>0&&sent>0?(kept+sent)/sent:0;
+    const ratio=(sessionPacks>0?Number(session.context_reduction_x||0):0)||(totalPacks>0?Number(s.context_reduction_x||0):0)||inferredRatio||Number(s.last_reduction_x||1);
+    const usd=Number(session.context_usd_saved||0)||Number(s.context_usd_saved||0)||Number(session.total_estimated_usd_saved||0)||Number(s.total_estimated_usd_saved||0)||0;
+    document.title=`${product} Monitor`;
+    document.body.dataset.product=product.toLowerCase().includes("ayie")?"ayie":(product.toLowerCase().includes("demo")?"demo":"void");
+    setText("runtimeTitle",product);
+    setText("runtime",`${product} ${version} · ${s.current_processing_requests>0?"working":"ready on this computer"}`);
+    animateCounter("keptTokens",kept,num);
+    animateCounter("sentTokens",sent,num);
+    if(packs>0||inferredRatio>0)animateCounter("reduction",Math.max(1,ratio),value=>`${Math.max(1,value).toFixed(0)}x`);
+    else setCounterText("reduction","waiting");
+    animateCounter("savedUsd",usd,money);
+    const active=Number(s.current_processing_requests||0)>0||Number(s.current_processing_tokens||0)>0;
+    const sentence=kept>0||sent>0
+      ? `${product} kept ${num(kept)} tokens on this computer and sent ${num(sent)} tokens to the AI.`
+      : `${product} is ready. No local context has moved yet.`;
+    setText("plainStatus",active?"Checking now.":sentence);
+    setText("statusText",active?`${product} is checking context now.`:`${product} is ready on this computer.`);
+    $("dot").style.background=active?"var(--warn)":"var(--good)";
+  }catch(e){
+    setText("runtime","Gateway offline");
+    setText("plainStatus","Void is not answering yet.");
+    setText("statusText","Gateway offline.");
+    $("dot").style.background="var(--danger)";
+  }
+}
+
+$("integrateAll").onclick=()=>activateIntegration("all");
+$("integrateOff").onclick=()=>saveIntegrationSettings({automcp_enabled:false,autohook_enabled:false,codex_context_mode:"off"});
+$("automcpSwitch").onchange=e=>saveIntegrationSettings({automcp_enabled:e.target.checked});
+$("autohookSwitch").onchange=e=>saveIntegrationSettings({autohook_enabled:e.target.checked});
+$("integrationRefresh").onclick=loadIntegrations;
+document.querySelectorAll("[data-context-mode]").forEach(button=>{
+  button.onclick=()=>saveIntegrationSettings({codex_context_mode:button.dataset.contextMode});
+});
+$("accountDisconnect").onclick=async()=>{
+  await fetch("/account/disconnect",{method:"POST"});
+  await loadAccountStatus();
+};
+$("voidSwitch").onclick=()=>{
+  const on=$("voidSwitch").getAttribute("aria-pressed")==="true";
+  if(on)return saveIntegrationSettings({automcp_enabled:false,autohook_enabled:false,codex_context_mode:"off"});
+  return activateIntegration("all");
+};
+$("workspaceDirectoryInput").onchange=e=>{
+  const file=e.target.files&&e.target.files[0];
+  if(!file)return;
+  const root=String(file.webkitRelativePath||file.name).split(/[\\/]/).filter(Boolean)[0];
+  focusWorkspaceFromFolderName(root||file.name);
+  e.target.value="";
+};
+$("graphQueryRun").onclick=()=>{
+  const query=($("graphQuery").value||"").trim();
+  if(!query)return openWorkspacePicker();
+  return loadGraph(query);
+};
+$("graphQuery").addEventListener("keydown",event=>{
+  if(event.key==="Enter"){
+    event.preventDefault();
+    $("graphQueryRun").click();
+  }
+});
+$("graphPathRun").onclick=loadGraphPath;
+$("atlasCanvas").addEventListener("pointerdown",event=>{
+  $("atlasCanvas").setPointerCapture?.(event.pointerId);
+  atlasVisual.dragging=true;
+  atlasVisual.dragMoved=false;
+  atlasVisual.lastPointer=atlasPointerPosition(event);
+  $("atlasCanvas").style.cursor="grabbing";
+});
+$("atlasCanvas").addEventListener("pointermove",event=>{
+  const point=atlasPointerPosition(event);
+  if(atlasVisual.dragging&&atlasVisual.lastPointer){
+    const dx=point.x-atlasVisual.lastPointer.x;
+    const dy=point.y-atlasVisual.lastPointer.y;
+    if(Math.abs(dx)+Math.abs(dy)>1)atlasVisual.dragMoved=true;
+    atlasVisual.panX+=dx;
+    atlasVisual.panY+=dy;
+    atlasVisual.lastPointer=point;
+    drawAtlasScene();
+    return;
+  }
+  const node=nearestAtlasNodeFromPointer(point);
+  if(node!==atlasVisual.hovered){
+    atlasVisual.hovered=node;
+    $("atlasCanvas").style.cursor=node?"pointer":"grab";
+    drawAtlasScene();
+  }
+});
+$("atlasCanvas").addEventListener("pointerup",event=>{
+  $("atlasCanvas").releasePointerCapture?.(event.pointerId);
+  atlasVisual.dragging=false;
+  atlasVisual.lastPointer=null;
+  $("atlasCanvas").style.cursor=atlasVisual.hovered?"pointer":"grab";
+});
+$("atlasCanvas").addEventListener("pointercancel",()=>{
+  atlasVisual.dragging=false;
+  atlasVisual.lastPointer=null;
+  $("atlasCanvas").style.cursor="grab";
+});
+$("atlasCanvas").addEventListener("mouseleave",()=>{
+  atlasVisual.hovered=null;
+  if(!atlasVisual.dragging)$("atlasCanvas").style.cursor="grab";
+  drawAtlasScene();
+});
+$("atlasCanvas").addEventListener("click",event=>{
+  if(atlasVisual.dragMoved){
+    atlasVisual.dragMoved=false;
+    return;
+  }
+  const point=atlasPointerPosition(event);
+  setAtlasSelection(nearestAtlasNodeFromPointer(point));
+});
+$("atlasCanvas").addEventListener("wheel",event=>{
+  event.preventDefault();
+  setAtlasZoom((atlasVisual.zoom||1)*(event.deltaY>0 ? .9 : 1.1));
+},{passive:false});
+$("atlasZoomOut").onclick=()=>setAtlasZoom((atlasVisual.zoom||1)/1.2);
+$("atlasZoomIn").onclick=()=>setAtlasZoom((atlasVisual.zoom||1)*1.2);
+$("atlasReset").onclick=()=>{
+  $("graphQuery").value="";
+  atlasVisual.zoom=1;
+  atlasVisual.panX=0;
+  atlasVisual.panY=0;
+  renderAtlasZoom();
+  return loadGraph("");
+};
+window.addEventListener("resize",()=>{
+  if(atlasVisual.lastGraph)renderAtlasScene(atlasVisual.lastGraph);
+});
+
+tick();
+connectAccountFromHash();
+loadAccountStatus();
+loadHealth();
+loadGraph();
+loadIntegrations();
+renderAtlasZoom();
+setInterval(tick,1000);
+setInterval(loadAccountStatus,30000);
+setInterval(loadHealth,10000);
+setInterval(loadGraph,15000);
+setInterval(loadIntegrations,9000);
+</script>
+</body>
+</html>

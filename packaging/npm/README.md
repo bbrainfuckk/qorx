@@ -1,0 +1,16 @@
+# qorx npm wrapper
+
+This npm package installs the Qorx Community Edition CLI from the public Git tag
+using Cargo. Publish it only after the source tag exists and npm is ready for
+the current version.
+
+It does not meter local Community Edition commands. Qorx Void Starter account
+features still use the 5,000 included Void/Cloud request allowance.
+
+```sh
+npm install -g qorx
+qorx --version
+```
+
+Set `QORX_SKIP_INSTALL=1` to skip the Cargo install step, or `QORX_BIN` to point
+the wrapper at an existing `qorx` binary.

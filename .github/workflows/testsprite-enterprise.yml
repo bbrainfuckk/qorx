@@ -1,0 +1,132 @@
+name: TestSprite Enterprise QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Public staging URL for the Qorx SaaS/API surface to test"
+        required: true
+        type: string
+      blocking:
+        description: "Fail this workflow when TestSprite reports a failing suite"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testsprite-enterprise-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  local-daemon-smoke:
+    name: Local daemon smoke
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Rust stable
+        run: |
+          rustup update stable
+          rustup default stable
+
+      - name: Build release binary
+        run: cargo build --release --locked
+
+      - name: Start daemon and verify health
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./target/release/qorx --version
+          ./target/release/qorx daemon start
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:47187/health > health.json; then
+              break
+            fi
+            sleep 1
+          done
+          cat health.json
+          grep -q '"ok":true' health.json
+          grep -q '"version":"0.0.1-ylem"' health.json
+
+      - name: Stop daemon
+        if: always()
+        run: ./target/release/qorx daemon stop || true
+
+      - name: Upload local smoke artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: qorx-local-daemon-health
+          path: health.json
+          if-no-files-found: ignore
+          retention-days: 14
+
+  testsprite-cloud:
+    name: TestSprite cloud suite
+    needs: local-daemon-smoke
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate TestSprite secret
+        shell: bash
+        env:
+          TESTSPRITE_API_KEY: ${{ secrets.TESTSPRITE_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TESTSPRITE_API_KEY}" ]; then
+            echo "::error::TESTSPRITE_API_KEY is not configured. Add it under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+      - name: Note generated-suite precondition
+        shell: bash
+        run: |
+          if [ ! -d testsprite_tests ]; then
+            echo "::notice::No testsprite_tests/ directory is committed. TestSprite may rely on portal-managed tests or fail until a suite is generated with the TestSprite MCP server."
+          fi
+          mkdir -p testsprite_tests/tmp
+
+      - name: TestSprite Action
+        id: testsprite
+        uses: TestSprite/run-action@v1
+        continue-on-error: ${{ inputs.blocking == 'false' }}
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+          TESTSPRITE_BASE_URL: ${{ inputs.base_url }}
+        with:
+          testsprite-api-key: ${{ secrets.TESTSPRITE_API_KEY }}
+          base_url: ${{ inputs.base_url }}
+          github-token: ${{ github.token }}
+          blocking: ${{ inputs.blocking }}
+
+      - name: Summarize TestSprite output
+        if: always()
+        shell: bash
+        run: |
+          if [ -f testsprite_tests/tmp/test_results.json ]; then
+            echo "TestSprite wrote testsprite_tests/tmp/test_results.json" >> "$GITHUB_STEP_SUMMARY"
+            echo "Action outputs:" >> "$GITHUB_STEP_SUMMARY"
+            echo "- total_tests: ${{ steps.testsprite.outputs.total_tests }}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- passed_tests: ${{ steps.testsprite.outputs.passed_tests }}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- result_url: ${{ steps.testsprite.outputs.result_url }}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "TestSprite did not write testsprite_tests/tmp/test_results.json. Generate or connect a TestSprite suite before treating this as a cloud QA pass." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload TestSprite artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: testsprite-tests
+          path: testsprite_tests/**
+          if-no-files-found: ignore
+          retention-days: 14

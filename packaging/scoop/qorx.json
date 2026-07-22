@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1-ylem",
+  "description": "Qorx AI-native language and runtime for local context resolution.",
+  "homepage": "https://github.com/bbrainfuckk/qorx",
+  "license": "AGPL-3.0-only",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/bbrainfuckk/qorx/releases/download/v0.0.1-ylem/qorx-v0.0.1-ylem-windows-x64.zip",
+      "hash": "replace_with_windows_zip_sha256"
+    }
+  },
+  "bin": "qorx.exe",
+  "checkver": {
+    "github": "https://github.com/bbrainfuckk/qorx"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/bbrainfuckk/qorx/releases/download/v$version/qorx-v$version-windows-x64.zip"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+pkgbase = qorx
+	pkgdesc = Qorx AI-native language and runtime for local context resolution
+	pkgver = 1.0.4
+	pkgrel = 1
+	url = https://github.com/bbrainfuckk/qorx
+	arch = x86_64
+	arch = aarch64
+	license = AGPL-3.0-only
+	makedepends = rust
+	source = qorx-1.0.4.tar.gz::https://crates.io/api/v1/crates/qorx/1.0.4/download
+	sha256sums = SKIP
+
+pkgname = qorx

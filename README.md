@@ -1,210 +1,295 @@
 # Qorx
 
-Qorx is a programming language and local runtime for humans and AI agents.
+Stop resending the same AI context.
 
-Qorx Void gives Codex users local project memory. It keeps repeated workspace context on the user's machine, resolves the current task against local quarks, and sends a compact proof frame when Codex needs it.
+AI tools get expensive when they keep receiving the same repo, notes, logs,
+policies, and project rules. Qorx keeps that repeated context local, sends a
+small carrier, and pulls the exact local lines only when a task needs them.
 
-This public repository is documentation only. It publishes the product story, benchmark records, research references, credits, citation metadata, and IP boundaries. It does not publish Qorx source, runnable product packages, private technical material, or distribution packages.
+The first numbers to notice:
+
+| Scenario | Number | Meaning |
+| --- | ---: | --- |
+| Current public repo benchmark | 388,573 local tokens -> 69 sent | 5,631.49x smaller session carrier |
+| Website planning model, 2,000 people using AI tools | 42.5B repeated input tokens/year kept local | Bounded estimate, not a provider invoice |
+
+What matters is visible: what stayed local, what was sent, and which
+source-backed context Qorx selected.
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
+[![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19953308.svg)](https://doi.org/10.5281/zenodo.19953308)
+[![Software Heritage](https://img.shields.io/badge/Software%20Heritage-archived-ff6600)](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/bbrainfuckk/qorx)
+[![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
+[![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
 
 ## What Qorx Does
 
-Codex is powerful, but large projects make it reread the same context over and over. Qorx Void turns repeated local context into a small carrier for the next turn, so the user can keep working from the AI plan they already have before moving to a higher plan.
+Qorx is a local context runtime and small `.qorx` language.
 
-The public product is Qorx Void. The installed product is the Qorx Void app.
+In plain terms:
 
-## Qorx Void Documentation
+1. It indexes a workspace on your machine.
+2. It sends a small carrier or evidence pack to the AI workflow.
+3. It pulls cited local context only when a task needs it.
+4. It marks unsupported claims instead of pretending the evidence exists.
 
-Qorx Void is documented directly in this main repository so reviewers, testers, and public technical readers can understand the product without receiving private implementation material.
+The core boundary is simple:
 
-- [Qorx Void Handbook](docs/void/README.md): the deeper public guide for Qorx Void.
-- [Architecture](docs/void/architecture.md): the public system model and host boundary.
-- [Day-To-Day Use](docs/void/day-to-day-use.md): how operators use Void and how testers use `qorx-free`.
-- [qorx-free](docs/void/qorx-free.md): the Linux AMD MI300X public benchmarker.
-- [Security Model](docs/void/security-model.md): what is visible, what stays private, and why.
-- [Release Boundary](docs/void/release-boundary.md): what GitHub can publish and what must not be shipped.
+```text
+large local context -> small model-visible carrier -> cited local context on demand
+```
 
-These docs explain product behavior, operator workflows, benchmark methodology, release boundaries, and security expectations. They do not publish source, private implementation material, sensitive operational details, private data, or build and release procedures.
+That is the product shape. The rest of the repo exists to make it buildable,
+testable, and bounded.
 
-## AMD Benchmark
+![Qorx banner](docs/assets/qorx-img.jpg)
 
-Measured machine:
+## The Boundary
 
-| Hardware | Spec |
-| --- | --- |
-| Accelerator | AMD Radeon Instinct™ MI300X GPU ROCm™ enabled GPT-OSS 120b-ROCm7 |
-| Short name | AMD MI300X |
-| VRAM | 192 GB |
-| CPU | 20 vCPU |
-| RAM | 240 GB |
+Qorx works inside a real boundary. A remote model sees the small carrier and
+any local context the resolver explicitly returns.
 
-Measured Qorx Context Reduction result:
+Fewer tokens do not automatically mean a better answer. Provider invoice
+savings are shown only when billing data is present.
 
-| Metric | Value |
-| --- | ---: |
-| Predeclared target | >= 12,500,000x |
-| Measured average reduction | 13,199,246.07x |
-| Indexed tokens | 184,789,445 |
-| Average carrier | 14.0 tokens |
-| Minimum quarks used | 2 |
-| Average core latency | 0.8974 ms |
-| Max core latency | 3.512 ms |
-| Provider calls | 0 |
+## Current Line
 
-The companion quality scorecard covers BEIR retrieval, FEVER, SQuAD 2.0, HotpotQA, Needle-in-haystack recall, grounding, and refusal behavior: 38 perfect checks across 52 rows.
+Current public version: `0.0.1-ylem`.
 
-Read the benchmark notes in [docs/benchmarks.md](docs/benchmarks.md).
+This repo is source-first right now. The source tag exists. Binary installers
+and release assets are not attached yet.
 
-## 50 Major Context, Agent, And Benchmark Comparisons
+Install from source:
 
-This is the public comparison map for Qorx: 50 major systems, papers, benchmarks, and tools from big tech, universities, research labs, and serious engineering products. The table keeps each system in its own lane while making the Qorx result explicit.
+```sh
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
+qorx --version
+```
 
-Qorx's measured lane is local context transit: 13,199,246.07x measured average context reduction, 184,789,445 indexed tokens, 14.0 average carrier tokens, 0.8974 ms average core latency, 3.512 ms max core latency, and 0 provider calls in the AMD MI300X local run.
+For local development:
 
-| # | System / work | Institution / Organization | Public metric or scale | Measured Qorx result |
-| ---: | --- | --- | --- | --- |
-| 1 | [LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Microsoft Research | Up to 20x prompt compression with little performance loss. | Qorx: 13,199,246.07x context reduction. |
-| 2 | [LongLLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Microsoft Research | 4x compression; 17.1% performance gain; 1.4x-3.8x latency speedup. | Qorx: 13.2M x reduction, 0.8974 ms average core latency, 3.512 ms max. |
-| 3 | [LLMLingua-2](https://arxiv.org/abs/2403.12968) | Microsoft Research and collaborators | 2x-5x compression; 1.6x-2.9x end-to-end latency acceleration; 3x-6x faster than earlier LLMLingua methods. | Qorx: 184,789,445 indexed tokens reduced to 14.0 average carrier tokens. |
-| 4 | [MInference](https://www.microsoft.com/en-us/research/publication/minference-1-0-accelerating-pre-filling-for-long-context-llms-via-dynamic-sparse-attention/) | Microsoft Research and University of Surrey | Up to 10x prefill speedup on A100 for long-context inference while maintaining accuracy. | Qorx: 13.2M x reduction in model-bound local context before inference; 0 provider calls in the measured run. |
-| 5 | [ReadAgent](https://deepmind.google/research/publications/74917/) | Google DeepMind | Effective context length extended by 3.5x-20x across QuALITY, NarrativeQA, and QMSum. | Qorx: 184.8M indexed local tokens represented by a 14.0-token average evidence carrier. |
-| 6 | [RULER](https://github.com/NVIDIA/RULER) | NVIDIA | 17 open-source models, 4 task categories, 13 long-context tasks. | Qorx: local scorecard covers retrieval, QA, needle recall, grounding, and refusal lanes with 38 / 52 perfect checks. |
-| 7 | [NeMo Retriever](https://docs.nvidia.com/nemo/retriever/) | NVIDIA | Indexing and querying microservices for extraction, embedding, and reranking pipelines. | Qorx: 13.2M x reduction before retrieval or reranking infrastructure receives repeated workspace context. |
-| 8 | [BEIR](https://github.com/beir-cellar/beir) | TU Darmstadt, University of Waterloo, and collaborators | 18 retrieval datasets across diverse domains and tasks. | Qorx: BEIR-style retrieval lanes are included in the 38 / 52 public scorecard result. |
-| 9 | [MTEB](https://huggingface.co/spaces/mteb/leaderboard) | Hugging Face and embedding benchmark community | Public embedding leaderboard across many tasks, datasets, and languages. | Qorx: 184,789,445 indexed local tokens reduced to 14.0 average carrier tokens for context transit. |
-| 10 | [DSPy](https://github.com/stanfordnlp/dspy) | Stanford NLP | Example RAG optimization improves a StackExchange subset from 53% to 61% in DSPy docs. | Qorx: 14.0 average carrier tokens for repeated local context supplied to an LM program. |
-| 11 | [SWE-bench](https://www.swebench.com/) | Stanford and Princeton | Real GitHub issue benchmark; SWE-bench Verified has 500 engineer-confirmed solvable problems. | Qorx: 184.8M indexed project tokens reduced to 14.0 average carrier tokens for agent context. |
-| 12 | [SWE-agent](https://swe-agent.com/0.7/usage/benchmarking/) | Stanford and Princeton ecosystem | Public harness for SWE-bench-style software-engineering evaluation; scores depend on model and scaffold. | Qorx: 13.2M x local context reduction is the measurable Qorx-on/off variable for this harness. |
-| 13 | [LoCoBench-Agent](https://www.salesforce.com/blog/locobench-agent/) | Salesforce AI Research | 8,000 long-context coding scenarios, 10 languages, 10K-1M token bands, and up to 50 turns. | Qorx: 184.8M indexed tokens reduced to a 14.0-token average carrier for long coding sessions. |
-| 14 | [OpenAI Codex](https://openai.com/index/introducing-gpt-5-3-codex/) | OpenAI | GPT-5.3-Codex xhigh: 56.8% SWE-Bench Pro Public, 77.3% Terminal-Bench 2.0, 64.7% OSWorld-Verified, 70.9% GDPval favorable/tied evaluations, 77.6% CTF, 81.4% SWE-Lancer IC Diamond. | Qorx: 13.2M x local context reduction for Codex workflows, with 0 provider calls in the Qorx core run. |
-| 15 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) | Anthropic | Claude 3.5 Sonnet scaffold reached 49% SWE-bench Verified in Anthropic's report. | Qorx: 184,789,445 indexed local tokens to 14.0 average proof-carrier tokens for Claude workflows. |
-| 16 | [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) | Anthropic, Linux Foundation Agentic AI Foundation | Public update cites 10,000+ active public MCP servers and 97M+ monthly Python/TypeScript SDK downloads. | Qorx: compact local carrier state for tool-connected workflows without repeating raw workspace payloads. |
-| 17 | [Amazon Q Developer](https://aws.amazon.com/about-aws/whats-new/2025/04/amazon-q-developer-releases-state-art-agent-feature-development/) | Amazon Web Services | Public AWS update cites 66% SWE-bench Verified and 49% SWTBench Verified. | Qorx: 13.2M x local context reduction is the measured upstream context result. |
-| 18 | [Augment SWE-bench Agent](https://github.com/augmentcode/augment-swebench-agent) | Augment Code | Public agent reports 65.4% on first SWE-bench Verified submission. | Qorx: 184.8M indexed repo tokens to a 14.0-token average carrier for agent context. |
-| 19 | [Cursor Composer 2](https://cursor.com/blog/composer-2) | Cursor | Public blog cites CursorBench 61.3, Terminal-Bench 2.0 61.7, and SWE-bench Multilingual 73.7. | Qorx: 13.2M x repeated workspace-context reduction for coding workflows. |
-| 20 | [Devin](https://cognition.ai/blog/swe-bench-technical-report) | Cognition | 13.86% on original SWE-bench in Cognition's technical report. | Qorx: 184,789,445 indexed local tokens reduced to 14.0 average carrier tokens for agent context. |
-| 21 | [OpenHands CodeAct 2.1](https://openhands.dev/blog/openhands-codeact-21-an-open-state-of-the-art-software-development-agent) | All Hands AI / OpenHands | 53% SWE-bench Verified and 41.7% SWE-bench Lite. | Qorx: 13.2M x context reduction as the measured local-memory result for agent workflows. |
-| 22 | [Refact.ai Agent](https://refact.ai/blog/2025/open-source-sota-on-swe-bench-verified-refact-ai/) | Refact.ai | 70.4% SWE-bench Verified; 352 / 500 tasks solved. | Qorx: 184.8M indexed project tokens to 14.0 average carrier tokens before agent scoring. |
-| 23 | [Context Mode](https://context-mode.com/) | Context Mode | 315 KB to 5.4 KB, 98%; example reports 30x fewer tokens over 50 turns. | Qorx: 13.2M x context reduction with 0 provider calls in the local run. |
-| 24 | [LeanCTX](https://leanctx.com/features) | LeanCTX | Sample project 145.2K raw to 7.5K map tokens, 98.5% saved; file reads up to 99%. | Qorx: 184.8M indexed tokens to 14.0 average carrier tokens. |
-| 25 | [sqz CLI](https://docs.rs/crate/sqz-cli/1.0.4) | sqz | 24.7% average reduction; 92% saved on repeated file reads; 13-token cached refs. | Qorx: 14.0 average carrier tokens with minimum 2 quarks. |
-| 26 | [indxr](https://docs.rs/crate/indxr/0.2.0) | indxr | About 5x reduction vs full file reads; sub-20 ms indexing for most projects. | Qorx: 0.8974 ms average core latency in the AMD run. |
-| 27 | [Aider Repo Map](https://aider.chat/docs/repomap.html) | Aider | 1,024 default map tokens. | Qorx: 14.0 average carrier tokens. |
-| 28 | [Repomix](https://repomix.com/guide/configuration) | Repomix | Token counting with `o200k_base`; optional Tree-sitter code compression and file summary output. | Qorx: 184.8M indexed tokens to 14.0 average carrier tokens for repeated local context. |
-| 29 | [gitingest](https://github.com/coderamp-labs/gitingest) | gitingest | Reports file structure, extract size, and token count for prompt-friendly repository extraction. | Qorx: 14.0 average carrier tokens for repeated workspace state. |
-| 30 | [Cline Bench](https://cline.bot/blog/cline-bench-initiative) | Cline | Public benchmark initiative; public page reports large community signal and benchmark-building work. | Qorx: 13.2M x local context reduction is the measured agent-support result. |
-| 31 | [Terminal-Bench](https://www.tbench.ai/) | Terminal-Bench team | Terminal-task benchmark used in public coding-agent reports. | Qorx: 0.8974 ms average core latency for local context carrier resolution. |
-| 32 | [OSWorld](https://os-world.github.io/) | OSWorld benchmark team | Desktop computer-use benchmark; OpenAI reports 64.7% OSWorld-Verified for GPT-5.3-Codex xhigh. | Qorx: 184.8M indexed local tokens to 14.0 average carrier tokens for agent workflows. |
-| 33 | [GDPval](https://openai.com/index/gdpval/) | OpenAI | Knowledge-work benchmark covering 44 occupations. | Qorx: local project memory reduced to a compact carrier for knowledge-work agents. |
-| 34 | [SWE-Lancer](https://openai.com/index/introducing-gpt-5-3-codex/) | SWE-Lancer / OpenAI-reported evaluation | OpenAI reports 81.4% SWE-Lancer IC Diamond for GPT-5.3-Codex xhigh. | Qorx: 13.2M x context reduction is the measured upstream result for software-work agents. |
-| 35 | [FEVER](https://github.com/sheffieldnlp/fever-scorer) | Sheffield NLP and collaborators | Fact verification benchmark and scorer used in Qorx quality scorecard lanes. | Qorx: FEVER-style checks are part of the 38 / 52 public quality scorecard. |
-| 36 | [SQuAD 2.0](https://github.com/rajpurkar/SQuAD-explorer) | Stanford | Reading-comprehension and unanswerable-question benchmark used in Qorx scorecard lanes. | Qorx: SQuAD-style checks are part of the 38 / 52 public quality scorecard. |
-| 37 | [HotpotQA](https://github.com/hotpotqa/hotpot) | CMU, Stanford, and Mila | Multi-hop question-answering benchmark used in Qorx support-coverage lanes. | Qorx: HotpotQA-style support checks are part of the 38 / 52 public quality scorecard. |
-| 38 | [Needle In A Haystack](https://github.com/gkamradt/LLMTest_NeedleInAHaystack) | Greg Kamradt / community benchmark | Long-context recall stress test used broadly for retrieval and context checks. | Qorx: needle recall checks are part of the public AMD scorecard. |
-| 39 | [Pinecone](https://docs.pinecone.io/docs/limits) | Pinecone | Public limits include max `top_k` 10,000, max query result size 4 MB, and fetch/delete max 1,000 IDs. | Qorx: 13.2M x local context reduction before vector serving. |
-| 40 | [Portkey](https://portkey.ai/blog/the-most-reliable-ai-gateway-for-production-systems/) | Portkey | Public vendor post cites 10B+ LLM requests/month, 99.9999% uptime, and sub-10 ms latency. | Qorx: 0 provider calls in the local core run; compact context before gateway traffic. |
-| 41 | [LiteLLM proxy](https://docs.litellm.ai/) | LiteLLM / BerriAI | Public docs cover 100+ LLMs; model database lists many providers and models. | Qorx: 184.8M indexed tokens to 14.0 average carrier tokens before proxy calls. |
-| 42 | [Langfuse](https://langfuse.com/docs/metrics/overview/) | Langfuse | Tracks cost, latency, quality, volume, prompt metrics, and scores. | Qorx: 13.2M x reduction in the repeated local input that observability would otherwise record. |
-| 43 | [LangSmith](https://docs.smith.langchain.com/) | LangChain | Tracing, evaluation, and observability workflow for LLM apps. | Qorx: 14.0 average carrier tokens before tracing and evaluation observe the call. |
-| 44 | [LangGraph](https://docs.langchain.com/oss/python/langgraph/durable-execution) | LangChain | Durable execution persists workflow state and supports resume after interruptions. | Qorx: 184.8M indexed local tokens reduced to compact carrier state for continuity. |
-| 45 | [LlamaIndex](https://docs.llamaindex.ai/en/stable/api_reference/callbacks/token_counter/) | LlamaIndex | TokenCountingHandler and cost-analysis APIs count LLM token usage. | Qorx: reduces repeated local input before token counting and cost analysis. |
-| 46 | [Haystack](https://docs.haystack.deepset.ai/docs/pipelines) | deepset | Pipeline framework with typed components and DAG-style workflows. | Qorx: 13.2M x local context reduction before RAG pipeline calls. |
-| 47 | [Weaviate](https://docs.weaviate.io/weaviate/benchmarks) | Weaviate | Public benchmark pages and vector-index documentation. | Qorx: 184.8M indexed local tokens to 14.0 average carrier tokens before retrieval. |
-| 48 | [Qdrant](https://qdrant.tech/documentation/) | Qdrant | Vector search engine and database documentation. | Qorx: 13.2M x local context reduction before vector lookup. |
-| 49 | [Milvus / Zilliz](https://milvus.io/) | Milvus, Zilliz, and LF AI ecosystem | Large-scale vector similarity search system and ecosystem. | Qorx: compact local carrier state before vector storage and search. |
-| 50 | [Elasticsearch vector search](https://www.elastic.co/elasticsearch/vector-database) | Elastic | Search and vector database product surface. | Qorx: repeated local context reduced to a 14.0-token average carrier before search infrastructure. |
+```sh
+git clone https://github.com/bbrainfuckk/qorx.git
+cd qorx
+cargo test
+cargo build --release
+```
 
-Additional adjacent systems are included for ecosystem context. The Qorx result shown here is the measured local workspace context-transit result.
+Package recipes are included, but a package channel should be treated as live
+only when its public package page shows `0.0.1-ylem`.
 
-| Adjacent system | Institution / Organization | Qorx measured result |
+## Measured Numbers
+
+The current public benchmark indexed this repo and measured how much context
+had to be visible to the model.
+
+| Case | Local context | Sent to model | Local reduction |
+| --- | ---: | ---: | ---: |
+| Session carrier | 388,573 tokens | 69 tokens | 5,631.49x |
+| Evidence pack | 388,573 tokens | 410 tokens | 947.74x |
+| Squeeze extract | 388,573 tokens | 448 tokens | 867.35x |
+
+These are deterministic Qorx estimates using `ceil(chars / 4)`. They show how
+much local context stayed out of the model-visible request. They are not a
+provider bill.
+
+For money questions, use the live calculators. The benchmark above is a static
+run; the calculators let you change volume, people using AI tools, and product path:
+
+- [Enterprise AI spend calculator](https://qorx.orin.work/#enterprise-calculator)
+- [Cloud API vs Void calculator](https://qorx.orin.work/dashboard#qorx-savings-calculator)
+
+Source:
+
+- [Live benchmark](docs/benchmarks/live.md)
+- [Live benchmark JSON](docs/benchmarks/live.json)
+
+## Enterprise AI Spend Model
+
+The cost math is intentionally plain:
+
+```text
+avoided input cost = omitted input tokens / 1,000,000 * input price
+```
+
+For the session carrier above, Qorx omitted about 388,504 estimated input
+tokens. At $2 per 1M input tokens, that is about $0.78 of repeated input avoided
+for one context send. At $5 per 1M input tokens, it is about $1.94.
+
+For planning, the website calculator starts with this company model:
+
+```text
+100,000 repeated input tokens per person using AI tools per workday
+85% of that repeated input kept local
+250 workdays per year
+example input prices from $2 to $5 per 1M tokens
+```
+
+That gives this estimate before you adjust the live calculator:
+
+| People using AI tools | Avoided input tokens per day | Avoided input tokens per year | Estimated yearly range |
+| ---: | ---: | ---: | ---: |
+| 100 people | 8,500,000 | 2.125B | $4,250 to $10,625 |
+| 500 people | 42,500,000 | 10.625B | $21,250 to $53,125 |
+| 2,000 people | 170,000,000 | 42.5B | $85,000 to $212,500 |
+
+Use your own provider rate in the calculator. Output tokens, new input,
+provider cache behavior, discounts, and account terms can change the real bill.
+
+## Which Qorx Should I Try?
+
+Qorx has two product paths around the same idea.
+
+| If your repeated context lives in... | Start with | Trial |
 | --- | --- | --- |
-| [SWE-agent](https://swe-agent.com/0.7/usage/benchmarking/) | Stanford and Princeton ecosystem | 184,789,445 indexed local tokens to 14.0 average carrier tokens for software-agent context. |
-| [NeMo Retriever](https://docs.nvidia.com/nemo/retriever/) | NVIDIA | 13.2M x reduction before repeated local workspace context reaches retrieval infrastructure. |
-| [Retrieval-Augmented Generation](https://ai.meta.com/research/publications/retrieval-augmented-generation-for-knowledge-intensive-nlp-tasks/) | Meta AI, University College London, and New York University | 0 provider calls and sub-4 ms max core latency for local context transit in the AMD run. |
-| [Repomix](https://repomix.com/guide/configuration) | Repomix | 14.0 average carrier tokens for repeated workspace state. |
-| [gitingest](https://github.com/coderamp-labs/gitingest) | gitingest | 184.8M indexed local tokens represented by a compact repeat carrier. |
-| [LangGraph](https://docs.langchain.com/oss/python/langgraph/durable-execution) | LangChain | 14.0 average proof-frame tokens for local continuity state. |
-| [LlamaIndex](https://docs.llamaindex.ai/en/stable/api_reference/callbacks/token_counter/) | LlamaIndex | 13.2M x reduction before token counting and cost analysis. |
-| [Haystack](https://docs.haystack.deepset.ai/docs/pipelines) | deepset | 184.8M indexed local tokens to 14.0 average carrier tokens before RAG pipeline calls. |
-| [Pinecone](https://docs.pinecone.io/docs/limits) | Pinecone | 13.2M x local context reduction before vector serving. |
-| [Weaviate](https://docs.weaviate.io/weaviate/benchmarks) | Weaviate | 14.0 average carrier tokens for repeated local context before vector-index access. |
-| [Qdrant](https://qdrant.tech/documentation/) | Qdrant | 13.2M x local context reduction before vector lookup. |
-| [Milvus / Zilliz](https://milvus.io/) | Milvus, Zilliz, and LF AI ecosystem | 184.8M indexed local tokens reduced to compact carrier state before vector search. |
-| [Chroma](https://www.trychroma.com/) | Chroma | 14.0 average carrier tokens for repeated local context before collection access. |
-| [Vespa](https://vespa.ai/) | Vespa | 13.2M x context reduction before search serving. |
-| [Elasticsearch vector search](https://www.elastic.co/elasticsearch/vector-database) | Elastic | 14.0 average carrier tokens for repeated local context before search infrastructure. |
-| [Langfuse](https://langfuse.com/docs/metrics/overview/) | Langfuse | 13.2M x reduction in repeated local input before tracing. |
-| [LangSmith](https://docs.smith.langchain.com/) | LangChain | 14.0 average carrier tokens before tracing and evaluation. |
-| [Helicone](https://www.helicone.ai/) | Helicone | 0 provider calls in the local core run; compact context before request logging. |
-| [Portkey](https://portkey.ai/blog/the-most-reliable-ai-gateway-for-production-systems/) | Portkey | 13.2M x local context reduction before provider routing. |
-| [LiteLLM proxy](https://docs.litellm.ai/) | LiteLLM / BerriAI | 184.8M indexed local tokens to 14.0 average carrier tokens before proxy normalization. |
+| Your computer, editor, repos, notes, logs, and long AI sessions | Qorx Void Desktop | Free 1-hour local demo |
+| Your app, dashboard, support bot, n8n flow, or hosted agent call | Qorx Cloud API | Free 5,000 hosted calls |
 
-Reference names are clickable public references only. They are not source, bundled code, dependency, ownership, endorsement, or implementation claims.
+This public repo is the buildable CLI/runtime source line. Qorx Void Desktop is
+the finished desktop product around the runtime: account, license, support,
+installer flow, tray controls, and managed local operation.
 
-## Public Docs
+Read: [Trials](docs/TRIALS.md) and [Void boundary](docs/VOID_BOUNDARY.md).
 
-- [Qorx Void Handbook](docs/void/README.md): deeper public docs for Void architecture, usage, `qorx-free`, security, and release boundaries.
-- [Technology](docs/technology.md): Qorx, Qorx Void, quarks, carriers, and proof records.
-- [Benchmarks](docs/benchmarks.md): AMD MI300X measurements, scorecard rows, and test sources.
-- [Research](docs/research.md): public research areas and external references.
-- [Security And Boundaries](docs/security-and-boundaries.md): what is public, what stays private, and how source protection is handled.
-- [Review Brief](docs/review-brief.md): short reviewer-facing summary.
-- [Media](docs/media.md): public naming, hardware label, and citation copy.
+## Start Here
 
-## Citation
+Pick the path that matches your question.
 
-If you cite Qorx, use [CITATION.cff](CITATION.cff).
+| Question | Start with |
+| --- | --- |
+| I want to use Qorx with AI tools and local repos. | [Reader guide](docs/AUDIENCE_GUIDE.md), [Manual](docs/MANUAL.md), [Commands](docs/COMMANDS.md) |
+| I want to understand token and cost impact. | [Reader guide](docs/AUDIENCE_GUIDE.md), [Metrics](docs/METRICS.md), [Live benchmark](docs/benchmarks/live.md) |
+| I want to review the runtime as software. | [Qorx for Rust reviewers](docs/QORX_1_0_4_RUST.md), [Production status](docs/PRODUCTION.md), [Server and daemon](docs/SERVER.md) |
+| I want the science and math boundary. | [Science](docs/SCIENCE.md), [Science and math](docs/SCIENCE_AND_MATH.md), [SAFE-R](docs/SAFE-R.md) |
 
-Primary author: Marvin Sarreal Villanueva. ORCID: https://orcid.org/0009-0001-2017-5508.
+## First Commands
 
-Project DOI: https://doi.org/10.5281/zenodo.19875352
+After installing:
 
-Preferred technical-report DOI: https://doi.org/10.5281/zenodo.19953308
+```sh
+qorx doctor
+qorx daemon start
+qorx index .
+qorx strict-answer "which files explain the resolver boundary?"
+```
 
-## License And Source Boundary
+Open the local monitor:
 
-Copyright (c) 2026 Marvin Sarreal Villanueva. All rights reserved.
+```text
+http://127.0.0.1:47187/monitor
+```
 
-This branch is a documentation-only public surface. No license is granted to copy, modify, distribute, compile, decompile, package, mirror, or create derivative works from Qorx source, unpublished implementation material, private artifacts, brand assets, or product packaging.
+Useful command groups:
 
-See [LICENSE](LICENSE), [NOTICE](NOTICE), and [TRADEMARKS.md](TRADEMARKS.md).
+```sh
+qorx --help
+qorx man
+qorx stats
+qorx atlas
+qorx context snapshot
+qorx context verify
+qorx security attest
+```
 
-## Credits And GitHub Links
+## Minimal `.qorx` File
 
-Qorx creator and repository owner:
+```text
+QORX 1
+use std.evidence
+use std.branch as br
+let question = "which files explain how Qorx keeps local evidence outside the model prompt?"
+let fallback = "local evidence does not support this answer"
+pack evidence from question budget 700
+cache evidence key question ttl 3600
+strict answer from evidence limit 2
+if supported(answer) then emit answer else emit fallback
+```
 
-- Marvin Sarreal Villanueva: https://github.com/bbrainfuckk
-- ORCID author record: https://orcid.org/0009-0001-2017-5508
-- Public site: https://qorx.eu.cc
+Check it:
 
-Special thanks:
+```sh
+qorx qorx-check goal.qorx
+qorx qorx-compile goal.qorx --out goal.qorxb
+qorx goal.qorxb
+```
 
-- Arjay, whose Kortex work helped shape the local-context direction behind Qorx: https://github.com/H4D3ZS/kortex
+## Core Terms
 
-This is an attribution, not a dependency. Qorx is independently authored. It uses its own language, compiler/runtime design, quark and carrier model, benchmark record, product architecture, and implementation. This repository does not copy, import, redistribute, or package Kortex source code.
+You do not need these terms to start. They help when reading the code and
+benchmark output.
 
-Benchmark and evaluation references:
+| Term | Meaning |
+| --- | --- |
+| `.qorx` | Human-readable Qorx source file. |
+| `.qorxb` | Checked protobuf-envelope bytecode. |
+| carrier | Small model-visible object: source, bytecode, handle, or evidence pack. |
+| `qorx://s/...` | Session handle for indexed local state. |
+| evidence pack | Selected cited local evidence under a token budget. |
+| resolver boundary | Line between local state and model-visible text. |
+| B2C | Baseline-to-Compact accounting. Local estimate, not a provider invoice. |
 
-- BEIR: https://github.com/beir-cellar/beir
-- SQuAD Explorer / SQuAD 2.0: https://github.com/rajpurkar/SQuAD-explorer
-- FEVER scorer: https://github.com/sheffieldnlp/fever-scorer
-- HotpotQA: https://github.com/hotpotqa/hotpot
-- Needle In A Haystack: https://github.com/gkamradt/LLMTest_NeedleInAHaystack
+Qorx also has compact vocabulary for logs and UI. Those names are labels, not
+physics claims. The full boundary is in [SAFE-R](docs/SAFE-R.md).
 
-Language and systems references credited as inspiration or background reading:
+## Build And Test
 
-- Zig: https://github.com/ziglang/zig
-- Rust: https://github.com/rust-lang/rust
-- LLVM: https://github.com/llvm/llvm-project
-- TinyCC: https://github.com/TinyCC/tinycc
-- Tree-sitter: https://github.com/tree-sitter/tree-sitter
-- Protocol Buffers: https://github.com/protocolbuffers/protobuf
-- Wasmtime / Cranelift: https://github.com/bytecodealliance/wasmtime
-- TempleOS historical reference: https://github.com/cia-foundation/TempleOS
-- ZealOS historical reference: https://github.com/Zeal-Operating-System/ZealOS
+```sh
+cargo fmt --check
+cargo test
+cargo clippy --all-targets -- -D warnings
+cargo build --release
+```
 
-Agent and local-context ecosystem references:
+Useful checks:
 
-- Gemini CLI context-file reference: https://github.com/google-gemini/gemini-cli
-- Aider: https://github.com/Aider-AI/aider
+```sh
+qorx --version
+qorx doctor --json
+qorx index .
+qorx session
+qorx b2c-plan "which files explain the resolver boundary?" --budget-tokens 900
+qorx strict-answer "which files explain the resolver boundary?"
+qorx context snapshot
+qorx context verify
+qorx security attest
+```
 
-Public documentation credits the projects above for benchmark sources, language references, compiler/runtime background, and agent-context comparisons. Qorx implementation code remains private.
+## Repository Map
+
+| Path | Purpose |
+| --- | --- |
+| `src/` | Rust parser, runtime, resolver, index, cache, daemon, protocol, and CLI. |
+| `tests/` | Runtime, language, capsule, context, lattice, MCP, and strict evidence tests. |
+| `docs/` | Manual, command guide, science notes, metrics, production boundary, and reviews. |
+| `docs/benchmarks/` | Reproducible local benchmark reports. |
+| `packages/` | npm and Python wrapper sources. |
+| `packaging/` | Linux, Windows, macOS, systemd, and registry recipes. |
+| `scripts/` | Release, benchmark, distribution, and safety helpers. |
+
+## Main Docs
+
+- [Reader guide](docs/AUDIENCE_GUIDE.md)
+- [Manual](docs/MANUAL.md)
+- [Command guide](docs/COMMANDS.md)
+- [Install guide](docs/INSTALL.md)
+- [Metrics](docs/METRICS.md)
+- [Production status](docs/PRODUCTION.md)
+- [Server and daemon](docs/SERVER.md)
+- [Science](docs/SCIENCE.md)
+- [Science and math](docs/SCIENCE_AND_MATH.md)
+- [Reference papers](docs/REFERENCE_PAPERS.md)
+- [Independent review brief](docs/INDEPENDENT_REVIEW.md)
+- [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
+- [Release notes](docs/releases/v0.0.1-ylem.md)
+
+## License And Marks
+
+Copyright (c) 2026 Marvin Sarreal Villanueva.
+
+- Code and operational docs: [AGPL-3.0-only](LICENSE)
+- Citation metadata: [CITATION.cff](CITATION.cff)
+- Qorx Local Context Resolution preprint: [10.5281/zenodo.19953308](https://doi.org/10.5281/zenodo.19953308)
+- Contribution terms: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Security policy: [SECURITY.md](SECURITY.md)
+- Governance: [GOVERNANCE.md](GOVERNANCE.md)
+- Marks and project identity: [TRADEMARKS.md](TRADEMARKS.md)

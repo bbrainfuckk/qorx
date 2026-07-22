@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
+PackageIdentifier: bbrainfuckk.qorx
+PackageVersion: 1.0.3
+PackageLocale: en-US
+Publisher: Marvin Sarreal Villanueva
+PackageName: Qorx
+License: AGPL-3.0-only
+ShortDescription: Qorx language and runtime for local context resolution.
+Description: Qorx is a programming language and local runtime for context resolution.
+PackageUrl: https://github.com/bbrainfuckk/qorx
+LicenseUrl: https://github.com/bbrainfuckk/qorx/blob/main/LICENSE
+ManifestType: defaultLocale
+ManifestVersion: 1.9.0

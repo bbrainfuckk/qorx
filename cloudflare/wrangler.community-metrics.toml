@@ -1,0 +1,5 @@
+name = "qorx-community-metrics"
+main = "community-metrics-worker.mjs"
+account_id = "64d8191651a5a83b26cba4140bb30827"
+compatibility_date = "2026-05-03"
+workers_dev = true
