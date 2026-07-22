@@ -1,0 +1,233 @@
+{
+  "schema": "qorx.datacamp.provider-comparison.report.v1",
+  "captured_at_utc": {
+    "openai": "2026-07-22T11:32:30Z",
+    "anthropic": "2026-07-22T11:30:24Z"
+  },
+  "environment": {
+    "platform": "Linux-6.12.73-95.123.amzn2023.x86_64-x86_64-with-glibc2.27",
+    "openai_sandbox": "DataCamp Python with OpenAI",
+    "anthropic_sandbox": "DataCamp Python with Anthropic"
+  },
+  "qorx": {
+    "version": "qorx 1.0.6",
+    "release_asset": "qorx-v1.0.6-linux-x64-static.tar.gz",
+    "release_archive_sha256": "c22dd19e666d7a12b19f80c9ff78922fe22abe6d423c45a3f32befe41d1c41ef",
+    "binary_sha256": "1cbee5289a75610cbf8c812f4ce5626435712f1aae2e684a5d90565a7ac728c2",
+    "binary_bytes": 5732720,
+    "budget_tokens": 320
+  },
+  "fixture": {
+    "corpus_sha256": "517c10fa62eb818082c58d6e3de879d6ca2962eeb4369476f1c368df22d35288",
+    "full_context_chars": 106758,
+    "full_context_local_estimated_tokens": 26690,
+    "qorx_indexed_tokens": 26645,
+    "system_prompt": "Answer only from the supplied CONTEXT. If the context does not explicitly support every requested fact, reply exactly NOT_SUPPORTED. Otherwise answer in one short sentence. Do not use outside knowledge.",
+    "temperature": 0,
+    "max_output_tokens": 80,
+    "request_order": "full then qorx for each question",
+    "questions": [
+      {
+        "id": "supported_operations",
+        "query": "What is the emergency production override review window, and who must approve it?",
+        "expected": ["27 minutes", "Reliability Lead"]
+      },
+      {
+        "id": "supported_release",
+        "query": "What is the Atlas release marker, and who owns the release?",
+        "expected": ["cobalt-heron-73", "Mina Sol"]
+      },
+      {
+        "id": "unsupported_customer",
+        "query": "What is the customer's bank account number?",
+        "expected": ["NOT_SUPPORTED"]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "interface": "DataCamp managed OpenAI Chat Completions adapter",
+      "summary": {
+        "full_provider_input_tokens": 65850,
+        "qorx_provider_input_tokens": 814,
+        "provider_input_reduction_x": 80.8968058968059,
+        "full_accuracy": 1.0,
+        "qorx_accuracy": 1.0,
+        "full_median_elapsed_ms": 1200.634955,
+        "qorx_median_elapsed_ms": 658.204728,
+        "qorx_median_pack_ms": 11.822195
+      },
+      "rows": [
+        {
+          "question_id": "supported_operations",
+          "condition": "full",
+          "context_chars": 106758,
+          "provider_input_tokens": 21953,
+          "provider_output_tokens": 21,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 2892.554111,
+          "answer": "The emergency production override review window is exactly 27 minutes, and it requires approval from the Reliability Lead.",
+          "correct": true
+        },
+        {
+          "question_id": "supported_operations",
+          "condition": "qorx",
+          "context_chars": 932,
+          "qorx_used_tokens": 137,
+          "qorx_quarks_used": 2,
+          "qorx_pack_ms": 11.800654,
+          "provider_input_tokens": 336,
+          "provider_output_tokens": 21,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 1041.064139,
+          "answer": "The emergency production override review window is exactly 27 minutes, and it requires approval from the Reliability Lead.",
+          "correct": true
+        },
+        {
+          "question_id": "supported_release",
+          "condition": "full",
+          "context_chars": 106758,
+          "provider_input_tokens": 21951,
+          "provider_output_tokens": 19,
+          "cache_read_input_tokens": 21888,
+          "provider_elapsed_ms": 1200.634955,
+          "answer": "The Atlas release marker is cobalt-heron-73, and the release owner is Mina Sol.",
+          "correct": true
+        },
+        {
+          "question_id": "supported_release",
+          "condition": "qorx",
+          "context_chars": 910,
+          "qorx_used_tokens": 131,
+          "qorx_quarks_used": 2,
+          "qorx_pack_ms": 14.053446,
+          "provider_input_tokens": 332,
+          "provider_output_tokens": 19,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 658.204728,
+          "answer": "The Atlas release marker is cobalt-heron-73, and the release owner is Mina Sol.",
+          "correct": true
+        },
+        {
+          "question_id": "unsupported_customer",
+          "condition": "full",
+          "context_chars": 106758,
+          "provider_input_tokens": 21946,
+          "provider_output_tokens": 2,
+          "cache_read_input_tokens": 21888,
+          "provider_elapsed_ms": 660.160333,
+          "answer": "NOT_SUPPORTED",
+          "correct": true
+        },
+        {
+          "question_id": "unsupported_customer",
+          "condition": "qorx",
+          "context_chars": 287,
+          "qorx_used_tokens": 19,
+          "qorx_quarks_used": 0,
+          "qorx_pack_ms": 11.822195,
+          "provider_input_tokens": 146,
+          "provider_output_tokens": 2,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 590.461224,
+          "answer": "NOT_SUPPORTED",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-6",
+      "interface": "DataCamp managed Anthropic Messages adapter",
+      "summary": {
+        "full_provider_input_tokens": 77458,
+        "qorx_provider_input_tokens": 963,
+        "provider_input_reduction_x": 80.43406022845275,
+        "full_accuracy": 1.0,
+        "qorx_accuracy": 1.0,
+        "full_median_elapsed_ms": 3090.26212,
+        "qorx_median_elapsed_ms": 1372.946929,
+        "qorx_median_pack_ms": 14.025415
+      },
+      "rows": [
+        {
+          "question_id": "supported_operations",
+          "condition": "full",
+          "context_chars": 106758,
+          "provider_input_tokens": 25822,
+          "provider_output_tokens": 27,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 2700.45697,
+          "answer": "The emergency production override review window is exactly 27 minutes, and it must be approved by the Reliability Lead.",
+          "correct": true
+        },
+        {
+          "question_id": "supported_operations",
+          "condition": "qorx",
+          "context_chars": 932,
+          "qorx_used_tokens": 137,
+          "qorx_quarks_used": 2,
+          "qorx_pack_ms": 12.963387,
+          "provider_input_tokens": 402,
+          "provider_output_tokens": 28,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 1372.946929,
+          "answer": "The emergency production override review window is exactly **27 minutes**, and it must be approved by the **Reliability Lead**.",
+          "correct": true
+        },
+        {
+          "question_id": "supported_release",
+          "condition": "full",
+          "context_chars": 106758,
+          "provider_input_tokens": 25820,
+          "provider_output_tokens": 26,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 3090.26212,
+          "answer": "The Atlas release marker is cobalt-heron-73, and the release owner is Mina Sol.",
+          "correct": true
+        },
+        {
+          "question_id": "supported_release",
+          "condition": "qorx",
+          "context_chars": 910,
+          "qorx_used_tokens": 131,
+          "qorx_quarks_used": 2,
+          "qorx_pack_ms": 14.273869,
+          "provider_input_tokens": 398,
+          "provider_output_tokens": 29,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 3280.373283,
+          "answer": "The Atlas release marker is **cobalt-heron-73**, and the release is owned by **Mina Sol**.",
+          "correct": true
+        },
+        {
+          "question_id": "unsupported_customer",
+          "condition": "full",
+          "context_chars": 106758,
+          "provider_input_tokens": 25816,
+          "provider_output_tokens": 7,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 5051.016807,
+          "answer": "NOT_SUPPORTED",
+          "correct": true
+        },
+        {
+          "question_id": "unsupported_customer",
+          "condition": "qorx",
+          "context_chars": 287,
+          "qorx_used_tokens": 19,
+          "qorx_quarks_used": 0,
+          "qorx_pack_ms": 14.025415,
+          "provider_input_tokens": 163,
+          "provider_output_tokens": 7,
+          "cache_read_input_tokens": 0,
+          "provider_elapsed_ms": 908.977493,
+          "answer": "NOT_SUPPORTED",
+          "correct": true
+        }
+      ]
+    }
+  ]
+}
