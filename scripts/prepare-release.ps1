@@ -139,7 +139,7 @@ function Set-AurFiles([string]$PreviousVersion) {
 
   $srcinfo = @"
 pkgbase = qorx
-	pkgdesc = Qorx AI-native language and runtime for local context resolution
+	pkgdesc = Qorx provider-agnostic language and runtime for local context resolution
 	pkgver = $Version
 	pkgrel = 1
 	url = https://github.com/bbrainfuckk/qorx

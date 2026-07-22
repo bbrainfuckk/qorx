@@ -41,6 +41,8 @@ foreach ($relative in @(
   "packaging\winget\Qorx.Qorx.installer.yaml",
   "packaging\snap\snapcraft.yaml",
   "packaging\nfpm\qorx.yaml",
+  "Dockerfile",
+  "docker-compose.yml",
   "flake.nix",
   ".github\workflows\release-assets.yml",
   ".github\workflows\publish-registries.yml"
@@ -72,6 +74,14 @@ Require "Homebrew" (Text "packaging\homebrew\qorx.rb") ('tag:\s+"' + [regex]::Es
 Require "Snap" (Text "packaging\snap\snapcraft.yaml") ('version:\s*"' + [regex]::Escape($version) + '"') "version must be $version"
 Require "Nix" (Text "flake.nix") ('version = "' + [regex]::Escape($version) + '"') "version must be $version"
 Require "nfpm" (Text "packaging\nfpm\qorx.yaml") ('version:\s*' + [regex]::Escape($version)) "version must be $version"
+
+$dockerfile = Text "Dockerfile"
+$compose = Text "docker-compose.yml"
+Require "Dockerfile" $dockerfile ('ARG QORX_VERSION=' + [regex]::Escape($version)) "build version must be $version"
+Require "Dockerfile" $dockerfile 'qorx --version.*qorx \$\{QORX_VERSION\}' "build must assert the runtime version"
+Require "Dockerfile" $dockerfile 'USER qorx' "runtime must use the non-root qorx user"
+Require "Compose" $compose ('QORX_VERSION:\s*"' + [regex]::Escape($version) + '"') "build version must be $version"
+Require "Compose" $compose '127\.0\.0\.1:47187:47187' "host port must stay loopback-only"
 
 $scoop = Text "packaging\scoop\qorx.json"
 $winget = Text "packaging\winget\Qorx.Qorx.installer.yaml"

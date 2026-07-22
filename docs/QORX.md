@@ -1,4 +1,4 @@
-# Qorx AI-Native Language And Runtime
+# Qorx Language And Runtime
 
 This file is kept as a stable entry point. The handbook lives in
 [`docs/handbook`](handbook/README.md).
@@ -17,7 +17,7 @@ QORX 1
 use std.evidence
 use std.branch as br
 let question = "which files explain how Qorx keeps local evidence outside the model prompt?"
-let fallback = "qv0d: local evidence does not support this answer"
+let fallback = "local evidence does not support this answer"
 pack evidence from question budget 700
 cache evidence key question ttl 3600
 strict answer from evidence limit 2

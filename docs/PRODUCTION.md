@@ -4,30 +4,30 @@ This page is the public production boundary for Qorx.
 
 ## Verdict
 
-Qorx is production-ready as a local runtime, CLI, compiler, and internal service
-component.
+Qorx 1.0.6 is suitable for local evaluation and controlled internal use as a
+runtime, CLI, compiler, and service component. Production suitability still
+depends on the operator's workload, threat model, recovery plan, and validation.
 
-Qorx is not yet production-ready as an exposed multi-user cloud service. The
-daemon has no built-in user accounts, tenant isolation, public auth layer, or
-published load-test SLO.
+Qorx is not an exposed multi-user cloud service. The daemon has no built-in user
+accounts, tenant isolation, public auth layer, or published load-test SLO.
 
 That distinction matters. Run it on a workstation, build runner, internal
 server, or controlled automation host. Do not put the daemon on the public
 internet without a reverse proxy, authentication, TLS, rate limits, logs, and
 backups.
 
-## Ready
+## Implemented and tested
 
 | Surface | Status | Evidence |
 | --- | --- | --- |
-| `.qorx` source language | Ready | `qorx qorx-check <file>`, `qorx qorx <file>`, and `qorx qorx-compile <file>` |
-| `.qorxb` bytecode | Ready | AST, QIR, opcodes, `qstk`, and `qorx qorx-inspect <file>` |
-| Local runtime | Ready | `qorx index`, `qorx strict-answer`, `qorx context verify` |
-| Local HTTP gateway | Ready | `qorx daemon start`, `qorx daemon status`, `/health`, `/stats`, `/strict-answer` |
+| `.qorx` source language | Implemented | `qorx qorx-check <file>`, `qorx qorx <file>`, and `qorx qorx-compile <file>` |
+| `.qorxb` bytecode | Implemented | AST, QIR, opcodes, `qstk`, and `qorx qorx-inspect <file>` |
+| Local runtime | Implemented | `qorx index`, `qorx strict-answer`, `qorx context verify` |
+| Local HTTP gateway | Implemented; loopback by default | `qorx daemon start`, `qorx daemon status`, `/health`, `/stats`, `/strict-answer` |
 | Release binaries | Automated | `release-assets.yml` builds six x64/ARM64 targets from `v1.0.6` |
 | Package wrappers | Built locally | Registry channels are live only when the public package page shows `1.0.6` |
-| Provenance checks | Ready | `qorx security attest`, `qorx security verify` |
-| Operator check | Ready | `qorx doctor --json` |
+| Provenance checks | Implemented | `qorx security attest`, `qorx security verify` |
+| Operator check | Implemented | `qorx doctor --json` |
 
 ## Not Ready
 
@@ -93,15 +93,15 @@ Linux and macOS users can run:
 ./scripts/smoke-gateway.sh ./target/release/qorx
 ```
 
-## Allowed Claim
+## Scoped claim
 
 Use this wording:
 
 ```text
-Qorx is a production-ready local-first resolution runtime and internal service
-component for context resolution. It includes a small DSL, compiler, bytecode
-format, local daemon, HTTP gateway, daemon control commands, package surfaces,
-and operator checks.
+Qorx 1.0.6 implements a local-first context-resolution runtime, language,
+compiler, bytecode format, local daemon, HTTP gateway, package surfaces, and
+operator checks. It is suitable for controlled local and internal evaluation;
+deployment owners must validate production suitability for their environment.
 ```
 
 Do not present Qorx as a public SaaS platform until the external SaaS layer is

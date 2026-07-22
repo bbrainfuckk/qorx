@@ -17,7 +17,7 @@ use crate::{
     proto_store, session, squeeze, truth,
 };
 
-const PROGRAM_BOUNDARY: &str = "Qorx (.qorx) is an AI-native context language. It resolves through local index, capsule, session, cache, and evidence tools instead of embedding bulk context in the file.";
+const PROGRAM_BOUNDARY: &str = "Qorx (.qorx) is a provider-agnostic context language for humans and agents. It resolves through local index, capsule, session, cache, and evidence tools instead of embedding bulk context in the file.";
 const RUN_BOUNDARY: &str = "A .qorx source file or .qorxb bytecode file is a tiny Qorx handle program over local resolver state. It can be lossless for Qorx-known handles and indexed evidence, but it is not universal compression of unknown arbitrary data.";
 const PROMPT_BOUNDARY: &str = "Third-party models do not understand Qorx natively. They must call qorx.resolve, MCP, or a Qorx proxy; otherwise the prompt block is only a compact hint.";
 

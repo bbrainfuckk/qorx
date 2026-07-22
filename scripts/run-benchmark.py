@@ -73,6 +73,21 @@ def safe_clean_qorx_home(repo_root: Path, home: Path) -> None:
     home.mkdir(parents=True, exist_ok=True)
 
 
+def cargo_target_directory(repo_root: Path) -> Path:
+    """Return Cargo's effective target directory, including local config overrides."""
+    proc = subprocess.run(
+        ["cargo", "metadata", "--format-version", "1", "--no-deps"],
+        cwd=str(repo_root),
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(f"cargo metadata failed: {proc.stderr.strip()}")
+    return Path(json.loads(proc.stdout)["target_directory"])
+
+
 def relative(path: Path, root: Path) -> str:
     try:
         return path.resolve().relative_to(root.resolve()).as_posix()
@@ -246,9 +261,8 @@ def main() -> int:
     if not target.exists():
         raise RuntimeError(f"benchmark target does not exist: {target}")
 
-    exe = Path(args.exe) if args.exe else repo_root / "target" / "release" / "qorx.exe"
-    if os.name != "nt" and not args.exe:
-        exe = repo_root / "target" / "release" / "qorx"
+    exe_name = "qorx.exe" if os.name == "nt" else "qorx"
+    exe = Path(args.exe) if args.exe else cargo_target_directory(repo_root) / "release" / exe_name
 
     if not args.no_build or not exe.exists():
         subprocess.run(["cargo", "build", "--release"], cwd=str(repo_root), check=True)

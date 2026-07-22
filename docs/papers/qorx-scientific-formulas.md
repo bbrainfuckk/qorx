@@ -1,6 +1,6 @@
 # Qorx Formulas
 
-Version: 0.0.1-ylem
+Software version: Qorx 1.0.6
 
 ## Local Mass
 
