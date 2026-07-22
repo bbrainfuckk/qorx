@@ -1,7 +1,7 @@
-# Qorx 0.0.1-ylem: local context resolution runtime in Rust
+# Qorx 1.0.5 for Rust reviewers
 
-Qorx 0.0.1-ylem is a Rust CLI/runtime and small domain-specific language for local
-context resolution. It defines `.qorx` source, checked `.qorxb` protobuf
+Qorx 1.0.5 is an AI-native programming language with a Rust-bootstrap compiler
+and local runtime. It defines `.qorx` source, checked `.qorxb` protobuf
 bytecode, named resolver steps, branches, runtime assertions, a Forth-inspired
 `qstk` stack tape, and `qorx://` handles that resolve against local state.
 
@@ -30,7 +30,7 @@ index/cache/provenance state.
 ```sh
 qorx qorx-check goal.qorx
 qorx qorx-compile goal.qorx --out goal.qorxb
-qorx goal.qorxb
+qorx qorx goal.qorxb
 ```
 
 ## Why Rust
@@ -48,9 +48,9 @@ The useful Rust pieces are ordinary ones:
 - release packaging through Cargo first, with npm/Python wrappers around the
   Rust binary
 
-## What changed in 0.0.1-ylem
+## What changed in 1.0.5
 
-Version 0.0.1-ylem carries the current Qorx CLI and Void line while preserving the clarity and operator-facing readiness work:
+Version 1.0.5 carries the canonical Qorx language, compiler, and runtime:
 
 - problem-first README wording
 - a practical first `.qorx` example
@@ -68,11 +68,11 @@ Version 0.0.1-ylem carries the current Qorx CLI and Void line while preserving t
 - Windows release build verification
 - package recipes for crates.io, npm, PyPI, AUR, Homebrew tap, and Scoop
 
-The current `0.0.1-ylem` line is source-first until the matching package pages
+The current `1.0.5` line is source-first until the matching package pages
 and release assets are live:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
 ```
 
 ## What needs review

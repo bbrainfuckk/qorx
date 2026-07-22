@@ -1,6 +1,6 @@
 name: qorx
 base: core24
-version: "0.0.1-ylem"
+version: "1.0.5"
 summary: Qorx AI-native language and runtime for local context resolution
 description: |
   Qorx is an AI-native programming language and local runtime for context resolution.

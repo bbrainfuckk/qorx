@@ -1,3 +1,3 @@
 """Python entry point wrapper for Qorx."""
 
-__version__ = "0.0.1+ylem"
+__version__ = "1.0.5"

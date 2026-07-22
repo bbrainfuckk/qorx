@@ -1,5 +1,5 @@
 Name:           qorx
-Version:        0.0.1_ylem
+Version:        1.0.5
 Release:        1%{?dist}
 Summary:        Qorx AI-native language and runtime for local context resolution
 License:        AGPL-3.0-only
@@ -33,8 +33,8 @@ install -Dm644 LICENSE %{buildroot}%{_licensedir}/%{name}/LICENSE
 %license %{_licensedir}/%{name}/LICENSE
 
 %changelog
-* Wed May 06 2026 Marvin Sarreal Villanueva <marvin@orin.work> - 0.0.1_ylem-1
-- Roll Qorx packaging to the 0.0.1-ylem line.
+* Wed Jul 22 2026 Marvin Sarreal Villanueva <marvin@orin.work> - 1.0.5-1
+- Package the Qorx 1.0.5 language, compiler, and runtime.
 
 * Sat May 02 2026 Marvin Sarreal Villanueva <marvin@orin.work> - 1.0.3-1
 - Package Qorx distribution release.

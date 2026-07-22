@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import os
 import platform
 import shutil
@@ -11,7 +12,7 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
-VERSION = "0.0.1-ylem"
+VERSION = "1.0.5"
 TAG = f"v{VERSION}"
 REPO = "https://github.com/bbrainfuckk/qorx"
 
@@ -39,8 +40,8 @@ def asset_name() -> str | None:
     else:
         return None
 
-    if sys.platform.startswith("win") and arch == "x64":
-        return f"qorx-{TAG}-windows-x64.zip"
+    if sys.platform.startswith("win"):
+        return f"qorx-{TAG}-windows-{arch}.zip"
     if sys.platform.startswith("linux"):
         return f"qorx-{TAG}-linux-{arch}.tar.gz"
     if sys.platform == "darwin":
@@ -65,6 +66,34 @@ def find_binary(root: Path) -> Path | None:
     return None
 
 
+def verify_download(archive: Path, checksum: Path) -> None:
+    expected = checksum.read_text(encoding="utf-8").split()[0].lower()
+    actual = hashlib.sha256(archive.read_bytes()).hexdigest()
+    if actual != expected:
+        raise RuntimeError(f"Qorx release checksum mismatch: expected {expected}, got {actual}")
+
+
+def extract_tar_safely(archive_path: Path, destination: Path) -> None:
+    root = destination.resolve()
+    with tarfile.open(archive_path, "r:gz") as archive:
+        for member in archive.getmembers():
+            target = (destination / member.name).resolve()
+            if os.path.commonpath((root, target)) != str(root) or member.issym() or member.islnk():
+                raise RuntimeError(f"unsafe path in Qorx release archive: {member.name}")
+        archive.extractall(destination)
+
+
+def extract_zip_safely(archive_path: Path, destination: Path) -> None:
+    root = destination.resolve()
+    with zipfile.ZipFile(archive_path) as archive:
+        for member in archive.infolist():
+            target = (destination / member.filename).resolve()
+            is_symlink = (member.external_attr >> 16) & 0o170000 == 0o120000
+            if os.path.commonpath((root, target)) != str(root) or is_symlink:
+                raise RuntimeError(f"unsafe path in Qorx release archive: {member.filename}")
+        archive.extractall(destination)
+
+
 def download_asset() -> Path | None:
     asset = asset_name()
     if not asset:
@@ -72,23 +101,24 @@ def download_asset() -> Path | None:
 
     url = f"{REPO}/releases/download/{TAG}/{asset}"
     tmp = cache_dir() / "download" / asset
+    checksum = tmp.with_name(f"{asset}.sha256")
     out = cache_dir() / "extract"
     tmp.parent.mkdir(parents=True, exist_ok=True)
     out.mkdir(parents=True, exist_ok=True)
 
     try:
         urllib.request.urlretrieve(url, tmp)
-    except urllib.error.URLError:
+        urllib.request.urlretrieve(f"{url}.sha256", checksum)
+        verify_download(tmp, checksum)
+    except (OSError, RuntimeError, urllib.error.URLError):
         return None
 
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True, exist_ok=True)
     if asset.endswith(".zip"):
-        with zipfile.ZipFile(tmp) as archive:
-            archive.extractall(out)
+        extract_zip_safely(tmp, out)
     else:
-        with tarfile.open(tmp, "r:gz") as archive:
-            archive.extractall(out)
+        extract_tar_safely(tmp, out)
 
     binary = find_binary(out)
     if not binary:

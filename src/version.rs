@@ -1,9 +1,9 @@
 use std::env;
 
 pub const QORX_OWNER_PRODUCT: &str = "Qorx Ayie";
-pub const QORX_PRODUCT: &str = "Qorx Void";
+pub const QORX_PRODUCT: &str = "Qorx";
 pub const QORX_DEMO_PRODUCT: &str = "Qorx Void Demo";
-pub const QORX_VERSION: &str = "0.0.1-ylem";
+pub const QORX_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub fn product_name() -> &'static str {
     let edition = env::var("QORX_EDITION").ok();
@@ -49,7 +49,7 @@ fn runtime_edition_for_mode(
     } else if is_owner_ayie_mode(edition, owner) {
         "ayie"
     } else {
-        "void"
+        "qorx"
     }
 }
 
@@ -88,18 +88,18 @@ pub(crate) fn runtime_edition_for_test(
 #[cfg(test)]
 mod tests {
     #[test]
-    fn package_version_tracks_void_release() {
-        assert_eq!(env!("CARGO_PKG_VERSION"), "0.0.1-ylem");
-        assert_eq!(super::QORX_VERSION, "0.0.1-ylem");
+    fn package_version_tracks_qorx_release() {
+        assert_eq!(env!("CARGO_PKG_VERSION"), "1.0.5");
+        assert_eq!(super::QORX_VERSION, "1.0.5");
     }
 
     #[test]
-    fn runtime_defaults_to_public_qorx_void() {
+    fn runtime_defaults_to_public_qorx() {
         assert_eq!(
             super::product_name_for_test(false, None, None),
             super::QORX_PRODUCT
         );
-        assert_eq!(super::runtime_edition_for_test(false, None, None), "void");
+        assert_eq!(super::runtime_edition_for_test(false, None, None), "qorx");
     }
 
     #[test]

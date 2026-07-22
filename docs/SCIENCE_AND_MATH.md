@@ -5,7 +5,7 @@ machine, send a small visible carrier to the model, and resolve exact evidence
 locally when the workflow needs it.
 
 This page gives the math in public. There is no secret science here. Some parts
-are shipped in Community Edition today. Some parts, such as account entitlements
+are shipped in Qorx today. Some parts, such as account entitlements
 and managed provider routing, belong to Qorx Void or Qorx Cloud.
 
 ## Token estimate

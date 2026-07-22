@@ -1,8 +1,8 @@
-# Qorx Community Edition
+# Qorx public source
 
-This repository is Qorx Community Edition.
+This repository is the canonical public source for Qorx.
 
-Community Edition exists so people can inspect the source, build the CLI, test
+The public source lets people inspect the implementation, build the CLI, test
 the language/runtime model, verify the research claims, and use Qorx in local
 evidence-first workflows. It is the public source line, not a dead sample.
 
@@ -41,7 +41,7 @@ source, the language, the local evidence routes, and release recipes for direct
 CLI use. Release assets are live only after a maintainer attaches them to a
 GitHub release.
 
-Package-channel files in this repo install or build Community Edition. They do
+Package-channel files in this repo install or build Qorx. They do
 not add Void account services, and they do not cap local CLI usage.
 
 ## Qorx Void Starter
@@ -107,5 +107,4 @@ Qorx Void is the supported local product:
 - cloud capsule sync when enabled by the user.
 - team controls and support.
 
-Community Edition is for source review and experimentation. Qorx Void is the
-local product customers should install.
+Qorx can be built for source review, experimentation, and local use.

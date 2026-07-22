@@ -56,12 +56,12 @@ jobs:
             --suite qorx-live \
             --budget-tokens 600 \
             --squeeze-budget-tokens 450 \
-            --query "Qorx Community Edition AGPL source line" \
+            --query "Qorx 1.0.5 public language and compiler" \
             --query "qorx carriers .qorx .qorxb qorx handle" \
             --query "strict answer unsupported claims" \
-            --supported-question "Qorx Community Edition AGPL source line" \
+            --supported-question "Qorx 1.0.5 public language and compiler" \
             --unsupported-question "$absent" \
-            --agent-objective "prove Qorx Community Edition AGPL source line" \
+            --agent-objective "prove Qorx 1.0.5 public language and compiler" \
             --output-json docs/benchmarks/live.json \
             --output-md docs/benchmarks/live.md \
             --compact-public-json \

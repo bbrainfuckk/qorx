@@ -101,7 +101,7 @@ Then inspect the implementation:
 
 Read next:
 
-- [Qorx for Rust reviewers](QORX_1_0_4_RUST.md)
+- [Qorx for Rust reviewers](QORX_1_0_5_RUST.md)
 - [Production status](PRODUCTION.md)
 - [Server and daemon](SERVER.md)
 

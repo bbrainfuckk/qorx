@@ -1,10 +1,9 @@
 # Qorx PyPI wrapper
 
-This PyPI package exposes the `qorx` command and installs the Qorx Community
-Edition CLI from the public Git tag using Cargo.
+This PyPI package exposes the `qorx` command and installs Qorx from the matching
+public Git tag using Cargo.
 
-It does not meter local Community Edition commands. Qorx Void Starter account
-features still use the 5,000 included Void/Cloud request allowance.
+It runs local Qorx language and compiler commands without a hosted dependency.
 
 ```sh
 python -m pip install qorx

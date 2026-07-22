@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const crypto = require("crypto");
 const https = require("https");
 const os = require("os");
 const path = require("path");
@@ -18,7 +19,7 @@ const vendorBin = path.join(vendorDir, binName);
 function assetName() {
   const arch = process.arch === "x64" ? "x64" : process.arch === "arm64" ? "arm64" : null;
   if (!arch) return null;
-  if (process.platform === "win32" && arch === "x64") return `qorx-${tag}-windows-x64.zip`;
+  if (process.platform === "win32") return `qorx-${tag}-windows-${arch}.zip`;
   if (process.platform === "linux") return `qorx-${tag}-linux-${arch}.tar.gz`;
   if (process.platform === "darwin") return `qorx-${tag}-macos-${arch}.tar.gz`;
   return null;
@@ -67,6 +68,10 @@ function findBinary(dir) {
     }
   }
   return null;
+}
+
+function sha256(file) {
+  return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 }
 
 function extract(archive, outDir) {
@@ -118,9 +123,14 @@ async function main() {
   if (asset) {
     const url = `${repo}/releases/download/${tag}/${asset}`;
     const tmp = path.join(os.tmpdir(), asset);
+    const checksum = `${tmp}.sha256`;
     const extracted = path.join(os.tmpdir(), `qorx-${process.pid}`);
     try {
       await download(url, tmp);
+      await download(`${url}.sha256`, checksum);
+      const expected = fs.readFileSync(checksum, "utf8").trim().split(/\s+/)[0].toLowerCase();
+      const actual = sha256(tmp);
+      if (actual !== expected) throw new Error(`checksum mismatch: expected ${expected}, got ${actual}`);
       extract(tmp, extracted);
       const binary = findBinary(extracted);
       if (!binary) throw new Error("archive did not contain qorx binary");

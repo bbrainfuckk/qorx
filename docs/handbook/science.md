@@ -179,11 +179,11 @@ remain the authority for invoice claims.
 Run the full release prep before publishing a new version:
 
 ```powershell
-.\scripts\prepare-release.ps1 -Version 0.0.1-ylem
+.\scripts\prepare-release.ps1 -Version 1.0.5
 ```
 
 For registry dry runs:
 
 ```powershell
-.\scripts\prepare-release.ps1 -Version 0.0.1-ylem -DryRunRegistries
+.\scripts\prepare-release.ps1 -Version 1.0.5 -DryRunRegistries
 ```

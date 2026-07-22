@@ -38,8 +38,8 @@ mod monitor_tests {
     #[test]
     fn monitor_opens_with_one_consumer_story() {
         let html = super::MONITOR_HTML;
-        assert!(html.contains("<title>Qorx Void Monitor</title>"));
-        assert!(html.contains("id=\"runtimeTitle\">Qorx Void"));
+        assert!(html.contains("<title>Qorx Monitor</title>"));
+        assert!(html.contains("id=\"runtimeTitle\">Qorx"));
         assert!(html.contains("id=\"voidSwitch\""));
         assert!(html.contains("class=\"switch-orb\""));
         assert!(html.contains("aria-pressed=\"false\""));
@@ -210,7 +210,7 @@ mod monitor_tests {
         assert!(html.contains("qorx man"));
         assert!(html.contains("qorx integrate status"));
         assert!(html.contains("qorx atlas export"));
-        assert!(html.contains("Qorx CLI, version 0.0.1-ylem"));
+        assert!(html.contains("Qorx CLI, version 1.0.5"));
         assert!(html.contains("platformTiles"));
         assert!(html.contains("https://qorx.orin.work/dashboard#account"));
         assert!(html.contains("Google Login"));
@@ -234,7 +234,7 @@ mod monitor_tests {
     #[test]
     fn monitor_defaults_to_public_void_and_can_reflect_runtime_product() {
         let html = super::MONITOR_HTML;
-        assert!(html.contains("const product=s.product||\"Qorx Void\";"));
+        assert!(html.contains("const product=s.product||\"Qorx\";"));
         assert!(html.contains("document.title=`${product} Monitor`;"));
         assert!(html.contains("setText(\"runtimeTitle\",product);"));
         assert!(html.contains("document.body.dataset.product"));

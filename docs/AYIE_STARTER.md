@@ -71,7 +71,7 @@ When the allowance is used:
 
 ```text
 Your 5,000 included Void/Cloud requests are used. Subscribe to keep using
-Qorx Void and Qorx Cloud services. Local Community Edition commands still work.
+Qorx Void and Qorx Cloud services. Local Qorx commands still work.
 ```
 
 That message is direct. It does not hide the source, the math, or the local
@@ -93,7 +93,7 @@ The public repository does not ship the Qorx Void Starter installer binary yet.
 Until signed assets are attached to releases, the website download buttons point
 here and make that boundary explicit.
 
-Community Edition package-channel files now live in the repo for PyPI, npm,
+Qorx package-channel files now live in the repo for PyPI, npm,
 Arch/AUR, Homebrew, Scoop, WinGet, Snap, Docker, Nix, and Deb/RPM packaging.
 Those package files do not enforce the 5,000 request allowance. The community
 source release remains AGPL. The service cap protects the hosted capacity and
@@ -106,6 +106,6 @@ request counts.
 
 - local runtime metrics come from `GET http://127.0.0.1:47187/stats`.
 - Starter allowance metrics come from the Qorx account service.
-- Community Edition local commands stay unmetered.
+- Local Qorx commands stay unmetered.
 
 See [Qorx metrics](METRICS.md) for the full Void/API/CLI split.

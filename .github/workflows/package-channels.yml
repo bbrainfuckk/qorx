@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - "packaging/**"
+      - "packages/**"
       - "Dockerfile"
       - "flake.nix"
       - "scripts/check-package-channels.ps1"
@@ -15,6 +16,7 @@ on:
       - main
     paths:
       - "packaging/**"
+      - "packages/**"
       - "Dockerfile"
       - "flake.nix"
       - "scripts/check-package-channels.ps1"
@@ -37,15 +39,15 @@ jobs:
         run: ./scripts/check-package-channels.ps1
 
       - name: Validate npm metadata
-        run: node -e "const p=require('./packaging/npm/package.json'); if (!p.bin.qorx) throw new Error('missing qorx bin'); console.log(p.name, p.version)"
+        run: node -e "const p=require('./packages/npm/package.json'); if (!p.bin.qorx) throw new Error('missing qorx bin'); console.log(p.name, p.version)"
 
       - name: Validate PyPI metadata
         run: |
           python - <<'PY'
           import pathlib
           import tomllib
-          data = tomllib.loads(pathlib.Path("packaging/pypi/pyproject.toml").read_text())
-          assert data["project"]["scripts"]["qorx"] == "qorx_cli.launcher:main"
+          data = tomllib.loads(pathlib.Path("packages/python/pyproject.toml").read_text())
+          assert data["project"]["scripts"]["qorx"] == "qorx.runner:main"
           print(data["project"]["name"], data["project"]["version"])
           PY
 

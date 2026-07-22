@@ -81,13 +81,13 @@ fn mcp_stdio_initializes_and_lists_qorx_tools() {
     );
     let init = recv(&mut stdout);
     assert_eq!(init["id"], 1);
-    assert_eq!(init["result"]["serverInfo"]["name"], "qorx-void");
-    assert_eq!(init["result"]["serverInfo"]["version"], "0.0.1-ylem");
+    assert_eq!(init["result"]["serverInfo"]["name"], "qorx");
+    assert_eq!(init["result"]["serverInfo"]["version"], "1.0.5");
     assert_eq!(init["result"]["capabilities"]["tools"], json!({}));
     assert!(init["result"]["instructions"]
         .as_str()
         .unwrap_or_default()
-        .contains("Qorx Void v0.0.1-ylem"));
+        .contains("Qorx v1.0.5"));
 
     send(
         &mut stdin,
@@ -152,12 +152,12 @@ fn mcp_stdio_supports_content_length_framing_for_antigravity() {
     );
     let init = recv_framed(&mut stdout);
     assert_eq!(init["id"], 1);
-    assert_eq!(init["result"]["serverInfo"]["name"], "qorx-void");
-    assert_eq!(init["result"]["serverInfo"]["version"], "0.0.1-ylem");
+    assert_eq!(init["result"]["serverInfo"]["name"], "qorx");
+    assert_eq!(init["result"]["serverInfo"]["version"], "1.0.5");
     assert!(init["result"]["instructions"]
         .as_str()
         .unwrap_or_default()
-        .contains("Qorx Void v0.0.1-ylem"));
+        .contains("Qorx v1.0.5"));
 
     send_framed(
         &mut stdin,

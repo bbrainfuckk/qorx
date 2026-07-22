@@ -1,18 +1,14 @@
 # Qorx package channels
 
-This folder keeps the package-channel files for Qorx Community Edition.
-
-These packages install or build the public source CLI. They do not turn
-Community Edition into Qorx Void, and they do not make the open-source CLI stop
-after 5,000 requests. The 5,000 included Void/Cloud requests belong to Qorx Void
-Starter and are enforced by the Qorx account service.
+This folder keeps Qorx package-channel files. These recipes install or build the
+same Qorx 1.0.5 language, compiler, and runtime from the canonical repository.
 
 ## Channel status
 
 | Channel | Files | Status |
 | --- | --- | --- |
-| PyPI | `packaging/pypi/` | source-build Python wrapper, needs PyPI token to publish |
-| npm | `packaging/npm/` | source-build Node wrapper, needs npm token to publish |
+| PyPI | `packages/python/` | release-asset Python wrapper, uses trusted publishing |
+| npm | `packages/npm/` | release-asset Node wrapper, needs npm token to publish |
 | Arch/AUR | `packaging/arch/PKGBUILD` | source-build PKGBUILD, needs AUR maintainer push |
 | Homebrew | `packaging/homebrew/qorx.rb` | source-build formula, needs tap push |
 | Scoop | `packaging/scoop/qorx.json` | Windows manifest, needs release asset hash before bucket push |
@@ -22,23 +18,10 @@ Starter and are enforced by the Qorx account service.
 | Nix | `flake.nix` | local flake package |
 | Deb/RPM | `packaging/nfpm/qorx.yaml` | nfpm config, needs built Linux binary |
 
-## Request limit truth
+## Local runtime
 
-Community Edition is AGPL source code. A local source build cannot honestly be
-capped at 5,000 requests because a fork can remove a local counter and rebuild.
-
-Qorx Void Starter is different. Void/Cloud requests go through a Qorx account
-entitlement:
-
-```text
-included_requests = 5000
-remaining_requests = max(0, included_requests - used_edge_cloud_requests)
-```
-
-After the 5,000 included Void/Cloud requests are used, Void/Cloud asks the user
-to subscribe before continuing with service-backed features. Local CE commands
-such as `index`, `pack`, `squeeze`, `strict-answer`, and `qorx-check` stay
-unmetered.
+Package-manager installs run the same local compiler and runtime. Hosted
+services are not required to check, compile, or execute a `.qorx` program.
 
 ## Maintainer validation
 

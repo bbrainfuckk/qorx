@@ -1,6 +1,6 @@
 # Qorx CLI Command Guide
 
-Version: 0.0.1-ylem.
+Version: 1.0.5.
 
 This guide explains the public CLI surface in the order most people need it.
 Use `qorx --help` for the live command tree and `qorx man` for the short field
@@ -74,7 +74,7 @@ cargo clippy --all-targets -- -D warnings
 cargo build --release
 qorx doctor --json
 qorx index .
-qorx ground "version proof" --answer "Qorx is on 0.0.1-ylem."
+qorx ground "version proof" --answer "Qorx is on 1.0.5."
 ```
 
 ## Handles And Agent Handoff

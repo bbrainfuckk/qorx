@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Qorx Void Monitor</title>
+<title>Qorx Monitor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -936,13 +936,13 @@ h1,h2,h3,.big-number,.wordmark{
 }
 </style>
 </head>
-<body data-product="void">
+<body data-product="qorx">
 <main class="shell">
   <header class="top">
     <div class="brand">
       <div class="mark" aria-label="Qorx logo, Q superscript x"><span>Q<sup>x</sup></span></div>
       <div>
-        <div class="wordmark" id="runtimeTitle">Qorx Void</div>
+        <div class="wordmark" id="runtimeTitle">Qorx</div>
         <div class="runtime" id="runtime">Checking this computer</div>
       </div>
     </div>
@@ -1130,7 +1130,7 @@ h1,h2,h3,.big-number,.wordmark{
       <div>
         <h2 id="docsTitle">Docs</h2>
       </div>
-      <p class="section-copy">Qorx CLI, version 0.0.1-ylem, in plain language: what stays local, how agents connect, which commands matter, and how to prove the result.</p>
+      <p class="section-copy">Qorx CLI, version 1.0.5, in plain language: what stays local, how agents connect, which commands matter, and how to prove the result.</p>
     </div>
     <div class="docs-grid">
       <div class="docs-card">
@@ -1903,7 +1903,7 @@ async function tick(){
   try{
     const s=await fetch("/stats",{cache:"no-store"}).then(r=>r.json());
     const session=s.session||{};
-    const product=s.product||"Qorx Void";
+    const product=s.product||"Qorx";
     const version=s.version||"";
     const contextKept=Number(session.context_omitted_tokens||0)||Number(s.context_omitted_tokens||0)||0;
     const proxyKept=Number(session.saved_prompt_tokens||0)||Number(s.saved_prompt_tokens||0)||Number(s.cache_saved_prompt_tokens||0)||0;

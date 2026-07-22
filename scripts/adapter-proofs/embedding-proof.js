@@ -51,7 +51,7 @@ async function main() {
         cross_similarity: Number(crossSimilarity.toFixed(6)),
         cache_dir: env.cacheDir,
         boundary:
-          "This proves a local dense embedding backend can run. Qorx core still defaults to deterministic sparse vectors unless an embedding adapter is explicitly configured.",
+          "This proves a local dense embedding backend can run. Qorx still defaults to deterministic sparse vectors unless an embedding adapter is explicitly configured.",
       },
       null,
       2

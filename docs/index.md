@@ -3,13 +3,13 @@
 ![Qorx banner](assets/qorx-img.jpg)
 
 Qorx stops AI workflows from pasting the same files into every prompt. Qorx is
-a small domain-specific language and local runtime for context resolution.
+an AI-native programming language, compiler, and local bytecode runtime.
 
 A `.qorx` file can be a compact directive file or a named resolver program.
 Qorx compiles that source to protobuf-envelope `.qorxb` bytecode and resolves it
 against local state.
 
-Current public version: `0.0.1-ylem`.
+Current public version: `1.0.5`.
 
 ## Start here
 
@@ -24,7 +24,7 @@ Current public version: `0.0.1-ylem`.
 - [Void boundary](VOID_BOUNDARY.md)
 - [Live metrics](LIVE_METRICS.md)
 - [Qorx metrics](METRICS.md)
-- [Community guide](COMMUNITY.md)
+- [Compiler bootstrap](SELF_HOSTING.md)
 - [Command reference](COMMANDS.md)
 - [Production status](PRODUCTION.md)
 - [Server and daemon](SERVER.md)
@@ -33,19 +33,19 @@ Current public version: `0.0.1-ylem`.
 - [Media and reviewer notes](MEDIA.md)
 - [Independent review brief](INDEPENDENT_REVIEW.md)
 - [Technical credibility](TECHNICAL_CREDIBILITY.md)
-- [Qorx 0.0.1-ylem for Rust reviewers](QORX_1_0_4_RUST.md)
+- [Qorx language handbook](handbook/language.md)
 - [Benchmarks](benchmarks/README.md)
 - [Qorx papers](papers/README.md)
-- [Release 0.0.1-ylem](releases/v0.0.1-ylem.md)
+- [Release 1.0.5](releases/v1.0.5.md)
 
 ## Package surfaces
 
-The current `0.0.1-ylem` line is source-first. Use [Install](INSTALL.md).
+The current `1.0.5` line is source-first. Use [Install](INSTALL.md).
 Registry and binary package files are kept in the repo, but a channel should be
 treated as live only after the matching public package page or GitHub release
 asset exists for this version.
 
-- [Source tag](https://github.com/bbrainfuckk/qorx/tree/v0.0.1-ylem)
+- [Source tag](https://github.com/bbrainfuckk/qorx/tree/v1.0.5)
 - [Crates.io package page](https://crates.io/crates/qorx)
 - [npm package page](https://www.npmjs.com/package/@brainfukk/qorx)
 - [PyPI package page](https://pypi.org/project/qorx/)

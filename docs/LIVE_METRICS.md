@@ -1,6 +1,6 @@
 # Qorx Live Community Metrics
 
-Qorx Community Edition exposes a public metrics worker:
+Qorx exposes a public metrics worker:
 
 ```text
 https://qorx-community-metrics.omniscius.workers.dev/metrics.json
@@ -49,6 +49,6 @@ savings and they do not prove model answer quality.
 
 For the product metric split, see [Qorx metrics](METRICS.md):
 
-- Qorx Void 0.0.1-ylem / Starter: local `/stats` ledger.
-- Qorx API 0.0.1-ylem: hosted `/api/v1/usage` tenant ledger.
-- Qorx CLI Community Edition: local source-built proof and benchmark metrics.
+- Qorx 1.0.5: local `/stats` ledger.
+- Qorx API: hosted `/api/v1/usage` tenant ledger.
+- Qorx CLI: local source-built proof and benchmark metrics.

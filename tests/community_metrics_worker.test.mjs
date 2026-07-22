@@ -15,8 +15,8 @@ const repoPayload = {
 };
 
 const releasePayload = {
-  tag_name: "v0.0.1-ylem",
-  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v0.0.1-ylem",
+  tag_name: "v1.0.5",
+  html_url: "https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.5",
   published_at: "2026-05-03T00:00:00Z",
 };
 
@@ -35,7 +35,7 @@ const workflowPayload = {
 const benchmarkPayload = {
   generated_at: "2026-05-10T01:50:01+00:00",
   git_commit: "34173a6",
-  qorx_version: "qorx 0.0.1-ylem",
+  qorx_version: "qorx 1.0.5",
   summary: {
     indexed_tokens: 388573,
     strict_task_pass_rate: 1,
@@ -77,7 +77,7 @@ function mockFetch() {
     if (href.endsWith("/repos/bbrainfuckk/qorx")) return jsonResponse(repoPayload);
     if (href.endsWith("/repos/bbrainfuckk/qorx/releases/latest")) return jsonResponse(releasePayload);
     if (href.includes("/actions/workflows/")) return jsonResponse(workflowPayload);
-    if (href.includes("/Cargo.toml")) return new Response('version = "0.0.1-ylem"\n');
+    if (href.includes("/Cargo.toml")) return new Response('version = "1.0.5"\n');
     if (href.includes("/docs/benchmarks/live.json")) return jsonResponse(benchmarkPayload);
     throw new Error(`unexpected fetch ${href}`);
   };
@@ -101,7 +101,7 @@ test("community metrics worker returns live proof numbers", async () => {
 
     const body = await response.json();
     assert.equal(body.schema, "qorx.community.metrics.v1");
-    assert.equal(body.version.cargo, "0.0.1-ylem");
+    assert.equal(body.version.cargo, "1.0.5");
     assert.equal(body.repository.stars, 42);
     assert.equal(body.benchmark.session.reductionX, 5631.49);
     assert.equal(body.benchmark.strict.passRate, 1);

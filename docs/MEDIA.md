@@ -7,9 +7,9 @@ summary of Qorx.
 
 ## Summary
 
-Qorx is an AGPL-licensed Rust project for local context resolution. It defines a
-small `.qorx` source format, compiled `.qorxb` bytecode, and `qorx://` handles
-resolved by a local runtime.
+Qorx 1.0.5 is an AI-native programming language, compiler, portable bytecode
+runtime, and local context resolver. It defines `.qorx` source, compiled
+`.qorxb` bytecode, and `qorx://` handles.
 
 Qorx is not a hosted AI service. It is not a general compression system. It
 works when a workflow carries Qorx source, bytecode, evidence packs, or handles
@@ -22,9 +22,10 @@ and has a resolver available.
 | Project | Qorx |
 | Creator | Marvin Sarreal Villanueva |
 | Location | Metro Manila |
-| Current public version | 0.0.1-ylem |
+| Current public version | 1.0.5 |
 | Initial public release line | May 1, 2026 |
-| Implementation language | Rust |
+| Compiler bootstrap | Rust |
+| Self-hosted status | Not yet proven; see `SELF_HOSTING.md` |
 | Source extension | `.qorx` |
 | Bytecode extension | `.qorxb` |
 | Handle scheme | `qorx://` |
@@ -35,7 +36,7 @@ and has a resolver available.
 
 ## Install surfaces
 
-The current `0.0.1-ylem` line is source-first. Registry pages may still show an
+The current `1.0.5` line is source-first. Registry pages may still show an
 older public line until a maintainer publishes this version.
 
 - Source: https://github.com/bbrainfuckk/qorx

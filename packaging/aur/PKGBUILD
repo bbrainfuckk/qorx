@@ -1,6 +1,6 @@
 # Maintainer: Marvin Sarreal Villanueva <marvin@orin.work>
 pkgname=qorx
-pkgver=0.0.1_ylem
+pkgver=1.0.5
 pkgrel=1
 pkgdesc="Qorx AI-native language and runtime for local context resolution"
 arch=('x86_64' 'aarch64')

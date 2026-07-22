@@ -1211,7 +1211,7 @@ dependencies = [
 
 [[package]]
 name = "qorx"
-version = "0.0.1-ylem"
+version = "1.0.5"
 dependencies = [
  "anyhow",
  "axum",

@@ -1,7 +1,7 @@
 {
   "name": "@brainfukk/qorx",
-  "version": "0.0.1-ylem",
-  "description": "Qorx AI-native language and runtime for local context resolution.",
+  "version": "1.0.5",
+  "description": "Qorx programming language, compiler, bytecode runtime, and local context resolver.",
   "author": {
     "name": "Marvin Sarreal Villanueva",
     "email": "marvin@orin.work"

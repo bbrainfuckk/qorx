@@ -13,7 +13,7 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 
 | Reference | Local file or source | How it relates to Qorx |
 | --- | --- | --- |
-| LLMLingua | `research/papers/llmlingua_2310.05736.pdf` | Learned prompt compression supports the broader idea that prompts can be shortened while preserving useful information. Qorx core does not bundle LLMLingua. |
+| LLMLingua | `research/papers/llmlingua_2310.05736.pdf` | Learned prompt compression supports the broader idea that prompts can be shortened while preserving useful information. Qorx does not bundle LLMLingua. |
 | LongLLMLingua | `research/papers/longllmlingua_2310.06839.pdf` | Long-context prompt compression and budget control. Qorx uses deterministic budgeted packing and extractive squeeze in the portable core. |
 | Active Context Compression | `research/papers/active_context_compression_2601.07190.pdf` | Active context pruning supports the idea that not all context should remain visible all the time. |
 | Gist Tokens | `research/papers/gist_tokens_2304.08467.pdf` | Soft-token memory is a model-side technique. Qorx treats this as adapter/future scope because vendor CLIs cannot consume arbitrary learned gist tokens. |
@@ -65,7 +65,7 @@ on every task. Qorx-specific claims still need Qorx-specific benchmarks.
 | RAGCache | `research/papers/ragcache_2404.12457.pdf` | Retrieval cache design for RAG workflows. |
 | Cache-Craft | `research/papers/cache_craft_2502.15734.pdf` | Chunk cache management for RAG. |
 | Approximate Caching for RAG | `research/papers/approximate_caching_rag_2503.05530.pdf` | Approximate reuse is useful but must be measured and guarded. |
-| Domain-Specific Semantic Cache | `research/papers/domain_specific_semantic_cache_2504.02268.pdf` | Domain-specific embeddings can improve cache reuse, but Qorx core avoids mandatory embedding runtimes. |
+| Domain-Specific Semantic Cache | `research/papers/domain_specific_semantic_cache_2504.02268.pdf` | Domain-specific embeddings can improve cache reuse, but Qorx avoids mandatory embedding runtimes. |
 | vCache | `research/papers/vcache_2502.03771.pdf` | Verified semantic prompt caching supports the idea of cache correctness gates. |
 | ContextPilot | `research/papers/contextpilot_2511.03475.pdf` | Long-context reuse. Qorx handles reuse through local handles and evidence resolution. |
 | QVCache | `research/papers/qvcache_2602.02057.pdf` | Query-aware vector cache ideas inform future cache adapters. |

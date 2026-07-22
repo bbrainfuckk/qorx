@@ -1,5 +1,5 @@
-qorx (0.0.1~ylem-1) unstable; urgency=medium
+qorx (1.0.5-1) unstable; urgency=medium
 
-  * Roll Qorx packaging to the 0.0.1-ylem line.
+  * Package the Qorx 1.0.5 language, compiler, and runtime.
 
- -- Marvin Sarreal Villanueva <marvin@orin.work>  Wed, 06 May 2026 17:00:00 +0800
+ -- Marvin Sarreal Villanueva <marvin@orin.work>  Wed, 22 Jul 2026 17:00:00 +0800

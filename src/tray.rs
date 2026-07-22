@@ -528,11 +528,9 @@ unsafe extern "system" fn window_proc(
                 handle_panel_click(hwnd, point_from_lparam(l_param));
                 return 0;
             }
-            WM_KEYDOWN => {
-                if w_param as u16 == VK_ESCAPE {
-                    ShowWindow(hwnd, SW_HIDE);
-                    return 0;
-                }
+            WM_KEYDOWN if w_param as u16 == VK_ESCAPE => {
+                ShowWindow(hwnd, SW_HIDE);
+                return 0;
             }
             WM_DESTROY => {
                 set_panel_hwnd(0);
@@ -542,13 +540,10 @@ unsafe extern "system" fn window_proc(
         }
     }
 
-    match msg {
-        WM_DESTROY => {
-            remove_tray_icon(hwnd);
-            PostQuitMessage(0);
-            return 0;
-        }
-        _ => {}
+    if msg == WM_DESTROY {
+        remove_tray_icon(hwnd);
+        PostQuitMessage(0);
+        return 0;
     }
 
     DefWindowProcW(hwnd, msg, w_param, l_param)
@@ -878,6 +873,7 @@ unsafe fn draw_switch_panel(hwnd: HWND) {
     EndPaint(hwnd, &paint);
 }
 
+#[allow(clippy::too_many_arguments)]
 unsafe fn draw_switch_page(
     hdc: isize,
     theme: SwitchPanelTheme,
@@ -1050,6 +1046,7 @@ unsafe fn draw_qorx_mark(
     );
 }
 
+#[allow(clippy::too_many_arguments)]
 unsafe fn draw_metric(
     hdc: isize,
     theme: SwitchPanelTheme,
@@ -1829,7 +1826,7 @@ mod tests {
     fn switch_panel_labels_read_like_a_small_vpn_control() {
         let labels = super::switch_panel_labels(super::SwitchPanelSnapshot {
             product: "Qorx Void".to_string(),
-            version: "0.0.1-ylem".to_string(),
+            version: "1.0.5".to_string(),
             enabled: true,
             kept_tokens: 488_837_426,
             sent_tokens: 96_079,
@@ -2003,7 +2000,7 @@ mod tests {
     fn counter_animation_interpolates_visible_numbers() {
         let from = super::SwitchPanelSnapshot {
             product: "Qorx Void".to_string(),
-            version: "0.0.1-ylem".to_string(),
+            version: "1.0.5".to_string(),
             enabled: true,
             kept_tokens: 100,
             sent_tokens: 10,

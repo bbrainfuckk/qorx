@@ -228,7 +228,7 @@ mod tests {
         assert!(!status.expired);
         assert_eq!(status.limit_hours, None);
         assert_eq!(status.product, crate::version::QORX_PRODUCT);
-        assert_eq!(status.edition, "void");
+        assert_eq!(status.edition, "qorx");
     }
 
     #[test]

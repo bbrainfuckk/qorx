@@ -209,6 +209,18 @@ function Set-DesktopPackageFiles([string]$PreviousVersion) {
     param($m) $m.Groups[1].Value + $zipHashLower + $m.Groups[2].Value
   }
 
+  foreach ($relative in @(
+      "packaging\winget\Qorx.Qorx.yaml",
+      "packaging\winget\Qorx.Qorx.locale.en-US.yaml",
+      "packaging\winget\Qorx.Qorx.installer.yaml"
+    )) {
+    Replace-RepoText $relative '(?m)^(PackageVersion:\s*)\S+' { param($m) $m.Groups[1].Value + $Version }
+    Replace-RepoText $relative 'https://github\.com/bbrainfuckk/qorx/releases/download/v[0-9][^/]+/qorx-v[0-9][^/]+-windows-x64\.zip' {
+      param($m) "https://github.com/bbrainfuckk/qorx/releases/download/$Tag/qorx-$Tag-windows-x64.zip"
+    } -Optional
+    Replace-RepoText $relative '(?m)^(    InstallerSha256:\s*)\S+' { param($m) $m.Groups[1].Value + $zipHash } -Optional
+  }
+
   $wingetRoot = "packaging\winget\manifests\b\bbrainfuckk\qorx"
   $latestDir = Join-Repo (Join-Path $wingetRoot $PreviousVersion)
   $targetDirRel = Join-Path $wingetRoot $Version
@@ -323,6 +335,34 @@ Set-JsonVersion "packages\npm\package.json"
 Set-TomlVersion "packages\python\pyproject.toml"
 Set-PythonInitVersion "packages\python\src\qorx\__init__.py"
 Set-PythonRunnerVersion "packages\python\src\qorx\runner.py"
+Set-JsonVersion "packaging\npm\package.json"
+Replace-RepoText "packaging\npm\package.json" '("qorxTag"\s*:\s*)"[^"]+"' {
+  param($m) $m.Groups[1].Value + '"' + $Tag + '"'
+}
+Set-TomlVersion "packaging\pypi\pyproject.toml"
+Set-PythonInitVersion "packaging\pypi\qorx_cli\__init__.py"
+Set-PythonRunnerVersion "packaging\pypi\qorx_cli\launcher.py"
+Replace-RepoText "packaging\pypi\qorx_cli\launcher.py" '(?m)^(QORX_TAG\s*=\s*)"[^"]+"' {
+  param($m) $m.Groups[1].Value + '"' + $Tag + '"'
+}
+Replace-RepoText "packaging\arch\PKGBUILD" '(?m)^(pkgver=).*$' {
+  param($m) $m.Groups[1].Value + ($Version -replace '-', '_')
+}
+Replace-RepoText "packaging\arch\PKGBUILD" '(?m)^(_cratever=).*$' {
+  param($m) $m.Groups[1].Value + $Version
+}
+Replace-RepoText "packaging\snap\snapcraft.yaml" '(?m)^(version:\s*)"[^"]+"' {
+  param($m) $m.Groups[1].Value + '"' + $Version + '"'
+}
+Replace-RepoText "packaging\snap\snapcraft.yaml" '(?m)^(\s*source-tag:\s*)\S+' {
+  param($m) $m.Groups[1].Value + $Tag
+}
+Replace-RepoText "packaging\nfpm\qorx.yaml" '(?m)^(version:\s*)\S+' {
+  param($m) $m.Groups[1].Value + $Version
+}
+Replace-RepoText "flake.nix" '(?m)^(\s*version = )"[^"]+";' {
+  param($m) $m.Groups[1].Value + '"' + $Version + '";'
+}
 Set-AurFiles $previousVersion
 Set-RpmDebSnap $previousVersion
 Set-DesktopPackageFiles $previousVersion

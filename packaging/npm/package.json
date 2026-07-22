@@ -1,8 +1,8 @@
 {
   "name": "qorx",
-  "version": "0.0.1-ylem",
-  "qorxTag": "v0.0.1-ylem",
-  "description": "Qorx Community Edition CLI installer wrapper.",
+  "version": "1.0.5",
+  "qorxTag": "v1.0.5",
+  "description": "Qorx language, compiler, and runtime installer.",
   "license": "AGPL-3.0-only",
   "homepage": "https://github.com/bbrainfuckk/qorx",
   "repository": {

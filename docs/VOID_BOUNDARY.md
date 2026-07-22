@@ -33,7 +33,7 @@ brand, and production infrastructure.
 The active repo line is:
 
 ```text
-0.0.1-ylem
+1.0.5
 ```
 
 All public claims should use that line unless a later release changes it.

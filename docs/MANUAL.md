@@ -1,6 +1,6 @@
 # Qorx CLI Manual
 
-Version: 0.0.1-ylem.
+Version: 1.0.5.
 
 Qorx CLI is the command line for the local Qorx runtime. It starts the gateway,
 connects supported AI agents, indexes local projects, and asks for proof without
@@ -98,7 +98,7 @@ Use proof mode when a claim matters:
 
 ```sh
 qorx strict-answer "what version is this repo on?"
-qorx ground "version proof" --answer "Qorx is on 0.0.1-ylem."
+qorx ground "version proof" --answer "Qorx is on 1.0.5."
 ```
 
 ## Counters

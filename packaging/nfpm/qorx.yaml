@@ -1,11 +1,11 @@
 name: qorx
 arch: amd64
 platform: linux
-version: 0.0.1-ylem
+version: 1.0.5
 section: devel
 priority: optional
 maintainer: Marvin Sarreal Villanueva <marvin@orin.work>
-description: Qorx Community Edition CLI for local context-resolution research.
+description: Qorx programming language, compiler, and local runtime.
 homepage: https://github.com/bbrainfuckk/qorx
 license: AGPL-3.0-only
 contents:

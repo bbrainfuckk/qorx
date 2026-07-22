@@ -1,0 +1,17 @@
+{
+  "schema": "qorx.bootstrap.v1",
+  "release": "1.0.5",
+  "compiler": {
+    "implementation": "Rust bootstrap",
+    "source": "src/qorx.rs",
+    "source_language": "rust",
+    "self_hosted": false
+  },
+  "self_host_gate": {
+    "compiler_source": "compiler/qorxc.qorx",
+    "stage1_bytecode": "compiler/bootstrap/stage1.qorxb",
+    "stage2_bytecode": "compiler/bootstrap/stage2.qorxb",
+    "required_relation": "sha256(stage1_bytecode) == sha256(stage2_bytecode)",
+    "status": "not-yet-proven"
+  }
+}

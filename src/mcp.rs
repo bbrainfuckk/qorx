@@ -129,10 +129,10 @@ fn initialize_result() -> Value {
             "tools": {}
         },
         "serverInfo": {
-            "name": "qorx-void",
+            "name": "qorx",
             "version": QORX_VERSION
         },
-        "instructions": format!("Use {} v{} tools for local context, session handles, compression reports, and evidence packs. The public MCP contract is Qorx Void v{}; owner machines may brand the same runtime as Qorx Ayie. Normal chat comes first. When the user asks about the local repo, workspace, metrics, or evidence-backed context, call qorx.context_inject first and then pull narrower proof pages only if needed. Do not paste bulk repository or vault contents when a qorx:// handle or Qorx tool can resolve it locally.", product_name(), QORX_VERSION, QORX_VERSION)
+        "instructions": format!("Use {} v{} tools for local context, session handles, reduction reports, and evidence packs. When the user asks about the local repo, workspace, metrics, or evidence-backed context, call qorx.context_inject first and then pull narrower proof pages only if needed. Do not paste bulk repository or vault contents when a qorx:// handle or Qorx tool can resolve it locally.", product_name(), QORX_VERSION)
     })
 }
 
@@ -140,12 +140,12 @@ fn tool_definitions() -> Vec<Value> {
     vec![
         tool(
             "qorx.health",
-            "Check whether the local Qorx Void gateway is reachable.",
+            "Check whether the local Qorx gateway is reachable.",
             empty_schema(),
         ),
         tool(
             "qorx.stats",
-            "Return Qorx Void compression, cache, context, and ledger counters.",
+            "Return Qorx reduction, cache, context, and ledger counters.",
             empty_schema(),
         ),
         tool(

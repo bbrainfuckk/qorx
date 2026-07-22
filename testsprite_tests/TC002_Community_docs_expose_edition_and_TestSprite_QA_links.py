@@ -33,8 +33,8 @@ async def run_test():
         await community_link.click(timeout=10000)
         await page.wait_for_load_state("networkidle", timeout=20000)
         community_body = await page.locator("body").inner_text(timeout=10000)
-        assert "Qorx Community Edition" in community_body
-        assert "Qorx Void" in community_body
+        assert "Qorx public source" in community_body
+        assert "Qorx" in community_body
         assert "live public metrics" in community_body
         assert "cross-platform GitHub release assets" in community_body
         assert "Qorx Void Starter" in community_body
@@ -72,7 +72,7 @@ async def run_test():
         qa_body = await page.locator("body").inner_text(timeout=10000)
         assert "TestSprite QA" in qa_body
         assert "TESTSPRITE_API_KEY" in qa_body
-        assert "Community Edition" in qa_body
+        assert "Qorx" in qa_body
     finally:
         if context:
             await context.close()

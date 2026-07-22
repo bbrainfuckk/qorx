@@ -5,8 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-VERSION = "0.0.1+ylem"
-QORX_TAG = "v0.0.1-ylem"
+VERSION = "1.0.5"
+QORX_TAG = "v1.0.5"
 REPO = "https://github.com/bbrainfuckk/qorx"
 
 

@@ -1,10 +1,10 @@
 name: qorx
 base: core24
-version: "0.0.1-ylem"
-summary: Qorx Community Edition CLI
+version: "1.0.5"
+summary: Qorx language, compiler, and local runtime
 description: |
-  Qorx Community Edition is the AGPL source CLI for the Qorx language,
-  bytecode, local indexing, and evidence-command model.
+  Qorx is a programming language, compiler, portable bytecode runtime,
+  and local context resolver.
 
 grade: stable
 confinement: strict
@@ -13,7 +13,7 @@ parts:
   qorx:
     plugin: rust
     source: https://github.com/bbrainfuckk/qorx.git
-    source-tag: v0.0.1-ylem
+    source-tag: v1.0.5
 
 apps:
   qorx:

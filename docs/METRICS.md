@@ -3,7 +3,7 @@
 Qorx has three public-facing metric surfaces. They use the same B2C accounting
 language, but they do not share one counter store.
 
-## Qorx Void 0.0.1-ylem / Qorx Void Starter
+## Qorx 1.0.5 local runtime
 
 Void is the supported local product runtime: daemon, tray, provider routing,
 MCP/CLI activation, ORCL, account-backed service features, and the local
@@ -36,10 +36,10 @@ Main Void counters:
 - `total_estimated_usd_saved`
 
 Boundary: Void metrics are local runtime evidence. Starter includes 5,000
-Void/Cloud service requests, but local Community Edition commands stay
+Void/Cloud service requests, but local Qorx commands stay
 unmetered.
 
-## Qorx API 0.0.1-ylem
+## Qorx API metrics
 
 Qorx API is the hosted account and usage surface for tenant keys, optimizer
 calls, resolver handles, trial keys, pricing, checkout, and usage metering.
@@ -62,9 +62,9 @@ Main API counters:
 Boundary: API metrics are hosted tenant usage and plan enforcement metrics.
 They do not replace the local Void `/stats` ledger.
 
-## Qorx CLI Community Edition
+## Qorx CLI
 
-Qorx CLI Community Edition is this AGPL source line. It is the local
+Qorx CLI is this AGPL source line. It is the local
 language/runtime/proof surface.
 
 Main CLI metrics:
@@ -94,4 +94,4 @@ Use these labels when documenting or building UI:
 - Void Monitor: `Local saved`
 - API Dashboard: `Cloud usage`
 - Optimizer Preview: `Estimated per-call savings`
-- Community Edition: `Local proof metrics`
+- Qorx: `Local proof metrics`

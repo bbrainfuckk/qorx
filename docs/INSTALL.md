@@ -8,11 +8,10 @@ command tree and `qorx man` for the manual.
 
 ## Source
 
-This is the current `0.0.1-ylem` path. The source tag is live for source
-installs; binary assets are not attached yet.
+This is the `1.0.5` source install. Platform release assets use the same tag.
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
 qorx --version
 ```
 
@@ -27,15 +26,15 @@ cargo build --release
 
 ## Binary Release
 
-No binary release assets are attached for `0.0.1-ylem` yet. When a maintainer
-attaches assets, they use these platform names:
+Release automation builds these platform assets:
 
 ```text
-qorx-v0.0.1-ylem-windows-x64.zip
-qorx-v0.0.1-ylem-linux-x64.tar.gz
-qorx-v0.0.1-ylem-linux-arm64.tar.gz
-qorx-v0.0.1-ylem-macos-x64.tar.gz
-qorx-v0.0.1-ylem-macos-arm64.tar.gz
+qorx-v1.0.5-windows-x64.zip
+qorx-v1.0.5-windows-arm64.zip
+qorx-v1.0.5-linux-x64.tar.gz
+qorx-v1.0.5-linux-arm64.tar.gz
+qorx-v1.0.5-macos-x64.tar.gz
+qorx-v1.0.5-macos-arm64.tar.gz
 ```
 
 When those assets exist, extract the archive and put the directory containing
@@ -44,7 +43,7 @@ When those assets exist, extract the archive and put the directory containing
 ## Package Managers
 
 Each registry is current only when its public package page shows
-`0.0.1-ylem`. Until then, use the source install above. Older registry packages
+`1.0.5`. Until then, use the source install above. Older registry packages
 may still point at a previous public line.
 
 Release assets can also be installed directly before a central registry accepts

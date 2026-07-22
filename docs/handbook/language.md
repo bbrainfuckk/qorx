@@ -1,8 +1,11 @@
 # Qorx Language
 
-Qorx source is plain text. It is intentionally small: a domain-specific language
-for AI context workflows with variables, named resolver steps, semantic checks,
-branches, assertions, QIR, protobuf-envelope bytecode, and a local interpreter.
+Qorx source is plain text. Qorx 1 is an AI-native programming language for
+humans and agents, with bindings, imports, named resolver operations, semantic
+checks, branches, assertions, QIR, protobuf-envelope bytecode, and a local
+interpreter. It is host- and provider-agnostic. Qorx 1 intentionally focuses on
+evidence-grounded context programs; it does not pretend to be a replacement for
+general-purpose systems languages.
 
 ```text
 QORX 1

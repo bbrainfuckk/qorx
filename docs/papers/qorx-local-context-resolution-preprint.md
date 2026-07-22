@@ -85,7 +85,7 @@ The runtime can compile the source to bytecode:
 
 ```sh
 qorx qorx-compile goal.qorx --out goal.qorxb
-qorx goal.qorxb
+qorx qorx goal.qorxb
 ```
 
 ## 5. Measured claims

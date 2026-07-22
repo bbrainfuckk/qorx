@@ -1,5 +1,5 @@
 param(
-  [string]$Version = "0.0.1-ylem",
+  [string]$Version = "1.0.5",
   [switch]$DryRun
 )
 

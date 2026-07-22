@@ -30,9 +30,9 @@ async def run_test():
         body = await page.locator("body").inner_text(timeout=10000)
 
         assert "Qorx handbook" in body
-        assert "Qorx is a small domain-specific language and local runtime" in body
+        assert "AI-native programming language" in body
         assert "Current public version:" in body
-        assert "0.0.1-ylem" in body
+        assert "1.0.5" in body
     finally:
         if context:
             await context.close()

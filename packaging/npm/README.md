@@ -1,11 +1,10 @@
 # qorx npm wrapper
 
-This npm package installs the Qorx Community Edition CLI from the public Git tag
+This npm package installs Qorx from the matching public Git tag
 using Cargo. Publish it only after the source tag exists and npm is ready for
 the current version.
 
-It does not meter local Community Edition commands. Qorx Void Starter account
-features still use the 5,000 included Void/Cloud request allowance.
+It runs local Qorx language and compiler commands without a hosted dependency.
 
 ```sh
 npm install -g qorx

@@ -18,14 +18,14 @@ and resolve context locally, instead of repeatedly pasting large prompt payloads
 
 ## Install
 
-Use the source path for the current `0.0.1-ylem` line:
+Use the source path for the current `1.0.5` line:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
 ```
 
 Registry and AUR packages may exist for older public lines. Do not treat a
-package channel as current until its package page shows `0.0.1-ylem`.
+package channel as current until its package page shows `1.0.5`.
 
 ## Quick check
 
@@ -53,7 +53,7 @@ Compile and run:
 
 ```sh
 qorx qorx-compile goal.qorx --out goal.qorxb
-qorx goal.qorxb
+qorx qorx goal.qorxb
 ```
 
 ## Review questions

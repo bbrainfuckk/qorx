@@ -12,28 +12,26 @@ Set these repository secrets:
 ```text
 CARGO_REGISTRY_TOKEN
 NPM_TOKEN
-PYPI_API_TOKEN
-AUR_SSH_PRIVATE_KEY
 ```
 
 Do not store npm recovery codes in GitHub Secrets. Recovery codes are for
 account recovery and interactive 2FA emergencies, not CI publishing.
 
-For AUR, use a dedicated SSH key whose public key is added to the AUR account
-that maintains `qorx`. Store only the private key as `AUR_SSH_PRIVATE_KEY`.
+PyPI uses trusted publishing through the GitHub environment named `pypi`, so no
+long-lived PyPI token is stored in this repository.
 
 ## Current Version Mapping
 
 Qorx uses the version form each registry expects. This is the intended
-`0.0.1-ylem` mapping; a channel is not live until its package page or release
+`1.0.5` mapping; a channel is not live until its package page or release
 asset exists publicly.
 
 ```text
-Cargo/crates.io: 0.0.1-ylem
-npm:             0.0.1-ylem
-PyPI:            0.0.1+ylem
-Arch/AUR:        0.0.1_ylem
-Source tag:      v0.0.1-ylem
+Cargo/crates.io: 1.0.5
+npm:             1.0.5
+PyPI:            1.0.5
+Arch/AUR:        1.0.5
+Source tag:      v1.0.5
 ```
 
 For npm prereleases, the workflow publishes under the `next` dist-tag. Stable
@@ -48,7 +46,7 @@ pip install --pre qorx
 or:
 
 ```text
-pip install qorx==0.0.1+ylem
+pip install qorx==1.0.5
 ```
 
 ## Why Rotate Pasted Tokens

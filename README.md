@@ -22,16 +22,19 @@ source-backed context Qorx selected.
 [![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
 [![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
 
-## What Qorx Does
+## What Qorx Is
 
-Qorx is a local context runtime and small `.qorx` language.
+Qorx 1.0.5 is an AI-native programming language, compiler, portable bytecode
+runtime, and local context resolver. It is provider-agnostic and runs locally on
+Windows, Linux, and macOS across x64 and ARM64.
 
 In plain terms:
 
-1. It indexes a workspace on your machine.
-2. It sends a small carrier or evidence pack to the AI workflow.
-3. It pulls cited local context only when a task needs it.
-4. It marks unsupported claims instead of pretending the evidence exists.
+1. The parser and semantic checker validate `.qorx` source.
+2. The compiler lowers source through an AST and QIR into `.qorxb` bytecode.
+3. The runtime verifies bytecode integrity before interpreting it locally.
+4. Resolver operations select cited evidence under explicit budgets.
+5. Unsupported claims fail closed instead of inventing evidence.
 
 The core boundary is simple:
 
@@ -54,15 +57,17 @@ savings are shown only when billing data is present.
 
 ## Current Line
 
-Current public version: `0.0.1-ylem`.
+Current public version: `1.0.5`.
 
-This repo is source-first right now. The source tag exists. Binary installers
-and release assets are not attached yet.
+The compiler is currently bootstrapped in Rust. Qorx source can be checked,
+compiled, and executed today; a compiler is only called self-hosted after the
+stage-1 and stage-2 reproducibility gate in [Self-hosting](docs/SELF_HOSTING.md)
+passes. The repository does not claim that proof early.
 
 Install from source:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v0.0.1-ylem --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.5 --locked qorx
 qorx --version
 ```
 
@@ -76,7 +81,7 @@ cargo build --release
 ```
 
 Package recipes are included, but a package channel should be treated as live
-only when its public package page shows `0.0.1-ylem`.
+only when its public package page shows `1.0.5`.
 
 ## Measured Numbers
 
@@ -136,21 +141,6 @@ That gives this estimate before you adjust the live calculator:
 Use your own provider rate in the calculator. Output tokens, new input,
 provider cache behavior, discounts, and account terms can change the real bill.
 
-## Which Qorx Should I Try?
-
-Qorx has two product paths around the same idea.
-
-| If your repeated context lives in... | Start with | Trial |
-| --- | --- | --- |
-| Your computer, editor, repos, notes, logs, and long AI sessions | Qorx Void Desktop | Free 1-hour local demo |
-| Your app, dashboard, support bot, n8n flow, or hosted agent call | Qorx Cloud API | Free 5,000 hosted calls |
-
-This public repo is the buildable CLI/runtime source line. Qorx Void Desktop is
-the finished desktop product around the runtime: account, license, support,
-installer flow, tray controls, and managed local operation.
-
-Read: [Trials](docs/TRIALS.md) and [Void boundary](docs/VOID_BOUNDARY.md).
-
 ## Start Here
 
 Pick the path that matches your question.
@@ -159,7 +149,7 @@ Pick the path that matches your question.
 | --- | --- |
 | I want to use Qorx with AI tools and local repos. | [Reader guide](docs/AUDIENCE_GUIDE.md), [Manual](docs/MANUAL.md), [Commands](docs/COMMANDS.md) |
 | I want to understand token and cost impact. | [Reader guide](docs/AUDIENCE_GUIDE.md), [Metrics](docs/METRICS.md), [Live benchmark](docs/benchmarks/live.md) |
-| I want to review the runtime as software. | [Qorx for Rust reviewers](docs/QORX_1_0_4_RUST.md), [Production status](docs/PRODUCTION.md), [Server and daemon](docs/SERVER.md) |
+| I want to review the compiler and runtime. | [Language handbook](docs/handbook/language.md), [Self-hosting](docs/SELF_HOSTING.md), [Production status](docs/PRODUCTION.md) |
 | I want the science and math boundary. | [Science](docs/SCIENCE.md), [Science and math](docs/SCIENCE_AND_MATH.md), [SAFE-R](docs/SAFE-R.md) |
 
 ## First Commands
@@ -210,10 +200,10 @@ Check it:
 ```sh
 qorx qorx-check goal.qorx
 qorx qorx-compile goal.qorx --out goal.qorxb
-qorx goal.qorxb
+qorx qorx goal.qorxb
 ```
 
-## Core Terms
+## Language Terms
 
 You do not need these terms to start. They help when reading the code and
 benchmark output.
@@ -280,7 +270,7 @@ qorx security attest
 - [Reference papers](docs/REFERENCE_PAPERS.md)
 - [Independent review brief](docs/INDEPENDENT_REVIEW.md)
 - [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
-- [Release notes](docs/releases/v0.0.1-ylem.md)
+- [Release notes](docs/releases/v1.0.5.md)
 
 ## License And Marks
 
