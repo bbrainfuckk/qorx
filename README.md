@@ -1,21 +1,62 @@
+<p align="center">
+  <img src="docs/assets/qorx-cover.png" width="100%" alt="Qorx — an evidence-first, quantum-inspired programming language for humans and AI agents">
+</p>
+
 # Qorx 1.0.6
 
-**An agnostic programming language for humans and AI agents.**
+**An evidence-first, quantum-inspired programming language for humans and AI
+agents.**
 
-AI tools get expensive when they keep receiving the same repo, notes, logs,
-policies, and project rules. Qorx keeps that repeated context local, sends a
-small carrier, and pulls the exact local lines only when a task needs them.
+Born from the study of classical and quantum information, quantum chaos,
+combinatorial optimization, proof-carrying semantics, cryptographic
+provenance, and retrieval-augmented memory, Qorx transforms vast context into
+compact, traceable evidence—helping intelligent systems use fewer tokens, cite
+their sources, and refuse unsupported claims.
 
-Qorx gives that workflow a language: plain `.qorx` source, checked bytecode,
-local evidence, explicit budgets, and refusal when the available evidence does
-not support an answer. It is provider-agnostic and runs on Windows, Linux, and
-macOS across x64 and ARM64.
+> **Local-first. Provider-agnostic. Built for the 21st century.**
+
+AI tools repeatedly receive the same repositories, notes, logs, policies, and
+project rules. Qorx keeps that repeated context local, sends a small carrier,
+and retrieves exact cited lines only when a task needs them. Plain `.qorx`
+source compiles to checked bytecode with explicit evidence budgets and refusal
+when the available material cannot support an answer.
+
+Qorx 1.0.6 runs deterministic classical algorithms on ordinary computers.
+Quantum information, quantum-inspired optimization, and quantum chaos are
+research influences; Qorx does not require quantum hardware.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
 [![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19953308.svg)](https://doi.org/10.5281/zenodo.19953308)
 [![Software Heritage](https://img.shields.io/badge/Software%20Heritage-archived-ff6600)](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/bbrainfuckk/qorx)
 [![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
 [![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
+
+## Start with Qorx
+
+Install from the 1.0.6 source tag:
+
+```sh
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
+qorx --version
+```
+
+Then index a workspace and ask for grounded local evidence:
+
+```sh
+qorx doctor
+qorx daemon start
+qorx index .
+qorx map "which files control authentication?"
+qorx strict-answer "which files control authentication?"
+qorx eco --local-tokens 13200000 --sent-tokens 8
+```
+
+The local monitor listens at `http://127.0.0.1:47187/monitor` by default. See
+the [installation guide](docs/INSTALL.md) for release binaries and package
+recipes across Windows, Linux, macOS, x64, and ARM64. If a registry package is
+not yet live at version 1.0.6, use the source install above.
+
+## What Qorx changes
 
 ```text
 repo + notes + rules + logs
@@ -198,32 +239,6 @@ The 1.0.6 compiler is bootstrapped in Rust. Qorx is not described as
 self-hosted until the stage-1 and stage-2 reproducibility gate passes. See
 [Self-hosting](docs/SELF_HOSTING.md).
 
-## Quick start
-
-Install from the 1.0.6 source tag:
-
-```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
-qorx --version
-```
-
-Then start a local workflow:
-
-```sh
-qorx doctor
-qorx daemon start
-qorx index .
-qorx map "which files control authentication?"
-qorx strict-answer "which files control authentication?"
-qorx eco --local-tokens 13200000 --sent-tokens 8
-```
-
-The local monitor listens at `http://127.0.0.1:47187/monitor` by default.
-
-Package recipes exist for Cargo, npm, PyPI, Arch/AUR, Homebrew, Debian, RPM,
-Snap, Scoop, WinGet, Nix, and container workflows. Treat a registry channel as
-live only when its public package page shows `1.0.6`.
-
 ## Qorx Void
 
 Qorx Void keeps project memory beside the work. Repositories, notes,
@@ -333,6 +348,10 @@ They are citations, not Qorx contributors, affiliations, or endorsements.
 Thanks also to AMD and ROCm, Lablab.ai, Fireworks AI, OpenAI Build Week, Qwen
 Cloud and Alibaba Cloud, Devpost, and NamasteDev for the hardware, tools, or
 event settings used in the published hackathon work. No endorsement is implied.
+
+The cover combines the Qorx identity with Jan Matejko's 1873 painting
+[*Astronomer Copernicus, or Conversations with God*](https://commons.wikimedia.org/wiki/File:Jan_Matejko-Astronomer_Copernicus-Conversation_with_God.jpg),
+a public-domain work.
 
 Copyright (c) 2026 Marvin Sarreal Villanueva. Code and operational
 documentation are licensed under [AGPL-3.0-only](LICENSE). See
