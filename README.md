@@ -271,6 +271,7 @@ qorx security attest
 - [Reference papers](docs/REFERENCE_PAPERS.md)
 - [Independent review brief](docs/INDEPENDENT_REVIEW.md)
 - [Technical credibility](docs/TECHNICAL_CREDIBILITY.md)
+- [Qorx 1.0.6 compact kernel contract](docs/KERNEL_1_0_6.md)
 - [Release notes](docs/releases/v1.0.5.md)
 
 ## License And Marks
