@@ -15,6 +15,7 @@ manual.
 | `qorx install -p codex` | You want Codex connected to Qorx. | `qorx install -p codex` |
 | `qorx integrate status` | You want to see which agents are wired. | `qorx integrate status` |
 | `qorx stats` | You want the local counters. | `qorx stats` |
+| `qorx eco --local-tokens N --sent-tokens N` | You want transparent token-reduction accounting. | `qorx eco --local-tokens 13200000 --sent-tokens 8` |
 
 Monitor:
 
@@ -117,6 +118,30 @@ Default gateway:
 ```
 
 Keep non-loopback binds behind your own auth, TLS, and network rules.
+
+## Environmental Scenarios
+
+`qorx eco` always reports the token counts you supplied and the resulting
+arithmetic. It does not invent a universal tokens-to-impact conversion:
+
+```powershell
+qorx eco --local-tokens 13200000 --sent-tokens 8
+```
+
+Energy, CO2e, and water scenarios are opt-in. Supply factors appropriate to the
+measured hardware, workload, grid, cooling system, and reporting boundary:
+
+```powershell
+qorx eco --local-tokens 13200000 --sent-tokens 8 `
+  --kwh-per-million-tokens <factor> `
+  --kg-co2e-per-kwh <factor> `
+  --liters-per-kwh <factor>
+```
+
+The JSON report labels token counts as user supplied, returns `null` for any
+scenario that was not calculated, and performs no network calls. The stable
+machine-readable contract is
+[`schemas/qorx.eco.v1.schema.json`](../schemas/qorx.eco.v1.schema.json).
 
 ## Advanced Commands
 
