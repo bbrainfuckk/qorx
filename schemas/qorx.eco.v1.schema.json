@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bbrainfuckk/qorx/schemas/qorx.eco.v1.schema.json",
+  "title": "Qorx environmental scenario report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "qorx_version",
+    "local_tokens",
+    "sent_tokens",
+    "tokens_avoided",
+    "reduction_x",
+    "token_counts_source",
+    "factors",
+    "scenario",
+    "network_calls",
+    "boundary"
+  ],
+  "properties": {
+    "schema": { "const": "qorx.eco.v1" },
+    "qorx_version": { "type": "string" },
+    "local_tokens": { "type": "integer", "minimum": 0 },
+    "sent_tokens": { "type": "integer", "minimum": 0 },
+    "tokens_avoided": { "type": "integer", "minimum": 0 },
+    "reduction_x": {
+      "oneOf": [
+        { "type": "number", "minimum": 0 },
+        { "type": "null" }
+      ]
+    },
+    "token_counts_source": { "const": "user_supplied" },
+    "factors": { "$ref": "#/$defs/factors" },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kwh_avoided",
+        "kg_co2e_avoided",
+        "liters_water_avoided"
+      ],
+      "properties": {
+        "kwh_avoided": { "$ref": "#/$defs/nullableNonNegative" },
+        "kg_co2e_avoided": { "$ref": "#/$defs/nullableNonNegative" },
+        "liters_water_avoided": { "$ref": "#/$defs/nullableNonNegative" }
+      }
+    },
+    "network_calls": { "const": 0 },
+    "boundary": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "nullableNonNegative": {
+      "oneOf": [
+        { "type": "number", "minimum": 0 },
+        { "type": "null" }
+      ]
+    },
+    "factors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kwh_per_million_tokens",
+        "kg_co2e_per_kwh",
+        "liters_per_kwh"
+      ],
+      "properties": {
+        "kwh_per_million_tokens": {
+          "$ref": "#/$defs/nullableNonNegative"
+        },
+        "kg_co2e_per_kwh": { "$ref": "#/$defs/nullableNonNegative" },
+        "liters_per_kwh": { "$ref": "#/$defs/nullableNonNegative" }
+      }
+    }
+  }
+}
+

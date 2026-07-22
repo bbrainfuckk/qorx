@@ -15,6 +15,7 @@ mod cost_stack;
 mod crux;
 mod demo;
 mod drive;
+mod eco;
 mod graph_view;
 mod grounding;
 mod hot;
@@ -137,6 +138,19 @@ enum CommandKind {
     Money {
         #[arg(long = "claim-usd")]
         claim_usd: Option<f64>,
+    },
+    /// Calculate token reduction and opt-in environmental scenarios.
+    Eco {
+        #[arg(long = "local-tokens")]
+        local_tokens: u64,
+        #[arg(long = "sent-tokens")]
+        sent_tokens: u64,
+        #[arg(long = "kwh-per-million-tokens")]
+        kwh_per_million_tokens: Option<f64>,
+        #[arg(long = "kg-co2e-per-kwh")]
+        kg_co2e_per_kwh: Option<f64>,
+        #[arg(long = "liters-per-kwh")]
+        liters_per_kwh: Option<f64>,
     },
     /// Search the local index.
     Search {
@@ -1404,6 +1418,24 @@ async fn async_main() -> Result<()> {
                 proto_store::load_or_default(&paths.stats_file, &[legacy.as_path()])?;
             let proof = money::build_money_proof(&stats, claim_usd);
             println!("{}", serde_json::to_string_pretty(&proof)?);
+        }
+        CommandKind::Eco {
+            local_tokens,
+            sent_tokens,
+            kwh_per_million_tokens,
+            kg_co2e_per_kwh,
+            liters_per_kwh,
+        } => {
+            let report = eco::build_report(
+                local_tokens,
+                sent_tokens,
+                eco::ScenarioFactors {
+                    kwh_per_million_tokens,
+                    kg_co2e_per_kwh,
+                    liters_per_kwh,
+                },
+            )?;
+            println!("{}", serde_json::to_string_pretty(&report)?);
         }
         CommandKind::Search { query, limit } => {
             let paths = AppPaths::resolve()?;

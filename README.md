@@ -161,6 +161,7 @@ qorx doctor
 qorx daemon start
 qorx index .
 qorx strict-answer "which files explain the resolver boundary?"
+qorx eco --local-tokens 13200000 --sent-tokens 8
 ```
 
 Open the local monitor:
