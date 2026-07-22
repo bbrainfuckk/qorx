@@ -32,13 +32,16 @@ Release automation builds these platform assets:
 qorx-v1.0.6-windows-x64.zip
 qorx-v1.0.6-windows-arm64.zip
 qorx-v1.0.6-linux-x64.tar.gz
+qorx-v1.0.6-linux-x64-static.tar.gz
 qorx-v1.0.6-linux-arm64.tar.gz
 qorx-v1.0.6-macos-x64.tar.gz
 qorx-v1.0.6-macos-arm64.tar.gz
 ```
 
 When those assets exist, extract the archive and put the directory containing
-`qorx` or `qorx.exe` on `PATH`.
+`qorx` or `qorx.exe` on `PATH`. The `linux-x64-static` musl build is the
+portable choice for older Linux environments such as DataCamp's glibc 2.27
+sandbox; the `linux-x64` build uses the normal GNU libc target.
 
 ## Package Managers
 

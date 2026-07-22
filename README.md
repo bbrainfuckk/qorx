@@ -57,6 +57,32 @@ matched comparison win: the systems used different corpora, hardware, tasks,
 outputs, and quality gates. See
 [how to read the claim](docs/void/benchmarks.md#how-to-read-the-board).
 
+## Published benchmark comparison
+
+This is the scoped ten-system comparison behind that statement. The entries
+report each project's own published measurement; they are not reruns on a
+shared corpus or hardware stack.
+
+| Closest reference | Published reference metric | Why the comparison is limited |
+| --- | --- | --- |
+| [LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) | Up to 20x prompt compression with minimal performance loss. | Learned prompt compression is not local carrier resolution. |
+| [LongLLMLingua](https://arxiv.org/abs/2310.06839) | 4x compression, a reported 17.1% performance gain, and 1.4x–3.8x latency speedup. | The paper evaluates long-context prompting, not a persistent local index. |
+| [LLMLingua-2](https://arxiv.org/abs/2403.12968) | Evaluated at 2x–5x compression and reported 3x–6x faster compression than earlier methods. | Its compression and latency boundaries differ from Qorx's local core path. |
+| [Active Context Compression](https://arxiv.org/abs/2601.07190) | 22.7% token reduction on a five-task SWE-bench Lite experiment while retaining the same 3/5 resolution count. | Small-sample agent pruning, not a carrier-to-index ratio. |
+| [Gist Tokens](https://arxiv.org/abs/2304.08467) | Up to 26x prompt compression, up to 40% FLOPs reduction, and 4.2% wall-clock reduction. | Learned soft tokens require model support; Qorx emits inspectable local evidence. |
+| [Context Mode](https://context-mode.com/) | Up to 98% context reduction; its 50-turn example reports 30x fewer tokens. | Product examples are not a matched Qorx benchmark corpus. |
+| [LeanCTX](https://leanctx.com/how-it-works/) | Illustrates about 100K tokens becoming a roughly 5K map, reports 60%–90% less context noise, and roughly 13-token re-reads. | Repository maps and cached re-reads are different output objects from a Qorx carrier. |
+| [sqz](https://github.com/ojuschugh1/sqz) | Reports 24.7% average savings over 3,003 compressions, up to 92% on repeated file reads, and 13-token references. | Tool-output caching and compression are not the same operation as local evidence resolution. |
+| [indxr](https://docs.rs/crate/indxr/latest) | Reports about 5x fewer tokens than full-file reads and sub-20 ms indexing for most projects. | Indexing time is not comparable to Qorx's measured query-side local core latency. |
+| [Codebase-Memory](https://arxiv.org/abs/2603.27277) | Reports ten times fewer tokens and 83% answer quality versus 92% for its file-exploration agent across 31 repositories. | It measures graph-assisted code exploration; Qorx reports a different carrier and scorecard. |
+
+Within the disclosed AMD carrier measurement, Qorx's **13,199,246.07x** factor
+is numerically larger than the published factors above. That is the narrow
+claim: it is not a head-to-head win and does not establish better answer
+quality. The full [comparison board](docs/void/benchmarks.md#comparison-board)
+and [60-item landscape](docs/void/benchmarks.md#reviewed-reference-landscape-60-items)
+preserve the wider methodology and scope.
+
 ## Research lineage and inspirations
 
 Qorx is independently authored. The works below are the public intellectual,
@@ -66,13 +92,13 @@ inspiration; it is not the only reference.
 
 | Area | Works and systems reviewed |
 | --- | --- |
-| Foundations | Shannon's information theory; Necula's Proof-Carrying Code; Lewis et al.'s Retrieval-Augmented Generation; ReAct; MemGPT; *Lost in the Middle*; Farhi, Goldstone, and Gutmann's QAOA; Bohigas–Giannoni–Schmit quantum-chaos work; Lorenz nonlinear dynamics; NIST FIPS 180-4 and FIPS 204. |
-| Languages, compilers, and formats | Rust; Zig; TempleOS/HolyC; ZealOS; TinyCC; QBE; LLVM/Clang; Wasmtime/Cranelift; GNU Mes; bootstrap-seeds; WebAssembly; Tree-sitter; Language Server Protocol; Protocol Buffers; C2PA. |
-| Context reduction and local indexing | LLMLingua; LongLLMLingua; LLMLingua-2; Active Context Compression; CodePromptZip; Gist Tokens; Context Mode; LeanCTX; sqz; indxr; Aider repository map; Repomix; gitingest; MInference; QVCache. |
-| Memory, retrieval, and caching | Kortex by Arjay; ReACC; GraphCoder; GraphRAG survey; GraphRAG-R1; MMGraphRAG; MegaRAG; M³KG-RAG; Codebase-Memory; AtomMem; AgeMem; Titans; TokMem; Structural Memory; H-MEM; HiMem; TierMem; GAM; RAGCache; Cache-Craft; Preble; similarity caching; TurboQuant. |
-| Evaluation | BEIR; MTEB; RULER; LongBench; SWE-bench; SWE-agent; CodeSearchNet; Terminal-Bench; OSWorld; GDPval; FEVER; SQuAD 2.0; HotpotQA; Needle In A Haystack; RAGChecker. |
-| Protocols, tools, and infrastructure | Model Context Protocol; Claude Code memory; Gemini CLI `GEMINI.md`; Cursor codebase indexing; LlamaIndex; Haystack; LangGraph; Pinecone; Qdrant; Weaviate; OpenAI, Anthropic, and Gemini prompt/context caching. |
-| Environmental accounting | IEA *Energy and AI*; Lawrence Berkeley National Laboratory's 2024 US data-center energy report; *SweetSpot*; *Towards Green AI*. |
+| Foundations | [Shannon, *A Mathematical Theory of Communication*](https://doi.org/10.1002/j.1538-7305.1948.tb00917.x); [Necula, *Proof-Carrying Code*](https://doi.org/10.1145/263699.263712); [Lewis et al., *Retrieval-Augmented Generation*](https://papers.neurips.cc/paper/2020/file/6b493230205f780e1bc26945df7481e5-Paper.pdf); [ReAct](https://arxiv.org/abs/2210.03629); [MemGPT](https://arxiv.org/abs/2310.08560); [*Lost in the Middle*](https://arxiv.org/abs/2307.03172); [Farhi, Goldstone, and Gutmann, QAOA](https://arxiv.org/abs/1411.4028); [Bohigas–Giannoni–Schmit quantum-chaos work](https://doi.org/10.1103/PhysRevLett.52.1); [Lorenz, *Deterministic Nonperiodic Flow*](https://doi.org/10.1175/1520-0469%281963%29020%3C0130%3ADNF%3E2.0.CO%3B2); [NIST FIPS 180-4](https://csrc.nist.gov/pubs/fips/180-4/upd1/final); [NIST FIPS 204](https://csrc.nist.gov/pubs/fips/204/final). |
+| Languages, compilers, and formats | [Rust](https://github.com/rust-lang/rust); [Zig](https://github.com/ziglang/zig); [TempleOS/HolyC](https://github.com/cia-foundation/TempleOS); [ZealOS](https://github.com/Zeal-Operating-System/ZealOS); [TinyCC](https://github.com/TinyCC/tinycc); [QBE](https://c9x.me/compile/); [LLVM/Clang](https://github.com/llvm/llvm-project); [Wasmtime/Cranelift](https://github.com/bytecodealliance/wasmtime/tree/main/cranelift); [GNU Mes](https://www.gnu.org/software/mes/); [bootstrap-seeds](https://github.com/oriansj/bootstrap-seeds); [WebAssembly core specification](https://webassembly.github.io/spec/core/); [Tree-sitter](https://github.com/tree-sitter/tree-sitter); [Language Server Protocol](https://github.com/microsoft/language-server-protocol); [Protocol Buffers](https://github.com/protocolbuffers/protobuf); [C2PA](https://github.com/contentauth/c2pa-rs). |
+| Context reduction and local indexing | [LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/); [LongLLMLingua](https://arxiv.org/abs/2310.06839); [LLMLingua-2](https://arxiv.org/abs/2403.12968); [Active Context Compression](https://arxiv.org/abs/2601.07190); [CodePromptZip](https://arxiv.org/abs/2502.14925); [Gist Tokens](https://arxiv.org/abs/2304.08467); [Context Mode](https://context-mode.com/); [LeanCTX](https://leanctx.com/how-it-works/); [sqz](https://github.com/ojuschugh1/sqz); [indxr](https://docs.rs/crate/indxr/latest); [Aider repository map](https://aider.chat/docs/repomap.html); [Repomix](https://repomix.com/guide/configuration); [gitingest](https://github.com/cyclotruc/gitingest); [MInference](https://arxiv.org/abs/2407.02490); [QVCache](https://arxiv.org/abs/2602.02057). |
+| Memory, retrieval, and caching | [Kortex by Arjay](https://github.com/H4D3ZS/kortex); [ReACC](https://aclanthology.org/2022.acl-long.431/); [GraphCoder](https://arxiv.org/abs/2406.07003); [GraphRAG survey](https://arxiv.org/abs/2501.00309); [GraphRAG-R1](https://arxiv.org/abs/2507.23581); [MMGraphRAG](https://arxiv.org/abs/2507.20804); [MegaRAG](https://arxiv.org/abs/2512.20626); [M³KG-RAG](https://arxiv.org/abs/2512.20136); [Codebase-Memory](https://arxiv.org/abs/2603.27277); [AtomMem](https://arxiv.org/abs/2601.08323); [AgeMem](https://arxiv.org/abs/2601.01885); [Titans](https://arxiv.org/abs/2501.00663); [TokMem](https://arxiv.org/abs/2510.00444); [Structural Memory](https://arxiv.org/abs/2412.15266); [H-MEM](https://arxiv.org/abs/2507.22925); [HiMem](https://arxiv.org/abs/2601.06377); [TierMem](https://arxiv.org/abs/2602.17913); [GAM](https://arxiv.org/abs/2604.12285); [RAGCache](https://arxiv.org/abs/2404.12457); [Cache-Craft](https://arxiv.org/abs/2502.15734); [Preble](https://arxiv.org/abs/2407.00023); [similarity caching for language models](https://arxiv.org/abs/1912.03888); [TurboQuant](https://arxiv.org/abs/2504.19874). |
+| Evaluation | [BEIR](https://github.com/beir-cellar/beir); [MTEB](https://github.com/embeddings-benchmark/mteb); [RULER](https://github.com/NVIDIA/RULER); [LongBench](https://github.com/THUDM/LongBench); [SWE-bench](https://github.com/SWE-bench/SWE-bench); [SWE-agent](https://github.com/SWE-agent/SWE-agent); [CodeSearchNet](https://github.com/github/CodeSearchNet); [Terminal-Bench](https://github.com/laude-institute/terminal-bench); [OSWorld](https://github.com/xlang-ai/OSWorld); [GDPval](https://openai.com/index/gdpval/); [FEVER](https://fever.ai/); [SQuAD 2.0](https://rajpurkar.github.io/SQuAD-explorer/); [HotpotQA](https://hotpotqa.github.io/); [Needle In A Haystack](https://github.com/gkamradt/LLMTest_NeedleInAHaystack); [RAGChecker](https://arxiv.org/abs/2408.08067). |
+| Protocols, tools, and infrastructure | [Model Context Protocol](https://modelcontextprotocol.io/); [Claude Code memory](https://docs.anthropic.com/en/docs/claude-code/memory); [Gemini CLI `GEMINI.md`](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md); [Cursor codebase indexing](https://docs.cursor.com/context/codebase-indexing); [LlamaIndex](https://docs.llamaindex.ai/); [Haystack](https://docs.haystack.deepset.ai/); [LangGraph](https://langchain-ai.github.io/langgraph/); [Pinecone](https://docs.pinecone.io/); [Qdrant](https://qdrant.tech/documentation/); [Weaviate](https://docs.weaviate.io/); [OpenAI prompt caching](https://platform.openai.com/docs/guides/prompt-caching); [Anthropic prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching); [Gemini context caching](https://ai.google.dev/gemini-api/docs/caching/). |
+| Environmental accounting | [IEA, *Energy and AI*](https://www.iea.org/reports/energy-and-ai/executive-summary); [Lawrence Berkeley National Laboratory, *2024 United States Data Center Energy Usage Report*](https://eta-publications.lbl.gov/sites/default/files/2024-12/us_data_center_energy_usage_report_lbnl-2001637_0.pdf); [*SweetSpot*](https://arxiv.org/abs/2602.05695); [*Towards Green AI*](https://arxiv.org/abs/2602.05712). |
 
 Every item is linked and scoped in the [reference-source map](docs/REFERENCE_PAPERS.md),
 [research and compiler map](docs/research.md), or the
@@ -289,10 +315,6 @@ qorx ground "release proof" --answer "Qorx is on 1.0.6."
 Qorx was created and is maintained by **Marvin Sarreal Villanueva** as a
 one-man team. If you use or cite it, see [CITATION.cff](CITATION.cff) and the
 [Qorx Local Context Resolution preprint](https://doi.org/10.5281/zenodo.19953308).
-
-**Special mention:** [Kortex by Arjay](https://github.com/H4D3ZS/kortex) helped
-shape Qorx's early local-context direction. Qorx is independently authored and
-does not copy, import, or package Kortex source.
 
 Research authors, projects, standards, and comparison systems are cited where
 their work is discussed in the [research map](docs/research.md),
