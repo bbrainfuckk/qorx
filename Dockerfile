@@ -1,10 +1,18 @@
 FROM rust:1-bookworm AS build
 
+ARG QORX_VERSION=1.0.6
 WORKDIR /src
 COPY . .
-RUN cargo build --release --locked
+RUN cargo build --release --locked \
+    && test "$(./target/release/qorx --version)" = "qorx ${QORX_VERSION}"
 
 FROM debian:bookworm-slim
+
+ARG QORX_VERSION=1.0.6
+LABEL org.opencontainers.image.title="Qorx" \
+      org.opencontainers.image.version="${QORX_VERSION}" \
+      org.opencontainers.image.source="https://github.com/bbrainfuckk/qorx" \
+      org.opencontainers.image.licenses="AGPL-3.0-only"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates curl \

@@ -1,18 +1,23 @@
 [CmdletBinding()]
 param(
     [switch]$Install,
-    [string]$OutputPath = "target\release\qorx-v1.0.0-adapter-proof-matrix.json"
+    [string]$OutputPath = ""
 )
 
 $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Resolve-Path (Join-Path $ScriptDir "..\..")
+$Cargo = Get-Content -Raw (Join-Path $RepoRoot "Cargo.toml")
+$Version = [regex]::Match($Cargo, '(?m)^version\s*=\s*"([^"]+)"').Groups[1].Value
+if (-not $Version) { throw "Cargo.toml package version not found" }
+if (-not $OutputPath) { $OutputPath = "target\release\qorx-v$Version-adapter-proof-matrix.json" }
 $NodeRoot = Join-Path $RepoRoot "target\adapter-proof-node"
 $BinDir = Join-Path $RepoRoot "target\adapter-proof-bin"
 $ProofHome = Join-Path $RepoRoot "target\adapter-proof-qorx-home"
 $PythonExe = Join-Path $RepoRoot ".venv\Scripts\python.exe"
-$QorxExe = Join-Path $RepoRoot "target\release\qorx.exe"
+$CargoTarget = (cargo metadata --format-version 1 --no-deps | ConvertFrom-Json).target_directory
+$QorxExe = Join-Path $CargoTarget "release\qorx.exe"
 if (-not (Test-Path $QorxExe)) {
     $PackagedExe = Join-Path $RepoRoot "qorx.exe"
     if (Test-Path $PackagedExe) {
@@ -308,7 +313,7 @@ $fail = @($Rows | Where-Object { $_.status -eq "fail" }).Count
 $matrix = [ordered]@{
     schema = "qorx.adapter-proof-matrix.v1"
     generated_at = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
-    qorx_version = "1.0.0"
+    qorx_version = $Version
     repo = $RepoRoot.Path
     summary = [ordered]@{
         pass = $pass

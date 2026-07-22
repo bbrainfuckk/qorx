@@ -1,8 +1,8 @@
-# Qorx: An AI-Native Language and Runtime for Local Context Resolution
+# Qorx: A Language and Runtime for Local Context Resolution
 
 Marvin Sarreal Villanueva
 Metro Manila, Philippines
-Version 0.0.1-ylem
+Software version: Qorx 1.0.6
 May 2, 2026
 
 ## Abstract

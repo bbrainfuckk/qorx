@@ -1,27 +1,27 @@
 # Qorx Benchmark Report
 
-Generated: `2026-05-10T01:50:01+00:00`
+Generated: `2026-07-22T09:50:55+00:00`
 
 Suite: `live`
 
 Target: `.`
 
-Qorx version: `qorx 0.0.1-ylem`
+Qorx version: `qorx 1.0.6`
 
-Git commit: `34173a6`
+Git commit: `6a30742`
 
 ## Summary
 
 | Metric | Value |
 | --- | ---: |
-| Indexed local tokens | 388573 |
+| Indexed local tokens | 407902 |
 | Session visible tokens | 69 |
-| Session reduction | 5631.49x |
+| Session reduction | 5911.62x |
 | Pack used tokens | 410 |
-| Pack reduction | 947.74x |
+| Pack reduction | 994.88x |
 | Squeeze used tokens | 448 |
-| Squeeze reduction | 867.35x |
-| Bench average reduction | 877.14x |
+| Squeeze reduction | 910.50x |
+| Bench average reduction | 920.77x |
 | Strict task pass rate | 100.0% |
 | Expected refusal pass rate | 100.0% |
 | Agent provider calls | 0 |
@@ -37,9 +37,9 @@ Git commit: `34173a6`
 
 | Query | Used tokens | Omitted tokens | Reduction | Quarks |
 | --- | ---: | ---: | ---: | ---: |
-| Context injection is a compact agent contract | 410 | 388163 | 947.74x | 1 |
-| context fault proof pages resolver boundary | 448 | 388125 | 867.35x | 2 |
-| strict answer refusal unsupported claims | 476 | 388097 | 816.33x | 3 |
+| Context injection is a compact agent contract | 410 | 407492 | 994.88x | 1 |
+| context fault proof pages resolver boundary | 448 | 407454 | 910.50x | 2 |
+| strict answer refusal unsupported claims | 476 | 407426 | 856.94x | 3 |
 
 ## Boundary
 
