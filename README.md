@@ -136,8 +136,7 @@ preserve the wider methodology and scope.
 
 Qorx is independently authored. The works below are the public intellectual,
 engineering, evaluation, and comparison lineage—not contributors, bundled
-code, affiliations, or endorsements. Kortex is one acknowledged early
-inspiration; it is not the only reference.
+code, affiliations, or endorsements.
 
 | Area | Works and systems reviewed |
 | --- | --- |
