@@ -15,13 +15,13 @@ doi: "10.5281/zenodo.19875352"
 license: "AGPL-3.0-only"
 preferred-citation:
   type: article
-  title: "Qorx Local Context Resolution: A Handle-Resolved Runtime Model for Local AI Context"
+  title: "Measuring Compact Local Evidence Carriers: A Reproducibility Audit of Qorx"
   authors:
     - family-names: "Villanueva"
       given-names: "Marvin Sarreal"
-      email: "marvin@orin.work"
-      affiliation: "Metro Manila, Philippines"
+      email: "marvin@idra-ai.com"
+      affiliation: "Independent AI Researcher (IDRA), Metro Manila, Philippines"
       orcid: "https://orcid.org/0009-0001-2017-5508"
   year: 2026
-  doi: "10.5281/zenodo.19953308"
-  url: "https://doi.org/10.5281/zenodo.19953308"
+  doi: "10.5281/zenodo.21739113"
+  url: "https://doi.org/10.5281/zenodo.21739113"

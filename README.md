@@ -25,11 +25,24 @@ Qorx 1.0.6 runs deterministic classical algorithms on ordinary computers.
 Quantum information, quantum-inspired optimization, and quantum chaos are
 research influences; Qorx does not require quantum hardware.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
-[![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19953308.svg)](https://doi.org/10.5281/zenodo.19953308)
+[![Build Qorx Windows](https://github.com/bbrainfuckk/qorx/actions/workflows/build-windows.yml/badge.svg)](https://github.com/bbrainfuckk/qorx/actions/workflows/build-windows.yml)
+[![Latest release](https://img.shields.io/github/v/release/bbrainfuckk/qorx?sort=semver)](https://github.com/bbrainfuckk/qorx/releases/latest)
+[![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19875352.svg)](https://doi.org/10.5281/zenodo.19875352)
+[![Paper DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21739113.svg)](https://doi.org/10.5281/zenodo.21739113)
 [![Software Heritage](https://img.shields.io/badge/Software%20Heritage-archived-ff6600)](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/bbrainfuckk/qorx)
 [![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
 [![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/bbrainfuckk/qorx)
+
+## Research paper
+
+Read *Measuring Compact Local Evidence Carriers: A Reproducibility Audit of
+Qorx* as the [paper PDF](docs/papers/dist/qorx-compact-local-evidence-carriers.pdf)
+or at its canonical [Zenodo record](https://doi.org/10.5281/zenodo.21739113).
+The [supplement](docs/papers/dist/qorx-compact-local-evidence-carriers-supplement.pdf)
+contains the evidence inventory, receipt derivations, and confirmatory-study
+protocols. See [paper and reproducibility details](docs/papers/README.md) before
+interpreting the headline ratio.
 
 ## Start with Qorx
 
@@ -336,7 +349,7 @@ qorx ground "release proof" --answer "Qorx is on 1.0.6."
 
 Qorx was created and is maintained by **Marvin Sarreal Villanueva** as a
 one-man team. If you use or cite it, see [CITATION.cff](CITATION.cff) and the
-[Qorx Local Context Resolution preprint](https://doi.org/10.5281/zenodo.19953308).
+[current Qorx reproducibility paper](https://doi.org/10.5281/zenodo.21739113).
 
 Research authors, projects, standards, and comparison systems are cited where
 their work is discussed in the [research map](docs/research.md),

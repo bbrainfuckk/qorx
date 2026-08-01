@@ -2,7 +2,15 @@
 
 Copyright (c) 2026 Marvin Sarreal Villanueva.
 
-The active article at `docs/papers/qorx-ai-language-paper.md` is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License (`CC BY-NC-ND 4.0`). Historical paper files in this directory use the same repository article-license boundary unless they state otherwise.
+The article at `docs/papers/qorx-ai-language-paper.md` is licensed under the
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+Public License (`CC BY-NC-ND 4.0`). Historical paper files in this directory
+use the same repository article-license boundary unless they state otherwise.
+
+The published *Measuring Compact Local Evidence Carriers* paper and its
+supplement in `docs/papers/dist/` state their own license: Creative Commons
+Attribution 4.0 International (`CC BY 4.0`). That stated license controls those
+two files.
 
 Canonical legal code: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.en
 
