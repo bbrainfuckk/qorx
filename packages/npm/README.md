@@ -12,6 +12,13 @@ npm install -g @brainfukk/qorx
 qorx --version
 ```
 
+pnpm uses the same npm registry package:
+
+```sh
+pnpm add -g @brainfukk/qorx
+qorx --version
+```
+
 The installer downloads a matching GitHub release asset when one exists. If no
 asset is available for the current platform, it builds from the public source
 tag with Cargo:

@@ -11,14 +11,14 @@ Set these repository secrets:
 
 ```text
 CARGO_REGISTRY_TOKEN
-NPM_TOKEN
 ```
-
-Do not store npm recovery codes in GitHub Secrets. Recovery codes are for
-account recovery and interactive 2FA emergencies, not CI publishing.
 
 PyPI uses trusted publishing through the GitHub environment named `pypi`, so no
 long-lived PyPI token is stored in this repository.
+
+npm uses trusted publishing through the GitHub environment named `npm`, so no
+long-lived npm token or recovery code is stored either. pnpm installs the same
+npm package and has no separate publishing step.
 
 ## Current Version Mapping
 
