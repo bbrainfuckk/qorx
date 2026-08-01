@@ -4,3 +4,5 @@
 *.jpeg binary
 *.gif binary
 *.ico binary
+packaging/**/PKGBUILD text eol=lf
+packaging/aur/.SRCINFO text eol=lf

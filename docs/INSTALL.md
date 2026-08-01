@@ -49,6 +49,15 @@ Each registry is current only when its public package page shows
 `1.0.6`. Until then, use the source install above. Older registry packages
 may still point at a previous public line.
 
+```sh
+npm install -g @brainfukk/qorx
+pnpm add -g @brainfukk/qorx
+pipx install qorx
+yay -S qorx
+```
+
+pnpm installs the npm package; there is no separate pnpm registry release.
+
 Release assets can also be installed directly before a central registry accepts
 the package, but only after the GitHub release asset exists:
 

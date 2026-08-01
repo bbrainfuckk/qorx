@@ -53,6 +53,15 @@ cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qo
 qorx --version
 ```
 
+When the package pages show `1.0.6`, the equivalent registry installs are:
+
+```sh
+npm install -g @brainfukk/qorx
+pnpm add -g @brainfukk/qorx
+pipx install qorx
+yay -S qorx
+```
+
 Then index a workspace and ask for grounded local evidence:
 
 ```sh

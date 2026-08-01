@@ -2,13 +2,18 @@
 pkgname=qorx
 pkgver=1.0.6
 pkgrel=1
-pkgdesc="Qorx agnostic language and runtime for local context resolution"
+pkgdesc="Qorx programming language, compiler, and local runtime"
 arch=('x86_64' 'aarch64')
 url="https://github.com/bbrainfuckk/qorx"
 license=('AGPL-3.0-only')
-makedepends=('rust')
+makedepends=('cargo')
 source=("${pkgname}-${pkgver}.tar.gz::https://crates.io/api/v1/crates/${pkgname}/${pkgver}/download")
 sha256sums=('SKIP')
+
+prepare() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  cargo fetch --locked
+}
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
@@ -25,5 +30,4 @@ package() {
   install -Dm755 target/release/qorx "${pkgdir}/usr/bin/qorx"
   install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
-  install -Dm644 docs/COMMANDS.md "${pkgdir}/usr/share/doc/${pkgname}/COMMANDS.md"
 }

@@ -8,8 +8,8 @@ same Qorx 1.0.6 language, compiler, and runtime from the canonical repository.
 | Channel | Files | Status |
 | --- | --- | --- |
 | PyPI | `packages/python/` | release-asset Python wrapper, uses trusted publishing |
-| npm | `packages/npm/` | release-asset Node wrapper, needs npm token to publish |
-| Arch/AUR | `packaging/arch/PKGBUILD` | source-build PKGBUILD, needs AUR maintainer push |
+| npm/pnpm | `packages/npm/` | one release-asset Node wrapper, uses trusted publishing |
+| Arch/AUR | `packaging/aur/PKGBUILD` | source-build PKGBUILD, needs AUR maintainer push |
 | Homebrew | `packaging/homebrew/qorx.rb` | source-build formula, needs tap push |
 | Scoop | `packaging/scoop/qorx.json` | Windows manifest, needs release asset hash before bucket push |
 | WinGet | `packaging/winget/` | Windows manifest, needs release asset hash before PR |

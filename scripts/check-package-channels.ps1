@@ -70,6 +70,11 @@ Require "release assets" $release 'qorx-\$\{tag\}-\$\{\{ matrix\.name \}\}' "ass
 $arch = Text "packaging\arch\PKGBUILD"
 Require "Arch" $arch ('_cratever=' + [regex]::Escape($version)) "crate version must be $version"
 Require "Arch" $arch 'arch=\("x86_64" "aarch64"\)' "must support x86_64 and aarch64"
+$aur = Text "packaging\aur\PKGBUILD"
+Require "AUR" $aur ('pkgver=' + [regex]::Escape($version)) "version must be $version"
+Require "AUR" $aur 'arch=\(''x86_64'' ''aarch64''\)' "must support x86_64 and aarch64"
+Require "AUR" $aur 'crates\.io/api/v1/crates/\$\{pkgname\}/\$\{pkgver\}/download' "must build the published crate"
+Reject "AUR" $aur 'docs/COMMANDS\.md' "must not install missing files"
 Require "Homebrew" (Text "packaging\homebrew\qorx.rb") ('tag:\s+"' + [regex]::Escape($tag) + '"') "tag must be $tag"
 Require "Snap" (Text "packaging\snap\snapcraft.yaml") ('version:\s*"' + [regex]::Escape($version) + '"') "version must be $version"
 Require "Nix" (Text "flake.nix") ('version = "' + [regex]::Escape($version) + '"') "version must be $version"
@@ -97,7 +102,7 @@ foreach ($relative in @("packaging\README.md", "packaging\npm\README.md", "packa
 
 $publish = Text ".github\workflows\publish-registries.yml"
 Require "registry workflow" $publish 'CARGO_REGISTRY_TOKEN' "missing crates.io publishing"
-Require "registry workflow" $publish 'NPM_TOKEN' "missing npm publishing"
+Require "registry workflow" $publish '(?s)npm:\s+name: npm.*?environment:\s*npm.*?id-token:\s*write.*?node-version:\s*"24".*?npm@11\.5\.1' "missing npm trusted publishing"
 Require "registry workflow" $publish 'id-token:\s*write' "missing PyPI trusted publishing"
 
 $result = [ordered]@{
