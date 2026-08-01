@@ -7,8 +7,8 @@ arch=('x86_64' 'aarch64')
 url="https://github.com/bbrainfuckk/qorx"
 license=('AGPL-3.0-only')
 makedepends=('cargo')
-source=("${pkgname}-${pkgver}.tar.gz::https://crates.io/api/v1/crates/${pkgname}/${pkgver}/download")
-sha256sums=('SKIP')
+source=("${pkgname}-${pkgver}.tar.gz::https://static.crates.io/crates/${pkgname}/${pkgname}-${pkgver}.crate")
+sha256sums=('bd91cc52871dda6183375a14dfe96e87fc84deb1da3b605eb32ade90e11e9a0e')
 
 prepare() {
   cd "${srcdir}/${pkgname}-${pkgver}"

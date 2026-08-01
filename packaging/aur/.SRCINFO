@@ -7,7 +7,7 @@ pkgbase = qorx
 	arch = aarch64
 	license = AGPL-3.0-only
 	makedepends = cargo
-	source = qorx-1.0.6.tar.gz::https://crates.io/api/v1/crates/qorx/1.0.6/download
-	sha256sums = SKIP
+	source = qorx-1.0.6.tar.gz::https://static.crates.io/crates/qorx/qorx-1.0.6.crate
+	sha256sums = bd91cc52871dda6183375a14dfe96e87fc84deb1da3b605eb32ade90e11e9a0e
 
 pkgname = qorx
