@@ -8,7 +8,8 @@ command tree and `qorx man` for the manual.
 
 ## Source
 
-This is the `1.0.6` source install. Platform release assets use the same tag.
+This is the `1.0.7` source install. Ready-made downloads for Windows, Linux and macOS
+(x64 and ARM64) are on the [1.0.7 release](https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.7).
 
 ```sh
 cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.7 --locked qorx
@@ -46,7 +47,7 @@ sandbox; the `linux-x64` build uses the normal GNU libc target.
 ## Package Managers
 
 Each registry is current only when its public package page shows
-`1.0.6`. Until then, use the source install above. Older registry packages
+`1.0.7`. Until then, use the source install above. Older registry packages
 may still point at a previous public line.
 
 Release assets can also be installed directly before a central registry accepts

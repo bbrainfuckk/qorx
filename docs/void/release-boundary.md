@@ -1,6 +1,6 @@
 # Release boundary
 
-Qorx 1.0.6 and Qorx Void have different publication boundaries.
+Qorx 1.0.7 and Qorx Void have different publication boundaries.
 
 ## Public Qorx repository
 
@@ -27,7 +27,7 @@ This repository must not publish:
 
 ## Distribution
 
-The source tag and package channels in this repository distribute Qorx 1.0.6.
+The source tag and package channels in this repository distribute Qorx 1.0.7.
 They are not a source distribution of Qorx Void. Void product distribution,
 licensing, accounts, and updates are handled outside this repository.
 

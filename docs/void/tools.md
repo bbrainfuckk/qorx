@@ -101,6 +101,7 @@ reference.
 | `qorx adapters` | List optional local adapters. |
 | `qorx install` | Install Qorx and connect selected supported agents. |
 | `qorx integrate` | Activate, deactivate, inspect, or configure agent connectors. |
+| `qorx skills` | Share skill folders between Claude Code, Codex, Antigravity and OpenCode (`share`), or remove Qorx's copies (`unshare`). |
 | `qorx mcp` | Run the local MCP stdio server. |
 | `qorx run` | Run a provider client through the public Qorx shim contract. |
 | `qorx patch` | Ask a configured provider client for a patch, with explicit apply control. |

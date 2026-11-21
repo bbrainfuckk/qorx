@@ -23,7 +23,7 @@ evidence-first workflows. It is the public source line, not a dead sample.
 
 ## Qorx Void And Cloud Add
 
-- Qorx Void Starter with 5,000 included Void/Cloud requests.
+- Qorx Void for Windows in the [Microsoft Store](https://apps.microsoft.com/detail/9NDC66CH9VL8?mode=direct): a free 24-hour trial, then USD 15 a month plus tax.
 - signed official installers.
 - Windows tray UX.
 - auto-update.
@@ -44,43 +44,27 @@ GitHub release.
 Package-channel files in this repo install or build Qorx. They do
 not add Void account services, and they do not cap local CLI usage.
 
-## Qorx Void Starter
+## Qorx Void in the Microsoft Store
 
-Starter is the generous try-it-for-real plan. It gives new accounts the full
-Void/Cloud feature set on Windows, macOS, and Linux with 5,000 included
-Void/Cloud requests.
+Qorx Void is the Windows app in the [Microsoft Store](https://apps.microsoft.com/detail/9NDC66CH9VL8?mode=direct). It starts with a free 24-hour
+trial with no automatic charge; after that the monthly plan is USD 15 plus tax.
+It adds what this repository does not carry: shared notes across Codex, Claude
+Code and OpenCode, automatic skill sharing, the tray and app window, and
+automatic updates through the Store.
 
-Metered requests are service calls that Qorx has to run or pay for: provider
-routing, ORCL lookup, MCP/CLI activation, cloud capsule sync, and account-backed
-daemon/API actions. Local source-built commands such as `index`, `pack`,
-`squeeze`, `strict-answer`, `qorx-check`, and `qorx-compile` stay local and
-unmetered.
+Local source-built commands such as `index`, `pack`, `squeeze`,
+`strict-answer`, `qorx-check`, `qorx-compile` and `skills share` stay local and
+free in this repository. Access to the app is checked by the Qorx account
+service, not inside the AGPL source binary. That keeps the source honest:
+people can study and fork the local code, but the official app still needs a
+valid account.
 
-When the 5,000 included Void/Cloud requests are used, Void/Cloud asks the user
-to subscribe before continuing with those services. This counter lives on the
-Qorx account service, not inside the AGPL source binary. That keeps the source
-honest: people can study and fork the local code, but official hosted capacity
-still needs a valid account entitlement.
+## What the community build runs
 
-## Current CE Behavior
-
-Commands that require the official always-on product layer return a Community
-Edition edition message:
-
-```text
-bootstrap
-daemon
-tray
-startup
-drive
-hot
-integrate
-run
-patch
-```
-
-The source still carries protocol and research code so the public record remains
-auditable. The official product layer lives outside this repository.
+The 1.0.7 source runs every command it contains, including `daemon`, `tray`,
+`integrate` and `skills`. The official product layer (the signed Store app,
+account access, shared notes and automatic updates) lives outside this
+repository.
 
 ## Forks
 
@@ -93,7 +77,7 @@ must not imply that it is the official Qorx distribution.
 Qorx Void is the supported local product:
 
 - signed installer.
-- 5,000 included Void/Cloud requests through Qorx Void Starter.
+- a free 24-hour trial, then USD 15 a month plus tax, through the Microsoft Store.
 - local tray and updater.
 - account activation.
 - managed local vault UX.

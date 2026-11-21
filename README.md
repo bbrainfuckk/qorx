@@ -40,7 +40,8 @@ research influences; Qorx does not require quantum hardware.
 
 ## Start with Qorx
 
-Install from the 1.0.7 source tag:
+Download a ready-made build for Windows, Linux or macOS (x64 and ARM64) from the
+[1.0.7 release](https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.7), or install from the source tag:
 
 ```sh
 cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.7 --locked qorx

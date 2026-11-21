@@ -34,6 +34,8 @@ http://127.0.0.1:47187/monitor
 | `qorx integrate activate -p codex` | Rewrites Qorx-owned Codex connector files. |
 | `qorx -in -p codex` | Shortcut for `integrate activate -p codex`. |
 | `qorx integrate settings --automcp false --autohook false` | Turns connector automation off. |
+| `qorx skills share` | Copies each skill folder found in Claude Code, Codex, Antigravity or OpenCode into the others. |
+| `qorx skills unshare` | Removes the skill copies Qorx made; your own skills stay. |
 
 Plain meaning:
 

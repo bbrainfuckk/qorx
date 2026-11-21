@@ -34,7 +34,7 @@ billing, or guarantee that another model will never hallucinate.
 
 - [Architecture](architecture.md): the public data flow and trust boundary.
 - [Day-to-day use](day-to-day-use.md): a normal local workflow.
-- [Tools](tools.md): every public 1.0.6 CLI command, MCP tool, action group, and supported integration.
+- [Tools](tools.md): every public 1.0.7 CLI command, MCP tool, action group, and supported integration.
 - [Benchmarks](benchmarks.md): the AMD MI300X result, public repo proof, and scoped competitor comparison.
 - [Security model](security-model.md): what stays local and what can cross the boundary.
 - [Release boundary](release-boundary.md): what this repository may publish.
