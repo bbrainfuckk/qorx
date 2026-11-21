@@ -1,5 +1,5 @@
 Name:           qorx
-Version:        1.0.6
+Version:        1.0.7
 Release:        1%{?dist}
 Summary:        Qorx agnostic language and runtime for local context resolution
 License:        AGPL-3.0-only

@@ -10,7 +10,7 @@ A `.qorx` file can be a compact directive file or a named resolver program.
 Qorx compiles that source to protobuf-envelope `.qorxb` bytecode and resolves it
 against local state.
 
-Current public version: `1.0.6`.
+Current public version: `1.0.7`.
 
 ## Start here
 
@@ -44,16 +44,16 @@ Current public version: `1.0.6`.
 - [Qorx language handbook](handbook/language.md)
 - [Benchmarks](benchmarks/README.md)
 - [Qorx papers](papers/README.md)
-- [Release 1.0.6](releases/v1.0.6.md)
+- [Release 1.0.7](releases/v1.0.7.md)
 
 ## Package surfaces
 
-The current `1.0.6` line is source-first. Use [Install](INSTALL.md).
+The current `1.0.7` line is source-first. Use [Install](INSTALL.md).
 Registry and binary package files are kept in the repo, but a channel should be
 treated as live only after the matching public package page or GitHub release
 asset exists for this version.
 
-- [Source tag](https://github.com/bbrainfuckk/qorx/tree/v1.0.6)
+- [Source tag](https://github.com/bbrainfuckk/qorx/tree/v1.0.7)
 - [Crates.io package page](https://crates.io/crates/qorx)
 - [npm package page](https://www.npmjs.com/package/@brainfukk/qorx)
 - [PyPI package page](https://pypi.org/project/qorx/)

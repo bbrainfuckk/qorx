@@ -1,6 +1,6 @@
 FROM rust:1-bookworm AS build
 
-ARG QORX_VERSION=1.0.6
+ARG QORX_VERSION=1.0.7
 WORKDIR /src
 COPY . .
 RUN cargo build --release --locked \
@@ -8,7 +8,7 @@ RUN cargo build --release --locked \
 
 FROM debian:bookworm-slim
 
-ARG QORX_VERSION=1.0.6
+ARG QORX_VERSION=1.0.7
 LABEL org.opencontainers.image.title="Qorx" \
       org.opencontainers.image.version="${QORX_VERSION}" \
       org.opencontainers.image.source="https://github.com/bbrainfuckk/qorx" \

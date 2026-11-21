@@ -11,7 +11,7 @@ command tree and `qorx man` for the manual.
 This is the `1.0.6` source install. Platform release assets use the same tag.
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.7 --locked qorx
 qorx --version
 ```
 
@@ -29,13 +29,13 @@ cargo build --release
 Release automation builds these platform assets:
 
 ```text
-qorx-v1.0.6-windows-x64.zip
-qorx-v1.0.6-windows-arm64.zip
-qorx-v1.0.6-linux-x64.tar.gz
-qorx-v1.0.6-linux-x64-static.tar.gz
-qorx-v1.0.6-linux-arm64.tar.gz
-qorx-v1.0.6-macos-x64.tar.gz
-qorx-v1.0.6-macos-arm64.tar.gz
+qorx-v1.0.7-windows-x64.zip
+qorx-v1.0.7-windows-arm64.zip
+qorx-v1.0.7-linux-x64.tar.gz
+qorx-v1.0.7-linux-x64-static.tar.gz
+qorx-v1.0.7-linux-arm64.tar.gz
+qorx-v1.0.7-macos-x64.tar.gz
+qorx-v1.0.7-macos-arm64.tar.gz
 ```
 
 When those assets exist, extract the archive and put the directory containing

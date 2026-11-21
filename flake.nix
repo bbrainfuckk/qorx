@@ -18,7 +18,7 @@
         {
           default = pkgs.rustPlatform.buildRustPackage {
             pname = "qorx";
-            version = "1.0.6";
+            version = "1.0.7";
             src = ./.;
             cargoLock.lockFile = ./Cargo.lock;
             doCheck = true;

@@ -2272,19 +2272,33 @@ async fn async_main() -> Result<()> {
                     } else {
                         let tools: Vec<&str> = dirs.iter().map(|d| d.tool).collect();
                         println!("Skills folders checked: {}", tools.join(", "));
-                        for (label, items) in [("Copied", &report.copied), ("Updated", &report.updated), ("Removed", &report.removed),
-                            ("Now yours (you edited Qorx's copy)", &report.adopted), ("Left alone (two different skills share this name)", &report.same_name_different_skill),
-                            ("Too big to share", &report.too_big)] {
+                        for (label, items) in [
+                            ("Copied", &report.copied),
+                            ("Updated", &report.updated),
+                            ("Removed", &report.removed),
+                            ("Now yours (you edited Qorx's copy)", &report.adopted),
+                            (
+                                "Left alone (two different skills share this name)",
+                                &report.same_name_different_skill,
+                            ),
+                            ("Too big to share", &report.too_big),
+                        ] {
                             for item in items.iter() {
                                 println!("{label}: {item}");
                             }
                         }
-                        if report.copied.is_empty() && report.updated.is_empty() && report.removed.is_empty() {
+                        if report.copied.is_empty()
+                            && report.updated.is_empty()
+                            && report.removed.is_empty()
+                        {
                             println!("Nothing to copy: every tool already has every skill.");
                         }
                     }
                 }
-                SkillsAction::Unshare => println!("Removed {} skill copies made by Qorx.", skills::unshare(&dirs)?),
+                SkillsAction::Unshare => println!(
+                    "Removed {} skill copies made by Qorx.",
+                    skills::unshare(&dirs)?
+                ),
             }
         }
         CommandKind::Integrate { action } => {

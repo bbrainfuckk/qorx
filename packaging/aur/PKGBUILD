@@ -1,6 +1,6 @@
 # Maintainer: Marvin Sarreal Villanueva <marvin@orin.work>
 pkgname=qorx
-pkgver=1.0.6
+pkgver=1.0.7
 pkgrel=1
 pkgdesc="Qorx agnostic language and runtime for local context resolution"
 arch=('x86_64' 'aarch64')
