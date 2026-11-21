@@ -31,6 +31,13 @@ research influences; Qorx does not require quantum hardware.
 [![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
 [![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
 
+<a href="https://apps.microsoft.com/detail/9NDC66CH9VL8?mode=direct">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://get.microsoft.com/images/en-us%20light.svg">
+    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Download Qorx Void from the Microsoft Store">
+  </picture>
+</a>
+
 ## Start with Qorx
 
 Install from the 1.0.6 source tag:
@@ -244,6 +251,14 @@ Qorx Void keeps project memory beside the work. Repositories, notes,
 instructions, logs, policies, and prior decisions remain available locally;
 the current task receives a compact proof-shaped frame and can request narrower
 source lines when needed.
+
+**Qorx Void for Windows is in the [Microsoft Store](https://apps.microsoft.com/detail/9NDC66CH9VL8?mode=direct).** It connects Codex, Claude Code and OpenCode to one local map of your project, so your AI gets the few lines that answer its question instead of whole files. New in version 1.0.35.0 (21 November 2026):
+
+- **Shared notes:** Codex, Claude Code and OpenCode can save notes and decisions about a project and recall them later. Notes stay on your PC, each kept to its own project.
+- **Shared skills:** a skill folder added to one AI tool is copied to the others on your PC. Qorx marks its copies and never changes your own skills; edit a copy and it becomes yours.
+- **A simpler window:** whether Qorx is working, your projects and your saved notes.
+
+Free 24-hour trial, then $15 a month plus tax. Watch the [three-minute film](https://youtu.be/CVR-OO-vYZc).
 
 The public handbook documents:
 
