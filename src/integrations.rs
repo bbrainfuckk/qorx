@@ -1336,7 +1336,11 @@ fn claude_status(exe: &Path) -> IntegrationStatus {
 }
 
 fn antigravity_status(exe: &Path) -> IntegrationStatus {
-    let installed = command_exists("antigravity");
+    // The Windows app puts no `antigravity` command on PATH, so its config folders count too.
+    let installed = command_exists("antigravity")
+        || mcp_paths_for(IntegrationPlatform::Antigravity)
+            .iter()
+            .any(|path| path.parent().is_some_and(Path::is_dir));
     let opt_in = antigravity_mcp_opt_in();
     let mcp_active = installed && opt_in && antigravity_mcp_config_active(exe);
     let hook_active = installed
@@ -3040,6 +3044,10 @@ fn mcp_paths_for(platform: IntegrationPlatform) -> Vec<PathBuf> {
             let mut paths = Vec::new();
             if let Some(appdata) = appdata.as_ref() {
                 paths.push(appdata.join("Antigravity").join("User").join("mcp.json"));
+            }
+            // Antigravity reads its global MCP servers here since it moved to ~/.gemini/config.
+            if let Some(home) = home.as_ref() {
+                paths.push(home.join(".gemini").join("config").join("mcp_config.json"));
             }
             if let Ok(path) = legacy_gemini_antigravity_mcp_path() {
                 paths.push(path);

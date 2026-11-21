@@ -2,7 +2,7 @@
   <img src="docs/assets/qorx-cover.png" width="100%" alt="Qorx — an evidence-first, quantum-inspired programming language for humans and AI agents">
 </p>
 
-# Qorx 1.0.6
+# Qorx 1.0.7
 
 **An evidence-first, quantum-inspired programming language for humans and AI
 agents.**
@@ -21,7 +21,7 @@ and retrieves exact cited lines only when a task needs them. Plain `.qorx`
 source compiles to checked bytecode with explicit evidence budgets and refusal
 when the available material cannot support an answer.
 
-Qorx 1.0.6 runs deterministic classical algorithms on ordinary computers.
+Qorx 1.0.7 runs deterministic classical algorithms on ordinary computers.
 Quantum information, quantum-inspired optimization, and quantum chaos are
 research influences; Qorx does not require quantum hardware.
 
@@ -40,10 +40,10 @@ research influences; Qorx does not require quantum hardware.
 
 ## Start with Qorx
 
-Install from the 1.0.6 source tag:
+Install from the 1.0.7 source tag:
 
 ```sh
-cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.6 --locked qorx
+cargo install --git https://github.com/bbrainfuckk/qorx --tag v1.0.7 --locked qorx
 qorx --version
 ```
 
@@ -58,10 +58,13 @@ qorx strict-answer "which files control authentication?"
 qorx eco --local-tokens 13200000 --sent-tokens 8
 ```
 
+New in 1.0.7: share skills between Claude Code, Codex, Antigravity and OpenCode on
+your computer with `qorx skills share` (see the [1.0.7 notes](docs/releases/v1.0.7.md)).
+
 The local monitor listens at `http://127.0.0.1:47187/monitor` by default. See
 the [installation guide](docs/INSTALL.md) for release binaries and package
 recipes across Windows, Linux, macOS, x64, and ARM64. If a registry package is
-not yet live at version 1.0.6, use the source install above.
+not yet live at version 1.0.7, use the source install above.
 
 ## What Qorx changes
 
@@ -175,7 +178,7 @@ Qorx turns that research into ordinary local software. Its engineering draws
 directly from classical information theory, information retrieval, programming
 languages, proof-carrying systems, authenticated provenance, and local runtime
 design. Quantum information, quantum-inspired optimization, and quantum chaos
-are conceptual influences on its vocabulary and design questions. Qorx 1.0.6
+are conceptual influences on its vocabulary and design questions. Qorx 1.0.7
 runs deterministic classical algorithms on ordinary computers; it does not run
 a quantum algorithm or require quantum hardware.
 
@@ -241,7 +244,7 @@ The implementation path is explicit:
 4. The local runtime executes supported instructions and resolves cited evidence.
 5. Unsupported claims can be refused instead of filled with invented context.
 
-The 1.0.6 compiler is bootstrapped in Rust. Qorx is not described as
+The 1.0.7 compiler is bootstrapped in Rust. Qorx is not described as
 self-hosted until the stage-1 and stage-2 reproducibility gate passes. See
 [Self-hosting](docs/SELF_HOSTING.md).
 
@@ -333,7 +336,7 @@ qorx index .
 qorx session
 qorx context verify
 qorx security attest
-qorx ground "release proof" --answer "Qorx is on 1.0.6."
+qorx ground "release proof" --answer "Qorx is on 1.0.7."
 ```
 
 ## Documentation
@@ -345,7 +348,7 @@ qorx ground "release proof" --answer "Qorx is on 1.0.6."
 | Installation and commands | [Install](docs/INSTALL.md) · [Command guide](docs/COMMANDS.md) · [Manual](docs/MANUAL.md) |
 | Metrics and science | [Metrics](docs/METRICS.md) · [Science](docs/SCIENCE.md) · [SAFE-R](docs/SAFE-R.md) · [Technical credibility](docs/TECHNICAL_CREDIBILITY.md) |
 | Security and production | [Security](SECURITY.md) · [Production status](docs/PRODUCTION.md) · [Void release boundary](docs/void/release-boundary.md) |
-| Release | [Qorx 1.0.6 notes](docs/releases/v1.0.6.md) · [Distribution](docs/DISTRIBUTION.md) |
+| Release | [Qorx 1.0.7 notes](docs/releases/v1.0.7.md) · [1.0.6](docs/releases/v1.0.6.md) · [Distribution](docs/DISTRIBUTION.md) |
 
 ## Credits and acknowledgements
 
