@@ -262,7 +262,7 @@ source lines when needed.
 - **Shared skills:** a skill folder added to one AI tool is copied to the others on your PC. Qorx marks its copies and never changes your own skills; edit a copy and it becomes yours.
 - **A simpler window:** whether Qorx is working, your projects and your saved notes.
 
-Free 24-hour trial, then $15 a month plus tax. Watch the [three-minute film](https://youtu.be/CVR-OO-vYZc).
+Free 24-hour trial, then $15 a month plus tax. Watch the [three-minute film](https://youtu.be/FZGEr7GXuTI).
 
 The public handbook documents:
 
