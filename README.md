@@ -67,6 +67,25 @@ the [installation guide](docs/INSTALL.md) for release binaries and package
 recipes across Windows, Linux, macOS, x64, and ARM64. If a registry package is
 not yet live at version 1.0.7, use the source install above.
 
+### Connect an MCP client
+
+The open-source Qorx CLI includes a [Model Context Protocol server](src/mcp.rs).
+Configure your client's stdio transport with `qorx` as the command and `["mcp"]`
+as its arguments. The client launches `qorx mcp` and exchanges messages over
+standard input and output. For example, in a client that uses `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "qorx": { "command": "qorx", "args": ["mcp"] }
+  }
+}
+```
+
+To check the protocol from a source checkout, run
+`cargo test --locked --test mcp_stdio`. The [integration test](tests/mcp_stdio.rs)
+starts the CLI, sends `initialize`, and requests `tools/list`.
+
 ## What Qorx changes
 
 ```text
