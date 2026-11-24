@@ -6,7 +6,7 @@
   "architecture": {
     "64bit": {
       "url": "https://github.com/bbrainfuckk/qorx/releases/download/v1.0.7/qorx-v1.0.7-windows-x64.zip",
-      "hash": "a47055c7b6a2169328dcc09253715205a31642e58836cc0356cabccf1d7aabb3"
+      "hash": "2fd89a32e4853d2c67789aeff8032ce7c6ebab9d8e832e447f60c7c394ce0d81"
     }
   },
   "bin": "qorx.exe",
