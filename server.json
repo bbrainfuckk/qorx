@@ -1,0 +1,29 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.bbrainfuckk/qorx",
+  "title": "Qorx",
+  "description": "Search locally indexed source code and return bounded evidence with file and line citations.",
+  "repository": {
+    "url": "https://github.com/bbrainfuckk/qorx",
+    "source": "github"
+  },
+  "version": "1.0.7",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "qorx",
+      "version": "1.0.7",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ]
+    }
+  ]
+}
