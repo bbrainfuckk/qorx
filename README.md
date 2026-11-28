@@ -1,8 +1,69 @@
 <p align="center">
-  <img src="docs/assets/qorx-cover.png" width="100%" alt="Qorx — an evidence-first, quantum-inspired programming language for humans and AI agents">
+  <img src="docs/assets/qorx-readme-hero.jpg" width="100%" alt="You don't code too much. Your AI reads too much. In our test on a public project, the whole file was 6,535 tokens and Qorx sent 975.">
 </p>
 
-# Qorx 1.0.7
+<h1 align="center">qorx</h1>
+
+<p align="center"><b>your AI doesn't need to read the whole file.<br>qorx finds the right lines first.</b></p>
+
+i kept hitting my limit on Claude Code and Codex. i'd paste one error and it would read the whole file again, when the answer was 3 lines.
+
+so i built qorx. it maps your project on your PC and hands your AI the lines that answer the question, with the file name and line number so you can open them and check.
+
+**In our test on the public Express repo, one question took 6,535 tokens with the whole file. Qorx sent 975.**
+
+Free and open source. Windows, macOS and Linux. Works with Claude Code, Codex, OpenCode and Antigravity (beta).
+
+## Install
+
+**Windows**, with [Scoop](https://scoop.sh):
+
+```powershell
+scoop bucket add qorx https://github.com/bbrainfuckk/scoop-qorx
+scoop install qorx/qorx
+```
+
+**macOS**, Apple silicon:
+
+```sh
+curl -fsSL https://github.com/bbrainfuckk/qorx/releases/download/v1.0.7/qorx-v1.0.7-macos-arm64.tar.gz | tar xz -C /tmp
+sudo mkdir -p /usr/local/bin && sudo mv /tmp/qorx /usr/local/bin/
+```
+
+On an Intel Mac use `macos-x64` instead of `macos-arm64`. On **Linux** use `linux-x64` or `linux-arm64`. Every download is on the [1.0.7 release](https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.7).
+
+## Connect it to your AI
+
+```sh
+qorx install -p claude        # Claude Code
+qorx install -p codex         # Codex
+qorx install -p opencode      # OpenCode
+qorx install -p antigravity   # Antigravity (beta)
+```
+
+Then map your project once:
+
+```sh
+cd your-project
+qorx index .
+```
+
+Restart your AI tool and ask it something about your code, like "where is this error coming from?". It can now ask Qorx for the lines instead of reading whole files.
+
+## Rather not use the terminal?
+
+**Qorx Void** is the Windows app. It sets everything up for you, keeps your project map current as you work, and shares notes and skills between your AI tools. 1-day free trial, then $15 a month plus tax.
+
+<a href="https://apps.microsoft.com/detail/9NDC66CH9VL8?mode=direct&cid=qorx_github_readme">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://get.microsoft.com/images/en-us%20light.svg">
+    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Download Qorx Void from the Microsoft Store">
+  </picture>
+</a>
+
+---
+
+## Under the hood: the Qorx language
 
 **An evidence-first, quantum-inspired programming language for humans and AI
 agents.**
@@ -31,14 +92,7 @@ research influences; Qorx does not require quantum hardware.
 [![License: AGPL-3.0-only](https://img.shields.io/github/license/bbrainfuckk/qorx?color=blue)](LICENSE)
 [![Rust stable](https://img.shields.io/badge/rust-stable-orange?logo=rust)](https://www.rust-lang.org/)
 
-<a href="https://apps.microsoft.com/detail/9NDC66CH9VL8?mode=direct">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://get.microsoft.com/images/en-us%20light.svg">
-    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Download Qorx Void from the Microsoft Store">
-  </picture>
-</a>
-
-## Start with Qorx
+## More ways to install, and every command
 
 Download a ready-made build for Windows, Linux or macOS (x64 and ARM64) from the
 [1.0.7 release](https://github.com/bbrainfuckk/qorx/releases/tag/v1.0.7), or install from the source tag:
